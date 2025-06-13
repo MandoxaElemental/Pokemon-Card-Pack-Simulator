@@ -585,11 +585,11 @@ function getGradientBackground(types: string[]) {
 
 function getTypeBorderClass(rarity: Card['rarity']) {
   const rarityBorderColors: Record<Card['rarity'], string> = {
-    Common: 'border-[#C0C0C0]',
-    Uncommon: 'border-[#3CB371]',
+    Common: 'border-[#FFFFFF]',
+    Uncommon: 'border-[#C0C0C0]',
     Rare: 'border-[#FFD700]',
-    Epic: 'border-[#800080]',
-    Legendary: 'border-[#FF8C00]',
+    Epic: 'border-[#FF8C00]',
+    Legendary: 'border-[#800080]',
     Mythical: 'border-[#8A2BE2]'
   };
 
