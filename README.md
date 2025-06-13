@@ -1,3 +1,3 @@
 ## Pokemon Card Pack Opener
 Got To Collect them All!
-- Includes both Kanto and Johto
+- Includes all Pokemon (Plus Forms) From Gens 1-9
