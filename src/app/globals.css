@@ -46,7 +46,7 @@ body {
     box-shadow: 0 0 10px #ffffff, 0 0 20px #ffffff, 0 0 30px #ffffff;
   }
   50% {
-    box-shadow: 0 0 20px #00cccc, 0 0 30px #00cccc, 0 0 40px #00cccc;
+    box-shadow: 0 0 20px #ffd700, 0 0 20px #ffd700, 0 0 30px #ffd700;
   }
   100% {
     box-shadow: 0 0 10px #ffffff, 0 0 20px #ffffff, 0 0 30px #ffffff;
