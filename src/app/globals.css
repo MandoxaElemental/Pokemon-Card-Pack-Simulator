@@ -24,3 +24,56 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+.perspective {
+  perspective: 1000px;
+}
+
+.transform-style-preserve-3d {
+  transform-style: preserve-3d;
+}
+
+.backface-hidden {
+  backface-visibility: hidden;
+}
+
+.rotateY-180 {
+  transform: rotateY(180deg);
+}
+
+@keyframes glow-new {
+  0% {
+    box-shadow: 0 0 10px #ffffff, 0 0 20px #ffffff, 0 0 30px #ffffff;
+  }
+  50% {
+    box-shadow: 0 0 20px #00cccc, 0 0 30px #00cccc, 0 0 40px #00cccc;
+  }
+  100% {
+    box-shadow: 0 0 10px #ffffff, 0 0 20px #ffffff, 0 0 30px #ffffff;
+  }
+}
+
+.glow-new {
+  animation: glow-new 2s infinite;
+}
+
+@keyframes glow-mythical {
+  0% {
+    box-shadow: 0 0 10px #ffd700, 0 0 20px #ffd700, 0 0 30px #ffd700;
+  }
+  50% {
+    box-shadow: 0 0 20px #ffcc00, 0 0 30px #ffcc00, 0 0 40px #ffcc00;
+  }
+  100% {
+    box-shadow: 0 0 10px #ffd700, 0 0 20px #ffd700, 0 0 30px #ffd700;
+  }
+}
+
+.glow-mythical {
+  animation: glow-mythical 2s infinite;
+  border-color: #ffd700;
+}
+
+.glow-selected {
+  box-shadow: 0 0 10px #ffff00, 0 0 20px #ffff00;
+}
