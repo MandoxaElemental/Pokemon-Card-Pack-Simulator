@@ -26,13 +26,24 @@ export const CardPackOpener: React.FC = () => {
   const [shaking, setShaking] = useState<boolean[]>([]);
   const [, setDoubleFlipped] = useState<boolean[]>([]);
   const [selectedCard, setSelectedCard] = useState<string | null>(null);
-  const [showResetModal, setShowResetModal] = useState(false); // New state for modal
+  const [showResetModal, setShowResetModal] = useState(false);
+  const [isMuted, setIsMuted] = useState(false); // New state for mute toggle
   const cardRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
   const [currentRegion, setCurrentRegion] = useState<keyof typeof regionRanges>('All');
+  const slideSoundRef = useRef<HTMLAudioElement | null>(null); // Ref for slide sound
+  const flipSoundRef = useRef<HTMLAudioElement | null>(null); // Ref for flip sound
   const displayedCards = allCards.filter(card => {
     const [start, end] = regionRanges[currentRegion] || [NaN, NaN];
     return card.number >= start && card.number <= end;
   });
+
+  // Preload sound effects
+  useEffect(() => {
+    slideSoundRef.current = new Audio('/sounds/card-slide.mp3');
+    flipSoundRef.current = new Audio('/sounds/card-flip.mp3');
+    slideSoundRef.current.volume = 0.5; // Adjust volume (0 to 1)
+    flipSoundRef.current.volume = 0.5;
+  }, []);
 
   useEffect(() => {
     try {
@@ -92,11 +103,15 @@ export const CardPackOpener: React.FC = () => {
     } catch (error) {
       console.error('Error clearing localStorage:', error);
     }
-    setShowResetModal(false); // Close modal after confirming
+    setShowResetModal(false);
   };
 
   const handleResetClick = () => {
-    setShowResetModal(true); // Show modal instead of clearing directly
+    setShowResetModal(true);
+  };
+
+  const toggleMute = () => {
+    setIsMuted(prev => !prev);
   };
 
   const getRarityIcon = (rarity: Card['rarity']) => {
@@ -170,6 +185,12 @@ export const CardPackOpener: React.FC = () => {
 
       newCards.forEach((_, index) => {
         setTimeout(() => {
+          // Play slide sound when card enters
+          if (!isMuted && slideSoundRef.current) {
+            slideSoundRef.current.currentTime = 0; // Reset sound
+            slideSoundRef.current.play().catch(e => console.error('Error playing slide sound:', e));
+          }
+
           setEntered(prev => {
             const updated = [...prev];
             updated[index] = true;
@@ -178,6 +199,12 @@ export const CardPackOpener: React.FC = () => {
 
           if (newShaking[index]) {
             setTimeout(() => {
+              // Play flip sound when card flips
+              if (!isMuted && flipSoundRef.current) {
+                flipSoundRef.current.currentTime = 0;
+                flipSoundRef.current.play().catch(e => console.error('Error playing flip sound:', e));
+              }
+
               setFlipped(prev => {
                 const updated = [...prev];
                 updated[index] = false;
@@ -186,6 +213,12 @@ export const CardPackOpener: React.FC = () => {
 
               if (newDoubleFlipped[index]) {
                 setTimeout(() => {
+                  // Play flip sound for Mythical double flip
+                  if (!isMuted && flipSoundRef.current) {
+                    flipSoundRef.current.currentTime = 0;
+                    flipSoundRef.current.play().catch(e => console.error('Error playing flip sound:', e));
+                  }
+
                   setFlipped(prev => {
                     const updated = [...prev];
                     updated[index] = true;
@@ -193,6 +226,12 @@ export const CardPackOpener: React.FC = () => {
                   });
 
                   setTimeout(() => {
+                    // Play flip sound for second Mythical flip
+                    if (!isMuted && flipSoundRef.current) {
+                      flipSoundRef.current.currentTime = 0;
+                      flipSoundRef.current.play().catch(e => console.error('Error playing flip sound:', e));
+                    }
+
                     setFlipped(prev => {
                       const updated = [...prev];
                       updated[index] = false;
@@ -220,6 +259,12 @@ export const CardPackOpener: React.FC = () => {
             }, 500);
           } else {
             setTimeout(() => {
+              // Play flip sound for non-shaking cards
+              if (!isMuted && flipSoundRef.current) {
+                flipSoundRef.current.currentTime = 0;
+                flipSoundRef.current.play().catch(e => console.error('Error playing flip sound:', e));
+              }
+
               setFlipped(prev => {
                 const updated = [...prev];
                 updated[index] = false;
@@ -247,7 +292,6 @@ export const CardPackOpener: React.FC = () => {
     setShowDex(true);
   };
 
-  // New modal component
   const ResetConfirmationModal = () => (
     <div className="fixed inset-0 bg-black bg-opacity-80 flex justify-center items-center z-50 p-6">
       <div className="bg-gray-900 rounded-lg max-w-md w-full p-6 text-white relative">
@@ -273,7 +317,7 @@ export const CardPackOpener: React.FC = () => {
 
   return (
     <div className="flex flex-col items-center justify-center p-6 text-white">
-      <h2 className="text-2xl font-bold mb-4">🎴 Card Pack Opening</h2>
+      <h2 className="text-2xl font-bold mb-4">Pokemon Card Pack Opening Simulator</h2>
       
       <div className="flex gap-4 mb-6">
         <button
@@ -284,20 +328,33 @@ export const CardPackOpener: React.FC = () => {
           {opening ? 'Opening...' : 'Open Pack'}
         </button>
         <button
-          onClick={handleResetClick} // Updated to show modal
+          onClick={handleResetClick}
           className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded cursor-pointer"
         >
           Reset Collection
         </button>
+        <button
+          onClick={toggleMute}
+          className="bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded cursor-pointer flex items-center gap-2"
+        >
+          <Image
+            src={isMuted ? '/icons/mute.svg' : '/icons/unmute.svg'}
+            alt={isMuted ? 'Muted' : 'Unmuted'}
+            width={20}
+            height={20}
+            className="invert"
+          />
+          {isMuted ? 'Unmute' : 'Mute'}
+        </button>
       </div>
 
-      {showResetModal && <ResetConfirmationModal />} {/* Render modal when needed */}
+      {showResetModal && <ResetConfirmationModal />}
 
-      <div className="relative w-full h-64 grid grid-cols-5 gap-4 perspective">
+      <div className="relative w-full h-74 grid grid-cols-5 gap-4 perspective">
         {cards.map((card, idx) => (
           <motion.div
             key={`card-${idx}`}
-            className="w-44 h-64 relative"
+            className="w-54 h-74 relative"
             initial={{ y: 100, opacity: 0 }}
             animate={{
               y: entered[idx] ? 0 : 100,
@@ -349,7 +406,7 @@ export const CardPackOpener: React.FC = () => {
                         />
                       ))}
                     </div>
-                    <div className='flex justify-center items-center w-42 h-42 p-2'>                    
+                    <div className='flex justify-center items-center w-48 h-48 p-2'>
                       <Image
                         src={`/sprites/sprites/pokemon/other/home/${card.number}.png`}
                         alt={card.name}
@@ -397,7 +454,7 @@ export const CardPackOpener: React.FC = () => {
               ✖
             </button>
             <h3 className="text-2xl font-bold mb-4">📖 Card Dex</h3>
-            <p className="mb-4">You&apos;ve collected {Object.keys(collectedCards).length} out of {allCards.length} cards.</p>
+            <p className="mb-4">You've collected {Object.keys(collectedCards).length} out of {allCards.length} cards.</p>
             {selectedCard && collectedCards[selectedCard] && (
               <div className="flex items-center gap-4 mb-6 p-4 border rounded-lg bg-gray-800 shadow-lg">
                 <div className="w-32 h-32 relative">
@@ -486,6 +543,7 @@ export const CardPackOpener: React.FC = () => {
     </div>
   );
 };
+
 function getGradientBackground(types: string[]) {
   const typeColors: Record<string, string> = {
     Normal: '#a1a3a0',
