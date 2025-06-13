@@ -1075,7 +1075,7 @@ export const allCards: Card[] = [
   { name: 'Okidogi', number: 1014, type: ['Poison', 'Fighting'], rarity: 'Legendary', move: 'Poison Jab' },
   { name: 'Munkidori', number: 1015, type: ['Poison', 'Psychic'], rarity: 'Legendary', move: 'Sludge Bomb' },
   { name: 'Fezandipiti', number: 1016, type: ['Poison', 'Fairy'], rarity: 'Legendary', move: 'Dazzling Gleam' },
-  { name: 'Ogerpon', number: 1017, type: ['Grass'], rarity: 'Mythical', move: 'Ivy Cudgel' },
+  { name: 'Ogerpon', number: 1017, type: ['Grass'], rarity: 'Legendary', move: 'Ivy Cudgel' },
   { name: 'Archaludon', number: 1018, type: ['Steel', 'Dragon'], rarity: 'Epic', move: 'Electro Shot' },
   { name: 'Hydrapple', number: 1019, type: ['Grass', 'Dragon'], rarity: 'Epic', move: 'Fickle Beam' },
   { name: 'Gouging Fire', number: 1020, type: ['Fire', 'Dragon'], rarity: 'Legendary', move: 'Burning Bulwark' },
