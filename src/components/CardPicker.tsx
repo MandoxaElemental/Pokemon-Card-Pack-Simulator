@@ -578,8 +578,8 @@ function getTypeBorderClass(rarity: Card['rarity']) {
     Common: 'border-[#FFFFFF]',
     Uncommon: 'border-[#C0C0C0]',
     Rare: 'border-[#FFD700]',
-    Epic: 'border-[#800080]',
-    Legendary: 'border-[#FF8C00]',
+    Epic: 'border-[#FF8C00]',
+    Legendary: 'border-[#800080]',
     Mythical: 'border-[#8A2BE2]'
   };
 
