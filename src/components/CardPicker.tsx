@@ -418,7 +418,7 @@ export const CardPackOpener: React.FC = () => {
                     </div>
                     <div className='flex justify-center items-center w-48 h-48 p-2'>
                       <Image
-                        src={`/sprites/sprites/pokemon/other/home/${card.number}.png`}
+                        src={`/home-icons/${card.number}.png`}
                         alt={card.name}
                         width={200}
                         height={200}
@@ -469,7 +469,7 @@ export const CardPackOpener: React.FC = () => {
               <div className="flex items-center gap-4 mb-6 p-4 border rounded-lg bg-gray-800 shadow-lg">
                 <div className="w-32 h-32 relative">
                   <Image
-                    src={`/sprites/sprites/pokemon/other/home/${collectedCards[selectedCard].card.number}.png`}
+                    src={`/home-icons/${collectedCards[selectedCard].card.number}.png`}
                     alt={selectedCard}
                     fill
                     className="object-contain"
@@ -521,14 +521,14 @@ export const CardPackOpener: React.FC = () => {
                       <div className="w-20 h-20 relative mb-2">
                         {owned ? (
                           <Image
-                            src={`/sprites/sprites/pokemon/other/home/${card.number}.png`}
+                            src={`/home-icons/${card.number}.png`}
                             alt={card.name}
                             fill
                             className="object-contain"
                           />
                         ) : (
                           <Image
-                            src={`/sprites/sprites/pokemon/other/home/${card.number}.png`}
+                            src={`/home-icons/${card.number}.png`}
                             alt={card.name}
                             fill
                             className="object-contain brightness-0"
