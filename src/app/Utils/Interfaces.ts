@@ -596,7 +596,7 @@ export const allCards: Card[] = [
   { name: 'Whimsicott', number: 547, type: ['Grass'], rarity: 'Uncommon', move: 'Hurricane' },
   { name: 'Petilil', number: 548, type: ['Grass'], rarity: 'Common', move: 'Mega Drain' },
   { name: 'Lilligant', number: 549, type: ['Grass'], rarity: 'Uncommon', move: 'Petal Dance' },
-  { name: 'Basculin', number: 550, type: ['Water'], rarity: 'Uncommon', move: 'Aqua Jet' },
+  { name: 'Basculin (Red-Stripe)', number: 550, type: ['Water'], rarity: 'Uncommon', move: 'Aqua Jet' },
   { name: 'Sandile', number: 551, type: ['Ground', 'Dark'], rarity: 'Uncommon', move: 'Bite' },
   { name: 'Krokorok', number: 552, type: ['Ground', 'Dark'], rarity: 'Rare', move: 'Crunch' },
   { name: 'Krokodile', number: 553, type: ['Ground', 'Dark'], rarity: 'Epic', move: 'Earthquake' },
@@ -1082,15 +1082,15 @@ export const allCards: Card[] = [
   { name: 'Raging Bolt', number: 1021, type: ['Electric', 'Dragon'], rarity: 'Legendary', move: 'Thunderclap' },
   { name: 'Iron Boulder', number: 1022, type: ['Rock', 'Psychic'], rarity: 'Legendary', move: 'Mighty Cleave' },
   { name: 'Iron Crown', number: 1023, type: ['Steel', 'Psychic'], rarity: 'Legendary', move: 'Tachyon Cutter' },
-  { name: 'Terapagos', number: 1024, type: ['Normal'], rarity: 'Epic', move: 'Tera Blast' },
+  { name: 'Terapagos', number: 1024, type: ['Normal'], rarity: 'Epic', move: 'Rapid Spin' },
   { name: 'Pecharunt', number: 1025, type: ['Poison', 'Ghost'], rarity: 'Mythical', move: 'Malignant Chain' },
 
     // Special Forms
-    { name: 'Deoxys-Attack', number: 10001, type: ['Psychic'], rarity: 'Legendary', move: 'Psycho Boost' },
-  { name: 'Deoxys-Defense', number: 10002, type: ['Psychic'], rarity: 'Legendary', move: 'Iron Defense' },
-  { name: 'Deoxys-Speed', number: 10003, type: ['Psychic'], rarity: 'Legendary', move: 'Extreme Speed' },
-  { name: 'Wormadam (Sandy)', number: 10004, type: ['Bug', 'Ground'], rarity: 'Uncommon', move: 'Earth Power' },
-  { name: 'Wormadam (Trash)', number: 10005, type: ['Bug', 'Steel'], rarity: 'Uncommon', move: 'Flash Cannon' },
+    { name: 'Deoxys-Attack', number: 10001, type: ['Psychic'], rarity: 'Mythical', move: 'Psycho Boost' },
+  { name: 'Deoxys-Defense', number: 10002, type: ['Psychic'], rarity: 'Mythical', move: 'Iron Defense' },
+  { name: 'Deoxys-Speed', number: 10003, type: ['Psychic'], rarity: 'Mythical', move: 'Extreme Speed' },
+  { name: 'Wormadam (Sandy)', number: 10004, type: ['Bug', 'Ground'], rarity: 'Rare', move: 'Earth Power' },
+  { name: 'Wormadam (Trash)', number: 10005, type: ['Bug', 'Steel'], rarity: 'Rare', move: 'Flash Cannon' },
   { name: 'Shaymin-Sky', number: 10006, type: ['Grass', 'Flying'], rarity: 'Mythical', move: 'Air Slash' },
   { name: 'Giratina-Origin', number: 10007, type: ['Ghost', 'Dragon'], rarity: 'Legendary', move: 'Shadow Force' },
   { name: 'Rotom-Heat', number: 10008, type: ['Electric', 'Fire'], rarity: 'Rare', move: 'Overheat' },
@@ -1101,7 +1101,7 @@ export const allCards: Card[] = [
   { name: 'Castform-Sunny', number: 10013, type: ['Fire'], rarity: 'Uncommon', move: 'Weather Ball' },
   { name: 'Castform-Rainy', number: 10014, type: ['Water'], rarity: 'Uncommon', move: 'Weather Ball' },
   { name: 'Castform-Snowy', number: 10015, type: ['Ice'], rarity: 'Uncommon', move: 'Weather Ball' },
-  { name: 'Basculin', number: 10016, type: ['Water'], rarity: 'Uncommon', move: 'Aqua Jet' },
+  { name: 'Basculin (Blue-Stripe)', number: 10016, type: ['Water'], rarity: 'Uncommon', move: 'Aqua Jet' },
   { name: 'Darmanitan-Zen', number: 10017, type: ['Fire', 'Psychic'], rarity: 'Rare', move: 'Psychic' },
   { name: 'Meloetta-Pirouette', number: 10018, type: ['Normal', 'Fighting'], rarity: 'Mythical', move: 'Close Combat' },
   { name: 'Tornadus-Therian', number: 10019, type: ['Flying'], rarity: 'Legendary', move: 'Hurricane' },
@@ -1225,7 +1225,6 @@ export const allCards: Card[] = [
   { name: 'Toxtricity', number: 10184, type: ['Electric', 'Poison'], rarity: 'Rare', move: 'Overdrive' },
   { name: 'Eiscue', number: 10185, type: ['Ice'], rarity: 'Rare', move: 'Head Smash' },
   { name: 'Indeedee', number: 10186, type: ['Psychic', 'Normal'], rarity: 'Uncommon', move: 'Psybeam' },
-//   { name: 'Morpeko-Hangry', number: 10187, type: ['Electric', 'Dark'], rarity: 'Uncommon', move: 'Aura Wheel' },
   { name: 'Zacian-Crowned', number: 10188, type: ['Fairy', 'Steel'], rarity: 'Legendary', move: 'Behemoth Blade' },
   { name: 'Zamazenta-Crowned', number: 10189, type: ['Fighting', 'Steel'], rarity: 'Legendary', move: 'Behemoth Bash' },
   { name: 'Eternatus-Eternamax', number: 10190, type: ['Poison', 'Dragon'], rarity: 'Mythical', move: 'Dynamax Cannon' },
@@ -1233,39 +1232,39 @@ export const allCards: Card[] = [
   { name: 'Zarude-Dada', number: 10192, type: ['Dark', 'Grass'], rarity: 'Mythical', move: 'Jungle Healing' },
   { name: 'Calyrex-Ice', number: 10193, type: ['Psychic', 'Ice'], rarity: 'Mythical', move: 'Glacial Lance' },
   { name: 'Calyrex-Shadow', number: 10194, type: ['Psychic', 'Ghost'], rarity: 'Mythical', move: 'Astral Barrage' },
-  { name: 'Venusaur-Gmax', number: 10195, type: ['Grass', 'Poison'], rarity: 'Legendary', move: 'G-Max Vine Lash' },
-  { name: 'Charizard-Gmax', number: 10196, type: ['Fire', 'Flying'], rarity: 'Legendary', move: 'G-Max Wildfire' },
-  { name: 'Blastoise-Gmax', number: 10197, type: ['Water'], rarity: 'Legendary', move: 'G-Max Cannonade' },
-  { name: 'Butterfree-Gmax', number: 10198, type: ['Bug', 'Flying'], rarity: 'Legendary', move: 'G-Max Befuddle' },
-  { name: 'Pikachu-Gmax', number: 10199, type: ['Electric'], rarity: 'Legendary', move: 'G-Max Volt Crash' },
-  { name: 'Meowth-Gmax', number: 10200, type: ['Normal'], rarity: 'Legendary', move: 'G-Max Gold Rush' },
-  { name: 'Machamp-Gmax', number: 10201, type: ['Fighting'], rarity: 'Legendary', move: 'G-Max Chi Strike' },
-  { name: 'Gengar-Gmax', number: 10202, type: ['Ghost', 'Poison'], rarity: 'Legendary', move: 'G-Max Terror' },
-  { name: 'Kingler-Gmax', number: 10203, type: ['Water'], rarity: 'Legendary', move: 'G-Max Foam Burst' },
-  { name: 'Lapras-Gmax', number: 10204, type: ['Water', 'Ice'], rarity: 'Legendary', move: 'G-Max Resonance' },
-  { name: 'Eevee-Gmax', number: 10205, type: ['Normal'], rarity: 'Legendary', move: 'G-Max Cuddle' },
-  { name: 'Snorlax-Gmax', number: 10206, type: ['Normal'], rarity: 'Legendary', move: 'G-Max Replenish' },
-  { name: 'Garbodor-Gmax', number: 10207, type: ['Poison'], rarity: 'Legendary', move: 'G-Max Malodor' },
-  { name: 'Melmetal-Gmax', number: 10208, type: ['Steel'], rarity: 'Legendary', move: 'G-Max Meltdown' },
-  { name: 'Rillaboom-Gmax', number: 10209, type: ['Grass'], rarity: 'Legendary', move: 'G-Max Drum Solo' },
-  { name: 'Cinderace-Gmax', number: 10210, type: ['Fire'], rarity: 'Legendary', move: 'G-Max Fireball' },
-  { name: 'Inteleon-Gmax', number: 10211, type: ['Water'], rarity: 'Legendary', move: 'G-Max Hydrosnipe' },
-  { name: 'Corviknight-Gmax', number: 10212, type: ['Flying', 'Steel'], rarity: 'Legendary', move: 'G-Max Wind Rage' },
-  { name: 'Orbeetle-Gmax', number: 10213, type: ['Bug', 'Psychic'], rarity: 'Legendary', move: 'G-Max Gravitas' },
-  { name: 'Drednaw-Gmax', number: 10214, type: ['Water', 'Rock'], rarity: 'Legendary', move: 'G-Max Stonesurge' },
-  { name: 'Coalossal-Gmax', number: 10215, type: ['Rock', 'Fire'], rarity: 'Legendary', move: 'G-Max Volcalith' },
-  { name: 'Flapple-Gmax', number: 10216, type: ['Grass', 'Dragon'], rarity: 'Legendary', move: 'G-Max Tartness' },
-  { name: 'Appletun-Gmax', number: 10217, type: ['Grass', 'Dragon'], rarity: 'Legendary', move: 'G-Max Sweetness' },
-  { name: 'Sandaconda-Gmax', number: 10218, type: ['Ground'], rarity: 'Legendary', move: 'G-Max Sandblast' },
-  { name: 'Toxtricity-Gmax', number: 10219, type: ['Electric', 'Poison'], rarity: 'Legendary', move: 'G-Max Volt Crash' },
-  { name: 'Centiskorch-Gmax', number: 10220, type: ['Fire', 'Bug'], rarity: 'Legendary', move: 'G-Max Centiferno' },
-  { name: 'Hatterene-Gmax', number: 10221, type: ['Psychic', 'Fairy'], rarity: 'Legendary', move: 'G-Max Smite' },
-  { name: 'Grimmsnarl-Gmax', number: 10222, type: ['Dark', 'Fairy'], rarity: 'Legendary', move: 'G-Max Snooze' },
-  { name: 'Alcremie-Gmax', number: 10223, type: ['Fairy'], rarity: 'Legendary', move: 'G-Max Finale' },
-  { name: 'Copperajah-Gmax', number: 10224, type: ['Steel'], rarity: 'Legendary', move: 'G-Max Steelsurge' },
-  { name: 'Duraludon-Gmax', number: 10225, type: ['Steel', 'Dragon'], rarity: 'Legendary', move: 'G-Max Depletion' },
-  { name: 'Urshifu-Single-Strike-Gmax', number: 10226, type: ['Fighting', 'Dark'], rarity: 'Mythical', move: 'G-Max One Blow' },
-  { name: 'Urshifu-Rapid-Strike-Gmax', number: 10227, type: ['Fighting', 'Water'], rarity: 'Mythical', move: 'G-Max Rapid Flow' },
+  { name: 'GMax Venusaur', number: 10195, type: ['Grass', 'Poison'], rarity: 'Legendary', move: 'G-Max Vine Lash' },
+  { name: 'GMax Charizard', number: 10196, type: ['Fire', 'Flying'], rarity: 'Legendary', move: 'G-Max Wildfire' },
+  { name: 'GMax Blastoise', number: 10197, type: ['Water'], rarity: 'Legendary', move: 'G-Max Cannonade' },
+  { name: 'GMax Butterfree', number: 10198, type: ['Bug', 'Flying'], rarity: 'Legendary', move: 'G-Max Befuddle' },
+  { name: 'GMax Pikachu', number: 10199, type: ['Electric'], rarity: 'Legendary', move: 'G-Max Volt Crash' },
+  { name: 'GMax Meowth', number: 10200, type: ['Normal'], rarity: 'Legendary', move: 'G-Max Gold Rush' },
+  { name: 'GMax Machamp', number: 10201, type: ['Fighting'], rarity: 'Legendary', move: 'G-Max Chi Strike' },
+  { name: 'GMax Gengar', number: 10202, type: ['Ghost', 'Poison'], rarity: 'Legendary', move: 'G-Max Terror' },
+  { name: 'GMax Kingler', number: 10203, type: ['Water'], rarity: 'Legendary', move: 'G-Max Foam Burst' },
+  { name: 'GMax Lapras', number: 10204, type: ['Water', 'Ice'], rarity: 'Legendary', move: 'G-Max Resonance' },
+  { name: 'GMax Eevee', number: 10205, type: ['Normal'], rarity: 'Legendary', move: 'G-Max Cuddle' },
+  { name: 'Snorlax', number: 10206, type: ['Normal'], rarity: 'Legendary', move: 'G-Max Replenish' },
+  { name: 'GMax Garbodor', number: 10207, type: ['Poison'], rarity: 'Legendary', move: 'G-Max Malodor' },
+  { name: 'GMax Melmetal', number: 10208, type: ['Steel'], rarity: 'Legendary', move: 'G-Max Meltdown' },
+  { name: 'GMax Rillaboom', number: 10209, type: ['Grass'], rarity: 'Legendary', move: 'G-Max Drum Solo' },
+  { name: 'GMax Cinderace', number: 10210, type: ['Fire'], rarity: 'Legendary', move: 'G-Max Fireball' },
+  { name: 'GMax Inteleon', number: 10211, type: ['Water'], rarity: 'Legendary', move: 'G-Max Hydrosnipe' },
+  { name: 'GMax Corviknight', number: 10212, type: ['Flying', 'Steel'], rarity: 'Legendary', move: 'G-Max Wind Rage' },
+  { name: 'GMax Orbeetle', number: 10213, type: ['Bug', 'Psychic'], rarity: 'Legendary', move: 'G-Max Gravitas' },
+  { name: 'GMax Drednaw', number: 10214, type: ['Water', 'Rock'], rarity: 'Legendary', move: 'G-Max Stonesurge' },
+  { name: 'GMax Coalossal', number: 10215, type: ['Rock', 'Fire'], rarity: 'Legendary', move: 'G-Max Volcalith' },
+  { name: 'GMax Flapple', number: 10216, type: ['Grass', 'Dragon'], rarity: 'Legendary', move: 'G-Max Tartness' },
+  { name: 'GMax Appletun', number: 10217, type: ['Grass', 'Dragon'], rarity: 'Legendary', move: 'G-Max Sweetness' },
+  { name: 'GMax Sandaconda', number: 10218, type: ['Ground'], rarity: 'Legendary', move: 'G-Max Sandblast' },
+  { name: 'GMax Toxtricity', number: 10219, type: ['Electric', 'Poison'], rarity: 'Legendary', move: 'G-Max Volt Crash' },
+  { name: 'GMax Centiskorch', number: 10220, type: ['Fire', 'Bug'], rarity: 'Legendary', move: 'G-Max Centiferno' },
+  { name: 'GMax Hatterene', number: 10221, type: ['Psychic', 'Fairy'], rarity: 'Legendary', move: 'G-Max Smite' },
+  { name: 'GMax Grimmsnarl', number: 10222, type: ['Dark', 'Fairy'], rarity: 'Legendary', move: 'G-Max Snooze' },
+  { name: 'GMax Alcremie', number: 10223, type: ['Fairy'], rarity: 'Legendary', move: 'G-Max Finale' },
+  { name: 'GMax Copperajah', number: 10224, type: ['Steel'], rarity: 'Legendary', move: 'G-Max Steelsurge' },
+  { name: 'GMax Duraludon', number: 10225, type: ['Steel', 'Dragon'], rarity: 'Legendary', move: 'G-Max Depletion' },
+  { name: 'GMax Urshifu (Single Strike)', number: 10226, type: ['Fighting', 'Dark'], rarity: 'Mythical', move: 'G-Max One Blow' },
+  { name: 'GMax Urshifu (Rapid Strike)', number: 10227, type: ['Fighting', 'Water'], rarity: 'Mythical', move: 'G-Max Rapid Flow' },
   { name: 'Growlithe (Hisui)', number: 10229, type: ['Fire', 'Rock'], rarity: 'Uncommon', move: 'Flame Charge' },
   { name: 'Arcanine (Hisui)', number: 10230, type: ['Fire', 'Rock'], rarity: 'Rare', move: 'Raging Fury' },
   { name: 'Voltorb (Hisui)', number: 10231, type: ['Electric', 'Grass'], rarity: 'Uncommon', move: 'Thunder Shock' },
@@ -1284,7 +1283,7 @@ export const allCards: Card[] = [
   { name: 'Decidueye (Hisui)', number: 10244, type: ['Grass', 'Fighting'], rarity: 'Epic', move: 'Triple Arrows' },
   { name: 'Dialga-Origin', number: 10245, type: ['Steel', 'Dragon'], rarity: 'Legendary', move: 'Roar of Time' },
   { name: 'Palkia-Origin', number: 10246, type: ['Water', 'Dragon'], rarity: 'Legendary', move: 'Spacial Rend' },
-  { name: 'Basculin', number: 10247, type: ['Water'], rarity: 'Uncommon', move: 'Wave Crash' },
+  { name: 'Basculin (White-Stripe)', number: 10247, type: ['Water'], rarity: 'Uncommon', move: 'Wave Crash' },
   { name: 'Basculegion', number: 10248, type: ['Water', 'Ghost'], rarity: 'Rare', move: 'Shadow Ball' },
   { name: 'Enamorus-Therian', number: 10249, type: ['Fairy', 'Flying'], rarity: 'Legendary', move: 'Springtide Storm' },
   { name: 'Tauros (Combat)', number: 10250, type: ['Fighting'], rarity: 'Rare', move: 'Raging Bull' },
@@ -1294,12 +1293,12 @@ export const allCards: Card[] = [
   { name: 'Oinkologne', number: 10254, type: ['Normal'], rarity: 'Uncommon', move: 'Body Slam' },
   { name: 'Dudunsparce (Three Segment)', number: 10255, type: ['Normal'], rarity: 'Epic', move: 'Hyper Drill' },
   { name: 'Palafin (Hero)', number: 10256, type: ['Water'], rarity: 'Epic', move: 'Jet Punch' },
-  { name: 'Maushold (Family Of Three)', number: 10257, type: ['Normal'], rarity: 'Rare', move: 'Population Bomb' },
+  { name: 'Maushold (Family of Three)', number: 10257, type: ['Normal'], rarity: 'Rare', move: 'Population Bomb' },
   { name: 'Tatsugiri (Droopy)', number: 10258, type: ['Dragon', 'Water'], rarity: 'Uncommon', move: 'Dragon Pulse' },
   { name: 'Tatsugiri (Stretchy)', number: 10259, type: ['Dragon', 'Water'], rarity: 'Uncommon', move: 'Dragon Pulse' },
-  { name: 'Squawkabilly-Blue', number: 10260, type: ['Normal', 'Flying'], rarity: 'Common', move: 'Peck' },
-  { name: 'Squawkabilly-Yellow', number: 10261, type: ['Normal', 'Flying'], rarity: 'Common', move: 'Peck' },
-  { name: 'Squawkabilly-White', number: 10262, type: ['Normal', 'Flying'], rarity: 'Common', move: 'Peck' },
+  { name: 'Squawkabilly (Blue)', number: 10260, type: ['Normal', 'Flying'], rarity: 'Common', move: 'Peck' },
+  { name: 'Squawkabilly (Yellow)', number: 10261, type: ['Normal', 'Flying'], rarity: 'Common', move: 'Peck' },
+  { name: 'Squawkabilly (White)', number: 10262, type: ['Normal', 'Flying'], rarity: 'Common', move: 'Peck' },
   { name: 'Gimmighoul (Roaming)', number: 10263, type: ['Ghost'], rarity: 'Uncommon', move: 'Astonish' },
   { name: 'Ursaluna (Bloodmoon)', number: 10272, type: ['Ground', 'Normal'], rarity: 'Legendary', move: 'Blood Moon' },
   { name: 'Ogerpon (Wellspring)', number: 10273, type: ['Grass', 'Water'], rarity: 'Legendary', move: 'Ivy Cudgel' },
@@ -1308,3 +1307,268 @@ export const allCards: Card[] = [
   { name: 'Terapagos (Terastal)', number: 10276, type: ['Normal'], rarity: 'Legendary', move: 'Tera Blast' },
   { name: 'Terapagos (Stellar)', number: 10277, type: ['Stellar'], rarity: 'Mythical', move: 'Tera Starstorm' },
 ];
+
+export const specialFormRegionMapping: Record<number, string[]> = {
+  // Deoxys Forms (Hoenn, base: 386)
+  10001: ['Hoenn'], // Deoxys-Attack
+  10002: ['Hoenn'], // Deoxys-Defense
+  10003: ['Hoenn'], // Deoxys-Speed
+  // Wormadam Forms (Sinnoh, base: 413)
+  10004: ['Sinnoh'], // Wormadam-Sandy
+  10005: ['Sinnoh'], // Wormadam-Trash
+  // Shaymin-Sky (Sinnoh, base: 492)
+  10006: ['Sinnoh'], // Shaymin-Sky
+  // Giratina-Origin (Sinnoh, base: 487)
+  10007: ['Sinnoh'], // Giratina-Origin
+  // Rotom Forms (Sinnoh, base: 479)
+  10008: ['Sinnoh'], // Rotom-Heat
+  10009: ['Sinnoh'], // Rotom-Wash
+  10010: ['Sinnoh'], // Rotom-Frost
+  10011: ['Sinnoh'], // Rotom-Fan
+  10012: ['Sinnoh'], // Rotom-Mow
+  // Castform Forms (Hoenn, base: 351)
+  10013: ['Hoenn'], // Castform-Sunny
+  10014: ['Hoenn'], // Castform-Rainy
+  10015: ['Hoenn'], // Castform-Snowy
+  // Basculin (Unova, base: 550)
+  10016: ['Unova'], // Basculin-Blue-Stripe
+  // Darmanitan-Zen (Unova, base: 555)
+  10017: ['Unova'], // Darmanitan-Zen
+  // Meloetta-Pirouette (Unova, base: 648)
+  10018: ['Unova'], // Meloetta-Pirouette
+  // Forces of Nature Therian Forms (Unova, base: 641–645)
+  10019: ['Unova'], // Tornadus-Therian
+  10020: ['Unova'], // Thundurus-Therian
+  10021: ['Unova'], // Landorus-Therian
+  // Kyurem Forms (Unova, base: 646)
+  10022: ['Unova'], // Kyurem-Black
+  10023: ['Unova'], // Kyurem-White
+  // Keldeo-Resolute (Unova, base: 647)
+  10024: ['Unova'], // Keldeo-Resolute
+  // Meowstic (Kalos, base: 678)
+  10025: ['Kalos'], // Meowstic
+  // Aegislash-Blade (Kalos, base: 681)
+  10026: ['Kalos'], // Aegislash-Blade
+  // Mega Evolutions
+  10033: ['Kanto'], // Mega Venusaur (base: 3)
+  10034: ['Kanto'], // Mega Charizard X (base: 6)
+  10035: ['Kanto'], // Mega Charizard Y (base: 6)
+  10036: ['Kanto'], // Mega Blastoise (base: 9)
+  10037: ['Kanto'], // Mega Alakazam (base: 65)
+  10038: ['Kanto'], // Mega Gengar (base: 94)
+  10039: ['Kanto'], // Mega Kangaskhan (base: 115)
+  10040: ['Kanto'], // Mega Pinsir (base: 127)
+  10041: ['Kanto'], // Mega Gyarados (base: 130)
+  10042: ['Kanto'], // Mega Aerodactyl (base: 142)
+  10043: ['Kanto'], // Mega Mewtwo X (base: 150)
+  10044: ['Kanto'], // Mega Mewtwo Y (base: 150)
+  10045: ['Johto'], // Mega Ampharos (base: 181)
+  10046: ['Johto'], // Mega Scizor (base: 212)
+  10047: ['Johto'], // Mega Heracross (base: 214)
+  10048: ['Johto'], // Mega Houndoom (base: 229)
+  10049: ['Johto'], // Mega Tyranitar (base: 248)
+  10050: ['Hoenn'], // Mega Blaziken (base: 257)
+  10051: ['Hoenn'], // Mega Gardevoir (base: 282)
+  10052: ['Hoenn'], // Mega Mawile (base: 303)
+  10053: ['Hoenn'], // Mega Aggron (base: 306)
+  10054: ['Hoenn'], // Mega Medicham (base: 308)
+  10055: ['Hoenn'], // Mega Manectric (base: 310)
+  10056: ['Hoenn'], // Mega Banette (base: 354)
+  10057: ['Hoenn'], // Mega Absol (base: 359)
+  10058: ['Sinnoh'], // Mega Garchomp (base: 445)
+  10059: ['Sinnoh'], // Mega Lucario (base: 448)
+  10060: ['Sinnoh'], // Mega Abomasnow (base: 460)
+  10061: ['Kalos'], // Floette-Eternal (base: 670)
+  10062: ['Hoenn'], // Mega Latias (base: 380)
+  10063: ['Hoenn'], // Mega Latios (base: 381)
+  10064: ['Hoenn'], // Mega Swampert (base: 260)
+  10065: ['Hoenn'], // Mega Sceptile (base: 254)
+  10066: ['Hoenn'], // Mega Sableye (base: 302)
+  10067: ['Hoenn'], // Mega Altaria (base: 334)
+  10068: ['Hoenn'], // Mega Gallade (base: 475)
+  10069: ['Unova'], // Mega Audino (base: 531)
+  10070: ['Hoenn'], // Mega Sharpedo (base: 319)
+  10071: ['Kanto'], // Mega Slowbro (base: 80)
+  10072: ['Johto'], // Mega Steelix (base: 208)
+  10073: ['Kanto'], // Mega Pidgeot (base: 18)
+  10074: ['Hoenn'], // Mega Glalie (base: 362)
+  10075: ['Kalos'], // Mega Diancie (base: 719)
+  10076: ['Hoenn'], // Mega Metagross (base: 376)
+  10077: ['Hoenn'], // Primal Kyogre (base: 382)
+  10078: ['Hoenn'], // Mega Groudon (base: 383)
+  10079: ['Hoenn'], // Mega Rayquaza (base: 384)
+  10086: ['Kalos'], // Hoopa Unbound (base: 720)
+  10087: ['Hoenn'], // Mega Camerupt (base: 323)
+  10088: ['Hoenn'], // Mega Lopunny (base: 428)
+  10089: ['Hoenn'], // Mega Salamence (base: 373)
+  10090: ['Kanto'], // Mega Beedrill (base: 15)
+  // Alolan Forms
+  10091: ['Alola'], // Rattata-Alola
+  10092: ['Alola'], // Raticate-Alola
+  10100: ['Alola'], // Raichu-Alola
+  10101: ['Alola'], // Sandshrew-Alola
+  10102: ['Alola'], // Sandslash-Alola
+  10103: ['Alola'], // Vulpix-Alola
+  10104: ['Alola'], // Ninetales-Alola
+  10105: ['Alola'], // Diglett-Alola
+  10106: ['Alola'], // Dugtrio-Alola
+  10107: ['Alola'], // Meowth-Alola
+  10108: ['Alola'], // Persian-Alola
+  10109: ['Alola'], // Geodude-Alola
+  10110: ['Alola'], // Graveler-Alola
+  10111: ['Alola'], // Golem-Alola
+  10112: ['Alola'], // Grimer-Alola
+  10113: ['Alola'], // Muk-Alola
+  10114: ['Alola'], // Exeggutor-Alola
+  10115: ['Alola'], // Marowak-Alola
+  // Greninja-Battle Bond (Kalos, base: 658)
+  10116: ['Kalos'], // Greninja-Battle Bond
+  // Zygarde Forms (Kalos, base: 718)
+  10118: ['Kalos'], // Zygarde-10%
+  10120: ['Kalos'], // Zygarde-Complete
+  // Oricorio Forms (Alola, base: 741)
+  10123: ['Alola'], // Oricorio-Pom-Pom
+  10124: ['Alola'], // Oricorio-Pau
+  10125: ['Alola'], // Oricorio-Sensu
+  // Lycanroc Forms (Alola, base: 745)
+  10126: ['Alola'], // Lycanroc-Midnight
+  10127: ['Alola'], // Wishiwashi-School (base: 746)
+  // Minior Forms (Alola, base: 774)
+  10136: ['Alola'], // Minior-Red
+  10137: ['Alola'], // Minior-Orange
+  10138: ['Alola'], // Minior-Yellow
+  10139: ['Alola'], // Minior-Green
+  10140: ['Alola'], // Minior-Blue
+  10141: ['Alola'], // Minior-Indigo
+  10142: ['Alola'], // Minior-Violet
+  // Magearna-Original (Alola, base: 801)
+  10147: ['Alola'], // Magearna-Original
+  10152: ['Alola'], // Lycanroc-Dusk
+  // Necrozma Forms (Alola, base: 800)
+  10155: ['Alola'], // Necrozma-Dusk Mane
+  10156: ['Alola'], // Necrozma-Dawn Wings
+  10157: ['Alola'], // Ultra Necrozma
+  // Galarian Forms
+  10161: ['Galar'], // Meowth-Galar
+  10162: ['Galar'], // Ponyta-Galar
+  10163: ['Galar'], // Rapidash-Galar
+  10164: ['Galar'], // Slowpoke-Galar
+  10165: ['Galar'], // Slowbro-Galar
+  10166: ['Galar'], // Farfetchd-Galar
+  10167: ['Galar'], // Weezing-Galar
+  10168: ['Galar'], // Mr-Mime-Galar
+  10169: ['Galar'], // Articuno-Galar
+  10170: ['Galar'], // Zapdos-Galar
+  10171: ['Galar'], // Moltres-Galar
+  10172: ['Galar'], // Slowking-Galar
+  10173: ['Galar'], // Corsola-Galar
+  10174: ['Galar'], // Zigzagoon-Galar
+  10175: ['Galar'], // Linoone-Galar
+  10176: ['Galar'], // Darumaka-Galar
+  10177: ['Galar'], // Darmanitan-Galar
+  10178: ['Galar'], // Darmanitan-Galar-Zen
+  10179: ['Galar'], // Yamask-Galar
+  10180: ['Galar'], // Stunfisk-Galar
+  // Toxtricity Forms (Galar, base: 849)
+  10184: ['Galar'], // Toxtricity
+  // Eiscue (Galar, base: 875)
+  10185: ['Galar'], // Eiscue
+  // Indeedee (Galar, base: 876)
+  10186: ['Galar'], // Indeedee
+  // Zacian/Zamazenta Crowned (Galar, base: 888–889)
+  10188: ['Galar'], // Zacian-Crowned
+  10189: ['Galar'], // Zamazenta-Crowned
+  // Eternatus-Eternamax (Galar, base: 890)
+  10190: ['Galar'], // Eternatus-Eternamax
+  // Urshifu-Rapid Strike (Galar, base: 892)
+  10191: ['Galar'], // Urshifu-Rapid Strike
+  // Zarude-Dada (Galar, base: 893)
+  10192: ['Galar'], // Zarude-Dada
+  // Calyrex Forms (Galar, base: 898)
+  10193: ['Galar'], // Calyrex-Ice
+  10194: ['Galar'], // Calyrex-Shadow
+  // Gigantamax Forms (Galar)
+  10195: ['Galar'], // Venusaur
+  10196: ['Galar'], // Charizard
+  10197: ['Galar'], // Blastoise
+  10198: ['Galar'], // Butterfree
+  10199: ['Galar'], // Pikachu
+  10200: ['Galar'], // Meowth
+  10201: ['Galar'], // Machamp
+  10202: ['Galar'], // Gengar
+  10203: ['Galar'], // Kingler
+  10204: ['Galar'], // Lapras
+  10205: ['Galar'], // Eevee
+  10206: ['Galar'], // Snorlax
+  10207: ['Galar'], // Garbodor
+  10208: ['Galar'], // Melmetal
+  10209: ['Galar'], // Rillaboom
+  10210: ['Galar'], // Cinderace
+  10211: ['Galar'], // Inteleon
+  10212: ['Galar'], // Corviknight
+  10213: ['Galar'], // Orbeetle
+  10214: ['Galar'], // Drednaw
+  10215: ['Galar'], // Coalossal
+  10216: ['Galar'], // Flapple
+  10217: ['Galar'], // Appletun
+  10218: ['Galar'], // Sandaconda
+  10219: ['Galar'], // Toxtricity
+  10220: ['Galar'], // Centiskorch
+  10221: ['Galar'], // Hatterene
+  10222: ['Galar'], // Grimmsnarl
+  10223: ['Galar'], // Alcremie
+  10224: ['Galar'], // Copperajah
+  10225: ['Galar'], // Duraludon
+  10226: ['Galar'], // Urshifu-Single-Strike
+  10227: ['Galar'], // Urshifu-Rapid-Strike
+  // Hisuian Forms
+  10229: ['Hisui'], // Growlithe-Hisui
+  10230: ['Hisui'], // Arcanine-Hisui
+  10231: ['Hisui'], // Voltorb-Hisui
+  10232: ['Hisui'], // Electrode-Hisui
+  10233: ['Hisui'], // Typhlosion-Hisui
+  10234: ['Hisui'], // Qwilfish-Hisui
+  10235: ['Hisui'], // Sneasel-Hisui
+  10236: ['Hisui'], // Samurott-Hisui
+  10237: ['Hisui'], // Lilligant-Hisui
+  10238: ['Hisui'], // Zorua-Hisui
+  10239: ['Hisui'], // Zoroark-Hisui
+  10240: ['Hisui'], // Braviary-Hisui
+  10241: ['Hisui'], // Sliggoo-Hisui
+  10242: ['Hisui'], // Goodra-Hisui
+  10243: ['Hisui'], // Avalugg-Hisui
+  10244: ['Hisui'], // Decidueye-Hisui
+  // Origin Forms (Sinnoh, base: 483–484)
+  10245: ['Hisui'], // Dialga-Origin
+  10246: ['Hisui'], // Palkia-Origin
+  // Basculin/Basculegion (Hisui)
+  10247: ['Hisui'], // Basculin-White-Stripe
+  10248: ['Hisui'], // Basculegion
+  // Enamorus-Therian (Hisui, base: 905)
+  10249: ['Hisui'], // Enamorus-Therian
+  // Paldean Forms
+  10250: ['Paldea'], // Tauros-Combat
+  10251: ['Paldea'], // Tauros-Blaze
+  10252: ['Paldea'], // Tauros-Aqua
+  10253: ['Paldea'], // Wooper-Paldea
+  // Paldean Forms (new Pokémon)
+  10254: ['Paldea'], // Oinkologne (base: 916)
+  10255: ['Paldea'], // Dudunsparce-Three-Segment (base: 917)
+  10256: ['Paldea'], // Palafin-Hero (base: 964)
+  10257: ['Paldea'], // Maushold-Family-Of-Three (base: 925)
+  10258: ['Paldea'], // Tatsugiri-Droopy (base: 978)
+  10259: ['Paldea'], // Tatsugiri-Stretchy (base: 978)
+  10260: ['Paldea'], // Squawkabilly-Blue (base: 931)
+  10261: ['Paldea'], // Squawkabilly-Yellow (base: 931)
+  10262: ['Paldea'], // Squawkabilly-White (base: 931)
+  10263: ['Paldea'], // Gimmighoul-Roaming (base: 999)
+  // Ursaluna-Bloodmoon (Paldea, Teal Mask DLC)
+  10272: ['Paldea'], // Ursaluna-Bloodmoon
+  // Ogerpon Forms (Paldea)
+  10273: ['Paldea'], // Ogerpon-Wellspring
+  10274: ['Paldea'], // Ogerpon-Hearthflame
+  10275: ['Paldea'], // Ogerpon-Cornerstone
+  // Terapagos Forms (Paldea)
+  10276: ['Paldea'], // Terapagos-Terastal
+  10277: ['Paldea'], // Terapagos-Stellar
+};

@@ -2,7 +2,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
-import { allCards, Card, regionRanges } from '@/app/Utils/Interfaces';
+import { allCards, Card, regionRanges, specialFormRegionMapping } from '@/app/Utils/Interfaces';
 
 type CardCollection = {
   [key: string]: { card: Card; count: number };
@@ -27,21 +27,36 @@ export const CardPackOpener: React.FC = () => {
   const [, setDoubleFlipped] = useState<boolean[]>([]);
   const [selectedCard, setSelectedCard] = useState<string | null>(null);
   const [showResetModal, setShowResetModal] = useState(false);
-  const [isMuted, setIsMuted] = useState(false); // New state for mute toggle
+  const [isMuted, setIsMuted] = useState(false);
   const cardRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
   const [currentRegion, setCurrentRegion] = useState<keyof typeof regionRanges>('All');
-  const slideSoundRef = useRef<HTMLAudioElement | null>(null); // Ref for slide sound
-  const flipSoundRef = useRef<HTMLAudioElement | null>(null); // Ref for flip sound
-  const displayedCards = allCards.filter(card => {
-    const [start, end] = regionRanges[currentRegion] || [NaN, NaN];
-    return card.number >= start && card.number <= end;
-  });
+  const slideSoundRef = useRef<HTMLAudioElement | null>(null);
+  const flipSoundRef = useRef<HTMLAudioElement | null>(null);
 
-  // Preload sound effects
+  // Updated displayedCards logic
+  const displayedCards = Array.from(
+    new Set(
+      allCards
+        .filter(card => {
+          if (currentRegion === 'All') {
+            // Include all standard (1–1025) and special forms (10001–10277)
+            return (card.number >= 1 && card.number <= 1025) || (card.number >= 10001 && card.number <= 10277);
+          }
+          const [start, end] = regionRanges[currentRegion] || [NaN, NaN];
+          // Include cards in the region's range or mapped to the region
+          return (
+            (card.number >= start && card.number <= end) ||
+            (specialFormRegionMapping[card.number]?.includes(currentRegion))
+          );
+        })
+        .map(card => card.name) // Use name for uniqueness
+    )
+  ).map(name => allCards.find(card => card.name === name)!);
+
   useEffect(() => {
     slideSoundRef.current = new Audio('/sounds/card-slide.mp3');
     flipSoundRef.current = new Audio('/sounds/card-flip.mp3');
-    slideSoundRef.current.volume = 0.5; // Adjust volume (0 to 1)
+    slideSoundRef.current.volume = 0.5;
     flipSoundRef.current.volume = 0.5;
   }, []);
 
@@ -185,9 +200,8 @@ export const CardPackOpener: React.FC = () => {
 
       newCards.forEach((_, index) => {
         setTimeout(() => {
-          // Play slide sound when card enters
           if (!isMuted && slideSoundRef.current) {
-            slideSoundRef.current.currentTime = 0; // Reset sound
+            slideSoundRef.current.currentTime = 0;
             slideSoundRef.current.play().catch(e => console.error('Error playing slide sound:', e));
           }
 
@@ -199,7 +213,6 @@ export const CardPackOpener: React.FC = () => {
 
           if (newShaking[index]) {
             setTimeout(() => {
-              // Play flip sound when card flips
               if (!isMuted && flipSoundRef.current) {
                 flipSoundRef.current.currentTime = 0;
                 flipSoundRef.current.play().catch(e => console.error('Error playing flip sound:', e));
@@ -213,7 +226,6 @@ export const CardPackOpener: React.FC = () => {
 
               if (newDoubleFlipped[index]) {
                 setTimeout(() => {
-                  // Play flip sound for Mythical double flip
                   if (!isMuted && flipSoundRef.current) {
                     flipSoundRef.current.currentTime = 0;
                     flipSoundRef.current.play().catch(e => console.error('Error playing flip sound:', e));
@@ -226,7 +238,6 @@ export const CardPackOpener: React.FC = () => {
                   });
 
                   setTimeout(() => {
-                    // Play flip sound for second Mythical flip
                     if (!isMuted && flipSoundRef.current) {
                       flipSoundRef.current.currentTime = 0;
                       flipSoundRef.current.play().catch(e => console.error('Error playing flip sound:', e));
@@ -259,7 +270,6 @@ export const CardPackOpener: React.FC = () => {
             }, 500);
           } else {
             setTimeout(() => {
-              // Play flip sound for non-shaking cards
               if (!isMuted && flipSoundRef.current) {
                 flipSoundRef.current.currentTime = 0;
                 flipSoundRef.current.play().catch(e => console.error('Error playing flip sound:', e));
@@ -335,14 +345,14 @@ export const CardPackOpener: React.FC = () => {
         </button>
         <button
           onClick={toggleMute}
-          className="bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded cursor-pointer flex items-center gap-1"
+          className="bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded cursor-pointer flex items-center gap-2"
         >
           <Image
             src={isMuted ? '/icons/mute.svg' : '/icons/unmute.svg'}
             alt={isMuted ? 'Muted' : 'Unmuted'}
             width={20}
             height={20}
-            className="invert"
+            className='invert'
           />
           {isMuted ? 'Unmute' : 'Mute'}
         </button>
@@ -416,7 +426,7 @@ export const CardPackOpener: React.FC = () => {
                       />
                     </div>
                     <div>
-                      <div className="font-bold">{card.name}</div>
+                      <div className="font-bold text-center">{card.name}</div>
                       <div className={`text-sm opacity-80 mb-1 ${card.rarity === 'Mythical' ? 'text-[#ffd700] text-shadow-white' : 'text-white'}`}>{getRarityIcon(card.rarity)}</div>
                       <div className="text-xs italic mt-1">{card.move}</div>
                     </div>
@@ -454,7 +464,7 @@ export const CardPackOpener: React.FC = () => {
               ✖
             </button>
             <h3 className="text-2xl font-bold mb-4">📖 Card Dex</h3>
-            <p className="mb-4">You&apos;ve collected {Object.keys(collectedCards).length} out of {allCards.length} cards.</p>
+            <p className="mb-4">You've collected {Object.keys(collectedCards).length} out of {allCards.length} cards.</p>
             {selectedCard && collectedCards[selectedCard] && (
               <div className="flex items-center gap-4 mb-6 p-4 border rounded-lg bg-gray-800 shadow-lg">
                 <div className="w-32 h-32 relative">
@@ -496,7 +506,7 @@ export const CardPackOpener: React.FC = () => {
                     currentRegion === region ? 'bg-blue-600' : 'bg-gray-700 hover:bg-gray-600'
                   }`}
                 >
-                  {region}
+                  {region === 'SpecialForms' ? 'Special Forms' : region}
                 </button>
               ))}
             </div>
@@ -525,7 +535,7 @@ export const CardPackOpener: React.FC = () => {
                           />
                         )}
                       </div>
-                      <div className="font-semibold">{card.name}</div>
+                      <div className="font-semibold text-center">{card.name}</div>
                       <div className={`${card.rarity === 'Mythical' ? 'text-[#ffd700]' : 'text-white'}`}>{getRarityIcon(card.rarity)}</div>
                       {owned ? (
                         <div className="text-xs">Owned: {owned.count}</div>
@@ -575,11 +585,11 @@ function getGradientBackground(types: string[]) {
 
 function getTypeBorderClass(rarity: Card['rarity']) {
   const rarityBorderColors: Record<Card['rarity'], string> = {
-    Common: 'border-[#FFFFFF]',
-    Uncommon: 'border-[#C0C0C0]',
+    Common: 'border-[#C0C0C0]',
+    Uncommon: 'border-[#3CB371]',
     Rare: 'border-[#FFD700]',
-    Epic: 'border-[#FF8C00]',
-    Legendary: 'border-[#800080]',
+    Epic: 'border-[#800080]',
+    Legendary: 'border-[#FF8C00]',
     Mythical: 'border-[#8A2BE2]'
   };
 
