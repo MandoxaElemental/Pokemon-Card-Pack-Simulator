@@ -335,7 +335,7 @@ export const CardPackOpener: React.FC = () => {
         </button>
         <button
           onClick={toggleMute}
-          className="bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded cursor-pointer flex items-center gap-2"
+          className="bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded cursor-pointer flex items-center gap-1"
         >
           <Image
             src={isMuted ? '/icons/mute.svg' : '/icons/unmute.svg'}
@@ -454,7 +454,7 @@ export const CardPackOpener: React.FC = () => {
               ✖
             </button>
             <h3 className="text-2xl font-bold mb-4">📖 Card Dex</h3>
-            <p className="mb-4">You've collected {Object.keys(collectedCards).length} out of {allCards.length} cards.</p>
+            <p className="mb-4">You&apos;ve collected {Object.keys(collectedCards).length} out of {allCards.length} cards.</p>
             {selectedCard && collectedCards[selectedCard] && (
               <div className="flex items-center gap-4 mb-6 p-4 border rounded-lg bg-gray-800 shadow-lg">
                 <div className="w-32 h-32 relative">
@@ -575,8 +575,8 @@ function getGradientBackground(types: string[]) {
 
 function getTypeBorderClass(rarity: Card['rarity']) {
   const rarityBorderColors: Record<Card['rarity'], string> = {
-    Common: 'border-[#C0C0C0]',
-    Uncommon: 'border-[#3CB371]',
+    Common: 'border-[#FFFFFF]',
+    Uncommon: 'border-[#C0C0C0]',
     Rare: 'border-[#FFD700]',
     Epic: 'border-[#800080]',
     Legendary: 'border-[#FF8C00]',
