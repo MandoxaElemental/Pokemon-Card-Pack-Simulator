@@ -78,3 +78,18 @@ body {
   box-shadow: 0 0 10px #ffff00, 0 0 20px #ffff00;
 }
 
+.border-gradient-pink-cyan {
+  border: 5px solid;
+  border-radius: 16px;
+  border-image: linear-gradient(to right, #ff00ff, #00ffff) 1;
+}
+
+@keyframes sparkleShower {
+  0% { opacity: 1; transform: scale(0) translate(0, 0); }
+  50% { opacity: 0.5; }
+  100% { opacity: 0; transform: scale(2) translate(50px, 50px); }
+}
+
+.sparkle {
+  animation: sparkleShower 1s ease-out forwards;
+}
