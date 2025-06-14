@@ -32,6 +32,8 @@ export const CardPackOpener: React.FC = () => {
   const [currentRegion, setCurrentRegion] = useState<keyof typeof regionRanges>('All');
   const slideSoundRef = useRef<HTMLAudioElement | null>(null);
   const flipSoundRef = useRef<HTMLAudioElement | null>(null);
+  const mythicJingleRef = useRef<HTMLAudioElement | null>(null);
+  const legendJingleRef = useRef<HTMLAudioElement | null>(null);
 
   // Updated displayedCards logic
   const displayedCards = Array.from(
@@ -56,8 +58,12 @@ export const CardPackOpener: React.FC = () => {
   useEffect(() => {
     slideSoundRef.current = new Audio('/sounds/card-slide.mp3');
     flipSoundRef.current = new Audio('/sounds/card-flip.mp3');
+    mythicJingleRef.current = new Audio('/sounds/mythic-jingle.mp3');
+    legendJingleRef.current = new Audio('/sounds/legend-jingle.mp3');
     slideSoundRef.current.volume = 0.5;
     flipSoundRef.current.volume = 0.5;
+    mythicJingleRef.current.volume = 0.5;
+    legendJingleRef.current.volume = 0.5;
   }, []);
 
   useEffect(() => {
@@ -250,6 +256,10 @@ export const CardPackOpener: React.FC = () => {
                     });
 
                     setTimeout(() => {
+                      if (!isMuted && mythicJingleRef.current && newDoubleFlipped[index]) {
+                        mythicJingleRef.current.currentTime = 0;
+                        mythicJingleRef.current.play().catch(e => console.error('Error playing mythic jingle:', e));
+                      }
                       setRevealed(prev => {
                         const updated = [...prev];
                         updated[index] = true;
@@ -260,6 +270,10 @@ export const CardPackOpener: React.FC = () => {
                 }, 400);
               } else {
                 setTimeout(() => {
+                  if (!isMuted && legendJingleRef.current && newShaking[index]) {
+                    legendJingleRef.current.currentTime = 0;
+                    legendJingleRef.current.play().catch(e => console.error('Error playing legend jingle:', e));
+                  }
                   setRevealed(prev => {
                     const updated = [...prev];
                     updated[index] = true;
@@ -303,7 +317,7 @@ export const CardPackOpener: React.FC = () => {
   };
 
   const ResetConfirmationModal = () => (
-    <div className="fixed inset-0 bg-black bg-opacity-80 flex justify-center items-center z-50 p-6">
+    <div className="fixed inset-0 bg-black/50 flex justify-center items-center z-50 p-6">
       <div className="bg-gray-900 rounded-lg max-w-md w-full p-6 text-white relative">
         <h3 className="text-xl font-bold mb-4">Are you sure?</h3>
         <p className="mb-6">Resetting your collection will delete all your collected cards and progress. This action cannot be undone.</p>
@@ -326,7 +340,7 @@ export const CardPackOpener: React.FC = () => {
   );
 
   return (
-    <div className="flex flex-col items-center justify-center p-6 text-white">
+    <div className="flex flex-col items-center justify-center p-6 text-black">
       <h2 className="text-2xl font-bold mb-4">Pokemon Card Pack Opening Simulator</h2>
       
       <div className="flex gap-4 mb-6">
@@ -360,7 +374,7 @@ export const CardPackOpener: React.FC = () => {
 
       {showResetModal && <ResetConfirmationModal />}
 
-      <div className="relative w-full h-74 grid grid-cols-5 gap-4 perspective">
+      <div className="relative w-full h-74 grid grid-cols-5 gap-4 perspective text-white">
         {cards.map((card, idx) => (
           <motion.div
             key={`card-${idx}`}
@@ -395,7 +409,7 @@ export const CardPackOpener: React.FC = () => {
 
               <div
                 style={{ background: getGradientBackground(card.type) }}
-                className={`absolute w-full h-full rotateY-180 backface-hidden p-2 rounded-xl border-5 flex flex-col items-center justify-between text-center shadow-lg ${getTypeBorderClass(card.rarity)} ${card.rarity === 'Mythical' && revealed[idx] ? 'glow-mythical' : ''} ${isNewCard[idx] && revealed[idx] ? 'glow-new' : ''} ${revealed[idx] ? 'cursor-pointer hover:scale-105 transition-transform' : ''}`}
+                className={`absolute w-full h-full rotateY-180 backface-hidden p-2 rounded-xl border-5 flex flex-col items-center justify-between text-center shadow-2xl ${getTypeBorderClass(card.rarity)} ${card.rarity === 'Mythical' && revealed[idx] ? 'glow-mythical' : ''} ${isNewCard[idx] && revealed[idx] ? 'glow-new' : ''} ${revealed[idx] ? 'cursor-pointer hover:scale-105 transition-transform' : ''}`}
                 onClick={() => revealed[idx] && handleCardClick(card.name)}
               >
                 {revealed[idx] && (
@@ -452,14 +466,14 @@ export const CardPackOpener: React.FC = () => {
       </div>
 
       {showDex && (
-        <div className="fixed inset-0 bg-black bg-opacity-80 flex justify-center items-center z-50 p-6">
+        <div className="fixed inset-0 bg-black/50 flex justify-center items-center z-50 p-6">
           <div className="bg-gray-900 rounded-lg max-w-3xl w-full p-6 text-white relative overflow-y-auto max-h-[90vh]">
             <button
               onClick={() => {
                 setShowDex(false);
                 setSelectedCard(null);
               }}
-              className="absolute top-2 right-4 text-gray-300 hover:text-white text-xl cursor-pointer"
+              className="absolute top-2 right-4 text-gray-300 hover:text-white text-3xl cursor-pointer"
             >
               ✖
             </button>
