@@ -439,7 +439,7 @@ export const CardPackOpener: React.FC = () => {
       </div>
 
       <div className="flex gap-4 mt-6 items-center">
-        <div className="text-lg font-semibold">📦 Packs Opened: {packsOpened}</div>
+        <div className="text-lg font-semibold">Packs Opened: {packsOpened}</div>
         <button
           onClick={() => {
             setSelectedCard(null);
@@ -447,7 +447,7 @@ export const CardPackOpener: React.FC = () => {
           }}
           className="bg-teal-600 hover:bg-teal-700 text-white font-bold py-1 px-3 rounded cursor-pointer"
         >
-          📖 View Card Dex
+          View Card Dex
         </button>
       </div>
 
@@ -463,7 +463,7 @@ export const CardPackOpener: React.FC = () => {
             >
               ✖
             </button>
-            <h3 className="text-2xl font-bold mb-4">📖 Card Dex</h3>
+            <h3 className="text-2xl font-bold mb-4">Card Dex</h3>
             <p className="mb-4">You&apos;ve collected {Object.keys(collectedCards).length} out of {allCards.length} cards.</p>
             {selectedCard && collectedCards[selectedCard] && (
               <div className="flex items-center gap-4 mb-6 p-4 border rounded-lg bg-gray-800 shadow-lg">
