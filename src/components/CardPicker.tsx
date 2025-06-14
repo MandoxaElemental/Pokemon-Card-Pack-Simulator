@@ -34,6 +34,7 @@ export const CardPackOpener: React.FC = () => {
   const flipSoundRef = useRef<HTMLAudioElement | null>(null);
   const mythicJingleRef = useRef<HTMLAudioElement | null>(null);
   const legendJingleRef = useRef<HTMLAudioElement | null>(null);
+  const modalContentRef = useRef<HTMLDivElement>(null);
 
   // Updated displayedCards logic
   const displayedCards = Array.from(
@@ -105,11 +106,11 @@ export const CardPackOpener: React.FC = () => {
     }
   }, [collectedCards, packsOpened]);
 
-  useEffect(() => {
-    if (showDex && selectedCard && cardRefs.current[selectedCard]) {
-      cardRefs.current[selectedCard]?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-    }
-  }, [showDex, selectedCard]);
+useEffect(() => {
+  if (showDex && selectedCard && cardRefs.current[selectedCard]) {
+    cardRefs.current[selectedCard]?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+}, [showDex, selectedCard]);
 
   const clearStorage = () => {
     try {
@@ -311,13 +312,20 @@ export const CardPackOpener: React.FC = () => {
     }, 500);
   };
 
-  const handleCardClick = (cardName: string) => {
-    setSelectedCard(cardName);
-    setShowDex(true);
-  };
+const handleCardClick = (cardName: string) => {
+  setSelectedCard(cardName);
+  setShowDex(true);
+};
+
+useEffect(() => {
+  if (showDex && modalContentRef.current) {
+    modalContentRef.current.scrollTop = 0;
+  }
+}, [showDex, selectedCard]);
 
   const ResetConfirmationModal = () => (
-    <div className="fixed inset-0 bg-black/50 flex justify-center items-center z-50 p-6">
+    <div className="fixed inset-0 bg-black/50 flex justify-center items-center z-50 p-6"
+    onClick={() => setShowResetModal(false)}>
       <div className="bg-gray-900 rounded-lg max-w-md w-full p-6 text-white relative">
         <h3 className="text-xl font-bold mb-4">Are you sure?</h3>
         <p className="mb-6">Resetting your collection will delete all your collected cards and progress. This action cannot be undone.</p>
@@ -430,7 +438,7 @@ export const CardPackOpener: React.FC = () => {
                         />
                       ))}
                     </div>
-                    <div className='flex justify-center items-center w-48 h-48 p-2'>
+                    <div className='flex justify-center items-center w-44 h-44 p-2'>
                       <Image
                         src={`/home-icons/${card.number}.png`}
                         alt={card.name}
@@ -440,9 +448,9 @@ export const CardPackOpener: React.FC = () => {
                       />
                     </div>
                     <div>
-                      <div className="font-bold text-center">{card.name}</div>
+                      <div className="font-bold text-md text-center">{card.name}</div>
                       <div className={`text-sm opacity-80 mb-1 ${card.rarity === 'Mythical' ? 'text-[#ffd700] text-shadow-white' : 'text-white'}`}>{getRarityIcon(card.rarity)}</div>
-                      <div className="text-xs italic mt-1">{card.move}</div>
+                      <div className="text-sm italic mt-1">{card.move}</div>
                     </div>
                   </>
                 )}
@@ -466,8 +474,15 @@ export const CardPackOpener: React.FC = () => {
       </div>
 
       {showDex && (
-        <div className="fixed inset-0 bg-black/50 flex justify-center items-center z-50 p-6">
-          <div className="bg-gray-900 rounded-lg max-w-3xl w-full p-6 text-white relative overflow-y-auto max-h-[90vh]">
+        <div
+        onClick={() => {
+                setShowDex(false);
+                setSelectedCard(null);
+              }}
+         className="fixed inset-0 bg-black/50 flex justify-center items-center z-50 p-6">
+          <div
+          ref={modalContentRef}
+           className="bg-gray-900 rounded-lg max-w-3xl w-full p-6 text-white relative overflow-y-auto max-h-[90vh]">
             <button
               onClick={() => {
                 setShowDex(false);
