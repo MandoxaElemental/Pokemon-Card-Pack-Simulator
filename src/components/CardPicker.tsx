@@ -416,7 +416,18 @@ useEffect(() => {
               </div>
 
               <div
-                style={{ background: getGradientBackground(card.type) }}
+                style={{
+                  background: getGradientBackground(card.type),
+                  ...(card.rarity === 'Mythical' && revealed[idx]
+                    ? {
+                        backgroundImage: 'url(/rainbow-gradient.png)',
+                        backgroundSize: 'cover',
+                        backgroundPosition: 'center',
+                        backgroundBlendMode: 'overlay',
+                        backgroundRepeat: 'no-repeat',
+                      }
+                    : {}),
+                }}
                 className={`absolute w-full h-full rotateY-180 backface-hidden p-2 rounded-xl border-5 flex flex-col items-center justify-between text-center shadow-2xl ${getTypeBorderClass(card.rarity)} ${card.rarity === 'Mythical' && revealed[idx] ? 'glow-mythical' : ''} ${isNewCard[idx] && revealed[idx] ? 'glow-new' : ''} ${revealed[idx] ? 'cursor-pointer hover:scale-105 transition-transform' : ''}`}
                 onClick={() => revealed[idx] && handleCardClick(card.name)}
               >
@@ -475,10 +486,6 @@ useEffect(() => {
 
       {showDex && (
         <div
-        onClick={() => {
-                setShowDex(false);
-                setSelectedCard(null);
-              }}
          className="fixed inset-0 bg-black/50 flex justify-center items-center z-50 p-6">
           <div
           ref={modalContentRef}
