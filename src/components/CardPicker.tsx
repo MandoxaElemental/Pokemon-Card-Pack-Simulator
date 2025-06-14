@@ -137,7 +137,7 @@ export const CardPackOpener: React.FC = () => {
     setIsMuted(prev => !prev);
   };
 
-  const getRarityIcon = (rarity: Card['rarity'], isShiny?: boolean) => {
+  const getRarityIcon = (rarity: Card['rarity']) => {
     const baseIcon = {
       Common: '♦',
       Uncommon: '♦♦',
@@ -445,7 +445,7 @@ export const CardPackOpener: React.FC = () => {
                     <div className={card.isShiny ? 'text-black' : 'text-white'}>
                       <div className="font-bold text-md text-center">{card.isShiny ? `${card.name} ✦` : card.name}</div>
                       <div className={`text-sm opacity-80 mb-1 ${card.rarity === 'Mythical' ? 'text-[#ffd700] text-shadow-white' : 'text-white'}`}>
-                        {getRarityIcon(card.rarity, card.isShiny)}
+                        {getRarityIcon(card.rarity)}
                       </div>
                       <div className="text-sm italic mt-1">{card.move}</div>
                     </div>
@@ -500,7 +500,7 @@ export const CardPackOpener: React.FC = () => {
               ✖
             </button>
             <h3 className="text-2xl font-bold mb-4">Card Dex</h3>
-            <p className="mb-4">You've collected {Object.keys(collectedCards).length} out of {allCards.length} cards.</p>
+            <p className="mb-4">You&apos;ve collected {Object.keys(collectedCards).length} out of {allCards.length} cards.</p>
             {selectedCard && collectedCards[selectedCard] && (
               <div className="flex items-center gap-4 mb-6 p-4 border rounded-lg bg-gray-800 shadow-lg">
                 <div className="w-32 h-32 relative">
@@ -515,7 +515,7 @@ export const CardPackOpener: React.FC = () => {
                   <h4 className="text-xl font-bold">{selectedCard}</h4>
                   <p className="text-sm italic text-gray-300 mb-1">{collectedCards[selectedCard].card.move}</p>
                   <p className={`text-sm font-semibold ${collectedCards[selectedCard].card.rarity === 'Mythical' ? 'text-[#ffd700]' : 'text-white'}`}>
-                    Rarity: {getRarityIcon(collectedCards[selectedCard].card.rarity, collectedCards[selectedCard].isShiny)} {collectedCards[selectedCard].card.rarity}
+                    Rarity: {getRarityIcon(collectedCards[selectedCard].card.rarity)} {collectedCards[selectedCard].card.rarity}
                   </p>
                   <div className="text-sm flex items-center gap-1">
                     Type:
@@ -565,7 +565,7 @@ export const CardPackOpener: React.FC = () => {
                       </div>
                       <div className="font-semibold text-center">{card.name}</div>
                       <div className={`${card.rarity === 'Mythical' ? 'text-[#ffd700]' : 'text-white'}`}>
-                        {getRarityIcon(card.rarity, owned?.isShiny)}
+                        {getRarityIcon(card.rarity)}
                       </div>
                       {owned ? (
                         <div className="text-xs">Owned: {owned.count}</div>
