@@ -1400,7 +1400,7 @@ export const specialFormRegionMapping: Record<number, string[]> = {
   10079: ['Hoenn'], // Mega Rayquaza (base: 384)
   10086: ['Kalos'], // Hoopa Unbound (base: 720)
   10087: ['Hoenn'], // Mega Camerupt (base: 323)
-  10088: ['Hoenn'], // Mega Lopunny (base: 428)
+  10088: ['Sinnoh'], // Mega Lopunny (base: 428)
   10089: ['Hoenn'], // Mega Salamence (base: 373)
   10090: ['Kanto'], // Mega Beedrill (base: 15)
   // Alolan Forms

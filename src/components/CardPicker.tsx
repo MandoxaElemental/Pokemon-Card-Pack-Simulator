@@ -391,7 +391,7 @@ export const CardPackOpener: React.FC = () => {
                       }
                     : {}),
                 }}
-                className={`absolute w-full h-full rotateY-180 backface-hidden p-2 rounded-xl border-5 flex flex-col items-center justify-between text-center shadow-2xl ${card.isShiny && revealed[idx] ? 'glow-shiny' : ''} ${getTypeBorderClass(card.rarity)} ${card.rarity === 'Mythical' && revealed[idx] ? 'glow-mythical' : ''} ${isNewCard[idx] && revealed[idx] ? 'glow-new' : ''} ${revealed[idx] ? 'cursor-pointer hover:scale-105 transition-transform' : ''} ${card.isShiny ? 'border-gold-500 animate-sparkle' : ''}`}
+                className={`absolute w-full h-full rotateY-180 backface-hidden p-2 rounded-xl border-5 flex flex-col items-center justify-between text-center shadow-2xl ${card.isShiny && revealed[idx] ? 'glow-shiny' : ''} ${getTypeBorderClass(card.rarity)} ${card.rarity === 'Mythical' && revealed[idx] ? 'glow-mythical' : ''} ${revealed[idx] ? 'cursor-pointer hover:scale-105 transition-transform' : ''} ${card.isShiny ? 'border-gold-500 animate-sparkle' : ''}`}
                 onClick={() => revealed[idx] && handleCardClick(card.name)}
               >
                 {revealed[idx] && (
@@ -487,6 +487,8 @@ export const CardPackOpener: React.FC = () => {
                   {region === 'SpecialForms' ? 'Special Forms' : region}
                 </button>
               ))}
+              </div>
+              <div className="flex gap-2 mb-4 flex-wrap">
               {(['All', 'Common', 'Uncommon', 'Rare', 'Epic', 'Legendary', 'Mythical'] as const).map(rarity => (
                 <button
                   key={rarity}
