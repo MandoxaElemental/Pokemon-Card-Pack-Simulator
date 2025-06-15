@@ -391,7 +391,7 @@ export const CardPackOpener: React.FC = () => {
                       }
                     : {}),
                 }}
-                className={`absolute w-full h-full rotateY-180 backface-hidden p-2 rounded-xl border-5 flex flex-col items-center justify-between text-center shadow-2xl ${getTypeBorderClass(card.rarity)} ${card.rarity === 'Mythical' && revealed[idx] && !card.isShiny ? 'glow-mythical' : card.isShiny ? 'glow-shiny' : ''} ${revealed[idx] ? 'cursor-pointer hover:scale-105 transition-transform' : ''}`}
+                className={`absolute w-full h-full rotateY-180 backface-hidden p-2 rounded-xl border-5 flex flex-col items-center justify-between text-center shadow-2xl ${getTypeBorderClass(card.rarity)} ${card.rarity === 'Mythical' && revealed[idx] && !card.isShiny ? 'glow-mythical' : card.isShiny ? 'glow-shiny twinkle-shiny' : ''} ${revealed[idx] ? 'cursor-pointer hover:scale-105 transition-transform' : ''}`}
                 onClick={() => revealed[idx] && handleCardClick(card.name)}
               >
                 {revealed[idx] && (
