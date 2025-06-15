@@ -200,3 +200,60 @@ body {
   50% { opacity: 0.9; }
   100% { opacity: 0; }
 }
+
+@keyframes chromeShine {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.shiny-chrome {
+  background: linear-gradient(
+    135deg,
+    #e8f1f9,
+#dedfde,
+#aeafae,
+    #dce7f2,
+#aeafae,
+#dedfde,   
+#e8f1f9
+  );
+  background-size: 200% 100%;
+  animation: chromeShine 6s ease-in-out infinite;
+}
+.shiny-gold {
+  background: linear-gradient(
+  135deg,
+  #fff7e0 0%,
+  #ffe08a 20%,
+  #d4b44c 40%,
+  #fff2b0 50%,
+  #d4b44c 60%,
+  #ffe08a 80%,
+  #fff7e0 100%
+);
+ background-size: 200% 100%;
+  animation: chromeShine 6s ease-in-out infinite;
+}
+
+.shiny-mythic{
+  background: linear-gradient(
+    135deg,
+    #e8f1f9,
+    #b3d1ff,
+    #d5b3ff,
+    #ffc8dd,
+    #dce7f2,
+    #a8ffe6,
+    #fff5c3,
+    #e8f1f9
+  );
+ background-size: 200% 100%;
+  animation: chromeShine 6s ease-in-out infinite;
+}

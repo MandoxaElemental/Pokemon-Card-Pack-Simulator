@@ -5,7 +5,7 @@ import { motion } from 'framer-motion';
 import { allCards, Card, regionRanges, specialFormRegionMapping } from '@/app/Utils/Interfaces';
 
 type CardCollection = {
-  [key: string]: { card: Card; count: number; isShiny?: boolean };
+  [key: string]: { card: Card; count: number; isShiny: boolean };
 };
 
 interface SavedData {
@@ -38,7 +38,6 @@ export const CardPackOpener: React.FC = () => {
   const shinyJingleRef = useRef<HTMLAudioElement | null>(null);
   const modalContentRef = useRef<HTMLDivElement>(null);
 
-  // Updated displayedCards logic
   const displayedCards = Array.from(
     new Set(
       allCards
@@ -140,15 +139,34 @@ export const CardPackOpener: React.FC = () => {
   };
 
   const getRarityIcon = (rarity: Card['rarity']) => {
-    const baseIcon = {
-      Common: '♦',
-      Uncommon: '♦♦',
-      Rare: '♦♦♦',
-      Epic: '♦♦♦♦',
-      Legendary: '★',
-      Mythical: '♛',
-    }[rarity] || '';
-    return baseIcon;
+  const diamondIconPath = '/diamond.png'; 
+  const starIconPath = '/star.png';
+  const crownIconPath = '/crown.png';
+
+  const renderRepeatedImage = (src: string, count: number) => (
+    <span className="inline-flex gap-0.5 items-center justify-center">
+      {Array.from({ length: count }).map((_, i) => (
+        <Image key={i} src={src} alt="rarity" width={16} height={16} />
+      ))}
+    </span>
+  );
+
+  switch (rarity) {
+    case 'Common':
+      return renderRepeatedImage(diamondIconPath, 1);
+    case 'Uncommon':
+      return renderRepeatedImage(diamondIconPath, 2);
+    case 'Rare':
+      return renderRepeatedImage(diamondIconPath, 3);
+    case 'Epic':
+      return renderRepeatedImage(diamondIconPath, 4);
+    case 'Legendary':
+      return <Image src={starIconPath} alt="Legendary" width={16} height={16} />;
+    case 'Mythical':
+      return <Image src={crownIconPath} alt="Mythical" width={16} height={16} />;
+    default:
+      return null;
+  }
   };
 
   const rarityWeights: Record<Card['rarity'], number> = {
@@ -379,6 +397,11 @@ export const CardPackOpener: React.FC = () => {
               </div>
 
               <div
+                
+                className={`absolute w-full h-full rotateY-180 backface-hidden p-1.5 rounded-xl flex flex-col items-center justify-between text-center shadow-2xl ${card.isShiny ? "bg-white" : getTypeBorderClass(card.rarity)} ${card.rarity === 'Mythical' && revealed[idx] && !card.isShiny ? 'glow-mythical' : card.isShiny ? 'glow-shiny twinkle-shiny' : ''} ${revealed[idx] ? 'cursor-pointer hover:scale-105 transition-transform' : ''}`}
+                onClick={() => revealed[idx] && handleCardClick(card.name)}
+              >
+                <div className='w-full h-full rounded-lg flex flex-col items-center justify-between text-center p-2'
                 style={{
                   background: getGradientBackground(card.type),
                   ...(card.isShiny && revealed[idx]
@@ -390,23 +413,20 @@ export const CardPackOpener: React.FC = () => {
                         backgroundRepeat: 'no-repeat',
                       }
                     : {}),
-                }}
-                className={`absolute w-full h-full rotateY-180 backface-hidden p-2 rounded-xl border-5 flex flex-col items-center justify-between text-center shadow-2xl ${getTypeBorderClass(card.rarity)} ${card.rarity === 'Mythical' && revealed[idx] && !card.isShiny ? 'glow-mythical' : card.isShiny ? 'glow-shiny twinkle-shiny' : ''} ${revealed[idx] ? 'cursor-pointer hover:scale-105 transition-transform' : ''}`}
-                onClick={() => revealed[idx] && handleCardClick(card.name)}
-              >
+                }}>
                 {revealed[idx] && (
                   <>
                     {isNewCard[idx] && (
-                      <div className="absolute top-1 left-1 bg-white text-slate-400 border-slate-400 text-xs font-bold px-2 py-1 rounded-full shadow-lg">
+                      <div className="absolute top-3 left-3 bg-white text-slate-400 border-slate-400 text-xs font-bold px-2 py-1 rounded-full shadow-lg">
                         NEW
                       </div>
                     )}
-                    <div className="absolute top-1 right-1 flex gap-1">
+                    <div className="absolute top-3 right-3 flex gap-1">
                       {card.type.map((t, idx) => (
                         <Image key={idx} src={`/icons/types/${t}.png`} alt={`${t} icon`} width={20} height={20} />
                       ))}
                     </div>
-                    <div className='flex justify-center items-center w-44 h-44 p-2'>
+                    <div className='flex justify-center items-center w-48 h-48 p-2'>
                       <Image
                         src={card.isShiny ? `/shiny/${card.number}.png` : `/home-icons/${card.number}.png`}
                         alt={card.name}
@@ -417,13 +437,14 @@ export const CardPackOpener: React.FC = () => {
                     </div>
                     <div className={card.isShiny ? 'text-black' : 'text-white'}>
                       <div className="font-bold text-md text-center">{card.isShiny ? `${card.name} ✦` : card.name}</div>
-                      <div className={`text-sm opacity-80 mb-1 ${card.rarity === 'Mythical' ? 'text-[#ffd700] text-shadow-white' : card.isShiny ? 'text-black' : 'text-white'}`}>
+                      <div className={`flex justify-center pt-1 ${card.rarity === 'Mythical' ? 'text-[#ffd700] text-shadow-white' : card.isShiny ? 'text-black' : 'text-white'}`}>
                         {getRarityIcon(card.rarity)}
                       </div>
-                      <div className="text-sm italic mt-1">{card.move}</div>
+                      <div className="text-sm italic">{card.move}</div>
                     </div>
                   </>
                 )}
+                </div>
               </div>
             </motion.div>
           </motion.div>
@@ -455,14 +476,16 @@ export const CardPackOpener: React.FC = () => {
               <div className="flex items-center gap-4 mb-6 p-4 border rounded-lg bg-gray-800 shadow-lg">
                 <div className="w-32 h-32 relative">
                   <Image
-                    src={collectedCards[selectedCard].isShiny ? `/shiny/${collectedCards[selectedCard].card.number}.png` : `/home-icons/${collectedCards[selectedCard].card.number}.png`}
+                    src={
+                      // collectedCards[selectedCard].isShiny ? `/shiny/${collectedCards[selectedCard].card.number}.png` : 
+                      `/home-icons/${collectedCards[selectedCard].card.number}.png`}
                     alt={selectedCard}
                     fill
                     className="object-contain"
                   />
                 </div>
                 <div>
-                  <h4 className="text-xl font-bold">{selectedCard}</h4>
+                  <h4 className="text-xl font-bold">{collectedCards[selectedCard].isShiny ? `${selectedCard} ✦` : selectedCard}</h4>
                   <p className="text-sm italic text-gray-300 mb-1">{collectedCards[selectedCard].card.move}</p>
                   <p className={`text-sm font-semibold ${collectedCards[selectedCard].card.rarity === 'Mythical' ? 'text-[#ffd700]' : 'text-white'}`}>
                     Rarity: {getRarityIcon(collectedCards[selectedCard].card.rarity)} {collectedCards[selectedCard].card.rarity}
@@ -510,7 +533,7 @@ export const CardPackOpener: React.FC = () => {
                       <div className="w-20 h-20 relative mb-2">
                         {owned ? (
                           <Image
-                            src={owned.isShiny ? `/shiny/${card.number}.png` : `/home-icons/${card.number}.png`}
+                            src={`/home-icons/${card.number}.png`}
                             alt={card.name}
                             fill
                             className="object-contain"
@@ -524,7 +547,9 @@ export const CardPackOpener: React.FC = () => {
                           />
                         )}
                       </div>
-                      <div className="font-semibold text-center">{card.isShiny ? `${card.name} ✦` : card.name}</div>
+                      <div className="font-semibold text-md text-center">
+                        {card.isShiny ? `${card.name} ✦` : card.name}
+                      </div>
                       <div className={`${card.rarity === 'Mythical' ? 'text-[#ffd700]' : 'text-white'}`}>
                         {getRarityIcon(card.rarity)}
                       </div>
@@ -576,12 +601,12 @@ function getGradientBackground(types: string[]) {
 
 function getTypeBorderClass(rarity: Card['rarity']) {
   const rarityBorderColors: Record<Card['rarity'], string> = {
-    Common: 'border-[#FFFFFF]',
-    Uncommon: 'border-[#C0C0C0]',
-    Rare: 'border-[#FFD700]',
-    Epic: 'border-[#FF8C00]',
-    Legendary: 'border-[#800080]',
-    Mythical: 'border-[#8A2BE2]',
+    Common: 'bg-[#FFFFFF]',
+    Uncommon: 'bg-[#C0C0C0]',
+    Rare: 'shiny-chrome',
+    Epic: 'bg-[#FFCB05]',
+    Legendary: 'shiny-gold',
+    Mythical: 'shiny-mythic',
   };
 
   return rarityBorderColors[rarity];
