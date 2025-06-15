@@ -73,20 +73,18 @@ body {
   animation: glow-mythical 2s infinite;
   border-color: #ffd700;
 }
+
 @keyframes glow-shiny {
-  0% {
+  0%, 100% {
     box-shadow: 0 0 10px #ff00ff, 0 0 20px #ff00ff, 0 0 30px #ff00ff;
   }
   50% {
     box-shadow: 0 0 20px #cc00ff, 0 0 30px #00ccff, 0 0 40px #00ccff;
   }
-  100% {
-    box-shadow: 0 0 10px #00ffff, 0 0 20px #00ffff, 0 0 30px #00ffff;
-  }
 }
 
-.glow-shiny-animation {
-  animation: glow-shiny 1.5s infinite;
+.glow-shiny {
+  animation: glow-shiny 1.5s ease-in-out infinite;
   border-color: #ffffff;
 }
 
