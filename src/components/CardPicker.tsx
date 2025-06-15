@@ -148,7 +148,7 @@ export const CardPackOpener: React.FC = () => {
       Legendary: '★',
       Mythical: '♛',
     }[rarity] || '';
-    return baseIcon;
+    return isShiny === true ? '✦' : baseIcon;
   };
 
   const rarityWeights: Record<Card['rarity'], number> = {
@@ -524,7 +524,7 @@ export const CardPackOpener: React.FC = () => {
                           />
                         )}
                       </div>
-                      <div className="font-semibold text-center">{card.name}</div>
+                      <div className="font-semibold text-center">{card.isShiny ? `${card.name} ✦` : card.name}</div>
                       <div className={`${card.rarity === 'Mythical' ? 'text-[#ffd700]' : 'text-white'}`}>
                         {getRarityIcon(card.rarity, owned?.isShiny)}
                       </div>
