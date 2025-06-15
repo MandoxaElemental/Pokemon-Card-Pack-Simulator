@@ -73,15 +73,21 @@ body {
   animation: glow-mythical 2s infinite;
   border-color: #ffd700;
 }
-
-.glow-selected {
-  box-shadow: 0 0 10px #ffff00, 0 0 20px #ffff00;
+@keyframes glow-shiny {
+  0% {
+    box-shadow: 0 0 10px #ff00ff, 0 0 20px #ff00ff, 0 0 30px #ff00ff;
+  }
+  50% {
+    box-shadow: 0 0 20px #cc00ff, 0 0 30px #00ccff, 0 0 40px #00ccff;
+  }
+  100% {
+    box-shadow: 0 0 10px #00ffff, 0 0 20px #00ffff, 0 0 30px #00ffff;
+  }
 }
 
-.border-gradient-pink-cyan {
-  border: 5px solid;
-  border-radius: 16px;
-  border-image: linear-gradient(to right, #ff00ff, #00ffff) 1;
+.glow-shiny-animation {
+  animation: glow-shiny 1.5s infinite;
+  border-color: #ffffff;
 }
 
 @keyframes sparkleShower {

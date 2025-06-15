@@ -1244,7 +1244,7 @@ export const allCards: Card[] = [
   { name: 'GMax Kingler', number: 10203, type: ['Water'], isShiny: false, rarity: 'Legendary', move: 'G-Max Foam Burst' },
   { name: 'GMax Lapras', number: 10204, type: ['Water', 'Ice'], isShiny: false, rarity: 'Legendary', move: 'G-Max Resonance' },
   { name: 'GMax Eevee', number: 10205, type: ['Normal'], isShiny: false, rarity: 'Legendary', move: 'G-Max Cuddle' },
-  { name: 'Snorlax', number: 10206, type: ['Normal'], isShiny: false, rarity: 'Legendary', move: 'G-Max Replenish' },
+  { name: 'GMax Snorlax', number: 10206, type: ['Normal'], isShiny: false, rarity: 'Legendary', move: 'G-Max Replenish' },
   { name: 'GMax Garbodor', number: 10207, type: ['Poison'], isShiny: false, rarity: 'Legendary', move: 'G-Max Malodor' },
   { name: 'GMax Melmetal', number: 10208, type: ['Steel'], isShiny: false, rarity: 'Legendary', move: 'G-Max Meltdown' },
   { name: 'GMax Rillaboom', number: 10209, type: ['Grass'], isShiny: false, rarity: 'Legendary', move: 'G-Max Drum Solo' },

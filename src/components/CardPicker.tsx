@@ -30,14 +30,15 @@ export const CardPackOpener: React.FC = () => {
   const [isMuted, setIsMuted] = useState(false);
   const cardRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
   const [currentRegion, setCurrentRegion] = useState<keyof typeof regionRanges>('All');
+  const [currentRarity, setCurrentRarity] = useState<'All' | Card['rarity']>('All');
   const slideSoundRef = useRef<HTMLAudioElement | null>(null);
   const flipSoundRef = useRef<HTMLAudioElement | null>(null);
   const mythicJingleRef = useRef<HTMLAudioElement | null>(null);
   const legendJingleRef = useRef<HTMLAudioElement | null>(null);
   const shinyJingleRef = useRef<HTMLAudioElement | null>(null);
   const modalContentRef = useRef<HTMLDivElement>(null);
-  const [shinyAnimating, setShinyAnimating] = useState<boolean[]>([]);
 
+  // Updated displayedCards logic
   const displayedCards = Array.from(
     new Set(
       allCards
@@ -48,9 +49,16 @@ export const CardPackOpener: React.FC = () => {
           const [start, end] = regionRanges[currentRegion] || [NaN, NaN];
           return (card.number >= start && card.number <= end) || (specialFormRegionMapping[card.number]?.includes(currentRegion));
         })
+        .filter(card => currentRarity === 'All' || card.rarity === currentRarity)
         .map(card => card.name)
     )
   ).map(name => allCards.find(card => card.name === name)!);
+
+  useEffect(() => {
+    if (showDex && modalContentRef.current) {
+      modalContentRef.current.scrollTop = 0;
+    }
+  }, [showDex, selectedCard]);
 
   useEffect(() => {
     slideSoundRef.current = new Audio('/sounds/card-slide.mp3');
@@ -107,12 +115,6 @@ export const CardPackOpener: React.FC = () => {
     }
   }, [showDex, selectedCard]);
 
-  useEffect(() => {
-    if (showDex && modalContentRef.current) {
-      modalContentRef.current.scrollTop = 0;
-    }
-  }, [showDex, selectedCard]);
-
   const clearStorage = () => {
     try {
       localStorage.removeItem('pokemonCollection');
@@ -137,7 +139,7 @@ export const CardPackOpener: React.FC = () => {
     setIsMuted(prev => !prev);
   };
 
-  const getRarityIcon = (rarity: Card['rarity']) => {
+  const getRarityIcon = (rarity: Card['rarity'], isShiny?: boolean) => {
     const baseIcon = {
       Common: '♦',
       Uncommon: '♦♦',
@@ -177,18 +179,15 @@ export const CardPackOpener: React.FC = () => {
     setFlipped([]);
     setRevealed([]);
     setIsNewCard([]);
-    setShinyAnimating([]);
 
     setTimeout(() => {
       const newCards: (Card & { isShiny?: boolean })[] = [];
       const newCardFlags: boolean[] = [];
-      const newShinyAnimating: boolean[] = [];
 
       for (let i = 0; i < 5; i++) {
         const card = getRandomCard();
         newCards.push(card);
         newCardFlags.push(!collectedCards[card.name] || !collectedCards[card.name].isShiny && card.isShiny);
-        newShinyAnimating.push(card.isShiny);
       }
 
       const updatedCollected = { ...collectedCards };
@@ -212,7 +211,6 @@ export const CardPackOpener: React.FC = () => {
       const newDoubleFlipped = newCards.map(card => card.rarity === 'Mythical');
       setShaking(newShaking);
       setDoubleFlipped(newDoubleFlipped);
-      setShinyAnimating(newShinyAnimating);
 
       newCards.forEach((_, index) => {
         setTimeout(() => {
@@ -233,6 +231,7 @@ export const CardPackOpener: React.FC = () => {
                 flipSoundRef.current.currentTime = 0;
                 flipSoundRef.current.play().catch(e => console.error('Error playing flip sound:', e));
               }
+
               setFlipped(prev => {
                 const updated = [...prev];
                 updated[index] = false;
@@ -245,6 +244,7 @@ export const CardPackOpener: React.FC = () => {
                     flipSoundRef.current.currentTime = 0;
                     flipSoundRef.current.play().catch(e => console.error('Error playing flip sound:', e));
                   }
+
                   setFlipped(prev => {
                     const updated = [...prev];
                     updated[index] = true;
@@ -256,6 +256,7 @@ export const CardPackOpener: React.FC = () => {
                       flipSoundRef.current.currentTime = 0;
                       flipSoundRef.current.play().catch(e => console.error('Error playing flip sound:', e));
                     }
+
                     setFlipped(prev => {
                       const updated = [...prev];
                       updated[index] = false;
@@ -289,48 +290,29 @@ export const CardPackOpener: React.FC = () => {
                 }, 200);
               }
             }, 500);
-          } else if (shinyAnimating[index]) {
-            setTimeout(() => {
-              if (!isMuted && shinyJingleRef.current) {
-                shinyJingleRef.current.currentTime = 0;
-                shinyJingleRef.current.play().catch(e => console.error('Error playing shiny jingle:', e));
-              }
-              setTimeout(() => {
-                setFlipped(prev => {
-                  const updated = [...prev];
-                  updated[index] = false;
-                  return updated;
-                });
-                setTimeout(() => {
-                  setRevealed(prev => {
-                    const updated = [...prev];
-                    updated[index] = true;
-                    return updated;
-                  });
-                  if (!isMuted && flipSoundRef.current) {
-                    flipSoundRef.current.currentTime = 0;
-                    flipSoundRef.current.play().catch(e => console.error('Error playing flip sound:', e));
-                  }
-                }, 800); // Flip duration
-              }, 800); // Zoom and shake duration
-            }, 200); // Initial delay
           } else {
             setTimeout(() => {
               if (!isMuted && flipSoundRef.current) {
                 flipSoundRef.current.currentTime = 0;
                 flipSoundRef.current.play().catch(e => console.error('Error playing flip sound:', e));
               }
+
               setFlipped(prev => {
                 const updated = [...prev];
                 updated[index] = false;
                 return updated;
               });
+
               setTimeout(() => {
                 setRevealed(prev => {
                   const updated = [...prev];
                   updated[index] = true;
                   return updated;
                 });
+                if (!isMuted && shinyJingleRef.current && newCards[index].isShiny) {
+                  shinyJingleRef.current.currentTime = 0;
+                  shinyJingleRef.current.play().catch(e => console.error('Error playing shiny jingle:', e));
+                }
               }, 200);
             }, 600);
           }
@@ -376,33 +358,24 @@ export const CardPackOpener: React.FC = () => {
 
       {showResetModal && <ResetConfirmationModal />}
 
-      <div className="relative w-full h-74 grid grid-cols-5 gap-4 perspective">
+      <div className="relative w-full h-74 grid grid-cols-5 gap-4 perspective text-white">
         {cards.map((card, idx) => (
           <motion.div
             key={`card-${idx}`}
-            className="w-54 h-74 relative rounded-2xl"
-            initial={{ y: 100, opacity: 0, scale: 1 }}
-            animate={{
-              y: entered[idx] ? 0 : 100,
-              opacity: entered[idx] ? 1 : 0,
-              scale: shinyAnimating[idx] ? [1, 1.2, 1] : 1,
-              rotate: shinyAnimating[idx] ? [0, -5, 5, -5, 5, 0] : (shaking[idx] && !revealed[idx] ? [0, -5, 5, -5, 5, 0] : 0),
-            }}
-            transition={{
-              duration: shinyAnimating[idx] ? 0.6 : (shaking[idx] && !revealed[idx] ? 0.5 : 0.5),
-              times: shinyAnimating[idx] ? [0, 0.5, 1] : undefined,
-              delay: idx * 0.1,
-            }}
+            className="w-54 h-74 relative"
+            initial={{ y: 100, opacity: 0 }}
+            animate={{ y: entered[idx] ? 0 : 100, opacity: entered[idx] ? 1 : 0, rotate: shaking[idx] && !revealed[idx] ? [0, -5, 5, -5, 5, 0] : 0 }}
+            transition={{ duration: shaking[idx] && !revealed[idx] ? 0.5 : 0.5, delay: idx * 0.1 }}
             style={{ zIndex: 2 }}
           >
             <motion.div
               initial={true}
               animate={{ rotateY: flipped[idx] ? 0 : 180 }}
-              transition={{ duration: shinyAnimating[idx] ? 0.8 : 0.6 }}
-              className="absolute inset-0 w-full h-full transform-style-preserve-3d rounded-2xl"
+              transition={{ duration: 0.6 }}
+              className="absolute inset-0 w-full h-full transform-style-preserve-3d"
             >
-              <div className="absolute w-full h-full backface-hidden rounded-2xl">
-                <Image src="/cardback.png" alt="Card Back" layout="fill" objectFit="cover" className="rounded-2xl border-2 border-gray-600" />
+              <div className="absolute w-full h-full backface-hidden">
+                <Image src="/cardback.png" alt="Card Back" layout="fill" objectFit="cover" className="rounded-xl border-2 border-gray-600" />
               </div>
 
               <div
@@ -418,7 +391,7 @@ export const CardPackOpener: React.FC = () => {
                       }
                     : {}),
                 }}
-                className={`absolute w-full h-full rotateY-180 backface-hidden p-2 rounded-2xl border-5 flex flex-col items-center justify-between text-center shadow-2xl ${getTypeBorderClass(card.rarity)} ${card.rarity === 'Mythical' && revealed[idx] ? 'glow-mythical' : ''} ${isNewCard[idx] && revealed[idx] ? 'glow-new' : ''} ${revealed[idx] ? 'cursor-pointer hover:scale-105 transition-transform' : ''} ${card.isShiny ? 'border-gradient-pink-cyan' : ''}`}
+                className={`absolute w-full h-full rotateY-180 backface-hidden p-2 rounded-xl border-5 flex flex-col items-center justify-between text-center shadow-2xl ${card.isShiny && revealed[idx] ? 'glow-shiny' : ''} ${getTypeBorderClass(card.rarity)} ${card.rarity === 'Mythical' && revealed[idx] ? 'glow-mythical' : ''} ${isNewCard[idx] && revealed[idx] ? 'glow-new' : ''} ${revealed[idx] ? 'cursor-pointer hover:scale-105 transition-transform' : ''} ${card.isShiny ? 'border-gold-500 animate-sparkle' : ''}`}
                 onClick={() => revealed[idx] && handleCardClick(card.name)}
               >
                 {revealed[idx] && (
@@ -433,45 +406,22 @@ export const CardPackOpener: React.FC = () => {
                         <Image key={idx} src={`/icons/types/${t}.png`} alt={`${t} icon`} width={20} height={20} />
                       ))}
                     </div>
-                    <div className='flex justify-center items-center w-44 h-44 p-2 rounded-2xl'>
+                    <div className='flex justify-center items-center w-44 h-44 p-2'>
                       <Image
                         src={card.isShiny ? `/shiny/${card.number}.png` : `/home-icons/${card.number}.png`}
                         alt={card.name}
                         width={200}
                         height={200}
-                        className="mb-2 w-full h-full rounded-2xl"
+                        className="mb-2 w-full h-full rounded-t-lg"
                       />
                     </div>
                     <div className={card.isShiny ? 'text-black' : 'text-white'}>
                       <div className="font-bold text-md text-center">{card.isShiny ? `${card.name} ✦` : card.name}</div>
                       <div className={`text-sm opacity-80 mb-1 ${card.rarity === 'Mythical' ? 'text-[#ffd700] text-shadow-white' : 'text-white'}`}>
-                        {getRarityIcon(card.rarity)}
+                        {getRarityIcon(card.rarity, card.isShiny)}
                       </div>
                       <div className="text-sm italic mt-1">{card.move}</div>
                     </div>
-                    {card.isShiny && revealed[idx] && (
-                      <motion.div
-                        className="absolute inset-0 pointer-events-none"
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        transition={{ duration: 0.1 }}
-                      >
-                        {Array.from({ length: 20 }).map((_, i) => (
-                          <motion.div
-                            key={i}
-                            className="absolute w-2 h-2 bg-yellow-400 rounded-full"
-                            initial={{ opacity: 1, scale: 0 }}
-                            animate={{
-                              opacity: [1, 0.5, 0],
-                              scale: [0, 1, 2],
-                              x: (Math.random() - 0.5) * 100,
-                              y: (Math.random() - 0.5) * 100,
-                            }}
-                            transition={{ duration: 1, delay: i * 0.05 }}
-                          />
-                        ))}
-                      </motion.div>
-                    )}
                   </>
                 )}
               </div>
@@ -515,7 +465,7 @@ export const CardPackOpener: React.FC = () => {
                   <h4 className="text-xl font-bold">{selectedCard}</h4>
                   <p className="text-sm italic text-gray-300 mb-1">{collectedCards[selectedCard].card.move}</p>
                   <p className={`text-sm font-semibold ${collectedCards[selectedCard].card.rarity === 'Mythical' ? 'text-[#ffd700]' : 'text-white'}`}>
-                    Rarity: {getRarityIcon(collectedCards[selectedCard].card.rarity)} {collectedCards[selectedCard].card.rarity}
+                    Rarity: {getRarityIcon(collectedCards[selectedCard].card.rarity, collectedCards[selectedCard].isShiny)} {collectedCards[selectedCard].card.rarity}
                   </p>
                   <div className="text-sm flex items-center gap-1">
                     Type:
@@ -537,9 +487,18 @@ export const CardPackOpener: React.FC = () => {
                   {region === 'SpecialForms' ? 'Special Forms' : region}
                 </button>
               ))}
+              {(['All', 'Common', 'Uncommon', 'Rare', 'Epic', 'Legendary', 'Mythical'] as const).map(rarity => (
+                <button
+                  key={rarity}
+                  onClick={() => setCurrentRarity(rarity)}
+                  className={`cursor-pointer px-3 py-1 rounded ${currentRarity === rarity ? 'bg-blue-600' : 'bg-gray-700 hover:bg-gray-600'}`}
+                >
+                  {rarity}
+                </button>
+              ))}
             </div>
             {displayedCards.length === 0 ? (
-              <p className="text-center text-gray-400 mt-10">No cards available for this region yet.</p>
+              <p className="text-center text-gray-400 mt-10">No cards available for this region or rarity yet.</p>
             ) : (
               <div className="grid grid-cols-5 gap-4">
                 {displayedCards.map(card => {
@@ -565,7 +524,7 @@ export const CardPackOpener: React.FC = () => {
                       </div>
                       <div className="font-semibold text-center">{card.name}</div>
                       <div className={`${card.rarity === 'Mythical' ? 'text-[#ffd700]' : 'text-white'}`}>
-                        {getRarityIcon(card.rarity)}
+                        {getRarityIcon(card.rarity, owned?.isShiny)}
                       </div>
                       {owned ? (
                         <div className="text-xs">Owned: {owned.count}</div>
@@ -623,5 +582,5 @@ function getTypeBorderClass(rarity: Card['rarity']) {
     Mythical: 'border-[#8A2BE2]',
   };
 
-  return rarityBorderColors[rarity] || rarityBorderColors.Common;
+  return rarityBorderColors[rarity];
 }
