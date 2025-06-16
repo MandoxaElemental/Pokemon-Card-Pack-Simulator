@@ -458,9 +458,10 @@ export const allCards: Card[] = [
   { name: 'Rayquaza', number: 384, type: ['Dragon', 'Flying'], isShiny: false, rarity: 'Legendary', move: 'Dragon Ascent' },
   { name: 'Jirachi', number: 385, type: ['Steel', 'Psychic'], isShiny: false, rarity: 'Mythical', move: 'Doom Desire' },
   { name: 'Deoxys', number: 386, type: ['Psychic'], isShiny: false, rarity: 'Mythical', move: 'Psycho Boost' },
-      { name: 'Deoxys-Attack', number: 386, type: ['Psychic'], isShiny: false, rarity: 'Mythical', move: 'Psycho Boost', variant: 'attack'},
-  { name: 'Deoxys-Defense', number: 386, type: ['Psychic'], isShiny: false, rarity: 'Mythical', move: 'Iron Defense', variant: 'defense' },
-  { name: 'Deoxys-Speed', number: 386, type: ['Psychic'], isShiny: false, rarity: 'Mythical', move: 'Extreme Speed', variant: 'speed' },
+  { name: "Deoxys (Attack)", number: 386, variant: "Attack", type: ["Psychic"], isShiny: false, rarity: "Mythical", move: "Psycho Boost" },
+  { name: "Deoxys (Defense)", number: 386, variant: "Defense", type: ["Psychic"], isShiny: false, rarity: "Mythical", move: "Iron Defense" },
+  { name: "Deoxys (Speed)", number: 386, variant: "Speed", type: ["Psychic"], isShiny: false, rarity: "Mythical", move: "Extreme Speed" },
+
   // Sinnoh
   { name: 'Turtwig', number: 387, type: ['Grass'], isShiny: false, rarity: 'Uncommon', move: 'Razor Leaf' },
   { name: 'Grotle', number: 388, type: ['Grass'], isShiny: false, rarity: 'Rare', move: 'Leaf Blade' },
@@ -1174,9 +1175,6 @@ export const allCards: Card[] = [
   { name: 'Pecharunt', number: 1025, type: ['Poison', 'Ghost'], isShiny: false, rarity: 'Mythical', move: 'Malignant Chain' },
 
     // Special Forms
-  { name: "Deoxys (Attack)", number: 386, variant: "Attack", type: ["Psychic"], isShiny: false, rarity: "Mythical", move: "Psycho Boost" },
-  { name: "Deoxys (Defense)", number: 386, variant: "Defense", type: ["Psychic"], isShiny: false, rarity: "Mythical", move: "Iron Defense" },
-  { name: "Deoxys (Speed)", number: 386, variant: "Speed", type: ["Psychic"], isShiny: false, rarity: "Mythical", move: "Extreme Speed" },
   { name: "Shaymin (Sky)", number: 492, variant: "Sky", type: ["Grass", "Flying"], isShiny: false, rarity: "Mythical", move: "Air Slash" },
   { name: "Giratina (Origin)", number: 487, variant: "Origin", type: ["Ghost", "Dragon"], isShiny: false, rarity: "Legendary", move: "Shadow Force" },
   { name: "Rotom (Heat)", number: 479, variant: "Heat", type: ["Electric", "Fire"], isShiny: false, rarity: "Rare", move: "Overheat" },
@@ -1242,7 +1240,7 @@ export const allCards: Card[] = [
   { name: "Mega Diancie", number: 719, variant: "Mega", type: ["Rock", "Fairy"], isShiny: false, rarity: "Mythical", move: "Diamond Storm" },
   { name: "Mega Metagross", number: 376, variant: "Mega", type: ["Steel", "Psychic"], isShiny: false, rarity: "Legendary", move: "Meteor Mash" },
   { name: "Primal Kyogre", number: 382, variant: "Primal", type: ["Water"], isShiny: false, rarity: "Mythical", move: "Origin Pulse" },
-  { name: "Primal Groudon", number: 383, variant: "Mega", type: ["Ground", "Fire"], isShiny: false, rarity: "Mythical", move: "Precipice Blades" },
+  { name: "Primal Groudon", number: 383, variant: "Primal", type: ["Ground", "Fire"], isShiny: false, rarity: "Mythical", move: "Precipice Blades" },
   { name: "Mega Rayquaza", number: 384, variant: "Mega", type: ["Dragon", "Flying"], isShiny: false, rarity: "Mythical", move: "Dragon Ascent" },
   { name: "Hoopa Unbound", number: 720, variant: "Unbound", type: ["Psychic", "Dark"], isShiny: false, rarity: "Mythical", move: "Hyperspace Fury" },
   { name: "Mega Camerupt", number: 323, variant: "Mega", type: ["Fire", "Ground"], isShiny: false, rarity: "Legendary", move: "Eruption" },
@@ -1268,7 +1266,7 @@ export const allCards: Card[] = [
   { name: "Exeggutor (Alola)", number: 103, variant: "Alola", type: ["Grass", "Dragon"], isShiny: false, rarity: "Epic", move: "Dragon Hammer" },
   { name: "Marowak (Alola)", number: 105, variant: "Alola", type: ["Fire", "Ghost"], isShiny: false, rarity: "Rare", move: "Shadow Bone" },
   { name: "Greninja (Battle Bond)", number: 658, variant: "Battle-Bond", type: ["Water", "Dark"], isShiny: false, rarity: "Legendary", move: "Water Shuriken" },
-  { name: "Zygarde (10%)", number: 718, variant: "10%", type: ["Dragon", "Ground"], isShiny: false, rarity: "Legendary", move: "Thousand Waves" },
+  { name: "Zygarde (10%)", number: 718, variant: "ten", type: ["Dragon", "Ground"], isShiny: false, rarity: "Legendary", move: "Thousand Waves" },
   { name: "Zygarde (Complete)", number: 718, variant: "Complete", type: ["Dragon", "Ground"], isShiny: false, rarity: "Mythical", move: "Core Enforcer" },
   { name: "Oricorio (Pom-Pom)", number: 741, variant: "Pom-Pom", type: ["Electric", "Flying"], isShiny: false, rarity: "Rare", move: "Revelation Dance" },
   { name: "Oricorio (Pa'u)", number: 741, variant: "Pau", type: ["Psychic", "Flying"], isShiny: false, rarity: "Rare", move: "Revelation Dance" },
@@ -1392,263 +1390,5 @@ export const allCards: Card[] = [
 ];
 
 export const specialFormRegionMapping: Record<number, string[]> = {
-  // // Deoxys Forms (Hoenn, base: 386)
-  // // 10001: ['Hoenn'], // Deoxys-Attack
-  // // 10002: ['Hoenn'], // Deoxys-Defense
-  // // 10003: ['Hoenn'], // Deoxys-Speed
-  // // Shaymin-Sky (Sinnoh, base: 492)
-  // 10006: ['Sinnoh'], // Shaymin-Sky
-  // // Giratina-Origin (Sinnoh, base: 487)
-  // 10007: ['Sinnoh'], // Giratina-Origin
-  // // Rotom Forms (Sinnoh, base: 479)
-  // 10008: ['Sinnoh'], // Rotom-Heat
-  // 10009: ['Sinnoh'], // Rotom-Wash
-  // 10010: ['Sinnoh'], // Rotom-Frost
-  // 10011: ['Sinnoh'], // Rotom-Fan
-  // 10012: ['Sinnoh'], // Rotom-Mow
-  // // Castform Forms (Hoenn, base: 351)
-  // 10013: ['Hoenn'], // Castform-Sunny
-  // 10014: ['Hoenn'], // Castform-Rainy
-  // 10015: ['Hoenn'], // Castform-Snowy
-  // // Basculin (Unova, base: 550)
-  // 10016: ['Unova'], // Basculin-Blue-Stripe
-  // // Darmanitan-Zen (Unova, base: 555)
-  // 10017: ['Unova'], // Darmanitan-Zen
-  // // Meloetta-Pirouette (Unova, base: 648)
-  // 10018: ['Unova'], // Meloetta-Pirouette
-  // // Forces of Nature Therian Forms (Unova, base: 641–645)
-  // 10019: ['Unova'], // Tornadus-Therian
-  // 10020: ['Unova'], // Thundurus-Therian
-  // 10021: ['Unova'], // Landorus-Therian
-  // // Kyurem Forms (Unova, base: 646)
-  // 10022: ['Unova'], // Kyurem-Black
-  // 10023: ['Unova'], // Kyurem-White
-  // // Keldeo-Resolute (Unova, base: 647)
-  // 10024: ['Unova'], // Keldeo-Resolute
-  // // Meowstic (Kalos, base: 678)
-  // 10025: ['Kalos'], // Meowstic
-  // // Aegislash-Blade (Kalos, base: 681)
-  // 10026: ['Kalos'], // Aegislash-Blade
-  // // Mega Evolutions
-  // 10033: ['Kanto'], // Mega Venusaur (base: 3)
-  // 10034: ['Kanto'], // Mega Charizard X (base: 6)
-  // 10035: ['Kanto'], // Mega Charizard Y (base: 6)
-  // 10036: ['Kanto'], // Mega Blastoise (base: 9)
-  // 10037: ['Kanto'], // Mega Alakazam (base: 65)
-  // 10038: ['Kanto'], // Mega Gengar (base: 94)
-  // 10039: ['Kanto'], // Mega Kangaskhan (base: 115)
-  // 10040: ['Kanto'], // Mega Pinsir (base: 127)
-  // 10041: ['Kanto'], // Mega Gyarados (base: 130)
-  // 10042: ['Kanto'], // Mega Aerodactyl (base: 142)
-  // 10043: ['Kanto'], // Mega Mewtwo X (base: 150)
-  // 10044: ['Kanto'], // Mega Mewtwo Y (base: 150)
-  // 10045: ['Johto'], // Mega Ampharos (base: 181)
-  // 10046: ['Johto'], // Mega Scizor (base: 212)
-  // 10047: ['Johto'], // Mega Heracross (base: 214)
-  // 10048: ['Johto'], // Mega Houndoom (base: 229)
-  // 10049: ['Johto'], // Mega Tyranitar (base: 248)
-  // 10050: ['Hoenn'], // Mega Blaziken (base: 257)
-  // 10051: ['Hoenn'], // Mega Gardevoir (base: 282)
-  // 10052: ['Hoenn'], // Mega Mawile (base: 303)
-  // 10053: ['Hoenn'], // Mega Aggron (base: 306)
-  // 10054: ['Hoenn'], // Mega Medicham (base: 308)
-  // 10055: ['Hoenn'], // Mega Manectric (base: 310)
-  // 10056: ['Hoenn'], // Mega Banette (base: 354)
-  // 10057: ['Hoenn'], // Mega Absol (base: 359)
-  // 10058: ['Sinnoh'], // Mega Garchomp (base: 445)
-  // 10059: ['Sinnoh'], // Mega Lucario (base: 448)
-  // 10060: ['Sinnoh'], // Mega Abomasnow (base: 460)
-  // // 10061: ['Kalos'], // Floette-Eternal (base: 670)
-  // 10062: ['Hoenn'], // Mega Latias (base: 380)
-  // 10063: ['Hoenn'], // Mega Latios (base: 381)
-  // 10064: ['Hoenn'], // Mega Swampert (base: 260)
-  // 10065: ['Hoenn'], // Mega Sceptile (base: 254)
-  // 10066: ['Hoenn'], // Mega Sableye (base: 302)
-  // 10067: ['Hoenn'], // Mega Altaria (base: 334)
-  // 10068: ['Hoenn'], // Mega Gallade (base: 475)
-  // 10069: ['Unova'], // Mega Audino (base: 531)
-  // 10070: ['Hoenn'], // Mega Sharpedo (base: 319)
-  // 10071: ['Kanto'], // Mega Slowbro (base: 80)
-  // 10072: ['Johto'], // Mega Steelix (base: 208)
-  // 10073: ['Kanto'], // Mega Pidgeot (base: 18)
-  // 10074: ['Hoenn'], // Mega Glalie (base: 362)
-  // 10075: ['Kalos'], // Mega Diancie (base: 719)
-  // 10076: ['Hoenn'], // Mega Metagross (base: 376)
-  // 10077: ['Hoenn'], // Primal Kyogre (base: 382)
-  // 10078: ['Hoenn'], // Mega Groudon (base: 383)
-  // 10079: ['Hoenn'], // Mega Rayquaza (base: 384)
-  // 10086: ['Kalos'], // Hoopa Unbound (base: 720)
-  // 10087: ['Hoenn'], // Mega Camerupt (base: 323)
-  // 10088: ['Sinnoh'], // Mega Lopunny (base: 428)
-  // 10089: ['Hoenn'], // Mega Salamence (base: 373)
-  // 10090: ['Kanto'], // Mega Beedrill (base: 15)
-  // // Alolan Forms
-  // 10091: ['Alola'], // Rattata-Alola
-  // 10092: ['Alola'], // Raticate-Alola
-  // 10100: ['Alola'], // Raichu-Alola
-  // 10101: ['Alola'], // Sandshrew-Alola
-  // 10102: ['Alola'], // Sandslash-Alola
-  // 10103: ['Alola'], // Vulpix-Alola
-  // 10104: ['Alola'], // Ninetales-Alola
-  // 10105: ['Alola'], // Diglett-Alola
-  // 10106: ['Alola'], // Dugtrio-Alola
-  // 10107: ['Alola'], // Meowth-Alola
-  // 10108: ['Alola'], // Persian-Alola
-  // 10109: ['Alola'], // Geodude-Alola
-  // 10110: ['Alola'], // Graveler-Alola
-  // 10111: ['Alola'], // Golem-Alola
-  // 10112: ['Alola'], // Grimer-Alola
-  // 10113: ['Alola'], // Muk-Alola
-  // 10114: ['Alola'], // Exeggutor-Alola
-  // 10115: ['Alola'], // Marowak-Alola
-  // // Greninja-Battle Bond (Kalos, base: 658)
-  // 10116: ['Kalos'], // Greninja-Battle Bond
-  // // Zygarde Forms (Kalos, base: 718)
-  // 10118: ['Kalos'], // Zygarde-10%
-  // 10120: ['Kalos'], // Zygarde-Complete
-  // // Oricorio Forms (Alola, base: 741)
-  // 10123: ['Alola'], // Oricorio-Pom-Pom
-  // 10124: ['Alola'], // Oricorio-Pau
-  // 10125: ['Alola'], // Oricorio-Sensu
-  // // Lycanroc Forms (Alola, base: 745)
-  // 10126: ['Alola'], // Lycanroc-Midnight
-  // 10127: ['Alola'], // Wishiwashi-School (base: 746)
-  // // Minior Forms (Alola, base: 774)
-  // 10136: ['Alola'], // Minior-Red
-  // 10137: ['Alola'], // Minior-Orange
-  // 10138: ['Alola'], // Minior-Yellow
-  // 10139: ['Alola'], // Minior-Green
-  // 10140: ['Alola'], // Minior-Blue
-  // 10141: ['Alola'], // Minior-Indigo
-  // 10142: ['Alola'], // Minior-Violet
-  // // Magearna-Original (Alola, base: 801)
-  // 10147: ['Alola'], // Magearna-Original
-  // 10152: ['Alola'], // Lycanroc-Dusk
-  // // Necrozma Forms (Alola, base: 800)
-  // 10155: ['Alola'], // Necrozma-Dusk Mane
-  // 10156: ['Alola'], // Necrozma-Dawn Wings
-  // 10157: ['Alola'], // Ultra Necrozma
-  // // Galarian Forms
-  // 10161: ['Galar'], // Meowth-Galar
-  // 10162: ['Galar'], // Ponyta-Galar
-  // 10163: ['Galar'], // Rapidash-Galar
-  // 10164: ['Galar'], // Slowpoke-Galar
-  // 10165: ['Galar'], // Slowbro-Galar
-  // 10166: ['Galar'], // Farfetchd-Galar
-  // 10167: ['Galar'], // Weezing-Galar
-  // 10168: ['Galar'], // Mr-Mime-Galar
-  // 10169: ['Galar'], // Articuno-Galar
-  // 10170: ['Galar'], // Zapdos-Galar
-  // 10171: ['Galar'], // Moltres-Galar
-  // 10172: ['Galar'], // Slowking-Galar
-  // 10173: ['Galar'], // Corsola-Galar
-  // 10174: ['Galar'], // Zigzagoon-Galar
-  // 10175: ['Galar'], // Linoone-Galar
-  // 10176: ['Galar'], // Darumaka-Galar
-  // 10177: ['Galar'], // Darmanitan-Galar
-  // 10178: ['Galar'], // Darmanitan-Galar-Zen
-  // 10179: ['Galar'], // Yamask-Galar
-  // 10180: ['Galar'], // Stunfisk-Galar
-  // // Toxtricity Forms (Galar, base: 849)
-  // 10184: ['Galar'], // Toxtricity
-  // // Eiscue (Galar, base: 875)
-  // 10185: ['Galar'], // Eiscue
-  // // Indeedee (Galar, base: 876)
-  // 10186: ['Galar'], // Indeedee
-  // // Zacian/Zamazenta Crowned (Galar, base: 888–889)
-  // 10188: ['Galar'], // Zacian-Crowned
-  // 10189: ['Galar'], // Zamazenta-Crowned
-  // // Eternatus-Eternamax (Galar, base: 890)
-  // 10190: ['Galar'], // Eternatus-Eternamax
-  // // Urshifu-Rapid Strike (Galar, base: 892)
-  // 10191: ['Galar'], // Urshifu-Rapid Strike
-  // // Zarude-Dada (Galar, base: 893)
-  // 10192: ['Galar'], // Zarude-Dada
-  // // Calyrex Forms (Galar, base: 898)
-  // 10193: ['Galar'], // Calyrex-Ice
-  // 10194: ['Galar'], // Calyrex-Shadow
-  // // Gigantamax Forms (Galar)
-  // 10195: ['Galar'], // Venusaur
-  // 10196: ['Galar'], // Charizard
-  // 10197: ['Galar'], // Blastoise
-  // 10198: ['Galar'], // Butterfree
-  // 10199: ['Galar'], // Pikachu
-  // 10200: ['Galar'], // Meowth
-  // 10201: ['Galar'], // Machamp
-  // 10202: ['Galar'], // Gengar
-  // 10203: ['Galar'], // Kingler
-  // 10204: ['Galar'], // Lapras
-  // 10205: ['Galar'], // Eevee
-  // 10206: ['Galar'], // Snorlax
-  // 10207: ['Galar'], // Garbodor
-  // 10208: ['Galar'], // Melmetal
-  // 10209: ['Galar'], // Rillaboom
-  // 10210: ['Galar'], // Cinderace
-  // 10211: ['Galar'], // Inteleon
-  // 10212: ['Galar'], // Corviknight
-  // 10213: ['Galar'], // Orbeetle
-  // 10214: ['Galar'], // Drednaw
-  // 10215: ['Galar'], // Coalossal
-  // 10216: ['Galar'], // Flapple
-  // 10217: ['Galar'], // Appletun
-  // 10218: ['Galar'], // Sandaconda
-  // 10219: ['Galar'], // Toxtricity
-  // 10220: ['Galar'], // Centiskorch
-  // 10221: ['Galar'], // Hatterene
-  // 10222: ['Galar'], // Grimmsnarl
-  // 10223: ['Galar'], // Alcremie
-  // 10224: ['Galar'], // Copperajah
-  // 10225: ['Galar'], // Duraludon
-  // 10226: ['Galar'], // Urshifu-Single-Strike
-  // 10227: ['Galar'], // Urshifu-Rapid-Strike
-  // // Hisuian Forms
-  // 10229: ['Hisui'], // Growlithe-Hisui
-  // 10230: ['Hisui'], // Arcanine-Hisui
-  // 10231: ['Hisui'], // Voltorb-Hisui
-  // 10232: ['Hisui'], // Electrode-Hisui
-  // 10233: ['Hisui'], // Typhlosion-Hisui
-  // 10234: ['Hisui'], // Qwilfish-Hisui
-  // 10235: ['Hisui'], // Sneasel-Hisui
-  // 10236: ['Hisui'], // Samurott-Hisui
-  // 10237: ['Hisui'], // Lilligant-Hisui
-  // 10238: ['Hisui'], // Zorua-Hisui
-  // 10239: ['Hisui'], // Zoroark-Hisui
-  // 10240: ['Hisui'], // Braviary-Hisui
-  // 10241: ['Hisui'], // Sliggoo-Hisui
-  // 10242: ['Hisui'], // Goodra-Hisui
-  // 10243: ['Hisui'], // Avalugg-Hisui
-  // 10244: ['Hisui'], // Decidueye-Hisui
-  // // Origin Forms (Sinnoh, base: 483–484)
-  // 10245: ['Hisui'], // Dialga-Origin
-  // 10246: ['Hisui'], // Palkia-Origin
-  // // Basculin/Basculegion (Hisui)
-  // 10247: ['Hisui'], // Basculin-White-Stripe
-  // 10248: ['Hisui'], // Basculegion
-  // // Enamorus-Therian (Hisui, base: 905)
-  // 10249: ['Hisui'], // Enamorus-Therian
-  // // Paldean Forms
-  // 10250: ['Paldea'], // Tauros-Combat
-  // 10251: ['Paldea'], // Tauros-Blaze
-  // 10252: ['Paldea'], // Tauros-Aqua
-  // 10253: ['Paldea'], // Wooper-Paldea
-  // // Paldean Forms (new Pokémon)
-  // 10254: ['Paldea'], // Oinkologne (base: 916)
-  // 10255: ['Paldea'], // Dudunsparce-Three-Segment (base: 917)
-  // 10256: ['Paldea'], // Palafin-Hero (base: 964)
-  // 10257: ['Paldea'], // Maushold-Family-Of-Three (base: 925)
-  // 10258: ['Paldea'], // Tatsugiri-Droopy (base: 978)
-  // 10259: ['Paldea'], // Tatsugiri-Stretchy (base: 978)
-  // 10260: ['Paldea'], // Squawkabilly-Blue (base: 931)
-  // 10261: ['Paldea'], // Squawkabilly-Yellow (base: 931)
-  // 10262: ['Paldea'], // Squawkabilly-White (base: 931)
-  // 10263: ['Paldea'], // Gimmighoul-Roaming (base: 999)
-  // // Ursaluna-Bloodmoon (Paldea, Teal Mask DLC)
-  // 10272: ['Paldea'], // Ursaluna-Bloodmoon
-  // // Ogerpon Forms (Paldea)
-  // 10273: ['Paldea'], // Ogerpon-Wellspring
-  // 10274: ['Paldea'], // Ogerpon-Hearthflame
-  // 10275: ['Paldea'], // Ogerpon-Cornerstone
-  // // Terapagos Forms (Paldea)
-  // 10276: ['Paldea'], // Terapagos-Terastal
   // 10277: ['Paldea'], // Terapagos-Stellar
 };
