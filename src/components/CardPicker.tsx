@@ -39,19 +39,23 @@ export const CardPackOpener: React.FC = () => {
   const modalContentRef = useRef<HTMLDivElement>(null);
 
   const displayedCards = Array.from(
-    new Set(
-      allCards
-        .filter(card => {
-          if (currentRegion === 'All') {
-            return (card.number >= 1 && card.number <= 1025) || (card.number >= 10001 && card.number <= 10277);
-          }
-          const [start, end] = regionRanges[currentRegion] || [NaN, NaN];
-          return (card.number >= start && card.number <= end) || (specialFormRegionMapping[card.number]?.includes(currentRegion));
-        })
-        .filter(card => currentRarity === 'All' || card.rarity === currentRarity)
-        .map(card => card.name)
-    )
-  ).map(name => allCards.find(card => card.name === name)!);
+  new Set(
+    allCards
+      .filter(card => {
+        if (currentRegion === 'All') {
+          return (card.number >= 1 && card.number <= 1025) || (card.number >= 10001 && card.number <= 10277);
+        }
+        const [start, end] = regionRanges[currentRegion] || [NaN, NaN];
+        return (card.number >= start && card.number <= end) || (specialFormRegionMapping[card.number]?.includes(currentRegion));
+      })
+      .filter(card => currentRarity === 'All' || card.rarity === currentRarity)
+      .map(card => `${card.name}${card.variant ? `-${card.variant}` : ''}`)
+  )
+).map(key => {
+  const [name, variant] = key.split('-');
+  const card = allCards.find(c => c.name === name && (!variant || c.variant === variant));
+  return card; // Return undefined if no match, which will be filtered out later
+}).filter((card): card is Card => card !== undefined); // Type guard to filter out undefined
 
   useEffect(() => {
     if (showDex && modalContentRef.current) {
@@ -80,10 +84,11 @@ export const CardPackOpener: React.FC = () => {
         if (parsed.collectedCards && typeof parsed.packsOpened === 'number') {
           const validatedCards: CardCollection = {};
           Object.entries(parsed.collectedCards).forEach(
-            ([name, entry]) => {
-              const validCard = allCards.find(c => c.name === name);
+            ([key, entry]) => {
+              const [name, variant] = key.split('-');
+              const validCard = allCards.find(c => c.name === name && (!variant || c.variant === variant));
               if (validCard && typeof entry.count === 'number' && entry.count > 0) {
-                validatedCards[name] = { card: validCard, count: entry.count, isShiny: entry.isShiny || false };
+                validatedCards[key] = { card: validCard, count: entry.count, isShiny: entry.isShiny || false };
               }
             }
           );
@@ -139,34 +144,34 @@ export const CardPackOpener: React.FC = () => {
   };
 
   const getRarityIcon = (rarity: Card['rarity']) => {
-  const diamondIconPath = '/diamond.png'; 
-  const starIconPath = '/star.png';
-  const crownIconPath = '/crown.png';
+    const diamondIconPath = '/diamond.png'; 
+    const starIconPath = '/star.png';
+    const crownIconPath = '/crown.png';
 
-  const renderRepeatedImage = (src: string, count: number) => (
-    <span className="inline-flex gap-0.5 items-center justify-center">
-      {Array.from({ length: count }).map((_, i) => (
-        <Image key={i} src={src} alt="rarity" width={16} height={16} />
-      ))}
-    </span>
-  );
+    const renderRepeatedImage = (src: string, count: number) => (
+      <span className="inline-flex gap-0.5 items-center justify-center">
+        {Array.from({ length: count }).map((_, i) => (
+          <Image key={i} src={src} alt="rarity" width={16} height={16} />
+        ))}
+      </span>
+    );
 
-  switch (rarity) {
-    case 'Common':
-      return renderRepeatedImage(diamondIconPath, 1);
-    case 'Uncommon':
-      return renderRepeatedImage(diamondIconPath, 2);
-    case 'Rare':
-      return renderRepeatedImage(diamondIconPath, 3);
-    case 'Epic':
-      return renderRepeatedImage(diamondIconPath, 4);
-    case 'Legendary':
-      return <Image src={starIconPath} alt="Legendary" width={16} height={16} />;
-    case 'Mythical':
-      return <Image src={crownIconPath} alt="Mythical" width={16} height={16} />;
-    default:
-      return null;
-  }
+    switch (rarity) {
+      case 'Common':
+        return renderRepeatedImage(diamondIconPath, 1);
+      case 'Uncommon':
+        return renderRepeatedImage(diamondIconPath, 2);
+      case 'Rare':
+        return renderRepeatedImage(diamondIconPath, 3);
+      case 'Epic':
+        return renderRepeatedImage(diamondIconPath, 4);
+      case 'Legendary':
+        return <Image src={starIconPath} alt="Legendary" width={16} height={16} />;
+      case 'Mythical':
+        return <Image src={crownIconPath} alt="Mythical" width={16} height={16} />;
+      default:
+        return null;
+    }
   };
 
   const rarityWeights: Record<Card['rarity'], number> = {
@@ -205,16 +210,17 @@ export const CardPackOpener: React.FC = () => {
       for (let i = 0; i < 5; i++) {
         const card = getRandomCard();
         newCards.push(card);
-        newCardFlags.push(!collectedCards[card.name] || !collectedCards[card.name].isShiny && card.isShiny);
+        newCardFlags.push(!collectedCards[`${card.name}${card.variant ? `-${card.variant}` : ''}`] || !collectedCards[`${card.name}${card.variant ? `-${card.variant}` : ''}`].isShiny && card.isShiny);
       }
 
       const updatedCollected = { ...collectedCards };
       newCards.forEach((card) => {
-        if (updatedCollected[card.name]) {
-          updatedCollected[card.name].count += 1;
-          if (card.isShiny) updatedCollected[card.name].isShiny = true;
+        const key = `${card.name}${card.variant ? `-${card.variant}` : ''}`;
+        if (updatedCollected[key]) {
+          updatedCollected[key].count += 1;
+          if (card.isShiny) updatedCollected[key].isShiny = true;
         } else {
-          updatedCollected[card.name] = { card: card, count: 1, isShiny: card.isShiny || false };
+          updatedCollected[key] = { card: card, count: 1, isShiny: card.isShiny || false };
         }
       });
 
@@ -377,78 +383,80 @@ export const CardPackOpener: React.FC = () => {
       {showResetModal && <ResetConfirmationModal />}
 
       <div className="relative w-full h-74 grid grid-cols-5 gap-4 perspective text-white">
-        {cards.map((card, idx) => (
-          <motion.div
-            key={`card-${idx}`}
-            className="w-54 h-74 relative"
-            initial={{ y: 100, opacity: 0 }}
-            animate={{ y: entered[idx] ? 0 : 100, opacity: entered[idx] ? 1 : 0, rotate: shaking[idx] && !revealed[idx] ? [0, -5, 5, -5, 5, 0] : 0 }}
-            transition={{ duration: shaking[idx] && !revealed[idx] ? 0.5 : 0.5, delay: idx * 0.1 }}
-            style={{ zIndex: 2 }}
-          >
+        {cards.map((card, idx) => {
+          const imagePath = card.variant ? `${card.isShiny ? '/shiny' : '/home-icons'}/${card.number}-${card.variant}.png` : `${card.isShiny ? '/shiny' : '/home-icons'}/${card.number}.png`;
+          return (
             <motion.div
-              initial={true}
-              animate={{ rotateY: flipped[idx] ? 0 : 180 }}
-              transition={{ duration: 0.6 }}
-              className="absolute inset-0 w-full h-full transform-style-preserve-3d"
+              key={`card-${idx}-${card.variant || ''}`}
+              className="w-54 h-74 relative"
+              initial={{ y: 100, opacity: 0 }}
+              animate={{ y: entered[idx] ? 0 : 100, opacity: entered[idx] ? 1 : 0, rotate: shaking[idx] && !revealed[idx] ? [0, -5, 5, -5, 5, 0] : 0 }}
+              transition={{ duration: shaking[idx] && !revealed[idx] ? 0.5 : 0.5, delay: idx * 0.1 }}
+              style={{ zIndex: 2 }}
             >
-              <div className="absolute w-full h-full backface-hidden">
-                <Image src="/cardback.png" alt="Card Back" layout="fill" objectFit="cover" className="rounded-xl border-2 border-gray-600" />
-              </div>
-
-              <div
-                
-                className={`absolute w-full h-full rotateY-180 backface-hidden p-1.5 rounded-xl flex flex-col items-center justify-between text-center shadow-2xl ${card.isShiny ? "bg-white" : getTypeBorderClass(card.rarity)} ${card.rarity === 'Mythical' && revealed[idx] && !card.isShiny ? 'glow-mythical' : card.isShiny ? 'glow-shiny twinkle-shiny' : ''} ${revealed[idx] ? 'cursor-pointer hover:scale-105 transition-transform' : ''}`}
-                onClick={() => revealed[idx] && handleCardClick(card.name)}
+              <motion.div
+                initial={true}
+                animate={{ rotateY: flipped[idx] ? 0 : 180 }}
+                transition={{ duration: 0.6 }}
+                className="absolute inset-0 w-full h-full transform-style-preserve-3d"
               >
-                <div className='w-full h-full rounded-lg flex flex-col items-center justify-between text-center p-2'
-                style={{
-                  background: getGradientBackground(card.type),
-                  ...(card.isShiny && revealed[idx]
-                    ? {
-                        backgroundImage: 'url(/rainbow-gradient.png)',
-                        backgroundSize: 'cover',
-                        backgroundPosition: 'center',
-                        backgroundBlendMode: 'overlay',
-                        backgroundRepeat: 'no-repeat',
-                      }
-                    : {}),
-                }}>
-                {revealed[idx] && (
-                  <>
-                    {isNewCard[idx] && (
-                      <div className="absolute top-3 left-3 bg-white text-slate-400 border-slate-400 text-xs font-bold px-2 py-1 rounded-full shadow-lg">
-                        NEW
-                      </div>
-                    )}
-                    <div className="absolute top-3 right-3 flex gap-1">
-                      {card.type.map((t, idx) => (
-                        <Image key={idx} src={`/icons/types/${t}.png`} alt={`${t} icon`} width={20} height={20} />
-                      ))}
-                    </div>
-                    <div className='flex justify-center items-center w-48 h-48 p-2'>
-                      <Image
-                        src={card.isShiny ? `/shiny/${card.number}.png` : `/home-icons/${card.number}.png`}
-                        alt={card.name}
-                        width={200}
-                        height={200}
-                        className="mb-2 w-full h-full rounded-t-lg"
-                      />
-                    </div>
-                    <div className={card.isShiny ? 'text-black' : 'text-white'}>
-                      <div className="font-bold text-md text-center">{card.isShiny ? `${card.name} ✦` : card.name}</div>
-                      <div className={`flex justify-center pt-1 ${card.rarity === 'Mythical' ? 'text-[#ffd700] text-shadow-white' : card.isShiny ? 'text-black' : 'text-white'}`}>
-                        {getRarityIcon(card.rarity)}
-                      </div>
-                      <div className="text-sm italic">{card.move}</div>
-                    </div>
-                  </>
-                )}
+                <div className="absolute w-full h-full backface-hidden">
+                  <Image src="/cardback.png" alt="Card Back" layout="fill" objectFit="cover" className="rounded-xl border-2 border-gray-600" />
                 </div>
-              </div>
+
+                <div
+                  className={`absolute w-full h-full rotateY-180 backface-hidden p-1.5 rounded-xl flex flex-col items-center justify-between text-center shadow-2xl ${card.isShiny ? "bg-white" : getTypeBorderClass(card.rarity)} ${card.rarity === 'Mythical' && revealed[idx] && !card.isShiny ? 'glow-mythical' : card.isShiny ? 'glow-shiny twinkle-shiny' : ''} ${revealed[idx] ? 'cursor-pointer hover:scale-105 transition-transform' : ''}`}
+                  onClick={() => revealed[idx] && handleCardClick(`${card.name}${card.variant ? `-${card.variant}` : ''}`)}
+                >
+                  <div className='w-full h-full rounded-lg flex flex-col items-center justify-between text-center p-2'
+                    style={{
+                      background: getGradientBackground(card.type),
+                      ...(card.isShiny && revealed[idx]
+                        ? {
+                            backgroundImage: 'url(/rainbow-gradient.png)',
+                            backgroundSize: 'cover',
+                            backgroundPosition: 'center',
+                            backgroundBlendMode: 'overlay',
+                            backgroundRepeat: 'no-repeat',
+                          }
+                        : {}),
+                    }}>
+                    {revealed[idx] && (
+                      <>
+                        {isNewCard[idx] && (
+                          <div className="absolute top-3 left-3 bg-white text-slate-400 border-slate-400 text-xs font-bold px-2 py-1 rounded-full shadow-lg">
+                            NEW
+                          </div>
+                        )}
+                        <div className="absolute top-3 right-3 flex gap-1">
+                          {card.type.map((t, idx) => (
+                            <Image key={idx} src={`/icons/types/${t}.png`} alt={`${t} icon`} width={20} height={20} />
+                          ))}
+                        </div>
+                        <div className='flex justify-center items-center w-48 h-48 p-2'>
+                          <Image
+                            src={imagePath}
+                            alt={card.name}
+                            width={200}
+                            height={200}
+                            className="mb-2 w-full h-full rounded-t-lg"
+                          />
+                        </div>
+                        <div className={card.isShiny ? 'text-black' : 'text-white'}>
+                          <div className="font-bold text-md text-center">{card.isShiny ? `${card.name} ✦` : card.name}</div>
+                          <div className={`flex justify-center pt-1 ${card.rarity === 'Mythical' ? 'text-[#ffd700] text-shadow-white' : card.isShiny ? 'text-black' : 'text-white'}`}>
+                            {getRarityIcon(card.rarity)}
+                          </div>
+                          <div className="text-sm italic">{card.move}</div>
+                        </div>
+                      </>
+                    )}
+                  </div>
+                </div>
+              </motion.div>
             </motion.div>
-          </motion.div>
-        ))}
+          );
+        })}
       </div>
 
       <div className="flex gap-4 mt-6 items-center">
@@ -477,15 +485,17 @@ export const CardPackOpener: React.FC = () => {
                 <div className="w-32 h-32 relative">
                   <Image
                     src={
-                      // collectedCards[selectedCard].isShiny ? `/shiny/${collectedCards[selectedCard].card.number}.png` : 
-                      `/home-icons/${collectedCards[selectedCard].card.number}.png`}
+                      collectedCards[selectedCard].card.variant
+                        ? `${collectedCards[selectedCard].isShiny ? '/shiny' : '/home-icons'}/${collectedCards[selectedCard].card.number}-${collectedCards[selectedCard].card.variant}.png`
+                        : `${collectedCards[selectedCard].isShiny ? '/shiny' : '/home-icons'}/${collectedCards[selectedCard].card.number}.png`
+                    }
                     alt={selectedCard}
                     fill
                     className="object-contain"
                   />
                 </div>
                 <div>
-                  <h4 className="text-xl font-bold">{collectedCards[selectedCard].isShiny ? `${selectedCard} ✦` : selectedCard}</h4>
+                  <h4 className="text-xl font-bold">{collectedCards[selectedCard].isShiny ? `${selectedCard.split('-')[0]} ✦${collectedCards[selectedCard].card.variant ? ` (${collectedCards[selectedCard].card.variant})` : ''}` : selectedCard}</h4>
                   <p className="text-sm italic text-gray-300 mb-1">{collectedCards[selectedCard].card.move}</p>
                   <p className={`text-sm font-semibold ${collectedCards[selectedCard].card.rarity === 'Mythical' ? 'text-[#ffd700]' : 'text-white'}`}>
                     Rarity: {getRarityIcon(collectedCards[selectedCard].card.rarity)} {collectedCards[selectedCard].card.rarity}
@@ -510,8 +520,8 @@ export const CardPackOpener: React.FC = () => {
                   {region === 'SpecialForms' ? 'Special Forms' : region}
                 </button>
               ))}
-              </div>
-              <div className="flex gap-2 mb-4 flex-wrap">
+            </div>
+            <div className="flex gap-2 mb-4 flex-wrap">
               {(['All', 'Common', 'Uncommon', 'Rare', 'Epic', 'Legendary', 'Mythical'] as const).map(rarity => (
                 <button
                   key={rarity}
@@ -527,20 +537,22 @@ export const CardPackOpener: React.FC = () => {
             ) : (
               <div className="grid grid-cols-5 gap-4">
                 {displayedCards.map(card => {
-                  const owned = collectedCards[card.name];
+                  const key = `${card.name}`;
+                  const owned = collectedCards[key];
+                  const imagePath = card.variant ? `/home-icons/${card.number}-${card.variant}.png` : `/home-icons/${card.number}.png`;
                   return (
-                    <div onClick={() => handleCardClick(card.name)} key={card.name} className="flex flex-col items-center cursor-pointer">
+                    <div onClick={() => handleCardClick(key)} key={key} className="flex flex-col items-center cursor-pointer">
                       <div className="w-20 h-20 relative mb-2">
                         {owned ? (
                           <Image
-                            src={`/home-icons/${card.number}.png`}
+                            src={imagePath}
                             alt={card.name}
                             fill
                             className="object-contain"
                           />
                         ) : (
                           <Image
-                            src={`/home-icons/${card.number}.png`}
+                            src={imagePath}
                             alt={card.name}
                             fill
                             className="object-contain brightness-0"
