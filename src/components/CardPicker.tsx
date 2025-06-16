@@ -28,6 +28,7 @@ export const CardPackOpener: React.FC = () => {
   const [selectedCard, setSelectedCard] = useState<string | null>(null);
   const [showResetModal, setShowResetModal] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
+  const [showWaveCards, setShowWaveCards] = useState(true);
   const cardRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
   const [currentRegion, setCurrentRegion] = useState<keyof typeof regionRanges>('All');
   const [currentRarity, setCurrentRarity] = useState<'All' | Card['rarity']>('All');
@@ -39,23 +40,23 @@ export const CardPackOpener: React.FC = () => {
   const modalContentRef = useRef<HTMLDivElement>(null);
 
   const displayedCards = Array.from(
-  new Set(
-    allCards
-      .filter(card => {
-        if (currentRegion === 'All') {
-          return (card.number >= 1 && card.number <= 1025) || (card.number >= 10001 && card.number <= 10277);
-        }
-        const [start, end] = regionRanges[currentRegion] || [NaN, NaN];
-        return (card.number >= start && card.number <= end) || (specialFormRegionMapping[card.number]?.includes(currentRegion));
-      })
-      .filter(card => currentRarity === 'All' || card.rarity === currentRarity)
-      .map(card => `${card.name}${card.variant ? `-${card.variant}` : ''}`)
-  )
-).map(key => {
-  const [name, variant] = key.split('-');
-  const card = allCards.find(c => c.name === name && (!variant || c.variant === variant));
-  return card; // Return undefined if no match, which will be filtered out later
-}).filter((card): card is Card => card !== undefined); // Type guard to filter out undefined
+    new Set(
+      allCards
+        .filter(card => {
+          if (currentRegion === 'All') {
+            return (card.number >= 1 && card.number <= 1025) || (card.number >= 10001 && card.number <= 10277);
+          }
+          const [start, end] = regionRanges[currentRegion] || [NaN, NaN];
+          return (card.number >= start && card.number <= end) || (specialFormRegionMapping[card.number]?.includes(currentRegion));
+        })
+        .filter(card => currentRarity === 'All' || card.rarity === currentRarity)
+        .map(card => `${card.name}${card.variant ? `-${card.variant}` : ''}`)
+    )
+  ).map(key => {
+    const [name, variant] = key.split('-');
+    const card = allCards.find(c => c.name === name && (!variant || c.variant === variant));
+    return card;
+  }).filter((card): card is Card => card !== undefined);
 
   useEffect(() => {
     if (showDex && modalContentRef.current) {
@@ -144,7 +145,7 @@ export const CardPackOpener: React.FC = () => {
   };
 
   const getRarityIcon = (rarity: Card['rarity']) => {
-    const diamondIconPath = '/diamond.png'; 
+    const diamondIconPath = '/diamond.png';
     const starIconPath = '/star.png';
     const crownIconPath = '/crown.png';
 
@@ -198,6 +199,7 @@ export const CardPackOpener: React.FC = () => {
   const openPack = () => {
     if (opening) return;
     setOpening(true);
+    setShowWaveCards(false);
     setCards([]);
     setFlipped([]);
     setRevealed([]);
@@ -355,7 +357,7 @@ export const CardPackOpener: React.FC = () => {
   const ResetConfirmationModal = () => (
     <div className="fixed inset-0 bg-black/50 flex justify-center items-center z-50 p-6" onClick={() => setShowResetModal(false)}>
       <div className="bg-gray-900 rounded-lg max-w-md w-full p-6 text-white relative">
-        <h3 className="text-xl font-bold mb-4">Are you sure?</h3>
+        <h3 className="text-xl font-bold mb-4">Hello World</h3>
         <p className="mb-6">Resetting your collection will delete all your collected cards and progress. This action cannot be undone.</p>
         <div className="flex justify-end gap-4">
           <button onClick={() => setShowResetModal(false)} className="bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded cursor-pointer">Cancel</button>
@@ -382,7 +384,37 @@ export const CardPackOpener: React.FC = () => {
 
       {showResetModal && <ResetConfirmationModal />}
 
-      <div className="relative w-full h-74 grid grid-cols-5 gap-4 perspective text-white">
+      {showWaveCards && cards.length === 0 && (
+        <div className="relative w-full h-74 grid grid-cols-5 gap-4 perspective text-white">
+          {Array.from({ length: 5 }).map((_, idx) => (
+            <motion.div
+              key={`wave-card-${idx}`}
+              className="w-54 h-74 relative"
+              animate={{
+                y: [0, -20, 0],
+                transition: {
+                  duration: 1.5,
+                  repeat: Infinity,
+                  delay: idx * 0.2,
+                  ease: 'easeInOut',
+                },
+              }}
+            >
+              <div className="absolute w-full h-full backface-hidden">
+                <Image
+                  src="/cardback.png"
+                  alt="Card Back"
+                  layout="fill"
+                  objectFit="cover"
+                  className="rounded-xl border-2 border-gray-600"
+                />
+              </div>
+            </motion.div>
+          ))}
+        </div>
+      )}
+
+      <div className={`${showWaveCards ? 'hidden' : 'relative'} w-full h-74 grid grid-cols-5 gap-4 perspective text-white`}>
         {cards.map((card, idx) => {
           const imagePath = card.variant ? `${card.isShiny ? '/shiny' : '/home-icons'}/${card.number}-${card.variant}.png` : `${card.isShiny ? '/shiny' : '/home-icons'}/${card.number}.png`;
           return (
@@ -512,32 +544,32 @@ export const CardPackOpener: React.FC = () => {
             )}
             <div className="grid grid-cols-2 gap-2">
               <div>
-            <p className="font-semibold text-md">Regions:</p>
-            <div className="flex gap-2 mb-4 flex-wrap">
-              {Object.keys(regionRanges).map(region => (
-                <button
-                  key={region}
-                  onClick={() => setCurrentRegion(region as keyof typeof regionRanges)}
-                  className={`cursor-pointer px-3 py-1 rounded ${currentRegion === region ? 'bg-blue-600' : 'bg-gray-700 hover:bg-gray-600'}`}
-                >
-                  {region === 'SpecialForms' ? 'Special Forms' : region}
-                </button>
-              ))}
-            </div>
+                <p className="font-semibold text-md">Regions:</p>
+                <div className="flex gap-2 mb-4 flex-wrap">
+                  {Object.keys(regionRanges).map(region => (
+                    <button
+                      key={region}
+                      onClick={() => setCurrentRegion(region as keyof typeof regionRanges)}
+                      className={`cursor-pointer px-3 py-1 rounded ${currentRegion === region ? 'bg-blue-600' : 'bg-gray-700 hover:bg-gray-600'}`}
+                    >
+                      {region === 'SpecialForms' ? 'Special Forms' : region}
+                    </button>
+                  ))}
+                </div>
               </div>
               <div>
-              <p className="font-semibold text-md">Rarity:</p>
-            <div className="flex gap-2 mb-4 flex-wrap">
-              {(['All', 'Common', 'Uncommon', 'Rare', 'Epic', 'Legendary', 'Mythical'] as const).map(rarity => (
-                <button
-                  key={rarity}
-                  onClick={() => setCurrentRarity(rarity)}
-                  className={`cursor-pointer px-3 py-1 rounded ${currentRarity === rarity ? 'bg-blue-600' : 'bg-gray-700 hover:bg-gray-600'}`}
-                >
-                  {rarity}
-                </button>
-              ))}
-            </div>
+                <p className="font-semibold text-md">Rarity:</p>
+                <div className="flex gap-2 mb-4 flex-wrap">
+                  {(['All', 'Common', 'Uncommon', 'Rare', 'Epic', 'Legendary', 'Mythical'] as const).map(rarity => (
+                    <button
+                      key={rarity}
+                      onClick={() => setCurrentRarity(rarity)}
+                      className={`cursor-pointer px-3 py-1 rounded ${currentRarity === rarity ? 'bg-blue-600' : 'bg-gray-700 hover:bg-gray-600'}`}
+                    >
+                      {rarity}
+                    </button>
+                  ))}
+                </div>
               </div>
             </div>
             {displayedCards.length === 0 ? (
@@ -622,7 +654,7 @@ function getGradientBackground(types: string[]) {
 function getTypeBorderClass(rarity: Card['rarity']) {
   const rarityBorderColors: Record<Card['rarity'], string> = {
     Common: 'bg-[#FFFFFF]',
-    Uncommon: 'bg-[#C0C0C0]',
+    Uncommon: 'bg-[#989fa0]',
     Rare: 'shiny-chrome',
     Epic: 'bg-[#FFCB05]',
     Legendary: 'shiny-gold',
