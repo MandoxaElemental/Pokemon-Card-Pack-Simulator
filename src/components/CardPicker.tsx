@@ -177,11 +177,11 @@ export const CardPackOpener: React.FC = () => {
   };
 
   const rarityWeights: Record<Card['rarity'], number> = {
-    Common: 40,
+    Common: 7,
     Uncommon: 25,
     Rare: 15,
     Epic: 10,
-    Legendary: 7,
+    Legendary: 40,
     Mythical: 3,
   };
 
@@ -374,12 +374,13 @@ export const CardPackOpener: React.FC = () => {
       <h2 className="text-2xl font-bold mb-4">Pokemon Card Pack Opening Simulator</h2>
       
       <div className="flex gap-4 mb-6">
-        <button onClick={openPack} disabled={opening} className="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded cursor-pointer shadow-xl/20">
+        <button onClick={openPack} disabled={opening} className="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded cursor-pointer shadow-xl/20 flex gap-2 items-center">
+        <Image src={opening ? '/icons/pack-open.png' : '/icons/pack-close.png'} alt={opening ? 'Pack Open' : 'Pack Close'} width={20} height={20} />
           {opening ? 'Opening...' : 'Open Pack'}
         </button>
         <button onClick={handleResetClick} className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded cursor-pointer shadow-xl/20">Reset Collection</button>
-        <button onClick={toggleMute} className="bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded cursor-pointer flex items-center gap-2 shadow-xl/20">
-          <Image src={isMuted ? '/icons/mute.svg' : '/icons/unmute.svg'} alt={isMuted ? 'Muted' : 'Unmuted'} width={20} height={20} className='invert' />
+        <button onClick={toggleMute} className="bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded cursor-pointer flex items-center gap-1 shadow-xl/20">
+          <Image src={isMuted ? '/icons/mute.svg' : '/icons/unmute.svg'} alt={isMuted ? 'Muted' : 'Unmuted'} width={30} height={30} className='invert' />
           {isMuted ? 'Unmute' : 'Mute'}
         </button>
       </div>
@@ -420,6 +421,11 @@ export const CardPackOpener: React.FC = () => {
         {cards.map((card, idx) => {
           const imagePath = card.variant ? `${card.isShiny ? '/shiny' : '/home-icons'}/${card.number}-${card.variant}.png` : `${card.isShiny ? '/shiny' : '/home-icons'}/${card.number}.png`;
           const cardKey = `${card.name}${card.variant ? `-${card.variant}` : ''}`;
+          const isArceus = card.name === 'Arceus' || card.name.startsWith('Arceus (');
+          const isSilvally = card.name === 'Silvally' || card.name.startsWith('Silvally (') || card.name === 'Type: Null';
+          const isMega = card.name.startsWith('Mega ');
+          const isGMax = card.name.startsWith('GMax ');
+          // const isUltraBeast = card.number;
           return (
             <motion.div
               key={`card-${idx}-${cardKey}`}
@@ -461,7 +467,7 @@ export const CardPackOpener: React.FC = () => {
                     {revealed[idx] && (
                       <>
                         {isNewCard[idx] && (
-                          <div className="absolute top-3 left-3 bg-white text-slate-400 border-slate-400 text-xs font-bold px-2 py-1 rounded-full shadow-lg">
+                          <div className="absolute top-3 left-3 bg-white text-slate-400 border-slate-400 text-xs font-bold px-2 py-1 z-30 rounded-full shadow-lg">
                             NEW
                           </div>
                         )}
@@ -470,14 +476,79 @@ export const CardPackOpener: React.FC = () => {
                             <Image key={idx} src={`/icons/types/${t}.png`} alt={`${t} icon`} width={20} height={20} />
                           ))}
                         </div>
-                        <div className='flex justify-center items-center w-44 h-44 p-2'>
+                        <div className='flex justify-center items-center w-44 h-44 p-2 relative'>
+                          {isArceus && (
+                            <motion.div
+                              initial={{ scale: 0.8, opacity: 0 }}
+                              animate={{ scale: 1, opacity: 0.5 }}
+                              transition={{ duration: 0.5, delay: 0.2 }}
+                              className="absolute inset-0 flex justify-center items-center z-10"
+                            >
+                              <Image
+                                src="/icons/arceus-symbol.png"
+                                alt="Arceus Symbol"
+                                width={180}
+                                height={180}
+                                className="object-contain invert opacity-80 contrast-125"
+                              />
+                            </motion.div>
+                          )}
+                          {isSilvally && (
+                            <motion.div
+                              initial={{ scale: 0.8, opacity: 0 }}
+                              animate={{ scale: 1, opacity: 0.5 }}
+                              transition={{ duration: 0.5, delay: 0.2 }}
+                              className="absolute inset-0 flex justify-center items-center z-10"
+                            >
+                              <Image
+                                src="/icons/aether.png"
+                                alt="Null Symbol"
+                                width={180}
+                                height={180}
+                                className="object-contain invert opacity-80 contrast-125"
+                              />
+                            </motion.div>
+                          )}
+                          {isMega && (
+                            <motion.div
+                              initial={{ scale: 0.8, opacity: 0 }}
+                              animate={{ scale: 1, opacity: 0.5 }}
+                              transition={{ duration: 0.5, delay: 0.2 }}
+                              className="absolute inset-0 flex justify-center items-center z-10"
+                            >
+                              <Image
+                                src="/icons/mega-evolution.png"
+                                alt="Mega Evolution Symbol"
+                                width={160}
+                                height={10}
+                                className="object-contain opacity-80"
+                              />
+                            </motion.div>
+                          )}
+                          {isGMax && (
+                            <motion.div
+                              initial={{ scale: 0.8, opacity: 0 }}
+                              animate={{ scale: 1, opacity: 0.5 }}
+                              transition={{ duration: 0.5, delay: 0.2 }}
+                              className="absolute inset-0 flex justify-center items-center z-10"
+                            >
+                              <Image
+                                src="/icons/gigantamax.png"
+                                alt="gigantamax Symbol"
+                                width={180}
+                                height={180}
+                                className="object-contain opacity-80"
+                              />
+                            </motion.div>
+                          )}
                           <Image
                             src={imagePath}
                             alt={card.name}
                             width={200}
                             height={200}
-                            className="mb-2 w-full h-full rounded-t-lg"
+                            className="mb-2 w-full h-full rounded-t-lg relative z-20"
                           />
+
                         </div>
                         <div className={card.isShiny ? 'text-black' : 'text-white'}>
                           <div className="font-bold text-md text-center">{card.isShiny ? `${card.name} ✦` : card.name}</div>
@@ -492,7 +563,7 @@ export const CardPackOpener: React.FC = () => {
                 </div>
               </motion.div>
             </motion.div>
-          );
+          )
         })}
       </div>
 
@@ -516,10 +587,58 @@ export const CardPackOpener: React.FC = () => {
               ✕
             </button>
             <h3 className="text-2xl font-bold mb-4">Card Dex</h3>
-            <p className="mb-4">You've collected {Object.keys(collectedCards).length} out of {allCards.length} cards.</p>
+            <p className="mb-4">You&apos;ve collected {Object.keys(collectedCards).length} out of {allCards.length} cards.</p>
             {selectedCard && collectedCards[selectedCard] && (
               <div className="flex items-center gap-4 mb-6 p-4 border rounded-lg bg-gray-800 shadow-lg">
                 <div className="w-32 h-32 relative">
+                  {(['Arceus', ...Object.keys(collectedCards).filter(key => collectedCards[key].card.name.startsWith('Arceus ('))].includes(selectedCard)) && (
+                    <motion.div
+                      initial={{ scale: 0.8, opacity: 0 }}
+                      animate={{ scale: 1, opacity: 0.5 }}
+                      transition={{ duration: 0.5 }}
+                      className="absolute inset-0 flex justify-center items-center z-10"
+                    >
+                      <Image
+                        src="/icons/arceus-symbol.png"
+                        alt="Arceus Symbol"
+                        width={140}
+                        height={140}
+                        className="object-contain"
+                      />
+                    </motion.div>
+                  )}
+                  {(['', ...Object.keys(collectedCards).filter(key => collectedCards[key].card.name.startsWith('Mega '))].includes(selectedCard)) && (
+                    <motion.div
+                      initial={{ scale: 0.8, opacity: 0 }}
+                      animate={{ scale: 1, opacity: 0.5 }}
+                      transition={{ duration: 0.5 }}
+                      className="absolute inset-0 flex justify-center items-center z-10"
+                    >
+                      <Image
+                        src="/icons/mega-evolution.png"
+                        alt="Mega-Evolution Symbol"
+                        width={120}
+                        height={120}
+                        className="object-contain opacity-80"
+                      />
+                    </motion.div>
+                  )}
+                  {(['', ...Object.keys(collectedCards).filter(key => collectedCards[key].card.name.startsWith('GMax '))].includes(selectedCard)) && (
+                    <motion.div
+                      initial={{ scale: 0.8, opacity: 0 }}
+                      animate={{ scale: 1, opacity: 0.5 }}
+                      transition={{ duration: 0.5 }}
+                      className="absolute inset-0 flex justify-center items-center z-10"
+                    >
+                      <Image
+                        src="/icons/gigantamax.png"
+                        alt="Gigantamax Symbol"
+                        width={140}
+                        height={140}
+                        className="object-contain opacity-80"
+                      />
+                    </motion.div>
+                  )}
                   <Image
                     src={
                       collectedCards[selectedCard].card.variant
@@ -528,7 +647,7 @@ export const CardPackOpener: React.FC = () => {
                     }
                     alt={collectedCards[selectedCard].card.name}
                     fill
-                    className="object-contain"
+                    className="object-contain relative z-20"
                   />
                 </div>
                 <div>
@@ -538,7 +657,7 @@ export const CardPackOpener: React.FC = () => {
                       : collectedCards[selectedCard].card.name}
                   </h4>
                   <p className="text-sm italic text-gray-300 mb-1">{collectedCards[selectedCard].card.move}</p>
-                  <p className={`flex gap-1 text-sm font-semibold ${collectedCards[selectedCard].card.rarity === 'Mythical' ? 'text-[#ffd700]' : 'text-white'}`}>
+                  <p className={`flex items-center gap-1 text-sm font-semibold ${collectedCards[selectedCard].card.rarity === 'Mythical' ? 'text-[#ffd700]' : 'text-white'}`}>
                     Rarity: {getRarityIcon(collectedCards[selectedCard].card.rarity)} {collectedCards[selectedCard].card.rarity}
                   </p>
                   <div className="text-sm flex items-center gap-1">
