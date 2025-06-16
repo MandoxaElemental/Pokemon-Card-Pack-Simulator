@@ -1309,7 +1309,7 @@ export const allCards: Card[] = [
   { name: 'Zamazenta-Crowned', number: 10189, type: ['Fighting', 'Steel'], isShiny: false, rarity: 'Legendary', move: 'Behemoth Bash' },
   { name: 'Eternatus-Eternamax', number: 10190, type: ['Poison', 'Dragon'], isShiny: false, rarity: 'Mythical', move: 'Dynamax Cannon' },
   { name: 'Urshifu (Rapid Strike)', number: 10191, type: ['Fighting', 'Water'], isShiny: false, rarity: 'Legendary', move: 'Surging Strikes' },
-  { name: 'Zarude-Dada', number: 10192, type: ['Dark', 'Grass'], isShiny: false, rarity: 'Mythical', move: 'Jungle Healing' },
+  // { name: 'Zarude-Dada', number: 10192, type: ['Dark', 'Grass'], isShiny: false, rarity: 'Mythical', move: 'Jungle Healing' },
   { name: 'Calyrex-Ice', number: 10193, type: ['Psychic', 'Ice'], isShiny: false, rarity: 'Mythical', move: 'Glacial Lance' },
   { name: 'Calyrex-Shadow', number: 10194, type: ['Psychic', 'Ghost'], isShiny: false, rarity: 'Mythical', move: 'Astral Barrage' },
   { name: 'GMax Venusaur', number: 10195, type: ['Grass', 'Poison'], isShiny: false, rarity: 'Legendary', move: 'G-Max Vine Lash' },

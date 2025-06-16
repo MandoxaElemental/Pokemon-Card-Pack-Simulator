@@ -175,8 +175,8 @@ export const CardPackOpener: React.FC = () => {
   };
 
   const rarityWeights: Record<Card['rarity'], number> = {
-    Common: 39,
-    Uncommon: 24,
+    Common: 40,
+    Uncommon: 25,
     Rare: 15,
     Epic: 10,
     Legendary: 7,
@@ -231,7 +231,7 @@ export const CardPackOpener: React.FC = () => {
       setEntered([false, false, false, false, false]);
       setRevealed([false, false, false, false, false]);
       setIsNewCard(newCardFlags);
-      const newShaking = newCards.map(card => card.rarity === 'Legendary' || card.rarity === 'Mythical');
+      const newShaking = newCards.map(card => card.rarity === 'Legendary' || card.rarity === 'Mythical' || card.isShiny);
       const newDoubleFlipped = newCards.map(card => card.rarity === 'Mythical');
       setShaking(newShaking);
       setDoubleFlipped(newDoubleFlipped);
@@ -433,7 +433,7 @@ export const CardPackOpener: React.FC = () => {
                             <Image key={idx} src={`/icons/types/${t}.png`} alt={`${t} icon`} width={20} height={20} />
                           ))}
                         </div>
-                        <div className='flex justify-center items-center w-48 h-48 p-2'>
+                        <div className='flex justify-center items-center w-44 h-44 p-2'>
                           <Image
                             src={imagePath}
                             alt={card.name}

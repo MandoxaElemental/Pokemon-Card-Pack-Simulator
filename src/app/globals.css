@@ -216,14 +216,13 @@ body {
 .shiny-chrome {
   background: linear-gradient(
     135deg,
-    #e8f1f9,
-#dedfde,
-#aeafae,
-    #dce7f2,
-#aeafae,
-#dedfde,   
-#e8f1f9
-  );
+#fffefe,
+#e1e2e3,
+#8c8798,
+#dce7f2,
+#8c8798,
+#e1e2e3,
+#fffefe  );
   background-size: 200% 100%;
   animation: chromeShine 6s ease-in-out infinite;
 }
@@ -231,11 +230,11 @@ body {
   background: linear-gradient(
   135deg,
   #fff7e0 0%,
-  #ffe08a 20%,
-  #d4b44c 40%,
-  #fff2b0 50%,
-  #d4b44c 60%,
-  #ffe08a 80%,
+  #f2d03c 20%,
+  #e5b610 40%,
+  #fef9c4 50%,
+  #e5b610 60%,
+  #f2d03c 80%,
   #fff7e0 100%
 );
  background-size: 200% 100%;
