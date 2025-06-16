@@ -256,3 +256,13 @@ body {
  background-size: 200% 100%;
   animation: chromeShine 6s ease-in-out infinite;
 }
+
+.main-background{
+background: #C2DBED;
+background: linear-gradient(180deg, rgba(194, 219, 237, 1) 0%, rgba(228, 241, 246, 1) 20%, rgba(228, 241, 246, 1) 80%, rgba(194, 219, 237, 1) 100%);
+}
+
+.main-background-dark {
+  background: #1E2A3C;
+  background: linear-gradient(180deg, rgba(30, 42, 60, 1) 0%, rgba(40, 52, 70, 1) 20%, rgba(40, 52, 70, 1) 80%, rgba(30, 42, 60, 1) 100%);
+}

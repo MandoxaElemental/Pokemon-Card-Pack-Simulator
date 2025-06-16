@@ -231,7 +231,7 @@ export const CardPackOpener: React.FC = () => {
       setEntered([false, false, false, false, false]);
       setRevealed([false, false, false, false, false]);
       setIsNewCard(newCardFlags);
-      const newShaking = newCards.map(card => card.rarity === 'Legendary' || card.rarity === 'Mythical' || card.isShiny);
+      const newShaking = newCards.map(card => card.rarity === 'Legendary' || card.rarity === 'Mythical');
       const newDoubleFlipped = newCards.map(card => card.rarity === 'Mythical');
       setShaking(newShaking);
       setDoubleFlipped(newDoubleFlipped);
@@ -370,11 +370,11 @@ export const CardPackOpener: React.FC = () => {
       <h2 className="text-2xl font-bold mb-4">Pokemon Card Pack Opening Simulator</h2>
       
       <div className="flex gap-4 mb-6">
-        <button onClick={openPack} disabled={opening} className="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded cursor-pointer">
+        <button onClick={openPack} disabled={opening} className="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded cursor-pointer shadow-xl/20">
           {opening ? 'Opening...' : 'Open Pack'}
         </button>
-        <button onClick={handleResetClick} className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded cursor-pointer">Reset Collection</button>
-        <button onClick={toggleMute} className="bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded cursor-pointer flex items-center gap-2">
+        <button onClick={handleResetClick} className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded cursor-pointer shadow-xl/20">Reset Collection</button>
+        <button onClick={toggleMute} className="bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded cursor-pointer flex items-center gap-2 shadow-xl/20">
           <Image src={isMuted ? '/icons/mute.svg' : '/icons/unmute.svg'} alt={isMuted ? 'Muted' : 'Unmuted'} width={20} height={20} className='invert' />
           {isMuted ? 'Unmute' : 'Mute'}
         </button>
@@ -405,7 +405,7 @@ export const CardPackOpener: React.FC = () => {
                 </div>
 
                 <div
-                  className={`absolute w-full h-full rotateY-180 backface-hidden p-1.5 rounded-xl flex flex-col items-center justify-between text-center shadow-2xl ${card.isShiny ? "bg-white" : getTypeBorderClass(card.rarity)} ${card.rarity === 'Mythical' && revealed[idx] && !card.isShiny ? 'glow-mythical' : card.isShiny ? 'glow-shiny twinkle-shiny' : ''} ${revealed[idx] ? 'cursor-pointer hover:scale-105 transition-transform' : ''}`}
+                  className={`absolute w-full h-full rotateY-180 backface-hidden p-1.5 rounded-xl flex flex-col items-center justify-between text-center shadow-xl/30 ${card.isShiny ? "bg-white" : getTypeBorderClass(card.rarity)} ${card.rarity === 'Mythical' && revealed[idx] && !card.isShiny ? 'glow-mythical' : card.isShiny ? 'glow-shiny twinkle-shiny' : ''} ${revealed[idx] ? 'cursor-pointer hover:scale-105 transition-transform' : ''}`}
                   onClick={() => revealed[idx] && handleCardClick(`${card.name}${card.variant ? `-${card.variant}` : ''}`)}
                 >
                   <div className='w-full h-full rounded-lg flex flex-col items-center justify-between text-center p-2'
@@ -463,7 +463,7 @@ export const CardPackOpener: React.FC = () => {
         <div className="text-lg font-semibold">Packs Opened: {packsOpened}</div>
         <button
           onClick={() => { setSelectedCard(null); setShowDex(true); }}
-          className="bg-teal-600 hover:bg-teal-700 text-white font-bold py-1 px-3 rounded cursor-pointer"
+          className="bg-teal-600 hover:bg-teal-700 text-white font-bold py-1 px-3 rounded cursor-pointer shadow-xl/20 "
         >
           View Card Dex
         </button>
@@ -510,6 +510,9 @@ export const CardPackOpener: React.FC = () => {
                 </div>
               </div>
             )}
+            <div className="grid grid-cols-2 gap-2">
+              <div>
+            <p className="font-semibold text-md">Regions:</p>
             <div className="flex gap-2 mb-4 flex-wrap">
               {Object.keys(regionRanges).map(region => (
                 <button
@@ -521,6 +524,9 @@ export const CardPackOpener: React.FC = () => {
                 </button>
               ))}
             </div>
+              </div>
+              <div>
+              <p className="font-semibold text-md">Rarity:</p>
             <div className="flex gap-2 mb-4 flex-wrap">
               {(['All', 'Common', 'Uncommon', 'Rare', 'Epic', 'Legendary', 'Mythical'] as const).map(rarity => (
                 <button
@@ -531,6 +537,8 @@ export const CardPackOpener: React.FC = () => {
                   {rarity}
                 </button>
               ))}
+            </div>
+              </div>
             </div>
             {displayedCards.length === 0 ? (
               <p className="text-center text-gray-400 mt-10">No cards available for this region or rarity yet.</p>
@@ -584,25 +592,25 @@ export const CardPackOpener: React.FC = () => {
 
 function getGradientBackground(types: string[]) {
   const typeColors: Record<string, string> = {
-    Normal: '#a1a3a0',
-    Fighting: '#fc820b',
-    Flying: '#82b9ef',
-    Poison: '#9040cb',
-    Ground: '#905120',
-    Rock: '#aea980',
-    Bug: '#92a31b',
-    Ghost: '#714270',
-    Steel: '#61a0b8',
-    Fire: '#e72928',
-    Water: '#2980ef',
-    Grass: '#40a12a',
-    Electric: '#fbc100',
-    Psychic: '#ee417b',
-    Ice: '#3fcef5',
-    Dragon: '#5060e0',
-    Dark: '#624d4f',
-    Fairy: '#ee71ee',
-    Stellar: '#40b4a4',
+    Normal: '#c1c2c1',
+    Fighting: '#ffac58',
+    Flying: '#acd2f4',
+    Poison: '#b885dc',
+    Ground: '#b98e6e',
+    Rock: '#cac6ae',
+    Bug: '#b8c36b',
+    Ghost: '#a384a2',
+    Steel: '#98c2d2',
+    Fire: '#ee7375',
+    Water: '#74acf6',
+    Grass: '#82c375',
+    Electric: '#fdd75a',
+    Psychic: '#f584a8',
+    Ice: '#81dff7',
+    Dragon: '#8f99ec',
+    Dark: '#9b8a8c',
+    Fairy: '#f4a3f5',
+    Stellar: '#83cfc6',
   };
 
   const color1 = typeColors[types[0]] || '#ffffff';

@@ -7,10 +7,10 @@ export const regionRanges = {
   Unova: [494, 649],
   Kalos: [650, 721],
   Alola: [722, 807],
-  Unknown: [808, 809],
   Galar: [810, 898],
   Hisui: [899, 905],
   Paldea: [906, 1025],
+  Unknown: [808, 809],
 };
 
 interface regionRanges {
@@ -562,6 +562,11 @@ export const allCards: Card[] = [
   { name: 'Dusknoir', number: 477, type: ['Ghost'], isShiny: false, rarity: 'Epic', move: 'Shadow Punch' },
   { name: 'Froslass', number: 478, type: ['Ice', 'Ghost'], isShiny: false, rarity: 'Rare', move: 'Ominous Wind' },
   { name: 'Rotom', number: 479, type: ['Electric', 'Ghost'], isShiny: false, rarity: 'Uncommon', move: 'Thunder Shock' },
+    { name: "Rotom (Heat)", number: 479, variant: "Heat", type: ["Electric", "Fire"], isShiny: false, rarity: "Rare", move: "Overheat" },
+  { name: "Rotom (Wash)", number: 479, variant: "Wash", type: ["Electric", "Water"], isShiny: false, rarity: "Rare", move: "Hydro Pump" },
+  { name: "Rotom (Frost)", number: 479, variant: "Frost", type: ["Electric", "Ice"], isShiny: false, rarity: "Rare", move: "Blizzard" },
+  { name: "Rotom (Fan)", number: 479, variant: "Fan", type: ["Electric", "Flying"], isShiny: false, rarity: "Rare", move: "Air Slash" },
+  { name: "Rotom (Mow)", number: 479, variant: "Mow", type: ["Electric", "Grass"], isShiny: false, rarity: "Rare", move: "Leaf Storm" },
   { name: 'Uxie', number: 480, type: ['Psychic'], isShiny: false, rarity: 'Legendary', move: 'Psybeam' },
   { name: 'Mesprit', number: 481, type: ['Psychic'], isShiny: false, rarity: 'Legendary', move: 'Confusion' },
   { name: 'Azelf', number: 482, type: ['Psychic'], isShiny: false, rarity: 'Legendary', move: 'Future Sight' },
@@ -575,6 +580,7 @@ export const allCards: Card[] = [
   { name: 'Manaphy', number: 490, type: ['Water'], isShiny: false, rarity: 'Mythical', move: 'Heart Swap' },
   { name: 'Darkrai', number: 491, type: ['Dark'], isShiny: false, rarity: 'Mythical', move: 'Dark Void' },
   { name: 'Shaymin', number: 492, type: ['Grass'], isShiny: false, rarity: 'Mythical', move: 'Seed Flare' },
+    { name: "Shaymin (Sky)", number: 492, variant: "Sky", type: ["Grass", "Flying"], isShiny: false, rarity: "Mythical", move: "Air Slash" },
   { name: 'Arceus', number: 493, type: ['Normal'], isShiny: false, rarity: 'Mythical', move: 'Judgment'},
   { name: 'Arceus (Fighting)', number: 493, type: ['Fighting'], isShiny: false, rarity: 'Mythical', move: 'Judgment', variant: 'fighting' },
   { name: 'Arceus (Flying)', number: 493, type: ['Flying'], isShiny: false, rarity: 'Mythical', move: 'Judgment', variant: 'flying' },
@@ -1019,7 +1025,7 @@ export const allCards: Card[] = [
   { name: 'Frosmoth', number: 873, type: ['Ice', 'Bug'], isShiny: false, rarity: 'Uncommon', move: 'Blizzard' },
   { name: 'Stonjourner', number: 874, type: ['Rock'], isShiny: false, rarity: 'Uncommon', move: 'Rock Slide' },
   { name: 'Eiscue', number: 875, type: ['Ice'], isShiny: false, rarity: 'Uncommon', move: 'Icicle Crash' },
-  { name: 'Indeedee', number: 876, type: ['Psychic', 'Normal'], isShiny: false, rarity: 'Rare', move: 'Psybeam' },
+  { name: 'Indeedee♂', number: 876, type: ['Psychic', 'Normal'], isShiny: false, rarity: 'Rare', move: 'Psybeam' },
   { name: 'Morpeko', number: 877, type: ['Electric', 'Dark'], isShiny: false, rarity: 'Uncommon', move: 'Aura Wheel' },
   { name: 'Cufant', number: 878, type: ['Steel'], isShiny: false, rarity: 'Common', move: 'Iron Head' },
   { name: 'Copperajah', number: 879, type: ['Steel'], isShiny: false, rarity: 'Rare', move: 'Heavy Slam' },
@@ -1047,7 +1053,7 @@ export const allCards: Card[] = [
   { name: 'Wyrdeer', number: 899, type: ['Normal', 'Psychic'], isShiny: false, rarity: 'Rare', move: 'Psyshield Bash' },
   { name: 'Kleavor', number: 900, type: ['Bug', 'Rock'], isShiny: false, rarity: 'Rare', move: 'Stone Axe' },
   { name: 'Ursaluna', number: 901, type: ['Ground', 'Normal'], isShiny: false, rarity: 'Epic', move: 'Headlong Rush' },
-  { name: 'Basculegion', number: 902, type: ['Water', 'Ghost'], isShiny: false, rarity: 'Rare', move: 'Wave Crash' },
+  { name: 'Basculegion♂', number: 902, type: ['Water', 'Ghost'], isShiny: false, rarity: 'Rare', move: 'Wave Crash' },
   { name: 'Sneasler', number: 903, type: ['Fighting', 'Poison'], isShiny: false, rarity: 'Rare', move: 'Dire Claw' },
   { name: 'Overqwil', number: 904, type: ['Dark', 'Poison'], isShiny: false, rarity: 'Rare', move: 'Barb Barrage' },
   { name: 'Enamorus', number: 905, type: ['Fairy', 'Flying'], isShiny: false, rarity: 'Legendary', move: 'Springtide Storm' },
@@ -1172,16 +1178,12 @@ export const allCards: Card[] = [
   { name: 'Iron Boulder', number: 1022, type: ['Rock', 'Psychic'], isShiny: false, rarity: 'Legendary', move: 'Mighty Cleave' },
   { name: 'Iron Crown', number: 1023, type: ['Steel', 'Psychic'], isShiny: false, rarity: 'Legendary', move: 'Tachyon Cutter' },
   { name: 'Terapagos', number: 1024, type: ['Normal'], isShiny: false, rarity: 'Epic', move: 'Rapid Spin' },
+    { name: "Terapagos (Terastal)", number: 1024, variant: "Terastal", type: ["Normal"], isShiny: false, rarity: "Legendary", move: "Tera Blast" },
+  { name: "Terapagos (Stellar)", number: 1024, variant: "Stellar", type: ["Stellar"], isShiny: false, rarity: "Mythical", move: "Tera Starstorm" },
   { name: 'Pecharunt', number: 1025, type: ['Poison', 'Ghost'], isShiny: false, rarity: 'Mythical', move: 'Malignant Chain' },
 
     // Special Forms
-  { name: "Shaymin (Sky)", number: 492, variant: "Sky", type: ["Grass", "Flying"], isShiny: false, rarity: "Mythical", move: "Air Slash" },
   { name: "Giratina (Origin)", number: 487, variant: "Origin", type: ["Ghost", "Dragon"], isShiny: false, rarity: "Legendary", move: "Shadow Force" },
-  { name: "Rotom (Heat)", number: 479, variant: "Heat", type: ["Electric", "Fire"], isShiny: false, rarity: "Rare", move: "Overheat" },
-  { name: "Rotom (Wash)", number: 479, variant: "Wash", type: ["Electric", "Water"], isShiny: false, rarity: "Rare", move: "Hydro Pump" },
-  { name: "Rotom (Frost)", number: 479, variant: "Frost", type: ["Electric", "Ice"], isShiny: false, rarity: "Rare", move: "Blizzard" },
-  { name: "Rotom (Fan)", number: 479, variant: "Fan", type: ["Electric", "Flying"], isShiny: false, rarity: "Rare", move: "Air Slash" },
-  { name: "Rotom (Mow)", number: 479, variant: "Mow", type: ["Electric", "Grass"], isShiny: false, rarity: "Rare", move: "Leaf Storm" },
   { name: "Castform (Sunny)", number: 351, variant: "Sunny", type: ["Fire"], isShiny: false, rarity: "Uncommon", move: "Weather Ball" },
   { name: "Castform (Rainy)", number: 351, variant: "Rainy", type: ["Water"], isShiny: false, rarity: "Uncommon", move: "Weather Ball" },
   { name: "Castform (Snowy)", number: 351, variant: "Snowy", type: ["Ice"], isShiny: false, rarity: "Uncommon", move: "Weather Ball" },
@@ -1385,8 +1387,6 @@ export const allCards: Card[] = [
   { name: "Ogerpon (Wellspring)", number: 1017, variant: "Wellspring", type: ["Grass", "Water"], isShiny: false, rarity: "Legendary", move: "Ivy Cudgel" },
   { name: "Ogerpon (Hearthflame)", number: 1017, variant: "Hearthflame", type: ["Grass", "Fire"], isShiny: false, rarity: "Legendary", move: "Ivy Cudgel" },
   { name: "Ogerpon (Cornerstone)", number: 1017, variant: "Cornerstone", type: ["Grass", "Rock"], isShiny: false, rarity: "Legendary", move: "Ivy Cudgel" },
-  { name: "Terapagos (Terestal)", number: 1029, variant: "Terastal", type: ["Normal"], isShiny: false, rarity: "Legendary", move: "Tera Blast" },
-  { name: "Terapagos (Stellar)", number: 1029, variant: "Stellar", type: ["Stellar"], isShiny: false, rarity: "Mythical", move: "Tera Starstorm" }
 ];
 
 export const specialFormRegionMapping: Record<number, string[]> = {
