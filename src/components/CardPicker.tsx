@@ -1,4 +1,5 @@
 'use client';
+
 import React, { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
@@ -54,7 +55,7 @@ export const CardPackOpener: React.FC = () => {
     )
   ).map(key => {
     const [name, variant] = key.split('-');
-    const card = allCards.find(c => c.name === name && (!variant || c.variant === variant));
+    const card = allCards.find(c => c.name === name && (variant ? c.variant === variant : !c.variant));
     return card;
   }).filter((card): card is Card => card !== undefined);
 
@@ -87,7 +88,7 @@ export const CardPackOpener: React.FC = () => {
           Object.entries(parsed.collectedCards).forEach(
             ([key, entry]) => {
               const [name, variant] = key.split('-');
-              const validCard = allCards.find(c => c.name === name && (!variant || c.variant === variant));
+              const validCard = allCards.find(c => c.name === name && (variant ? c.variant === variant : !c.variant));
               if (validCard && typeof entry.count === 'number' && entry.count > 0) {
                 validatedCards[key] = { card: validCard, count: entry.count, isShiny: entry.isShiny || false };
               }
@@ -212,7 +213,8 @@ export const CardPackOpener: React.FC = () => {
       for (let i = 0; i < 5; i++) {
         const card = getRandomCard();
         newCards.push(card);
-        newCardFlags.push(!collectedCards[`${card.name}${card.variant ? `-${card.variant}` : ''}`] || !collectedCards[`${card.name}${card.variant ? `-${card.variant}` : ''}`].isShiny && card.isShiny);
+        const key = `${card.name}${card.variant ? `-${card.variant}` : ''}`;
+        newCardFlags.push(!collectedCards[key] || !collectedCards[key].isShiny && card.isShiny);
       }
 
       const updatedCollected = { ...collectedCards };
@@ -349,15 +351,15 @@ export const CardPackOpener: React.FC = () => {
     }, 500);
   };
 
-  const handleCardClick = (cardName: string) => {
-    setSelectedCard(cardName);
+  const handleCardClick = (cardKey: string) => {
+    setSelectedCard(cardKey);
     setShowDex(true);
   };
 
   const ResetConfirmationModal = () => (
     <div className="fixed inset-0 bg-black/50 flex justify-center items-center z-50 p-6" onClick={() => setShowResetModal(false)}>
       <div className="bg-gray-900 rounded-lg max-w-md w-full p-6 text-white relative">
-        <h3 className="text-xl font-bold mb-4">Hello World</h3>
+        <h3 className="text-xl font-bold mb-4">Are you sure?</h3>
         <p className="mb-6">Resetting your collection will delete all your collected cards and progress. This action cannot be undone.</p>
         <div className="flex justify-end gap-4">
           <button onClick={() => setShowResetModal(false)} className="bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded cursor-pointer">Cancel</button>
@@ -385,7 +387,7 @@ export const CardPackOpener: React.FC = () => {
       {showResetModal && <ResetConfirmationModal />}
 
       {showWaveCards && cards.length === 0 && (
-        <div className="relative w-full h-74 grid grid-cols-5 gap-4 perspective text-white">
+        <div className="relative w-full h-74 grid grid-cols-5 gap-4 perspective text-white mb-6">
           {Array.from({ length: 5 }).map((_, idx) => (
             <motion.div
               key={`wave-card-${idx}`}
@@ -414,12 +416,13 @@ export const CardPackOpener: React.FC = () => {
         </div>
       )}
 
-      <div className={`${showWaveCards ? 'hidden' : 'relative'} w-full h-74 grid grid-cols-5 gap-4 perspective text-white`}>
+      <div className={`${showWaveCards && cards.length === 0 ? 'hidden' : 'relative'} w-full h-74 grid grid-cols-5 gap-4 perspective text-white`}>
         {cards.map((card, idx) => {
           const imagePath = card.variant ? `${card.isShiny ? '/shiny' : '/home-icons'}/${card.number}-${card.variant}.png` : `${card.isShiny ? '/shiny' : '/home-icons'}/${card.number}.png`;
+          const cardKey = `${card.name}${card.variant ? `-${card.variant}` : ''}`;
           return (
             <motion.div
-              key={`card-${idx}-${card.variant || ''}`}
+              key={`card-${idx}-${cardKey}`}
               className="w-54 h-74 relative"
               initial={{ y: 100, opacity: 0 }}
               animate={{ y: entered[idx] ? 0 : 100, opacity: entered[idx] ? 1 : 0, rotate: shaking[idx] && !revealed[idx] ? [0, -5, 5, -5, 5, 0] : 0 }}
@@ -438,9 +441,10 @@ export const CardPackOpener: React.FC = () => {
 
                 <div
                   className={`absolute w-full h-full rotateY-180 backface-hidden p-1.5 rounded-xl flex flex-col items-center justify-between text-center shadow-xl/30 ${card.isShiny ? "bg-white" : getTypeBorderClass(card.rarity)} ${card.rarity === 'Mythical' && revealed[idx] && !card.isShiny ? 'glow-mythical' : card.isShiny ? 'glow-shiny twinkle-shiny' : ''} ${revealed[idx] ? 'cursor-pointer hover:scale-105 transition-transform' : ''}`}
-                  onClick={() => revealed[idx] && handleCardClick(`${card.name}${card.variant ? `-${card.variant}` : ''}`)}
+                  onClick={() => revealed[idx] && handleCardClick(cardKey)}
                 >
-                  <div className='w-full h-full rounded-lg flex flex-col items-center justify-between text-center p-2'
+                  <div
+                    className='w-full h-full rounded-lg flex flex-col items-center justify-between text-center p-2'
                     style={{
                       background: getGradientBackground(card.type),
                       ...(card.isShiny && revealed[idx]
@@ -452,7 +456,8 @@ export const CardPackOpener: React.FC = () => {
                             backgroundRepeat: 'no-repeat',
                           }
                         : {}),
-                    }}>
+                    }}
+                  >
                     {revealed[idx] && (
                       <>
                         {isNewCard[idx] && (
@@ -495,7 +500,7 @@ export const CardPackOpener: React.FC = () => {
         <div className="text-lg font-semibold">Packs Opened: {packsOpened}</div>
         <button
           onClick={() => { setSelectedCard(null); setShowDex(true); }}
-          className="bg-teal-600 hover:bg-teal-700 text-white font-bold py-1 px-3 rounded cursor-pointer shadow-xl/20 "
+          className="bg-teal-600 hover:bg-teal-700 text-white font-bold py-1 px-3 rounded cursor-pointer shadow-xl/20"
         >
           View Card Dex
         </button>
@@ -508,10 +513,10 @@ export const CardPackOpener: React.FC = () => {
               onClick={() => { setShowDex(false); setSelectedCard(null); }}
               className="absolute top-2 right-4 text-gray-300 hover:text-white text-3xl cursor-pointer"
             >
-              ✖
+              ✕
             </button>
             <h3 className="text-2xl font-bold mb-4">Card Dex</h3>
-            <p className="mb-4">You&apos;ve collected {Object.keys(collectedCards).length} out of {allCards.length} cards.</p>
+            <p className="mb-4">You've collected {Object.keys(collectedCards).length} out of {allCards.length} cards.</p>
             {selectedCard && collectedCards[selectedCard] && (
               <div className="flex items-center gap-4 mb-6 p-4 border rounded-lg bg-gray-800 shadow-lg">
                 <div className="w-32 h-32 relative">
@@ -521,15 +526,19 @@ export const CardPackOpener: React.FC = () => {
                         ? `${collectedCards[selectedCard].isShiny ? '/shiny' : '/home-icons'}/${collectedCards[selectedCard].card.number}-${collectedCards[selectedCard].card.variant}.png`
                         : `${collectedCards[selectedCard].isShiny ? '/shiny' : '/home-icons'}/${collectedCards[selectedCard].card.number}.png`
                     }
-                    alt={selectedCard}
+                    alt={collectedCards[selectedCard].card.name}
                     fill
                     className="object-contain"
                   />
                 </div>
                 <div>
-                  <h4 className="text-xl font-bold">{collectedCards[selectedCard].isShiny ? `${selectedCard.split('-')[0]} ✦${collectedCards[selectedCard].card.variant ? ` (${collectedCards[selectedCard].card.variant})` : ''}` : selectedCard}</h4>
+                  <h4 className="text-xl font-bold">
+                    {collectedCards[selectedCard].isShiny
+                      ? `${collectedCards[selectedCard].card.name} ✦`
+                      : collectedCards[selectedCard].card.name}
+                  </h4>
                   <p className="text-sm italic text-gray-300 mb-1">{collectedCards[selectedCard].card.move}</p>
-                  <p className={`text-sm font-semibold ${collectedCards[selectedCard].card.rarity === 'Mythical' ? 'text-[#ffd700]' : 'text-white'}`}>
+                  <p className={`flex gap-1 text-sm font-semibold ${collectedCards[selectedCard].card.rarity === 'Mythical' ? 'text-[#ffd700]' : 'text-white'}`}>
                     Rarity: {getRarityIcon(collectedCards[selectedCard].card.rarity)} {collectedCards[selectedCard].card.rarity}
                   </p>
                   <div className="text-sm flex items-center gap-1">
@@ -577,11 +586,12 @@ export const CardPackOpener: React.FC = () => {
             ) : (
               <div className="grid grid-cols-5 gap-4">
                 {displayedCards.map(card => {
-                  const key = `${card.name}`;
-                  const owned = collectedCards[key];
+                  const cardKey = `${card.name}${card.variant ? `-${card.variant}` : ''}`;
+                  const owned = collectedCards[cardKey];
                   const imagePath = card.variant ? `/home-icons/${card.number}-${card.variant}.png` : `/home-icons/${card.number}.png`;
                   return (
-                    <div onClick={() => handleCardClick(key)} key={key} className="flex flex-col items-center cursor-pointer">
+                      <div onClick={() => handleCardClick(cardKey)} key={cardKey} className="flex flex-col items-center cursor-pointer">
+
                       <div className="w-20 h-20 relative mb-2">
                         {owned ? (
                           <Image
