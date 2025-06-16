@@ -458,7 +458,9 @@ export const allCards: Card[] = [
   { name: 'Rayquaza', number: 384, type: ['Dragon', 'Flying'], isShiny: false, rarity: 'Legendary', move: 'Dragon Ascent' },
   { name: 'Jirachi', number: 385, type: ['Steel', 'Psychic'], isShiny: false, rarity: 'Mythical', move: 'Doom Desire' },
   { name: 'Deoxys', number: 386, type: ['Psychic'], isShiny: false, rarity: 'Mythical', move: 'Psycho Boost' },
-
+      { name: 'Deoxys-Attack', number: 386, type: ['Psychic'], isShiny: false, rarity: 'Mythical', move: 'Psycho Boost', variant: 'attack'},
+  { name: 'Deoxys-Defense', number: 386, type: ['Psychic'], isShiny: false, rarity: 'Mythical', move: 'Iron Defense', variant: 'defense' },
+  { name: 'Deoxys-Speed', number: 386, type: ['Psychic'], isShiny: false, rarity: 'Mythical', move: 'Extreme Speed', variant: 'speed' },
   // Sinnoh
   { name: 'Turtwig', number: 387, type: ['Grass'], isShiny: false, rarity: 'Uncommon', move: 'Razor Leaf' },
   { name: 'Grotle', number: 388, type: ['Grass'], isShiny: false, rarity: 'Rare', move: 'Leaf Blade' },
@@ -618,7 +620,8 @@ export const allCards: Card[] = [
   { name: 'Musharna', number: 518, type: ['Psychic'], isShiny: false, rarity: 'Uncommon', move: 'Psychic' },
   { name: 'Pidove', number: 519, type: ['Normal', 'Flying'], isShiny: false, rarity: 'Common', move: 'Gust' },
   { name: 'Tranquill', number: 520, type: ['Normal', 'Flying'], isShiny: false, rarity: 'Uncommon', move: 'Air Slash' },
-  { name: 'Unfezant', number: 521, type: ['Normal', 'Flying'], isShiny: false, rarity: 'Rare', move: 'Sky Attack' },
+  { name: 'Unfezant♂', number: 521, type: ['Normal', 'Flying'], isShiny: false, rarity: 'Rare', move: 'Sky Attack' },
+  { name: 'Unfezant♀', number: 521, type: ['Normal', 'Flying'], isShiny: false, rarity: 'Rare', move: 'Sky Attack' , variant: 'female'},
   { name: 'Blitzle', number: 522, type: ['Electric'], isShiny: false, rarity: 'Common', move: 'Spark' },
   { name: 'Zebstrika', number: 523, type: ['Electric'], isShiny: false, rarity: 'Uncommon', move: 'Thunderbolt' },
   { name: 'Roggenrola', number: 524, type: ['Rock'], isShiny: false, rarity: 'Common', move: 'Rock Throw' },
@@ -695,8 +698,10 @@ export const allCards: Card[] = [
   { name: 'Escavalier', number: 589, type: ['Bug', 'Steel'], isShiny: false, rarity: 'Rare', move: 'X-Scissor' },
   { name: 'Foongus', number: 590, type: ['Grass', 'Poison'], isShiny: false, rarity: 'Common', move: 'Absorb' },
   { name: 'Amoonguss', number: 591, type: ['Grass', 'Poison'], isShiny: false, rarity: 'Uncommon', move: 'Giga Drain' },
-  { name: 'Frillish', number: 592, type: ['Water', 'Ghost'], isShiny: false, rarity: 'Common', move: 'Bubble Beam' },
-  { name: 'Jellicent', number: 593, type: ['Water', 'Ghost'], isShiny: false, rarity: 'Uncommon', move: 'Shadow Ball' },
+  { name: 'Frillish♂', number: 592, type: ['Water', 'Ghost'], isShiny: false, rarity: 'Common', move: 'Bubble Beam' },
+  { name: 'Frillish♀', number: 592, type: ['Water', 'Ghost'], isShiny: false, rarity: 'Common', move: 'Bubble Beam' , variant: 'female'},
+  { name: 'Jellicent♂', number: 593, type: ['Water', 'Ghost'], isShiny: false, rarity: 'Uncommon', move: 'Shadow Ball' },
+  { name: 'Jellicent♀', number: 593, type: ['Water', 'Ghost'], isShiny: false, rarity: 'Uncommon', move: 'Shadow Ball', variant: 'female'},
   { name: 'Alomomola', number: 594, type: ['Water'], isShiny: false, rarity: 'Uncommon', move: 'Aqua Jet' },
   { name: 'Joltik', number: 595, type: ['Bug', 'Electric'], isShiny: false, rarity: 'Common', move: 'Electroweb' },
   { name: 'Galvantula', number: 596, type: ['Bug', 'Electric'], isShiny: false, rarity: 'Uncommon', move: 'Thunderbolt' },
@@ -790,7 +795,8 @@ export const allCards: Card[] = [
   { name: 'Vivillon (Icy Snow)', number: 666, type: ['Bug', 'Flying'], isShiny: false, rarity: 'Rare', move: 'Gust', variant: 'icy-snow' },
   { name: 'Vivillon (Polar)', number: 666, type: ['Bug', 'Flying'], isShiny: false, rarity: 'Rare', move: 'Gust', variant: 'polar' },
   { name: 'Litleo', number: 667, type: ['Fire', 'Normal'], isShiny: false, rarity: 'Common', move: 'Ember' },
-  { name: 'Pyroar', number: 668, type: ['Fire', 'Normal'], isShiny: false, rarity: 'Uncommon', move: 'Noble Roar' },
+  { name: 'Pyroar♂', number: 668, type: ['Fire', 'Normal'], isShiny: false, rarity: 'Uncommon', move: 'Noble Roar' },
+  { name: 'Pyroar♀', number: 668, type: ['Fire', 'Normal'], isShiny: false, rarity: 'Uncommon', move: 'Noble Roar' , variant: 'female'},
   { name: 'Flabébé', number: 669, type: ['Fairy'], isShiny: false, rarity: 'Common', move: 'Fairy Wind' },
   { name: 'Floette', number: 670, type: ['Fairy'], isShiny: false, rarity: 'Uncommon', move: 'Petal Blizzard' },
   { name: 'Florges', number: 671, type: ['Fairy'], isShiny: false, rarity: 'Rare', move: 'Moonblast' },
@@ -1168,9 +1174,9 @@ export const allCards: Card[] = [
   { name: 'Pecharunt', number: 1025, type: ['Poison', 'Ghost'], isShiny: false, rarity: 'Mythical', move: 'Malignant Chain' },
 
     // Special Forms
-    { name: 'Deoxys-Attack', number: 10001, type: ['Psychic'], isShiny: false, rarity: 'Mythical', move: 'Psycho Boost' },
-  { name: 'Deoxys-Defense', number: 10002, type: ['Psychic'], isShiny: false, rarity: 'Mythical', move: 'Iron Defense' },
-  { name: 'Deoxys-Speed', number: 10003, type: ['Psychic'], isShiny: false, rarity: 'Mythical', move: 'Extreme Speed' },
+  //   { name: 'Deoxys-Attack', number: 10001, type: ['Psychic'], isShiny: false, rarity: 'Mythical', move: 'Psycho Boost' },
+  // { name: 'Deoxys-Defense', number: 10002, type: ['Psychic'], isShiny: false, rarity: 'Mythical', move: 'Iron Defense' },
+  // { name: 'Deoxys-Speed', number: 10003, type: ['Psychic'], isShiny: false, rarity: 'Mythical', move: 'Extreme Speed' },
   { name: 'Shaymin (Sky)', number: 10006, type: ['Grass', 'Flying'], isShiny: false, rarity: 'Mythical', move: 'Air Slash' },
   { name: 'Giratina-Origin', number: 10007, type: ['Ghost', 'Dragon'], isShiny: false, rarity: 'Legendary', move: 'Shadow Force' },
   { name: 'Rotom-Heat', number: 10008, type: ['Electric', 'Fire'], isShiny: false, rarity: 'Rare', move: 'Overheat' },
@@ -1390,9 +1396,9 @@ export const allCards: Card[] = [
 
 export const specialFormRegionMapping: Record<number, string[]> = {
   // Deoxys Forms (Hoenn, base: 386)
-  10001: ['Hoenn'], // Deoxys-Attack
-  10002: ['Hoenn'], // Deoxys-Defense
-  10003: ['Hoenn'], // Deoxys-Speed
+  // 10001: ['Hoenn'], // Deoxys-Attack
+  // 10002: ['Hoenn'], // Deoxys-Defense
+  // 10003: ['Hoenn'], // Deoxys-Speed
   // Shaymin-Sky (Sinnoh, base: 492)
   10006: ['Sinnoh'], // Shaymin-Sky
   // Giratina-Origin (Sinnoh, base: 487)
