@@ -1,11 +1,12 @@
 'use client';
-
 import React, { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Card } from '@/app/Utils/Interfaces';
+import { useSound } from '@/app/Context/SoundContext';
 
 const About: React.FC = () => {
+  const { isMuted, toggleMute } = useSound();
   const [showModal, setShowModal] = useState(false);
 
   const getRarityIcon = (rarity: Card['rarity']) => {
@@ -61,7 +62,7 @@ const About: React.FC = () => {
           onClick={() => setShowModal(false)}
           className="absolute top-2 right-4 hover:opacity-80 text-3xl cursor-pointer text-[#8c9ca4]"
         >
-          ✖
+          ✕
         </button>
         <h3 className="text-xl font-bold mb-4">Welcome to PokéPack Opening Simulator</h3>
         <p className="mb-2">
@@ -89,35 +90,22 @@ const About: React.FC = () => {
       <div className="flex gap-2 items-center">
         <button
           onClick={() => setShowModal(true)}
-          className="h-10 w-10 bg-gradient-to-br from-white to-gray-200
-    hover:from-gray-100 hover:to-gray-300
-    active:from-gray-300 active:to-gray-400
-    text-black font-bold rounded-full
-    cursor-pointer
-    shadow-lg hover:shadow-xl
-    border border-gray-300
-    flex items-center justify-center
-    transform transition-all duration-200
-    hover:scale-105 active:scale-95 text-2xl"
+          className="h-10 w-10 bg-gradient-to-br from-white to-gray-200 hover:from-gray-100 hover:to-gray-300 active:from-gray-300 active:to-gray-400 text-black font-bold rounded-full cursor-pointer shadow-lg hover:shadow-xl border border-gray-300 flex items-center justify-center transform transition-all duration-200 hover:scale-105 active:scale-95 text-2xl"
         >
           ?
         </button>
-        <Link href="https://x.com/GReinares" target="_blank" rel="noopener noreferrer">
         <button
-          className="h-10 w-10 bg-gradient-to-br from-white to-gray-200
-    hover:from-gray-100 hover:to-gray-300
-    active:from-gray-300 active:to-gray-400
-    text-black font-bold rounded-full
-    cursor-pointer
-    shadow-lg hover:shadow-xl
-    border border-gray-300
-    flex items-center justify-center
-    transform transition-all duration-200
-    hover:scale-105 active:scale-95 text-2xl"
+          onClick={toggleMute}
+          className="h-10 w-10 bg-gradient-to-br from-white to-gray-200 hover:from-gray-100 hover:to-gray-300 active:from-gray-300 active:to-gray-400 text-black font-bold rounded-full cursor-pointer shadow-lg hover:shadow-xl border border-gray-300 flex items-center justify-center transform transition-all duration-200 hover:scale-105 active:scale-95"
         >
-        <Image src='/icons/twitter-x.svg' alt='x' width={20} height={20} className=''/>
-          
+          <Image src={isMuted ? '/icons/mute.svg' : '/icons/unmute.svg'} alt={isMuted ? 'Muted' : 'Unmuted'} width={20} height={20} />
         </button>
+        <Link href="https://x.com/GReinares" target="_blank" rel="noopener noreferrer">
+          <button
+            className="h-10 w-10 bg-gradient-to-br from-white to-gray-200 hover:from-gray-100 hover:to-gray-300 active:from-gray-300 active:to-gray-400 text-black font-bold rounded-full cursor-pointer shadow-lg hover:shadow-xl border border-gray-300 flex items-center justify-center transform transition-all duration-200 hover:scale-105 active:scale-95 text-2xl"
+          >
+            <Image src='/icons/twitter-x.svg' alt='x' width={20} height={20} />
+          </button>
         </Link>
         <Link href="https://ko-fi.com/S6S2P5VOY" target="_blank" rel="noopener noreferrer">
           <Image
@@ -125,8 +113,7 @@ const About: React.FC = () => {
             alt="Buy Me a Coffee at ko-fi.com"
             width={140}
             height={36}
-            className="hover:opacity-80 shadow-lg rounded-xl transform transition-all duration-200
-    hover:scale-105 active:scale-95 text-2xl"
+            className="hover:opacity-80 shadow-lg rounded-xl transform transition-all duration-200 hover:scale-105 active:scale-95 text-2xl"
             style={{ border: '0px', height: '36px' }}
           />
         </Link>

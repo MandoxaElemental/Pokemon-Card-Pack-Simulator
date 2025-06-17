@@ -4,6 +4,7 @@ import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { allCards, Card, regionRanges, specialFormRegionMapping, themedPacks, BoosterPack } from '@/app/Utils/Interfaces';
 import { PackSelector } from './PackSelector';
+import { useSound } from '@/app/Context/SoundContext';
 
 type CardCollection = {
   [key: string]: { card: Card; count: number; isShiny: boolean };
@@ -19,6 +20,7 @@ interface CardPackOpenerProps {
 }
 
 export const CardPackOpener: React.FC<CardPackOpenerProps> = ({ curatedPack }) => {
+  const { isMuted } = useSound();
   const [cards, setCards] = useState<Card[]>([]);
   const [flipped, setFlipped] = useState<boolean[]>([]);
   const [entered, setEntered] = useState<boolean[]>([]);
@@ -32,7 +34,6 @@ export const CardPackOpener: React.FC<CardPackOpenerProps> = ({ curatedPack }) =
   const [, setDoubleFlipped] = useState<boolean[]>([]);
   const [selectedCard, setSelectedCard] = useState<string | null>(null);
   const [showResetModal, setShowResetModal] = useState(false);
-  const [isMuted, setIsMuted] = useState(false);
   const [showWaveCards, setShowWaveCards] = useState(true);
   const [selectedPack, setSelectedPack] = useState<string>(curatedPack ? curatedPack.id : 'mystery');
   const cardRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
@@ -50,7 +51,7 @@ export const CardPackOpener: React.FC<CardPackOpenerProps> = ({ curatedPack }) =
       allCards
         .filter(card => {
           if (currentRegion === 'All') {
-            return true; // Show all cards
+            return true;
           }
           const [start, end] = regionRanges[currentRegion] || [0, 0];
           const variantRegions = specialFormRegionMapping[card.number]?.[card.variant || ''] || [];
@@ -147,10 +148,6 @@ export const CardPackOpener: React.FC<CardPackOpenerProps> = ({ curatedPack }) =
 
   const handleResetClick = () => {
     setShowResetModal(true);
-  };
-
-  const toggleMute = () => {
-    setIsMuted(prev => !prev);
   };
 
   const getRarityIcon = (rarity: Card['rarity']) => {
@@ -430,10 +427,6 @@ export const CardPackOpener: React.FC<CardPackOpenerProps> = ({ curatedPack }) =
           {opening ? 'Opening...' : 'Open Pack'}
         </button>
         <button onClick={handleResetClick} className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-2xl cursor-pointer shadow-xl/20">Reset Collection</button>
-        <button onClick={toggleMute} className="bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-2xl cursor-pointer flex items-center gap-1 shadow-xl/20">
-          <Image src={isMuted ? '/icons/mute.svg' : '/icons/unmute.svg'} alt={isMuted ? 'Muted' : 'Unmuted'} width={30} height={30} className='invert' />
-          {isMuted ? 'Unmute' : 'Mute'}
-        </button>
       </div>
 
       {showResetModal && <ResetConfirmationModal />}
@@ -662,13 +655,21 @@ export const CardPackOpener: React.FC<CardPackOpenerProps> = ({ curatedPack }) =
       </div>
 
       {showDex && (
-        <div className="fixed inset-0 bg-black/50 flex justify-center items-center z-50 p-6">
+        <div
+          className="fixed inset-0 bg-black/50 flex justify-center items-center z-50 p-6"
+          onClick={(e) => {
+            if (modalContentRef.current && !modalContentRef.current.contains(e.target as Node)) {
+              setShowDex(false);
+              setSelectedCard(null);
+            }
+          }}
+        >
           <div ref={modalContentRef} className="bg-gray-900 rounded-lg max-w-3xl w-full p-6 text-white relative overflow-y-auto max-h-[90vh]">
             <button
               onClick={() => { setShowDex(false); setSelectedCard(null); }}
               className="absolute top-2 right-4 text-gray-300 hover:text-white text-3xl cursor-pointer"
             >
-              ✖
+              ✕
             </button>
             <h3 className="text-2xl font-bold mb-4">Card Dex</h3>
             <p className="mb-4">You&apos;ve collected {Object.keys(collectedCards).length} out of {allCards.length} cards.</p>
