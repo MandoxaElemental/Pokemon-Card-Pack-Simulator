@@ -511,6 +511,15 @@ export const CardPackOpener: React.FC<CardPackOpenerProps> = ({ curatedPack }) =
                         : {}),
                     }}
                   >
+                    {card.isShiny && revealed[idx] && (
+                      <>
+                        <span className="star1"></span>
+                        <span className="star2"></span>
+                        <span className="star3"></span>
+                        <span className="star4"></span>
+                        <span className="star5"></span>
+                      </>
+                    )}
                     {revealed[idx] && (
                       <>
                         {isNewCard[idx] && (

@@ -80,7 +80,7 @@ export const themedPacks: BoosterPack[] = [
   // },
   {
     id: '151',
-    name: 'Classic 151',
+    name: 'Original 151',
     filter: (card: Card) => {
       const [start, end] = regionRanges['Kanto'] || [0, 0];
       return (
