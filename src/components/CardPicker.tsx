@@ -1,9 +1,9 @@
 'use client';
-
 import React, { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
-import { allCards, Card, regionRanges, specialFormRegionMapping } from '@/app/Utils/Interfaces';
+import { allCards, Card, regionRanges, specialFormRegionMapping, themedPacks } from '@/app/Utils/Interfaces';
+import { PackSelector } from './PackSelector';
 
 type CardCollection = {
   [key: string]: { card: Card; count: number; isShiny: boolean };
@@ -30,6 +30,7 @@ export const CardPackOpener: React.FC = () => {
   const [showResetModal, setShowResetModal] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
   const [showWaveCards, setShowWaveCards] = useState(true);
+  const [selectedPack, setSelectedPack] = useState<string>('mystery'); // New state for pack type
   const cardRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
   const [currentRegion, setCurrentRegion] = useState<keyof typeof regionRanges>('All');
   const [currentRarity, setCurrentRarity] = useState<'All' | Card['rarity']>('All');
@@ -176,7 +177,7 @@ export const CardPackOpener: React.FC = () => {
     }
   };
 
-  const rarityWeights: Record<Card['rarity'], number> = {
+  const defaultRarityWeights: Record<Card['rarity'], number> = {
     Common: 40,
     Uncommon: 25,
     Rare: 15,
@@ -185,15 +186,25 @@ export const CardPackOpener: React.FC = () => {
     Mythical: 3,
   };
 
-  function getRandomCard(): Card & { rarity: Card['rarity']; isShiny?: boolean } {
+  function getRandomCard(packId: string): Card & { rarity: Card['rarity']; isShiny?: boolean } {
+    const pack = themedPacks.find(p => p.id === packId) || themedPacks[0]; // Fallback to Mystery Pack
     const pool: (Card & { rarity: Card['rarity']; isShiny?: boolean })[] = [];
-    allCards.forEach(card => {
-      const weight = rarityWeights[card.rarity];
-      for (let i = 0; i < weight; i++) {
-        const isShiny = Math.random() < 0.01;
-        pool.push({ ...card, rarity: card.rarity, isShiny });
-      }
-    });
+    const weights = pack.weights || defaultRarityWeights;
+
+    allCards
+      .filter(pack.filter)
+      .forEach(card => {
+        const weight = weights[card.rarity] || 1;
+        for (let i = 0; i < weight; i++) {
+          const isShiny = Math.random() < 0.01;
+          pool.push({ ...card, rarity: card.rarity, isShiny });
+        }
+      });
+
+    if (pool.length === 0) {
+      console.warn(`No cards available for pack: ${pack.name}`);
+      return allCards[Math.floor(Math.random() * allCards.length)] as Card & { rarity: Card['rarity']; isShiny?: boolean };
+    }
     return pool[Math.floor(Math.random() * pool.length)];
   }
 
@@ -211,7 +222,7 @@ export const CardPackOpener: React.FC = () => {
       const newCardFlags: boolean[] = [];
 
       for (let i = 0; i < 5; i++) {
-        const card = getRandomCard();
+        const card = getRandomCard(selectedPack);
         newCards.push(card);
         const key = `${card.name}${card.variant ? `-${card.variant}` : ''}`;
         newCardFlags.push(!collectedCards[key] || !collectedCards[key].isShiny && card.isShiny);
@@ -373,33 +384,42 @@ export const CardPackOpener: React.FC = () => {
     <div className="flex flex-col items-center justify-center p-6 text-black">
       <h2 className="text-2xl font-bold mb-4">PokéPack Opening Simulator</h2>
       
+      <div className="flex gap-4 mb-4">
+        <PackSelector
+          selectedPack={selectedPack}
+          setSelectedPack={setSelectedPack}
+          themedPacks={themedPacks}
+          disabled={opening}
+        />
+      </div>
+
       <div className="flex gap-4 mb-6">
         <button
-  onClick={openPack}
-  disabled={opening}
-  className={`
-    bg-gradient-to-br from-white to-gray-200
-    hover:from-gray-100 hover:to-gray-300
-    active:from-gray-300 active:to-gray-400
-    text-black font-bold py-2 px-4 rounded-2xl
-    cursor-pointer
-    shadow-lg hover:shadow-xl
-    border border-gray-300
-    flex gap-2 items-center
-    transform transition-all duration-200
-    hover:scale-105 active:scale-95
-    ${opening ? 'opacity-50 cursor-not-allowed' : ''}
-  `}
->
-  <Image
-    src={opening ? '/icons/pack-open.png' : '/icons/pack-close.png'}
-    alt={opening ? 'Pack Open' : 'Pack Close'}
-    width={20}
-    height={20}
-    className="invert"
-  />
-  {opening ? 'Opening...' : 'Open Pack'}
-</button>
+          onClick={openPack}
+          disabled={opening}
+          className={`
+            bg-gradient-to-br from-white to-gray-200
+            hover:from-gray-100 hover:to-gray-300
+            active:from-gray-300 active:to-gray-400
+            text-black font-bold py-2 px-4 rounded-2xl
+            cursor-pointer
+            shadow-lg hover:shadow-xl
+            border border-gray-300
+            flex gap-2 items-center
+            transform transition-all duration-200
+            hover:scale-105 active:scale-95
+            ${opening ? 'opacity-50 cursor-not-allowed' : ''}
+          `}
+        >
+          <Image
+            src={opening ? '/icons/pack-open.png' : '/icons/pack-close.png'}
+            alt={opening ? 'Pack Open' : 'Pack Close'}
+            width={20}
+            height={20}
+            className="invert"
+          />
+          {opening ? 'Opening...' : 'Open Pack'}
+        </button>
         <button onClick={handleResetClick} className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-2xl cursor-pointer shadow-xl/20">Reset Collection</button>
         <button onClick={toggleMute} className="bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-2xl cursor-pointer flex items-center gap-1 shadow-xl/20">
           <Image src={isMuted ? '/icons/mute.svg' : '/icons/unmute.svg'} alt={isMuted ? 'Muted' : 'Unmuted'} width={30} height={30} className='invert' />
@@ -446,8 +466,10 @@ export const CardPackOpener: React.FC = () => {
           const isArceus = card.name === 'Arceus' || card.name.startsWith('Arceus (');
           const isSilvally = card.name === 'Silvally' || card.name.startsWith('Silvally (') || card.name === 'Type: Null';
           const isMega = card.name.startsWith('Mega ');
+          const isPrimal = card.name.startsWith('Primal ');
           const isGMax = card.name.startsWith('GMax ');
-          const isUltraBeast = (card.number >= 793 && card.number <= 799) || (card.number >= 803 && card.number <= 806);          return (
+          const isUltraBeast = (card.number >= 793 && card.number <= 799) || (card.number >= 803 && card.number <= 806);
+          return (
             <motion.div
               key={`card-${idx}-${cardKey}`}
               className="w-54 h-74 relative"
@@ -530,6 +552,22 @@ export const CardPackOpener: React.FC = () => {
                               />
                             </motion.div>
                           )}
+                          {isPrimal && (
+                            <motion.div
+                              initial={{ scale: 0.8, opacity: 0 }}
+                              animate={{ scale: 1, opacity: 0.5 }}
+                              transition={{ duration: 0.5, delay: 0.2 }}
+                              className="absolute inset-0 flex justify-center items-center z-10"
+                            >
+                              <Image
+                                src={`/icons/${card.number === 382 ? 'blue' : 'red'}-orb.png`}
+                                alt={`orb`}
+                                width={160}
+                                height={160}
+                                className="object-contain opacity-80"
+                              />
+                            </motion.div>
+                          )}
                           {isMega && (
                             <motion.div
                               initial={{ scale: 0.8, opacity: 0 }}
@@ -583,10 +621,10 @@ export const CardPackOpener: React.FC = () => {
                             alt={card.name}
                             width={200}
                             height={200}
-                            className="mb-2 w-full h-full rounded-t-lg relative z-20"
+                            className="mb-1 w-full h-full rounded-t-lg relative z-20"
                           />
-
                         </div>
+                        <p className={`${card.artist ? 'relative' : 'hidden'} text-sm italic z-20`}>Art by: {card.artist}</p>
                         <div className={card.isShiny ? 'text-black' : 'text-white'}>
                           <div className="font-bold text-md text-center">{card.isShiny ? `${card.name} ✦` : card.name}</div>
                           <div className={`flex justify-center pt-1 ${card.rarity === 'Mythical' ? 'text-[#ffd700] text-shadow-white' : card.isShiny ? 'text-black' : 'text-white'}`}>
@@ -608,16 +646,7 @@ export const CardPackOpener: React.FC = () => {
         <div className="text-lg font-semibold">Packs Opened: {packsOpened}</div>
         <button
           onClick={() => { setSelectedCard(null); setShowDex(true); }}
-          className="bg-gradient-to-br from-white to-gray-200
-    hover:from-gray-100 hover:to-gray-300
-    active:from-gray-300 active:to-gray-400
-    text-black font-bold py-2 px-4 rounded-2xl
-    cursor-pointer
-    shadow-lg hover:shadow-xl
-    border border-gray-300
-    flex gap-2 items-center
-    transform transition-all duration-200
-    hover:scale-105 active:scale-95"
+          className="bg-gradient-to-br from-white to-gray-200 hover:from-gray-100 hover:to-gray-300 active:from-gray-300 active:to-gray-400 text-black font-bold py-2 px-4 rounded-2xl cursor-pointer shadow-lg hover:shadow-xl border border-gray-300 flex gap-2 items-center transform transition-all duration-200 hover:scale-105 active:scale-95"
         >
           <Image src='/dex.png' alt='dex' width={20} height={20} className='invert'/>
           View Card Dex
@@ -631,7 +660,7 @@ export const CardPackOpener: React.FC = () => {
               onClick={() => { setShowDex(false); setSelectedCard(null); }}
               className="absolute top-2 right-4 text-gray-300 hover:text-white text-3xl cursor-pointer"
             >
-              ✖
+              ✕
             </button>
             <h3 className="text-2xl font-bold mb-4">Card Dex</h3>
             <p className="mb-4">You&apos;ve collected {Object.keys(collectedCards).length} out of {allCards.length} cards.</p>
@@ -756,8 +785,7 @@ export const CardPackOpener: React.FC = () => {
                   const owned = collectedCards[cardKey];
                   const imagePath = card.variant ? `/home-icons/${card.number}-${card.variant}.png` : `/home-icons/${card.number}.png`;
                   return (
-                      <div onClick={() => handleCardClick(cardKey)} key={cardKey} className="flex flex-col items-center cursor-pointer">
-
+                    <div onClick={() => handleCardClick(cardKey)} key={cardKey} className="flex flex-col items-center cursor-pointer">
                       <div className="w-20 h-20 relative mb-2">
                         {owned ? (
                           <Image

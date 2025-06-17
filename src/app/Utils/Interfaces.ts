@@ -37,7 +37,61 @@ export interface Card {
   move: string;
   isShiny: boolean;
   variant?: string;
+  artist?: string;
 }
+
+export interface BoosterPack {
+  id: string;
+  name: string;
+  filter: (card: Card) => boolean;
+  weights?: Partial<Record<Card['rarity'], number>>;
+}
+
+export const themedPacks: BoosterPack[] = [
+  {
+    id: 'mystery',
+    name: 'Mystery Pack',
+    filter: () => true, // All cards
+    weights: {
+      Common: 40,
+      Uncommon: 25,
+      Rare: 15,
+      Epic: 10,
+      Legendary: 7,
+      Mythical: 3,
+    },
+  },
+  // {
+  //   id: 'fire',
+  //   name: 'Fire Blaze Pack',
+  //   filter: (card: Card) => card.type.includes('Fire'),
+  //   weights: {
+  //     Common: 35,
+  //     Uncommon: 25,
+  //     Rare: 20,
+  //     Epic: 12,
+  //     Legendary: 6,
+  //     Mythical: 2,
+  //   },
+  // },
+  // {
+  //   id: 'water',
+  //   name: 'Aqua Surge Pack',
+  //   filter: (card: Card) => card.type.includes('Water'),
+  // },
+  {
+    id: '151',
+    name: 'Classic 151 Pack',
+    filter: (card: Card) => {
+      const [start, end] = regionRanges['Kanto'] || [0, 0];
+      return (
+        card.number >= start &&
+        card.number <= end &&
+        !card.variant
+      );
+    },
+  },
+];
 
 export const allCards: Card[] = [
     // Kanto
@@ -806,7 +860,7 @@ export const allCards: Card[] = [
   { name: 'Pyroar♀', number: 668, type: ['Fire', 'Normal'], isShiny: false, rarity: 'Uncommon', move: 'Noble Roar' , variant: 'female'},
   { name: 'Flabébé', number: 669, type: ['Fairy'], isShiny: false, rarity: 'Common', move: 'Fairy Wind' },
   { name: 'Floette', number: 670, type: ['Fairy'], isShiny: false, rarity: 'Uncommon', move: 'Petal Blizzard' },
-  { name: 'Floette (Eternal Flower)', number: 670, variant:'az', type: ['Fairy'], isShiny: false, rarity: 'Mythical', move: 'Light of Ruin' },
+  { name: 'Floette (Eternal Flower)', number: 670, variant:'az', type: ['Fairy'], isShiny: false, rarity: 'Mythical', move: 'Light of Ruin', artist: '@FedeFadePSK' },
   { name: 'Florges', number: 671, type: ['Fairy'], isShiny: false, rarity: 'Rare', move: 'Moonblast' },
   { name: 'Skiddo', number: 672, type: ['Grass'], isShiny: false, rarity: 'Uncommon', move: 'Razor Leaf' },
   { name: 'Gogoat', number: 673, type: ['Grass'], isShiny: false, rarity: 'Rare', move: 'Horn Leech' },
@@ -864,7 +918,7 @@ export const allCards: Card[] = [
   { name: 'Yveltal', number: 717, type: ['Dark', 'Flying'], isShiny: false, rarity: 'Legendary', move: 'Oblivion Wing' },
   { name: 'Zygarde', number: 718, type: ['Dragon', 'Ground'], isShiny: false, rarity: 'Legendary', move: 'Thousand Arrows' },
   { name: 'Diancie', number: 719, type: ['Rock', 'Fairy'], isShiny: false, rarity: 'Mythical', move: 'Diamond Storm' },
-  { name: 'Hoopa', number: 720, type: ['Psychic', 'Ghost'], isShiny: false, rarity: 'Mythical', move: 'Hyperspace Hole' },
+  { name: 'Hoopa (Confined)', number: 720, type: ['Psychic', 'Ghost'], isShiny: false, rarity: 'Mythical', move: 'Hyperspace Hole' },
   { name: 'Volcanion', number: 721, type: ['Fire', 'Water'], isShiny: false, rarity: 'Mythical', move: 'Steam Eruption' },
   
   // Alola
@@ -1267,7 +1321,7 @@ export const allCards: Card[] = [
   { name: "Primal Kyogre", number: 382, variant: "Primal", type: ["Water"], isShiny: false, rarity: "Mythical", move: "Origin Pulse" },
   { name: "Primal Groudon", number: 383, variant: "Primal", type: ["Ground", "Fire"], isShiny: false, rarity: "Mythical", move: "Precipice Blades" },
   { name: "Mega Rayquaza", number: 384, variant: "Mega", type: ["Dragon", "Flying"], isShiny: false, rarity: "Mythical", move: "Dragon Ascent" },
-  { name: "Hoopa Unbound", number: 720, variant: "Unbound", type: ["Psychic", "Dark"], isShiny: false, rarity: "Mythical", move: "Hyperspace Fury" },
+  { name: "Hoopa (Unbound)", number: 720, variant: "Unbound", type: ["Psychic", "Dark"], isShiny: false, rarity: "Mythical", move: "Hyperspace Fury" },
   { name: "Mega Camerupt", number: 323, variant: "Mega", type: ["Fire", "Ground"], isShiny: false, rarity: "Legendary", move: "Eruption" },
   { name: "Mega Lopunny", number: 428, variant: "Mega", type: ["Normal", "Fighting"], isShiny: false, rarity: "Legendary", move: "High Jump Kick" },
   { name: "Mega Salamence", number: 373, variant: "Mega", type: ["Dragon", "Flying"], isShiny: false, rarity: "Legendary", move: "Dragon Claw" },
@@ -1327,7 +1381,7 @@ export const allCards: Card[] = [
   { name: "Darmanitan (Galar - Zen)", number: 555, variant: "GalarZen", type: ["Ice", "Fire"], isShiny: false, rarity: "Epic", move: "Flare Blitz" },
   { name: "Yamask (Galar)", number: 562, variant: "Galar", type: ["Ground", "Ghost"], isShiny: false, rarity: "Common", move: "Shadow Sneak" },
   { name: "Stunfisk (Galar)", number: 618, variant: "Galar", type: ["Ground", "Steel"], isShiny: false, rarity: "Uncommon", move: "Snap Trap" },
-  { name: "Toxtricity (Low-Key)", number: 849, variant: "LowKey", type: ["Electric", "Poison"], isShiny: false, rarity: "Rare", move: "Overdrive" },
+  { name: "Toxtricity (Low Key)", number: 849, variant: "LowKey", type: ["Electric", "Poison"], isShiny: false, rarity: "Rare", move: "Overdrive" },
   { name: "Indeedee♀", number: 876, variant: "female", type: ["Psychic", "Normal"], isShiny: false, rarity: "Rare", move: "Psybeam" },
   { name: "Zacian (Crowned)", number: 888, variant: "Crowned", type: ["Fairy", "Steel"], isShiny: false, rarity: "Legendary", move: "Behemoth Blade" },
   { name: "Zamazenta (Crowned)", number: 889, variant: "Crowned", type: ["Fighting", "Steel"], isShiny: false, rarity: "Legendary", move: "Behemoth Bash" },
