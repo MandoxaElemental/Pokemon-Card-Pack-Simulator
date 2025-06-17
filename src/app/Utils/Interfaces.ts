@@ -603,7 +603,7 @@ export const allCards: Card[] = [
   { name: 'Mime Jr.', number: 439, type: ['Psychic', 'Fairy'], isShiny: false, rarity: 'Common', move: 'Confusion' },
   { name: 'Happiny', number: 440, type: ['Normal'], isShiny: false, rarity: 'Common', move: 'Pound' },
   { name: 'Chatot', number: 441, type: ['Normal', 'Flying'], isShiny: false, rarity: 'Uncommon', move: 'Chatter' },
-  { name: 'Spiritomb', number: 442, type: ['Ghost', 'Dark'], isShiny: false, rarity: 'Rare', move: 'Shadow Sneak' },
+  { name: 'Spiritomb', number: 442, type: ['Ghost', 'Dark'], isShiny: false, rarity: 'Epic', move: 'Shadow Sneak' },
   { name: 'Gible', number: 443, type: ['Dragon', 'Ground'], isShiny: false, rarity: 'Uncommon', move: 'Dragon Claw' },
   { name: 'Gabite', number: 444, type: ['Dragon', 'Ground'], isShiny: false, rarity: 'Rare', move: 'Dragon Rush' },
   { name: 'Garchomp', number: 445, type: ['Dragon', 'Ground'], isShiny: false, rarity: 'Epic', move: 'Earthquake' },
@@ -1131,7 +1131,7 @@ export const allCards: Card[] = [
   { name: "Sandslash (Alola)", number: 28, variant: "Alola", type: ["Ice", "Steel"], isShiny: false, rarity: "Rare", move: "Icicle Crash" },
   { name: "Vulpix (Alola)", number: 37, variant: "Alola", type: ["Ice"], isShiny: false, rarity: "Common", move: "Powder Snow" },
   { name: "Ninetales (Alola)", number: 38, variant: "Alola", type: ["Ice", "Fairy"], isShiny: false, rarity: "Rare", move: "Dazzling Gleam" },
-  { name: 'Dhelmise', number: 781, type: ['Ghost', 'Grass'], isShiny: false, rarity: 'Rare', move: 'Anchor Shot' },
+  { name: 'Dhelmise', number: 781, type: ['Ghost', 'Grass'], isShiny: false, rarity: 'Epic', move: 'Anchor Shot' },
     { name: "Exeggutor (Alola)", number: 103, variant: "Alola", type: ["Grass", "Dragon"], isShiny: false, rarity: "Epic", move: "Dragon Hammer" },
 
   { name: 'Jangmo-o', number: 782, type: ['Dragon'], isShiny: false, rarity: 'Uncommon', move: 'Dragon Tail' },
