@@ -49,7 +49,7 @@ export const PackSelector: React.FC<PackSelectorProps> = ({ selectedPack, setSel
           cursor-pointer
           shadow-lg hover:shadow-xl
           border border-gray-500
-          flex gap-2 items-center
+          flex gap-2 items-center justify-center
           transform transition-all duration-200
           hover:scale-105 active:scale-95
           ${disabled ? 'opacity-50 cursor-not-allowed' : ''}
@@ -57,6 +57,8 @@ export const PackSelector: React.FC<PackSelectorProps> = ({ selectedPack, setSel
         disabled={disabled}
       >
         {selectedPackData.name}
+        <Image src='/caret-down-fill.svg' alt='caret-down' width={15} height={15} className='invert'/>
+        
       </button>
       {isOpen && (
         <div className="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-[600px] bg-gray-800 rounded-2xl shadow-xl/20 p-4 z-50 max-h-96 overflow-y-auto">

@@ -75,11 +75,35 @@ body {
 }
 
 @keyframes glow-shiny {
-  0%, 100% {
-    box-shadow: 0 0 10px #ff00ff, 0 0 20px #ff00ff, 0 0 30px #ff00ff;
+  0% {
+    box-shadow: 
+      0 0 10px #e8f1f9,
+      0 0 20px #b3d1ff,
+      0 0 30px #d5b3ff;
+  }
+  25% {
+    box-shadow: 
+      0 0 15px #ffc8dd,
+      0 0 25px #dce7f2,
+      0 0 35px #a8ffe6;
   }
   50% {
-    box-shadow: 0 0 20px #cc00ff, 0 0 30px #00ccff, 0 0 40px #00ccff;
+    box-shadow: 
+      0 0 20px #fff5c3,
+      0 0 30px #e8f1f9,
+      0 0 40px #b3d1ff;
+  }
+  75% {
+    box-shadow: 
+      0 0 15px #d5b3ff,
+      0 0 25px #ffc8dd,
+      0 0 35px #dce7f2;
+  }
+  100% {
+    box-shadow: 
+      0 0 10px #e8f1f9,
+      0 0 20px #b3d1ff,
+      0 0 30px #d5b3ff;
   }
 }
 

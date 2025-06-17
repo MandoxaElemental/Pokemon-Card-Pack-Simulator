@@ -139,6 +139,8 @@ export const CardPackOpener: React.FC<CardPackOpenerProps> = ({ curatedPack }) =
       setFlipped([]);
       setRevealed([]);
       setIsNewCard([]);
+      setShowWaveCards(true);
+
       console.log('Cleared localStorage');
     } catch (error) {
       console.error('Error clearing localStorage:', error);
@@ -373,8 +375,8 @@ export const CardPackOpener: React.FC<CardPackOpenerProps> = ({ curatedPack }) =
 
   const ResetConfirmationModal = () => (
     <div className="fixed inset-0 bg-black/50 flex justify-center items-center z-50 p-6" onClick={() => setShowResetModal(false)}>
-      <div className="bg-gray-900 rounded-lg max-w-md w-full p-6 text-white relative">
-        <h3 className="text-xl font-bold mb-4">Are you sure?</h3>
+      <div className="bg-[#E4F1F6] rounded-lg max-w-md w-full p-6 text-[#2A3F55] relative">
+        <h3 className="text-xl font-bold mb-4 border-b border-[#8c9ca4]">WARNING</h3>
         <p className="mb-6">Resetting your collection will delete all your collected cards and progress. This action cannot be undone.</p>
         <div className="flex justify-end gap-4">
           <button onClick={() => setShowResetModal(false)} className="bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded cursor-pointer">Cancel</button>
@@ -426,7 +428,8 @@ export const CardPackOpener: React.FC<CardPackOpenerProps> = ({ curatedPack }) =
           />
           {opening ? 'Opening...' : 'Open Pack'}
         </button>
-        <button onClick={handleResetClick} className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-2xl cursor-pointer shadow-xl/20">Reset Collection</button>
+        <button onClick={handleResetClick} 
+        className="bg-gradient-to-br from-red-600 to-red-800 hover:from-red-500 hover:to-red-700 active:from-red-700 active:to-red-900 text-white font-bold py-2 px-4 rounded-2xl cursor-pointer shadow-lg hover:shadow-xl border border-red-800 flex gap-2 items-center transform transition-all duration-200 hover:scale-105 active:scale-95">Reset Collection</button>
       </div>
 
       {showResetModal && <ResetConfirmationModal />}
@@ -669,7 +672,7 @@ export const CardPackOpener: React.FC<CardPackOpenerProps> = ({ curatedPack }) =
               onClick={() => { setShowDex(false); setSelectedCard(null); }}
               className="absolute top-2 right-4 text-gray-300 hover:text-white text-3xl cursor-pointer"
             >
-              ✕
+              ✖
             </button>
             <h3 className="text-2xl font-bold mb-4">Card Dex</h3>
             <p className="mb-4">You&apos;ve collected {Object.keys(collectedCards).length} out of {allCards.length} cards.</p>

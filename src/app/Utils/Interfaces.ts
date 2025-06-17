@@ -49,7 +49,7 @@ export interface BoosterPack {
 export const themedPacks: BoosterPack[] = [
   {
     id: 'mystery',
-    name: 'Mystery Pack',
+    name: 'Mystery',
     filter: () => true, // All cards
     weights: {
       Common: 40,
@@ -80,9 +80,21 @@ export const themedPacks: BoosterPack[] = [
   // },
   {
     id: '151',
-    name: 'Classic 151 Pack',
+    name: 'Classic 151',
     filter: (card: Card) => {
       const [start, end] = regionRanges['Kanto'] || [0, 0];
+      return (
+        card.number >= start &&
+        card.number <= end &&
+        !card.variant
+      );
+    },
+  },
+  {
+    id: 'johto',
+    name: 'Johto',
+    filter: (card: Card) => {
+      const [start, end] = regionRanges['Johto'] || [0, 0];
       return (
         card.number >= start &&
         card.number <= end &&
@@ -617,7 +629,7 @@ export const allCards: Card[] = [
   { name: 'Tangrowth', number: 465, type: ['Grass'], isShiny: false, rarity: 'Rare', move: 'Power Whip' },
   { name: 'Electivire', number: 466, type: ['Electric'], isShiny: false, rarity: 'Epic', move: 'Thunder Punch' },
   { name: 'Magmortar', number: 467, type: ['Fire'], isShiny: false, rarity: 'Epic', move: 'Fire Blast' },
-  { name: 'Togekiss', number: 468, type: ['Fairy', 'Flying'], isShiny: false, rarity: 'Rare', move: 'Air Slash' },
+  { name: 'Togekiss', number: 468, type: ['Fairy', 'Flying'], isShiny: false, rarity: 'Epic', move: 'Air Slash' },
   { name: 'Yanmega', number: 469, type: ['Bug', 'Flying'], isShiny: false, rarity: 'Rare', move: 'Bug Buzz' },
   { name: 'Leafeon', number: 470, type: ['Grass'], isShiny: false, rarity: 'Rare', move: 'Leaf Blade' },
   { name: 'Glaceon', number: 471, type: ['Ice'], isShiny: false, rarity: 'Rare', move: 'Ice Beam' },
@@ -628,7 +640,7 @@ export const allCards: Card[] = [
   { name: 'Probopass', number: 476, type: ['Rock', 'Steel'], isShiny: false, rarity: 'Rare', move: 'Flash Cannon' },
   { name: 'Dusknoir', number: 477, type: ['Ghost'], isShiny: false, rarity: 'Epic', move: 'Shadow Punch' },
   { name: 'Froslass', number: 478, type: ['Ice', 'Ghost'], isShiny: false, rarity: 'Rare', move: 'Ominous Wind' },
-  { name: 'Rotom', number: 479, type: ['Electric', 'Ghost'], isShiny: false, rarity: 'Uncommon', move: 'Thunder Shock' },
+  { name: 'Rotom', number: 479, type: ['Electric', 'Ghost'], isShiny: false, rarity: 'Rare', move: 'Thunder Shock' },
     { name: "Rotom (Heat)", number: 479, variant: "Heat", type: ["Electric", "Fire"], isShiny: false, rarity: "Rare", move: "Overheat" },
   { name: "Rotom (Wash)", number: 479, variant: "Wash", type: ["Electric", "Water"], isShiny: false, rarity: "Rare", move: "Hydro Pump" },
   { name: "Rotom (Frost)", number: 479, variant: "Frost", type: ["Electric", "Ice"], isShiny: false, rarity: "Rare", move: "Blizzard" },
@@ -638,9 +650,7 @@ export const allCards: Card[] = [
   { name: 'Mesprit', number: 481, type: ['Psychic'], isShiny: false, rarity: 'Legendary', move: 'Confusion' },
   { name: 'Azelf', number: 482, type: ['Psychic'], isShiny: false, rarity: 'Legendary', move: 'Future Sight' },
   { name: 'Dialga', number: 483, type: ['Steel', 'Dragon'], isShiny: false, rarity: 'Legendary', move: 'Roar of Time' },
-  { name: "Dialga (Origin)", number: 483, variant: "Origin", type: ["Steel", "Dragon"], isShiny: false, rarity: "Legendary", move: "Roar of Time" },
   { name: 'Palkia', number: 484, type: ['Water', 'Dragon'], isShiny: false, rarity: 'Legendary', move: 'Spacial Rend' },
-  { name: "Palkia (Origin)", number: 484, variant: "Origin", type: ["Water", "Dragon"], isShiny: false, rarity: "Legendary", move: "Spacial Rend" },
   { name: 'Heatran', number: 485, type: ['Fire', 'Steel'], isShiny: false, rarity: 'Legendary', move: 'Magma Storm' },
   { name: 'Regigigas', number: 486, type: ['Normal'], isShiny: false, rarity: 'Legendary', move: 'Crush Grip' },
   { name: 'Giratina', number: 487, type: ['Ghost', 'Dragon'], isShiny: false, rarity: 'Legendary', move: 'Shadow Force' },
@@ -867,7 +877,7 @@ export const allCards: Card[] = [
   { name: 'Vivillon (Jungle)', number: 666, type: ['Bug', 'Flying'], isShiny: false, rarity: 'Rare', move: 'Gust', variant: 'jungle' },
   { name: 'Vivillon (Marine)', number: 666, type: ['Bug', 'Flying'], isShiny: false, rarity: 'Rare', move: 'Gust', variant: 'marine' },
   { name: 'Vivillon (Archipelago)', number: 666, type: ['Bug', 'Flying'], isShiny: false, rarity: 'Rare', move: 'Gust', variant: 'archipelago' },
-  { name: 'Vivillon (High Plains)', number: 666, type: ['Bug', 'Flying'], isShiny: false, rarity: 'Rare', move: 'Gust', variant: 'high-plains' },
+  { name: 'Vivillon (High Plains)', number: 666, type: ['Bug', 'Flying'], isShiny: false, rarity: 'Rare', move: 'Gust', variant: 'highplains' },
   { name: 'Vivillon (Sandstorm)', number: 666, type: ['Bug', 'Flying'], isShiny: false, rarity: 'Rare', move: 'Gust', variant: 'sandstorm' },
   { name: 'Vivillon (River)', number: 666, type: ['Bug', 'Flying'], isShiny: false, rarity: 'Rare', move: 'Gust', variant: 'river' },
   { name: 'Vivillon (Monsoon)', number: 666, type: ['Bug', 'Flying'], isShiny: false, rarity: 'Rare', move: 'Gust', variant: 'monsoon' },
@@ -877,17 +887,28 @@ export const allCards: Card[] = [
   { name: 'Vivillon (Garden)', number: 666, type: ['Bug', 'Flying'], isShiny: false, rarity: 'Rare', move: 'Gust', variant: 'garden' },
   { name: 'Vivillon (Elegant)', number: 666, type: ['Bug', 'Flying'], isShiny: false, rarity: 'Rare', move: 'Gust', variant: 'elegant' },
   { name: 'Vivillon (Modern)', number: 666, type: ['Bug', 'Flying'], isShiny: false, rarity: 'Rare', move: 'Gust', variant: 'modern' },
-  { name: 'Vivillon (Pokeball)', number: 666, type: ['Bug', 'Flying'], isShiny: false, rarity: 'Rare', move: 'Gust', variant: 'poke-ball' },
+  { name: 'Vivillon (Pokeball)', number: 666, type: ['Bug', 'Flying'], isShiny: false, rarity: 'Rare', move: 'Gust', variant: 'pokeball' },
   { name: 'Vivillon (Fancy)', number: 666, type: ['Bug', 'Flying'], isShiny: false, rarity: 'Rare', move: 'Gust', variant: 'fancy' },
-  { name: 'Vivillon (Icy Snow)', number: 666, type: ['Bug', 'Flying'], isShiny: false, rarity: 'Rare', move: 'Gust', variant: 'icy-snow' },
+  { name: 'Vivillon (Icy Snow)', number: 666, type: ['Bug', 'Flying'], isShiny: false, rarity: 'Rare', move: 'Gust', variant: 'icysnow' },
   { name: 'Vivillon (Polar)', number: 666, type: ['Bug', 'Flying'], isShiny: false, rarity: 'Rare', move: 'Gust', variant: 'polar' },
   { name: 'Litleo', number: 667, type: ['Fire', 'Normal'], isShiny: false, rarity: 'Common', move: 'Ember' },
   { name: 'Pyroar♂', number: 668, type: ['Fire', 'Normal'], isShiny: false, rarity: 'Uncommon', move: 'Noble Roar' },
   { name: 'Pyroar♀', number: 668, type: ['Fire', 'Normal'], isShiny: false, rarity: 'Uncommon', move: 'Noble Roar' , variant: 'female'},
   { name: 'Flabébé', number: 669, type: ['Fairy'], isShiny: false, rarity: 'Common', move: 'Fairy Wind' },
+  { name: 'Flabébé', number: 669, type: ['Fairy'], isShiny: false, rarity: 'Common', move: 'Fairy Wind', variant: 'orange'},
+  { name: 'Flabébé', number: 669, type: ['Fairy'], isShiny: false, rarity: 'Common', move: 'Fairy Wind', variant: 'yellow'},
+  { name: 'Flabébé', number: 669, type: ['Fairy'], isShiny: false, rarity: 'Common', move: 'Fairy Wind', variant: 'blue'},
+  { name: 'Flabébé', number: 669, type: ['Fairy'], isShiny: false, rarity: 'Common', move: 'Fairy Wind', variant: 'white'},
   { name: 'Floette', number: 670, type: ['Fairy'], isShiny: false, rarity: 'Uncommon', move: 'Petal Blizzard' },
-  { name: 'Floette (Eternal Flower)', number: 670, variant:'az', type: ['Fairy'], isShiny: false, rarity: 'Mythical', move: 'Light of Ruin', artist: '@FedeFadePSK' },
+  { name: 'Floette', number: 670, type: ['Fairy'], isShiny: false, rarity: 'Uncommon', move: 'Petal Blizzard', variant: 'orange' },
+  { name: 'Floette', number: 670, type: ['Fairy'], isShiny: false, rarity: 'Uncommon', move: 'Petal Blizzard', variant: 'yellow' },
+  { name: 'Floette', number: 670, type: ['Fairy'], isShiny: false, rarity: 'Uncommon', move: 'Petal Blizzard', variant: 'blue' },
+  { name: 'Floette', number: 670, type: ['Fairy'], isShiny: false, rarity: 'Uncommon', move: 'Petal Blizzard', variant: 'white' },
   { name: 'Florges', number: 671, type: ['Fairy'], isShiny: false, rarity: 'Rare', move: 'Moonblast' },
+  { name: 'Florges', number: 671, type: ['Fairy'], isShiny: false, rarity: 'Rare', move: 'Moonblast', variant: 'orange'},
+  { name: 'Florges', number: 671, type: ['Fairy'], isShiny: false, rarity: 'Rare', move: 'Moonblast', variant: 'yellow'},
+  { name: 'Florges', number: 671, type: ['Fairy'], isShiny: false, rarity: 'Rare', move: 'Moonblast', variant: 'blue'},
+  { name: 'Florges', number: 671, type: ['Fairy'], isShiny: false, rarity: 'Rare', move: 'Moonblast', variant: 'white'},
   { name: 'Skiddo', number: 672, type: ['Grass'], isShiny: false, rarity: 'Uncommon', move: 'Razor Leaf' },
   { name: 'Gogoat', number: 673, type: ['Grass'], isShiny: false, rarity: 'Rare', move: 'Horn Leech' },
   { name: 'Pancham', number: 674, type: ['Fighting'], isShiny: false, rarity: 'Uncommon', move: 'Karate Chop' },
@@ -906,7 +927,7 @@ export const allCards: Card[] = [
   { name: "Meowstic♀", number: 678, variant: "female", type: ["Psychic"], isShiny: false, rarity: "Uncommon", move: "Psybeam" },
   { name: 'Honedge', number: 679, type: ['Steel', 'Ghost'], isShiny: false, rarity: 'Uncommon', move: 'Shadow Sneak' },
   { name: 'Doublade', number: 680, type: ['Steel', 'Ghost'], isShiny: false, rarity: 'Rare', move: 'Sacred Sword' },
-  { name: 'Aegislash', number: 681, type: ['Steel', 'Ghost'], isShiny: false, rarity: 'Epic', move: 'King’s Shield' },
+  { name: 'Aegislash', number: 681, type: ['Steel', 'Ghost'], isShiny: false, rarity: 'Epic', move: "King's Shield" },
   { name: "Aegislash (Blade)", number: 681, variant: "Blade", type: ["Steel", "Ghost"], isShiny: false, rarity: "Rare", move: "Sacred Sword" },
   { name: 'Spritzee', number: 682, type: ['Fairy'], isShiny: false, rarity: 'Common', move: 'Fairy Wind' },
   { name: 'Aromatisse', number: 683, type: ['Fairy'], isShiny: false, rarity: 'Uncommon', move: 'Aromatic Mist' },
@@ -952,6 +973,8 @@ export const allCards: Card[] = [
   { name: 'Hoopa (Confined)', number: 720, type: ['Psychic', 'Ghost'], isShiny: false, rarity: 'Mythical', move: 'Hyperspace Hole' },
   { name: "Hoopa (Unbound)", number: 720, variant: "Unbound", type: ["Psychic", "Dark"], isShiny: false, rarity: "Mythical", move: "Hyperspace Fury" },
   { name: 'Volcanion', number: 721, type: ['Fire', 'Water'], isShiny: false, rarity: 'Mythical', move: 'Steam Eruption' },
+    { name: 'Floette (Eternal Flower)', number: 670, variant:'az', type: ['Fairy'], isShiny: false, rarity: 'Mythical', move: 'Light of Ruin', artist: '@FedeFadePSK' },
+
     { name: "Mega Venusaur", number: 3, variant: "Mega", type: ["Grass", "Poison"], isShiny: false, rarity: "Legendary", move: "Sludge Bomb" },
   { name: "Mega Charizard X", number: 6, variant: "MegaX", type: ["Fire", "Dragon"], isShiny: false, rarity: "Legendary", move: "Dragon Claw" },
   { name: "Mega Charizard Y", number: 6, variant: "MegaY", type: ["Fire", "Flying"], isShiny: false, rarity: "Legendary", move: "Flamethrower" },
@@ -1200,10 +1223,6 @@ export const allCards: Card[] = [
   { name: 'Impidimp', number: 859, type: ['Dark', 'Fairy'], isShiny: false, rarity: 'Common', move: 'Bite' },
   { name: 'Morgrem', number: 860, type: ['Dark', 'Fairy'], isShiny: false, rarity: 'Uncommon', move: 'False Surrender' },
   { name: 'Grimmsnarl', number: 861, type: ['Dark', 'Fairy'], isShiny: false, rarity: 'Rare', move: 'Spirit Break' },
-  { name: "Stunfisk (Galar)", number: 618, variant: "Galar", type: ["Ground", "Steel"], isShiny: false, rarity: "Uncommon", move: "Snap Trap" },
-  { name: "Ponyta (Galar)", number: 77, variant: "Galar", type: ["Psychic"], isShiny: false, rarity: "Uncommon", move: "Confusion" },
-  { name: "Rapidash (Galar)", number: 78, variant: "Galar", type: ["Psychic", "Fairy"], isShiny: false, rarity: "Rare", move: "Dazzling Gleam" },
-  { name: "Weezing (Galar)", number: 110, variant: "Galar", type: ["Poison", "Fairy"], isShiny: false, rarity: "Rare", move: "Strange Steam" },
   { name: "Zigzagoon (Galar)", number: 263, variant: "Galar", type: ["Dark", "Normal"], isShiny: false, rarity: "Common", move: "Tackle" },
   { name: "Linoone (Galar)", number: 264, variant: "Galar", type: ["Dark", "Normal"], isShiny: false, rarity: "Uncommon", move: "Night Slash" },
   { name: 'Obstagoon', number: 862, type: ['Dark', 'Normal'], isShiny: false, rarity: 'Rare', move: 'Obstruct' },
@@ -1213,8 +1232,15 @@ export const allCards: Card[] = [
   { name: 'Cursola', number: 864, type: ['Ghost'], isShiny: false, rarity: 'Rare', move: 'Perish Song' },
   { name: "Farfetch'd (Galar)", number: 83, variant: "Galar", type: ["Fighting"], isShiny: false, rarity: "Uncommon", move: "Brick Break" },
   { name: "Sirfetch'd", number: 865, type: ['Fighting'], isShiny: false, rarity: 'Rare', move: 'Meteor Assault' },
+  { name: "Stunfisk (Galar)", number: 618, variant: "Galar", type: ["Ground", "Steel"], isShiny: false, rarity: "Uncommon", move: "Snap Trap" },
+    { name: "Weezing (Galar)", number: 110, variant: "Galar", type: ["Poison", "Fairy"], isShiny: false, rarity: "Rare", move: "Strange Steam" },
+   { name: "Ponyta (Galar)", number: 77, variant: "Galar", type: ["Psychic"], isShiny: false, rarity: "Uncommon", move: "Confusion" },
+  { name: "Rapidash (Galar)", number: 78, variant: "Galar", type: ["Psychic", "Fairy"], isShiny: false, rarity: "Rare", move: "Dazzling Gleam" },
   { name: "Mr. Mime (Galar)", number: 122, variant: "Galar", type: ["Ice", "Psychic"], isShiny: false, rarity: "Uncommon", move: "Ice Beam" },
   { name: 'Mr. Rime', number: 866, type: ['Ice', 'Psychic'], isShiny: false, rarity: 'Rare', move: 'Freeze-Dry' },
+   { name: "Darumaka (Galar)", number: 554, variant: "Galar", type: ["Ice"], isShiny: false, rarity: "Uncommon", move: "Ice Punch" },
+  { name: "Darmanitan (Galar)", number: 555, variant: "Galar", type: ["Ice"], isShiny: false, rarity: "Rare", move: "Icicle Crash" },
+  { name: "Darmanitan Zen (Galar)", number: 555, variant: "GalarZen", type: ["Ice", "Fire"], isShiny: false, rarity: "Epic", move: "Flare Blitz" },
   { name: "Yamask (Galar)", number: 562, variant: "Galar", type: ["Ground", "Ghost"], isShiny: false, rarity: "Common", move: "Shadow Sneak" },
   { name: 'Runerigus', number: 867, type: ['Ground', 'Ghost'], isShiny: false, rarity: 'Rare', move: 'Shadow Claw' },
   { name: 'Milcery', number: 868, type: ['Fairy'], isShiny: false, rarity: 'Common', move: 'Tackle' },
@@ -1223,9 +1249,6 @@ export const allCards: Card[] = [
   { name: 'Pincurchin', number: 871, type: ['Electric'], isShiny: false, rarity: 'Common', move: 'Thunder Shock' },
   { name: 'Snom', number: 872, type: ['Ice', 'Bug'], isShiny: false, rarity: 'Common', move: 'Powder Snow' },
   { name: 'Frosmoth', number: 873, type: ['Ice', 'Bug'], isShiny: false, rarity: 'Uncommon', move: 'Blizzard' },
-  { name: "Darumaka (Galar)", number: 554, variant: "Galar", type: ["Ice"], isShiny: false, rarity: "Uncommon", move: "Ice Punch" },
-  { name: "Darmanitan (Galar)", number: 555, variant: "Galar", type: ["Ice"], isShiny: false, rarity: "Rare", move: "Icicle Crash" },
-  { name: "Darmanitan Zen (Galar)", number: 555, variant: "GalarZen", type: ["Ice", "Fire"], isShiny: false, rarity: "Epic", move: "Flare Blitz" },
   { name: 'Stonjourner', number: 874, type: ['Rock'], isShiny: false, rarity: 'Uncommon', move: 'Rock Slide' },
   { name: 'Eiscue', number: 875, type: ['Ice'], isShiny: false, rarity: 'Uncommon', move: 'Icicle Crash' },
   { name: 'Indeedee♂', number: 876, type: ['Psychic', 'Normal'], isShiny: false, rarity: 'Rare', move: 'Psybeam' },
@@ -1325,7 +1348,8 @@ export const allCards: Card[] = [
   { name: "Goodra (Hisui)", number: 706, variant: "Hisui", type: ["Steel", "Dragon"], isShiny: false, rarity: "Epic", move: "Shelter" },
   { name: "Avalugg (Hisui)", number: 713, variant: "Hisui", type: ["Ice", "Rock"], isShiny: false, rarity: "Epic", move: "Mountain Gale" },
   { name: "Decidueye (Hisui)", number: 724, variant: "Hisui", type: ["Grass", "Fighting"], isShiny: false, rarity: "Epic", move: "Triple Arrows" },
-
+   { name: "Dialga (Origin)", number: 483, variant: "Origin", type: ["Steel", "Dragon"], isShiny: false, rarity: "Legendary", move: "Roar of Time" },
+  { name: "Palkia (Origin)", number: 484, variant: "Origin", type: ["Water", "Dragon"], isShiny: false, rarity: "Legendary", move: "Spacial Rend" },
   // Paldea
     { name: 'Sprigatito', number: 906, type: ['Grass'], isShiny: false, rarity: 'Uncommon', move: 'Leafage' },
   { name: 'Floragato', number: 907, type: ['Grass'], isShiny: false, rarity: 'Rare', move: 'Magical Leaf' },
@@ -1585,7 +1609,7 @@ export const specialFormRegionMapping: Record<number, Record<string, string[]>> 
   68: { GMax: ['Galar'] }, // GMax Machamp
   99: { GMax: ['Galar'] }, // GMax Kingler
   569: { GMax: ['Galar'] }, // GMax Garbodor
-  809: { GMax: ['Galar'] }, // GMax Melmetal
+  809: { GMax: ['Unknown'] }, // GMax Melmetal
   812: { GMax: ['Galar'] }, // GMax Rillaboom
   815: { GMax: ['Galar'] }, // GMax Cinderace
   818: { GMax: ['Galar'] }, // GMax Inteleon
@@ -1596,12 +1620,70 @@ export const specialFormRegionMapping: Record<number, Record<string, string[]>> 
   841: { GMax: ['Galar'] }, // GMax Flapple
   842: { GMax: ['Galar'] }, // GMax Appletun
   844: { GMax: ['Galar'] }, // GMax Sandaconda
-  849: { GMax: ['Galar'] }, // GMax Toxtricity
+  849: { GMax: ['Galar'], LowKey: ['Galar']}, // GMax Toxtricity
   851: { GMax: ['Galar'] }, // GMax Centiskorch
   858: { GMax: ['Galar'] }, // GMax Hatterene
   861: { GMax: ['Galar'] }, // GMax Grimmsnarl
   869: { GMax: ['Galar'] }, // GMax Alcremie
   879: { GMax: ['Galar'] }, // GMax Copperajah
   884: { GMax: ['Galar'] }, // GMax Duraludon
-  892: { GMaxSingle: ['Special'], GMaxRapid: ['Special'] }, // GMax Urshifu
+  892: { GMaxSingle: ['Galar'], GMaxRapid: ['Galar'] }, // GMax Urshifu
+  385: {Attack: ['Hoenn'], Defense: ['Hoenn'], Speed: ['Hoenn']},
+  492: {Sky: ['Sinnoh']},
+  487: {Origin: ['Sinnoh']},
+  945: {Heat: ['Sinnoh'], Wash:['Sinnoh'], Frost: ['Sinnoh'], Fan: ['Sinnoh'], Mow: ['Sinnoh']},
+  351: {Sunny: ['Hoenn'], Rainy: ['Hoenn'], Snowy: ['Hoenn']},
+  550: {Blue: ['Unova'], White: ['Hisui']},
+  648: {Pirouette: ['Unova']},
+  641: {Therian: ['Unova']},
+  642: {Therian: ['Unova']},
+  645: {Therian: ['Unova']},
+  646: {Black: ['Unova'], White: ['Unova']},
+  647: {Resolute: ['Unova']},
+  678: {female: ['Kalos']},
+  681: {Blade: ['Kalos']},
+  382: {Primal: ['Hoenn']},
+  383: {Primal: ['Hoenn']},
+  384: {Mega: ['Hoenn']},
+  658: {BattleBond: ['Kalos']},
+  718: {ten: ['Kalos'], Complete: ['Kalos']},
+  741: {PomPom: ['Alola'], Pau: ['Alola'], Sensu: ['Alola']},
+  745: {Midnight: ['Alola'], Dusk: ['Alola']},
+  746: {School: ['Alola'], },
+  774: {Red: ['Alola'], Orange: ['Alola'], Yellow: ['Alola'], Green: ['Alola'], Blue: ['Alola'], Indigo: ['Alola'], Violet: ['Alola']},
+  801: {Original: ['Alola']},
+  800: {Dusk: ['Alola'], Dawn: ['Alola'], Ultra: ['Alola']},
+  876: {female: ['Galar']},
+  888: {Crowned: ['Galar']},
+  889: {Crowned: ['Galar']},
+  898: {Ice: ['Galar'], Shadow: ['Galar']},
+  483: {Origin: ['Hisui']},
+  484: {Origin: ['Hisui']},
+  909: {female: ['Hisui']},
+  905: {Therian: ['Hisui']},
+  961: {female: ['Paldea']},
+  982: {Three: ['Paldea']},
+  964: {Hero: ['Paldea']},
+  925: {Three: ['Paldea']},
+  978: {Droopy: ['Paldea'], Stretchy: ['Paldea']},
+  931: {Blue: ['Paldea'], Yellow: ['Paldea'], White: ['Paldea']},
+  999: {Roaming: ['Paldea']},
+  1017: {Hearthflame: ['Paldea'], Wellspring: ['Paldea'], Cornerstone: ['Paldea']},
+  1024: {Terastal: ['Paldea'], Stellar: ['Paldea']},
+  442: {east: ['Sinnoh'], west: ['Sinnoh']},
+  443: {east: ['Sinnoh'], west: ['Sinnoh']},
+  201: {a: ['Johto'], b: ['Johto'], c: ['Johto'], d: ['Johto'], e: ['Johto'], f: ['Johto'], g: ['Johto'], h: ['Johto'], i: ['Johto'], j: ['Johto'], k: ['Johto'], l: ['Johto'], m: ['Johto'], n: ['Johto'], o: ['Johto'], p: ['Johto'], q: ['Johto'], r: ['Johto'], s: ['Johto'], t: ['Johto'], u: ['Johto'], v: ['Johto'], w: ['Johto'], x: ['Johto'], y: ['Johto'], z: ['Johto'], exclamation: ['Johto'], question: ['Johto']},
+  493: {fighting: ['Sinnoh'], flying: ['Sinnoh'], poison: ['Sinnoh'], ground: ['Sinnoh'], rock: ['Sinnoh'], bug: ['Sinnoh'], ghost: ['Sinnoh'], steel: ['Sinnoh'], fire: ['Sinnoh'], water: ['Sinnoh'], grass: ['Sinnoh'], electric: ['Sinnoh'], psychic: ['Sinnoh'], ice: ['Sinnoh'], dragon: ['Sinnoh'], dark: ['Sinnoh'], fairy: ['Sinnoh']},
+  773: {fighting: ['Alola'], flying: ['Alola'], poison: ['Alola'], ground: ['Alola'], rock: ['Alola'], bug: ['Alola'], ghost: ['Alola'], steel: ['Alola'], fire: ['Alola'], water: ['Alola'], grass: ['Alola'], electric: ['Alola'], psychic: ['Alola'], ice: ['Alola'], dragon: ['Alola'], dark: ['Alola'], fairy: ['Alola']},
+  585: {spring: ['Unova'], summer: ['Unova'], autumn: ['Unova'], winter: ['Unova']},
+  586: {spring: ['Unova'], summer: ['Unova'], autumn: ['Unova'], winter: ['Unova']},
+  666: {meadow: ['Kalos'], jungle: ['Kalos'], marine: ['Kalos'], archipelago: ['Kalos'], highplains: ['Kalos'], sandstorm: ['Kalos'], river: ['Kalos'], monsoon: ['Kalos'], savanna: ['Kalos'], sun: ['Kalos'], ocean: ['Kalos'], garden: ['Kalos'], elegant: ['Kalos'], modern: ['Kalos'], pokeball: ['Kalos'], fancy: ['Kalos'], icysnow: ['Kalos'], polar: ['Kalos']},
+  676: {natural: ['Kalos'], star: ['Kalos'], diamond: ['Kalos'], heart: ['Kalos'], kabuki: ['Kalos'], lareine: ['Kalos'], matron: ['Kalos'], dandy: ['Kalos'], debutante: ['Kalos'], pharaoh: ['Kalos']},
+  669: {orange: ['Kalos'], yellow: ['Kalos'], blue: ['Kalos'], white: ['Kalos']},
+  670: {orange: ['Kalos'], yellow: ['Kalos'], blue: ['Kalos'], white: ['Kalos'], az: ['Kalos']},
+  671: {orange: ['Kalos'], yellow: ['Kalos'], blue: ['Kalos'], white: ['Kalos']},
+  521: {female: ['Unova']},
+592: {female: ['Unova']},
+593: {female: ['Unova']},
+668: {female: ['Kalos']},
 };
