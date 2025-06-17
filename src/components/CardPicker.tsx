@@ -429,7 +429,7 @@ export const CardPackOpener: React.FC<CardPackOpenerProps> = ({ curatedPack }) =
           {opening ? 'Opening...' : 'Open Pack'}
         </button>
         <button onClick={handleResetClick} 
-        className="bg-gradient-to-br from-red-600 to-red-800 hover:from-red-500 hover:to-red-700 active:from-red-700 active:to-red-900 text-white font-bold py-2 px-4 rounded-2xl cursor-pointer shadow-lg hover:shadow-xl border border-red-800 flex gap-2 items-center transform transition-all duration-200 hover:scale-105 active:scale-95">Reset Collection</button>
+        className="bg-gradient-to-br from-red-600 to-red-800 hover:from-red-500 hover:to-red-700 active:from-red-700 active:to-red-900 text-white font-bold py-2 px-4 rounded-2xl cursor-pointer shadow-lg hover:shadow-xl border border-red-600 flex gap-2 items-center transform transition-all duration-200 hover:scale-105 active:scale-95">Reset Collection</button>
       </div>
 
       {showResetModal && <ResetConfirmationModal />}
