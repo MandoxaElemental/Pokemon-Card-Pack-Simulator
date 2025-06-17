@@ -2,7 +2,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
-import { allCards, Card, regionRanges, specialFormRegionMapping, themedPacks } from '@/app/Utils/Interfaces';
+import { allCards, Card, regionRanges, specialFormRegionMapping, themedPacks, BoosterPack } from '@/app/Utils/Interfaces';
 import { PackSelector } from './PackSelector';
 
 type CardCollection = {
@@ -14,7 +14,11 @@ interface SavedData {
   packsOpened: number;
 }
 
-export const CardPackOpener: React.FC = () => {
+interface CardPackOpenerProps {
+  curatedPack?: BoosterPack;
+}
+
+export const CardPackOpener: React.FC<CardPackOpenerProps> = ({ curatedPack }) => {
   const [cards, setCards] = useState<Card[]>([]);
   const [flipped, setFlipped] = useState<boolean[]>([]);
   const [entered, setEntered] = useState<boolean[]>([]);
@@ -30,9 +34,9 @@ export const CardPackOpener: React.FC = () => {
   const [showResetModal, setShowResetModal] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
   const [showWaveCards, setShowWaveCards] = useState(true);
-  const [selectedPack, setSelectedPack] = useState<string>('mystery'); // New state for pack type
+  const [selectedPack, setSelectedPack] = useState<string>(curatedPack ? curatedPack.id : 'mystery');
   const cardRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
-  const [currentRegion, setCurrentRegion] = useState<keyof typeof regionRanges>('All');
+  const [currentRegion, setCurrentRegion] = useState<keyof typeof regionRanges | 'All'>('All');
   const [currentRarity, setCurrentRarity] = useState<'All' | Card['rarity']>('All');
   const slideSoundRef = useRef<HTMLAudioElement | null>(null);
   const flipSoundRef = useRef<HTMLAudioElement | null>(null);
@@ -46,18 +50,21 @@ export const CardPackOpener: React.FC = () => {
       allCards
         .filter(card => {
           if (currentRegion === 'All') {
-            return (card.number >= 1 && card.number <= 1025) || (card.number >= 10001 && card.number <= 10277);
+            return true; // Show all cards
           }
-          const [start, end] = regionRanges[currentRegion] || [NaN, NaN];
-          return (card.number >= start && card.number <= end) || (specialFormRegionMapping[card.number]?.includes(currentRegion));
+          const [start, end] = regionRanges[currentRegion] || [0, 0];
+          const variantRegions = specialFormRegionMapping[card.number]?.[card.variant || ''] || [];
+          return (
+            (card.number >= start && card.number <= end && !card.variant) ||
+            variantRegions.includes(currentRegion as string)
+          );
         })
         .filter(card => currentRarity === 'All' || card.rarity === currentRarity)
-        .map(card => `${card.name}${card.variant ? `-${card.variant}` : ''}`)
+        .map(card => `${card.name}-${card.number}${card.variant ? `-${card.variant}` : ''}`)
     )
   ).map(key => {
-    const [name, variant] = key.split('-');
-    const card = allCards.find(c => c.name === name && (variant ? c.variant === variant : !c.variant));
-    return card;
+    const [, name, number, variant] = key.match(/(.+)-(\d+)(?:-(\w+))?/) || [];
+    return allCards.find(c => c.name === name && c.number === parseInt(number) && (variant ? c.variant === variant : !c.variant));
   }).filter((card): card is Card => card !== undefined);
 
   useEffect(() => {
@@ -67,7 +74,7 @@ export const CardPackOpener: React.FC = () => {
   }, [showDex, selectedCard]);
 
   useEffect(() => {
-    slideSoundRef.current = new Audio('/sounds/card-slide.mp3');
+    slideSoundRef.current = new Audio('/sounds/card-slide.mp4');
     flipSoundRef.current = new Audio('/sounds/card-flip.mp3');
     mythicJingleRef.current = new Audio('/sounds/mythic-jingle.mp3');
     legendJingleRef.current = new Audio('/sounds/legend-jingle.mp3');
@@ -86,15 +93,15 @@ export const CardPackOpener: React.FC = () => {
         const parsed = JSON.parse(savedData) as SavedData;
         if (parsed.collectedCards && typeof parsed.packsOpened === 'number') {
           const validatedCards: CardCollection = {};
-          Object.entries(parsed.collectedCards).forEach(
-            ([key, entry]) => {
-              const [name, variant] = key.split('-');
-              const validCard = allCards.find(c => c.name === name && (variant ? c.variant === variant : !c.variant));
-              if (validCard && typeof entry.count === 'number' && entry.count > 0) {
-                validatedCards[key] = { card: validCard, count: entry.count, isShiny: entry.isShiny || false };
-              }
+          Object.entries(parsed.collectedCards).forEach(([key, entry]) => {
+            const [, name, number, variant] = key.match(/(.+)-(\d+)(?:-(\w+))?/) || [];
+            const validCard = allCards.find(c =>
+              c.name === name && c.number === parseInt(number) && (variant ? c.variant === variant : !c.variant)
+            );
+            if (validCard && typeof entry.count === 'number' && entry.count > 0) {
+              validatedCards[key] = { card: validCard, count: entry.count, isShiny: entry.isShiny || false };
             }
-          );
+          });
           setCollectedCards(validatedCards);
           setPacksOpened(parsed.packsOpened);
         }
@@ -187,7 +194,7 @@ export const CardPackOpener: React.FC = () => {
   };
 
   function getRandomCard(packId: string): Card & { rarity: Card['rarity']; isShiny?: boolean } {
-    const pack = themedPacks.find(p => p.id === packId) || themedPacks[0]; // Fallback to Mystery Pack
+    const pack = (curatedPack ? [curatedPack] : themedPacks).find(p => p.id === packId) || themedPacks[0];
     const pool: (Card & { rarity: Card['rarity']; isShiny?: boolean })[] = [];
     const weights = pack.weights || defaultRarityWeights;
 
@@ -224,13 +231,13 @@ export const CardPackOpener: React.FC = () => {
       for (let i = 0; i < 5; i++) {
         const card = getRandomCard(selectedPack);
         newCards.push(card);
-        const key = `${card.name}${card.variant ? `-${card.variant}` : ''}`;
+        const key = `${card.name}-${card.number}${card.variant ? `-${card.variant}` : ''}`;
         newCardFlags.push(!collectedCards[key] || !collectedCards[key].isShiny && card.isShiny);
       }
 
       const updatedCollected = { ...collectedCards };
       newCards.forEach((card) => {
-        const key = `${card.name}${card.variant ? `-${card.variant}` : ''}`;
+        const key = `${card.name}-${card.number}${card.variant ? `-${card.variant}` : ''}`;
         if (updatedCollected[key]) {
           updatedCollected[key].count += 1;
           if (card.isShiny) updatedCollected[key].isShiny = true;
@@ -384,14 +391,16 @@ export const CardPackOpener: React.FC = () => {
     <div className="flex flex-col items-center justify-center p-6 text-black">
       <h2 className="text-2xl font-bold mb-4">PokéPack Opening Simulator</h2>
       
-      <div className="flex gap-4 mb-4">
-        <PackSelector
-          selectedPack={selectedPack}
-          setSelectedPack={setSelectedPack}
-          themedPacks={themedPacks}
-          disabled={opening}
-        />
-      </div>
+      {!curatedPack && (
+        <div className="flex gap-4 mb-4">
+          <PackSelector
+            selectedPack={selectedPack}
+            setSelectedPack={setSelectedPack}
+            themedPacks={themedPacks}
+            disabled={opening}
+          />
+        </div>
+      )}
 
       <div className="flex gap-4 mb-6">
         <button
@@ -449,8 +458,7 @@ export const CardPackOpener: React.FC = () => {
                 <Image
                   src="/cardback.png"
                   alt="Card Back"
-                  layout="fill"
-                  objectFit="cover"
+                  fill
                   className="rounded-xl border-2 border-gray-600"
                 />
               </div>
@@ -462,12 +470,12 @@ export const CardPackOpener: React.FC = () => {
       <div className={`${showWaveCards && cards.length === 0 ? 'hidden' : 'relative'} w-full h-74 grid grid-cols-5 gap-4 perspective text-white`}>
         {cards.map((card, idx) => {
           const imagePath = card.variant ? `${card.isShiny ? '/shiny' : '/home-icons'}/${card.number}-${card.variant}.png` : `${card.isShiny ? '/shiny' : '/home-icons'}/${card.number}.png`;
-          const cardKey = `${card.name}${card.variant ? `-${card.variant}` : ''}`;
+          const cardKey = `${card.name}-${card.number}${card.variant ? `-${card.variant}` : ''}`;
           const isArceus = card.name === 'Arceus' || card.name.startsWith('Arceus (');
           const isSilvally = card.name === 'Silvally' || card.name.startsWith('Silvally (') || card.name === 'Type: Null';
-          const isMega = card.name.startsWith('Mega ');
+          const isMega = card.variant === 'Mega' || card.variant?.startsWith('Mega');
           const isPrimal = card.name.startsWith('Primal ');
-          const isGMax = card.name.startsWith('GMax ');
+          const isGMax = card.variant === 'GMax' || card.variant?.startsWith('GMax');
           const isUltraBeast = (card.number >= 793 && card.number <= 799) || (card.number >= 803 && card.number <= 806);
           return (
             <motion.div
@@ -485,7 +493,7 @@ export const CardPackOpener: React.FC = () => {
                 className="absolute inset-0 w-full h-full transform-style-preserve-3d"
               >
                 <div className="absolute w-full h-full backface-hidden">
-                  <Image src="/cardback.png" alt="Card Back" layout="fill" objectFit="cover" className="rounded-xl border-2 border-gray-600" />
+                  <Image src="/cardback.png" alt="Card Back" fill className="rounded-xl border-2 border-gray-600" />
                 </div>
 
                 <div
@@ -579,7 +587,7 @@ export const CardPackOpener: React.FC = () => {
                                 src="/icons/mega-evolution.png"
                                 alt="Mega Evolution Symbol"
                                 width={160}
-                                height={10}
+                                height={160}
                                 className="object-contain opacity-80"
                               />
                             </motion.div>
@@ -593,7 +601,7 @@ export const CardPackOpener: React.FC = () => {
                             >
                               <Image
                                 src="/icons/gigantamax.png"
-                                alt="gigantamax Symbol"
+                                alt="Gigantamax Symbol"
                                 width={180}
                                 height={180}
                                 className="object-contain opacity-80"
@@ -638,7 +646,7 @@ export const CardPackOpener: React.FC = () => {
                 </div>
               </motion.div>
             </motion.div>
-          )
+          );
         })}
       </div>
 
@@ -660,61 +668,13 @@ export const CardPackOpener: React.FC = () => {
               onClick={() => { setShowDex(false); setSelectedCard(null); }}
               className="absolute top-2 right-4 text-gray-300 hover:text-white text-3xl cursor-pointer"
             >
-              ✕
+              ✖
             </button>
             <h3 className="text-2xl font-bold mb-4">Card Dex</h3>
             <p className="mb-4">You&apos;ve collected {Object.keys(collectedCards).length} out of {allCards.length} cards.</p>
             {selectedCard && collectedCards[selectedCard] && (
               <div className="flex items-center gap-4 mb-6 p-4 border rounded-lg bg-gray-800 shadow-lg">
                 <div className="w-32 h-32 relative">
-                  {(['Arceus', ...Object.keys(collectedCards).filter(key => collectedCards[key].card.name.startsWith('Arceus ('))].includes(selectedCard)) && (
-                    <motion.div
-                      initial={{ scale: 0.8, opacity: 0 }}
-                      animate={{ scale: 1, opacity: 0.5 }}
-                      transition={{ duration: 0.5 }}
-                      className="absolute inset-0 flex justify-center items-center z-10"
-                    >
-                      <Image
-                        src="/icons/arceus-symbol.png"
-                        alt="Arceus Symbol"
-                        width={140}
-                        height={140}
-                        className="object-contain"
-                      />
-                    </motion.div>
-                  )}
-                  {(['', ...Object.keys(collectedCards).filter(key => collectedCards[key].card.name.startsWith('Mega '))].includes(selectedCard)) && (
-                    <motion.div
-                      initial={{ scale: 0.8, opacity: 0 }}
-                      animate={{ scale: 1, opacity: 0.5 }}
-                      transition={{ duration: 0.5 }}
-                      className="absolute inset-0 flex justify-center items-center z-10"
-                    >
-                      <Image
-                        src="/icons/mega-evolution.png"
-                        alt="Mega-Evolution Symbol"
-                        width={120}
-                        height={120}
-                        className="object-contain opacity-80"
-                      />
-                    </motion.div>
-                  )}
-                  {(['', ...Object.keys(collectedCards).filter(key => collectedCards[key].card.name.startsWith('GMax '))].includes(selectedCard)) && (
-                    <motion.div
-                      initial={{ scale: 0.8, opacity: 0 }}
-                      animate={{ scale: 1, opacity: 0.5 }}
-                      transition={{ duration: 0.5 }}
-                      className="absolute inset-0 flex justify-center items-center z-10"
-                    >
-                      <Image
-                        src="/icons/gigantamax.png"
-                        alt="Gigantamax Symbol"
-                        width={140}
-                        height={140}
-                        className="object-contain opacity-80"
-                      />
-                    </motion.div>
-                  )}
                   <Image
                     src={
                       collectedCards[selectedCard].card.variant
@@ -750,13 +710,13 @@ export const CardPackOpener: React.FC = () => {
               <div>
                 <p className="font-semibold text-md">Regions:</p>
                 <div className="flex gap-2 mb-4 flex-wrap">
-                  {Object.keys(regionRanges).map(region => (
+                  {['All', ...Object.keys(regionRanges)].map(region => (
                     <button
                       key={region}
                       onClick={() => setCurrentRegion(region as keyof typeof regionRanges)}
                       className={`cursor-pointer px-3 py-1 rounded ${currentRegion === region ? 'bg-blue-600' : 'bg-gray-700 hover:bg-gray-600'}`}
                     >
-                      {region === 'SpecialForms' ? 'Special Forms' : region}
+                      {region}
                     </button>
                   ))}
                 </div>
@@ -781,27 +741,18 @@ export const CardPackOpener: React.FC = () => {
             ) : (
               <div className="grid grid-cols-5 gap-4">
                 {displayedCards.map(card => {
-                  const cardKey = `${card.name}${card.variant ? `-${card.variant}` : ''}`;
+                  const cardKey = `${card.name}-${card.number}${card.variant ? `-${card.variant}` : ''}`;
                   const owned = collectedCards[cardKey];
                   const imagePath = card.variant ? `/home-icons/${card.number}-${card.variant}.png` : `/home-icons/${card.number}.png`;
                   return (
                     <div onClick={() => handleCardClick(cardKey)} key={cardKey} className="flex flex-col items-center cursor-pointer">
                       <div className="w-20 h-20 relative mb-2">
-                        {owned ? (
-                          <Image
-                            src={imagePath}
-                            alt={card.name}
-                            fill
-                            className="object-contain"
-                          />
-                        ) : (
-                          <Image
-                            src={imagePath}
-                            alt={card.name}
-                            fill
-                            className="object-contain brightness-0"
-                          />
-                        )}
+                        <Image
+                          src={imagePath}
+                          alt={card.name}
+                          fill
+                          className={`object-contain ${!owned ? 'brightness-0' : ''}`}
+                        />
                       </div>
                       <div className="font-semibold text-md text-center">
                         {card.isShiny ? `${card.name} ✦` : card.name}
@@ -809,11 +760,7 @@ export const CardPackOpener: React.FC = () => {
                       <div className={`${card.rarity === 'Mythical' ? 'text-[#ffd700]' : 'text-white'}`}>
                         {getRarityIcon(card.rarity)}
                       </div>
-                      {owned ? (
-                        <div className="text-xs">Owned: {owned.count}</div>
-                      ) : (
-                        <div className="text-xs italic">Missing</div>
-                      )}
+                      <div className="text-xs">{owned ? `Owned: ${owned.count}` : 'Missing'}</div>
                     </div>
                   );
                 })}

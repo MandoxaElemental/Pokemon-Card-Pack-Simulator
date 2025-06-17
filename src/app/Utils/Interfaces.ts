@@ -93,6 +93,14 @@ export const themedPacks: BoosterPack[] = [
   },
 ];
 
+// filter: (card: Card) => {
+//   const allowedNumbers = [345, 346, 564, 565, 696, 697];
+//   return (
+//     (allowedNumbers.includes(card.number) && !card.variant) ||
+//     (allowedSpecialNumbers.includes(card.number) && card.variant === 'Mega')
+//   );
+// },
+
 export const allCards: Card[] = [
     // Kanto
   { name: 'Bulbasaur', number: 1, type: ['Grass', 'Poison'], isShiny: false, rarity: 'Uncommon', move: 'Vine Whip' },
@@ -477,6 +485,9 @@ export const allCards: Card[] = [
   { name: 'Feebas', number: 349, type: ['Water'], isShiny: false, rarity: 'Uncommon', move: 'Tackle' },
   { name: 'Milotic', number: 350, type: ['Water'], isShiny: false, rarity: 'Epic', move: 'Hydro Pump' },
   { name: 'Castform', number: 351, type: ['Normal'], isShiny: false, rarity: 'Uncommon', move: 'Weather Ball' },
+  { name: "Castform (Sunny)", number: 351, variant: "Sunny", type: ["Fire"], isShiny: false, rarity: "Uncommon", move: "Weather Ball" },
+  { name: "Castform (Rainy)", number: 351, variant: "Rainy", type: ["Water"], isShiny: false, rarity: "Uncommon", move: "Weather Ball" },
+  { name: "Castform (Snowy)", number: 351, variant: "Snowy", type: ["Ice"], isShiny: false, rarity: "Uncommon", move: "Weather Ball" },
   { name: 'Kecleon', number: 352, type: ['Normal'], isShiny: false, rarity: 'Uncommon', move: 'Slash' },
   { name: 'Shuppet', number: 353, type: ['Ghost'], isShiny: false, rarity: 'Common', move: 'Shadow Sneak' },
   { name: 'Banette', number: 354, type: ['Ghost'], isShiny: false, rarity: 'Rare', move: 'Shadow Ball' },
@@ -508,8 +519,11 @@ export const allCards: Card[] = [
   { name: 'Latias', number: 380, type: ['Dragon', 'Psychic'], isShiny: false, rarity: 'Legendary', move: 'Mist Ball' },
   { name: 'Latios', number: 381, type: ['Dragon', 'Psychic'], isShiny: false, rarity: 'Legendary', move: 'Luster Purge' },
   { name: 'Kyogre', number: 382, type: ['Water'], isShiny: false, rarity: 'Legendary', move: 'Origin Pulse' },
+  { name: "Primal Kyogre", number: 382, variant: "Primal", type: ["Water"], isShiny: false, rarity: "Mythical", move: "Origin Pulse" },
   { name: 'Groudon', number: 383, type: ['Ground'], isShiny: false, rarity: 'Legendary', move: 'Precipice Blades' },
+  { name: "Primal Groudon", number: 383, variant: "Primal", type: ["Ground", "Fire"], isShiny: false, rarity: "Mythical", move: "Precipice Blades" },  
   { name: 'Rayquaza', number: 384, type: ['Dragon', 'Flying'], isShiny: false, rarity: 'Legendary', move: 'Dragon Ascent' },
+  { name: "Mega Rayquaza", number: 384, variant: "Mega", type: ["Dragon", "Flying"], isShiny: false, rarity: "Mythical", move: "Dragon Ascent" },
   { name: 'Jirachi', number: 385, type: ['Steel', 'Psychic'], isShiny: false, rarity: 'Mythical', move: 'Doom Desire' },
   { name: 'Deoxys', number: 386, type: ['Psychic'], isShiny: false, rarity: 'Mythical', move: 'Psycho Boost' },
   { name: "Deoxys (Attack)", number: 386, variant: "Attack", type: ["Psychic"], isShiny: false, rarity: "Mythical", move: "Psycho Boost" },
@@ -625,10 +639,13 @@ export const allCards: Card[] = [
   { name: 'Mesprit', number: 481, type: ['Psychic'], isShiny: false, rarity: 'Legendary', move: 'Confusion' },
   { name: 'Azelf', number: 482, type: ['Psychic'], isShiny: false, rarity: 'Legendary', move: 'Future Sight' },
   { name: 'Dialga', number: 483, type: ['Steel', 'Dragon'], isShiny: false, rarity: 'Legendary', move: 'Roar of Time' },
+  { name: "Dialga (Origin)", number: 483, variant: "Origin", type: ["Steel", "Dragon"], isShiny: false, rarity: "Legendary", move: "Roar of Time" },
   { name: 'Palkia', number: 484, type: ['Water', 'Dragon'], isShiny: false, rarity: 'Legendary', move: 'Spacial Rend' },
+  { name: "Palkia (Origin)", number: 484, variant: "Origin", type: ["Water", "Dragon"], isShiny: false, rarity: "Legendary", move: "Spacial Rend" },
   { name: 'Heatran', number: 485, type: ['Fire', 'Steel'], isShiny: false, rarity: 'Legendary', move: 'Magma Storm' },
   { name: 'Regigigas', number: 486, type: ['Normal'], isShiny: false, rarity: 'Legendary', move: 'Crush Grip' },
   { name: 'Giratina', number: 487, type: ['Ghost', 'Dragon'], isShiny: false, rarity: 'Legendary', move: 'Shadow Force' },
+    { name: "Giratina (Origin)", number: 487, variant: "Origin", type: ["Ghost", "Dragon"], isShiny: false, rarity: "Legendary", move: "Shadow Force" },
   { name: 'Cresselia', number: 488, type: ['Psychic'], isShiny: false, rarity: 'Legendary', move: 'Lunar Dance' },
   { name: 'Phione', number: 489, type: ['Water'], isShiny: false, rarity: 'Mythical', move: 'Take Heart' },
   { name: 'Manaphy', number: 490, type: ['Water'], isShiny: false, rarity: 'Mythical', move: 'Heart Swap' },
@@ -712,11 +729,13 @@ export const allCards: Card[] = [
   { name: 'Petilil', number: 548, type: ['Grass'], isShiny: false, rarity: 'Common', move: 'Mega Drain' },
   { name: 'Lilligant', number: 549, type: ['Grass'], isShiny: false, rarity: 'Uncommon', move: 'Petal Dance' },
   { name: 'Basculin (Red-Stripe)', number: 550, type: ['Water'], isShiny: false, rarity: 'Uncommon', move: 'Aqua Jet' },
+  { name: "Basculin (Blue-Stripe)", number: 550, variant: "Blue", type: ["Water"], isShiny: false, rarity: "Uncommon", move: "Aqua Jet" },
   { name: 'Sandile', number: 551, type: ['Ground', 'Dark'], isShiny: false, rarity: 'Uncommon', move: 'Bite' },
   { name: 'Krokorok', number: 552, type: ['Ground', 'Dark'], isShiny: false, rarity: 'Rare', move: 'Crunch' },
   { name: 'Krokodile', number: 553, type: ['Ground', 'Dark'], isShiny: false, rarity: 'Epic', move: 'Earthquake' },
   { name: 'Darumaka', number: 554, type: ['Fire'], isShiny: false, rarity: 'Common', move: 'Fire Punch' },
   { name: 'Darmanitan', number: 555, type: ['Fire'], isShiny: false, rarity: 'Rare', move: 'Flare Blitz' },
+  { name: "Darmanitan Zen", number: 555, variant: "Zen", type: ["Fire", "Psychic"], isShiny: false, rarity: "Rare", move: "Psychic" },
   { name: 'Maractus', number: 556, type: ['Grass'], isShiny: false, rarity: 'Uncommon', move: 'Needle Arm' },
   { name: 'Dwebble', number: 557, type: ['Bug', 'Rock'], isShiny: false, rarity: 'Common', move: 'Rock Blast' },
   { name: 'Crustle', number: 558, type: ['Bug', 'Rock'], isShiny: false, rarity: 'Uncommon', move: 'X-Scissor' },
@@ -811,13 +830,20 @@ export const allCards: Card[] = [
   { name: 'Terrakion', number: 639, type: ['Rock', 'Fighting'], isShiny: false, rarity: 'Legendary', move: 'Sacred Sword' },
   { name: 'Virizion', number: 640, type: ['Grass', 'Fighting'], isShiny: false, rarity: 'Legendary', move: 'Sacred Sword' },
   { name: 'Tornadus', number: 641, type: ['Flying'], isShiny: false, rarity: 'Legendary', move: 'Bleakwind Storm' },
+  { name: "Tornadus (Therian)", number: 641, variant: "Therian", type: ["Flying"], isShiny: false, rarity: "Legendary", move: "Bleakwind Storm" },
   { name: 'Thundurus', number: 642, type: ['Electric', 'Flying'], isShiny: false, rarity: 'Legendary', move: 'Wildbolt Storm' },
+  { name: "Thundurus (Therian)", number: 642, variant: "Therian", type: ["Electric", "Flying"], isShiny: false, rarity: "Legendary", move: "Wildbolt Storm" },
   { name: 'Reshiram', number: 643, type: ['Dragon', 'Fire'], isShiny: false, rarity: 'Legendary', move: 'Blue Flare' },
   { name: 'Zekrom', number: 644, type: ['Dragon', 'Electric'], isShiny: false, rarity: 'Legendary', move: 'Bolt Strike' },
   { name: 'Landorus', number: 645, type: ['Ground', 'Flying'], isShiny: false, rarity: 'Legendary', move: 'Sandsear Storm' },
+  { name: "Landorus (Therian)", number: 645, variant: "Therian", type: ["Ground", "Flying"], isShiny: false, rarity: "Legendary", move: "Sandsear Storm" },
   { name: 'Kyurem', number: 646, type: ['Dragon', 'Ice'], isShiny: false, rarity: 'Legendary', move: 'Glaciate' },
+  { name: "Kyurem (Black)", number: 646, variant: "Black", type: ["Dragon", "Ice"], isShiny: false, rarity: "Legendary", move: "Freeze Shock" },
+  { name: "Kyurem (White)", number: 646, variant: "White", type: ["Dragon", "Ice"], isShiny: false, rarity: "Legendary", move: "Ice Burn" },
   { name: 'Keldeo', number: 647, type: ['Water', 'Fighting'], isShiny: false, rarity: 'Mythical', move: 'Sacred Sword' },
+  { name: "Keldeo (Resolute)", number: 647, variant: "Resolute", type: ["Water", "Fighting"], isShiny: false, rarity: "Mythical", move: "Secret Sword" },
   { name: 'Meloetta', number: 648, type: ['Normal', 'Psychic'], isShiny: false, rarity: 'Mythical', move: 'Relic Song' },
+  { name: "Meloetta (Pirouette)", number: 648, variant: "Pirouette", type: ["Normal", "Fighting"], isShiny: false, rarity: "Mythical", move: "Relic Song" },
   { name: 'Genesect', number: 649, type: ['Bug', 'Steel'], isShiny: false, rarity: 'Mythical', move: 'Techno Blast' },
 
   // Kalos
@@ -830,6 +856,7 @@ export const allCards: Card[] = [
   { name: 'Froakie', number: 656, type: ['Water'], isShiny: false, rarity: 'Uncommon', move: 'Water Pulse' },
   { name: 'Frogadier', number: 657, type: ['Water'], isShiny: false, rarity: 'Rare', move: 'Bubble Beam' },
   { name: 'Greninja', number: 658, type: ['Water', 'Dark'], isShiny: false, rarity: 'Epic', move: 'Water Shuriken' },
+  { name: "Greninja (Battle Bond)", number: 658, variant: "BattleBond", type: ["Water", "Dark"], isShiny: false, rarity: "Legendary", move: "Water Shuriken" },
   { name: 'Bunnelby', number: 659, type: ['Normal'], isShiny: false, rarity: 'Common', move: 'Tackle' },
   { name: 'Diggersby', number: 660, type: ['Normal', 'Ground'], isShiny: false, rarity: 'Uncommon', move: 'Dig' },
   { name: 'Fletchling', number: 661, type: ['Normal', 'Flying'], isShiny: false, rarity: 'Common', move: 'Peck' },
@@ -876,10 +903,12 @@ export const allCards: Card[] = [
   { name: 'Furfrou (Dandy)', number: 676, type: ['Normal'], isShiny: false, rarity: 'Rare', move: 'Tackle', variant: 'dandy' },
   { name: 'Furfrou (Debutante)', number: 676, type: ['Normal'], isShiny: false, rarity: 'Rare', move: 'Tackle', variant: 'debutante' },
   { name: 'Furfrou (Pharaoh)', number: 676, type: ['Normal'], isShiny: false, rarity: 'Rare', move: 'Tackle', variant: 'pharaoh' },  { name: 'Espurr', number: 677, type: ['Psychic'], isShiny: false, rarity: 'Common', move: 'Confusion' },
-  { name: 'Meowstic', number: 678, type: ['Psychic'], isShiny: false, rarity: 'Uncommon', move: 'Psybeam' },
+  { name: 'Meowstic♂', number: 678, type: ['Psychic'], isShiny: false, rarity: 'Uncommon', move: 'Psybeam' },
+  { name: "Meowstic♀", number: 678, variant: "female", type: ["Psychic"], isShiny: false, rarity: "Uncommon", move: "Psybeam" },
   { name: 'Honedge', number: 679, type: ['Steel', 'Ghost'], isShiny: false, rarity: 'Uncommon', move: 'Shadow Sneak' },
   { name: 'Doublade', number: 680, type: ['Steel', 'Ghost'], isShiny: false, rarity: 'Rare', move: 'Sacred Sword' },
   { name: 'Aegislash', number: 681, type: ['Steel', 'Ghost'], isShiny: false, rarity: 'Epic', move: 'King’s Shield' },
+  { name: "Aegislash (Blade)", number: 681, variant: "Blade", type: ["Steel", "Ghost"], isShiny: false, rarity: "Rare", move: "Sacred Sword" },
   { name: 'Spritzee', number: 682, type: ['Fairy'], isShiny: false, rarity: 'Common', move: 'Fairy Wind' },
   { name: 'Aromatisse', number: 683, type: ['Fairy'], isShiny: false, rarity: 'Uncommon', move: 'Aromatic Mist' },
   { name: 'Swirlix', number: 684, type: ['Fairy'], isShiny: false, rarity: 'Common', move: 'Draining Kiss' },
@@ -916,11 +945,61 @@ export const allCards: Card[] = [
   { name: 'Noivern', number: 715, type: ['Flying', 'Dragon'], isShiny: false, rarity: 'Rare', move: 'Boomburst' },
   { name: 'Xerneas', number: 716, type: ['Fairy'], isShiny: false, rarity: 'Legendary', move: 'Geomancy', variant: 'active' },
   { name: 'Yveltal', number: 717, type: ['Dark', 'Flying'], isShiny: false, rarity: 'Legendary', move: 'Oblivion Wing' },
+  { name: "Zygarde (10%)", number: 718, variant: "ten", type: ["Dragon", "Ground"], isShiny: false, rarity: "Legendary", move: "Thousand Waves" },
   { name: 'Zygarde', number: 718, type: ['Dragon', 'Ground'], isShiny: false, rarity: 'Legendary', move: 'Thousand Arrows' },
+  { name: "Zygarde (Complete)", number: 718, variant: "Complete", type: ["Dragon", "Ground"], isShiny: false, rarity: "Mythical", move: "Core Enforcer" },
   { name: 'Diancie', number: 719, type: ['Rock', 'Fairy'], isShiny: false, rarity: 'Mythical', move: 'Diamond Storm' },
+  { name: "Mega Diancie", number: 719, variant: "Mega", type: ["Rock", "Fairy"], isShiny: false, rarity: "Mythical", move: "Diamond Storm" },
   { name: 'Hoopa (Confined)', number: 720, type: ['Psychic', 'Ghost'], isShiny: false, rarity: 'Mythical', move: 'Hyperspace Hole' },
+  { name: "Hoopa (Unbound)", number: 720, variant: "Unbound", type: ["Psychic", "Dark"], isShiny: false, rarity: "Mythical", move: "Hyperspace Fury" },
   { name: 'Volcanion', number: 721, type: ['Fire', 'Water'], isShiny: false, rarity: 'Mythical', move: 'Steam Eruption' },
-  
+    { name: "Mega Venusaur", number: 3, variant: "Mega", type: ["Grass", "Poison"], isShiny: false, rarity: "Legendary", move: "Sludge Bomb" },
+  { name: "Mega Charizard X", number: 6, variant: "MegaX", type: ["Fire", "Dragon"], isShiny: false, rarity: "Legendary", move: "Dragon Claw" },
+  { name: "Mega Charizard Y", number: 6, variant: "MegaY", type: ["Fire", "Flying"], isShiny: false, rarity: "Legendary", move: "Flamethrower" },
+  { name: "Mega Blastoise", number: 9, variant: "Mega", type: ["Water"], isShiny: false, rarity: "Legendary", move: "Hydro Cannon" },
+  { name: "Mega Alakazam", number: 65, variant: "Mega", type: ["Psychic"], isShiny: false, rarity: "Legendary", move: "Psychic" },
+  { name: "Mega Gengar", number: 94, variant: "Mega", type: ["Ghost", "Poison"], isShiny: false, rarity: "Legendary", move: "Shadow Ball" },
+  { name: "Mega Kangaskhan", number: 115, variant: "Mega", type: ["Normal"], isShiny: false, rarity: "Legendary", move: "Return" },
+  { name: "Mega Pinsir", number: 127, variant: "Mega", type: ["Bug", "Flying"], isShiny: false, rarity: "Legendary", move: "X-Scissor" },
+  { name: "Mega Gyarados", number: 130, variant: "Mega", type: ["Water", "Dark"], isShiny: false, rarity: "Legendary", move: "Crunch" },
+  { name: "Mega Aerodactyl", number: 142, variant: "Mega", type: ["Rock", "Flying"], isShiny: false, rarity: "Legendary", move: "Stone Edge" },
+  { name: "Mega Mewtwo X", number: 150, variant: "MegaX", type: ["Psychic", "Fighting"], isShiny: false, rarity: "Mythical", move: "Psystrike" },
+  { name: "Mega Mewtwo Y", number: 150, variant: "MegaY", type: ["Psychic"], isShiny: false, rarity: "Mythical", move: "Psystrike" },
+  { name: "Mega Ampharos", number: 181, variant: "Mega", type: ["Electric", "Dragon"], isShiny: false, rarity: "Legendary", move: "Thunderbolt" },
+  { name: "Mega Scizor", number: 212, variant: "Mega", type: ["Bug", "Steel"], isShiny: false, rarity: "Legendary", move: "Bullet Punch" },
+  { name: "Mega Heracross", number: 214, variant: "Mega", type: ["Bug", "Fighting"], isShiny: false, rarity: "Legendary", move: "Close Combat" },
+  { name: "Mega Houndoom", number: 229, variant: "Mega", type: ["Dark", "Fire"], isShiny: false, rarity: "Legendary", move: "Flamethrower" },
+  { name: "Mega Tyranitar", number: 248, variant: "Mega", type: ["Rock", "Dark"], isShiny: false, rarity: "Legendary", move: "Stone Edge" },
+  { name: "Mega Blaziken", number: 257, variant: "Mega", type: ["Fire", "Fighting"], isShiny: false, rarity: "Legendary", move: "Blaze Kick" },
+  { name: "Mega Gardevoir", number: 282, variant: "Mega", type: ["Psychic", "Fairy"], isShiny: false, rarity: "Legendary", move: "Moonblast" },
+  { name: "Mega Mawile", number: 303, variant: "Mega", type: ["Steel", "Fairy"], isShiny: false, rarity: "Legendary", move: "Play Rough" },
+  { name: "Mega Aggron", number: 306, variant: "Mega", type: ["Steel"], isShiny: false, rarity: "Legendary", move: "Heavy Slam" },
+  { name: "Mega Medicham", number: 308, variant: "Mega", type: ["Fighting", "Psychic"], isShiny: false, rarity: "Legendary", move: "High Jump Kick" },
+  { name: "Mega Manectric", number: 310, variant: "Mega", type: ["Electric"], isShiny: false, rarity: "Legendary", move: "Thunder" },
+  { name: "Mega Banette", number: 354, variant: "Mega", type: ["Ghost"], isShiny: false, rarity: "Legendary", move: "Shadow Sneak" },
+  { name: "Mega Absol", number: 359, variant: "Mega", type: ["Dark"], isShiny: false, rarity: "Legendary", move: "Night Slash" },
+  { name: "Mega Garchomp", number: 445, variant: "Mega", type: ["Dragon", "Ground"], isShiny: false, rarity: "Legendary", move: "Dragon Rush" },
+  { name: "Mega Lucario", number: 448, variant: "Mega", type: ["Fighting", "Steel"], isShiny: false, rarity: "Legendary", move: "Aura Sphere" },
+  { name: "Mega Abomasnow", number: 460, variant: "Mega", type: ["Grass", "Ice"], isShiny: false, rarity: "Legendary", move: "Blizzard" },
+  { name: "Mega Latias", number: 380, variant: "Mega", type: ["Dragon", "Psychic"], isShiny: false, rarity: "Mythical", move: "Mist Ball" },
+  { name: "Mega Latios", number: 381, variant: "Mega", type: ["Dragon", "Psychic"], isShiny: false, rarity: "Mythical", move: "Luster Purge" },
+  { name: "Mega Swampert", number: 260, variant: "Mega", type: ["Water", "Ground"], isShiny: false, rarity: "Legendary", move: "Hydro Pump" },
+  { name: "Mega Sceptile", number: 254, variant: "Mega", type: ["Grass", "Dragon"], isShiny: false, rarity: "Legendary", move: "Dragon Pulse" },
+  { name: "Mega Sableye", number: 302, variant: "Mega", type: ["Dark", "Ghost"], isShiny: false, rarity: "Legendary", move: "Shadow Sneak" },
+  { name: "Mega Altaria", number: 334, variant: "Mega", type: ["Dragon", "Fairy"], isShiny: false, rarity: "Legendary", move: "Moonblast" },
+  { name: "Mega Gallade", number: 475, variant: "Mega", type: ["Psychic", "Fighting"], isShiny: false, rarity: "Legendary", move: "Close Combat" },
+  { name: "Mega Audino", number: 531, variant: "Mega", type: ["Normal", "Fairy"], isShiny: false, rarity: "Legendary", move: "Dazzling Gleam" },
+  { name: "Mega Sharpedo", number: 319, variant: "Mega", type: ["Water", "Dark"], isShiny: false, rarity: "Legendary", move: "Crunch" },
+  { name: "Mega Slowbro", number: 80, variant: "Mega", type: ["Water", "Psychic"], isShiny: false, rarity: "Legendary", move: "Psychic" },
+  { name: "Mega Steelix", number: 208, variant: "Mega", type: ["Steel", "Ground"], isShiny: false, rarity: "Legendary", move: "Earthquake" },
+  { name: "Mega Pidgeot", number: 18, variant: "Mega", type: ["Normal", "Flying"], isShiny: false, rarity: "Legendary", move: "Hurricane" },
+  { name: "Mega Glalie", number: 362, variant: "Mega", type: ["Ice"], isShiny: false, rarity: "Legendary", move: "Ice Beam" },
+  { name: "Mega Metagross", number: 376, variant: "Mega", type: ["Steel", "Psychic"], isShiny: false, rarity: "Legendary", move: "Meteor Mash" },
+  { name: "Mega Camerupt", number: 323, variant: "Mega", type: ["Fire", "Ground"], isShiny: false, rarity: "Legendary", move: "Eruption" },
+  { name: "Mega Lopunny", number: 428, variant: "Mega", type: ["Normal", "Fighting"], isShiny: false, rarity: "Legendary", move: "High Jump Kick" },
+  { name: "Mega Salamence", number: 373, variant: "Mega", type: ["Dragon", "Flying"], isShiny: false, rarity: "Legendary", move: "Dragon Claw" },
+  { name: "Mega Beedrill", number: 15, variant: "Mega", type: ["Bug", "Poison"], isShiny: false, rarity: "Legendary", move: "Poison Jab" },
+
   // Alola
     { name: 'Rowlet', number: 722, type: ['Grass', 'Flying'], isShiny: false, rarity: 'Uncommon', move: 'Razor Leaf' },
   { name: 'Dartrix', number: 723, type: ['Grass', 'Flying'], isShiny: false, rarity: 'Rare', move: 'Leaf Blade' },
@@ -936,11 +1015,21 @@ export const allCards: Card[] = [
   { name: 'Toucannon', number: 733, type: ['Normal', 'Flying'], isShiny: false, rarity: 'Rare', move: 'Beak Blast' },
   { name: 'Yungoos', number: 734, type: ['Normal'], isShiny: false, rarity: 'Common', move: 'Tackle' },
   { name: 'Gumshoos', number: 735, type: ['Normal'], isShiny: false, rarity: 'Uncommon', move: 'Hyper Fang' },
-  { name: 'Grubbin', number: 736, type: ['Bug'], isShiny: false, rarity: 'Common', move: 'Bug Bite' },
-  { name: 'Charjabug', number: 737, type: ['Bug', 'Electric'], isShiny: false, rarity: 'Uncommon', move: 'Spark' },
-  { name: 'Vikavolt', number: 738, type: ['Bug', 'Electric'], isShiny: false, rarity: 'Rare', move: 'Thunderbolt' },
+  { name: "Rattata (Alola)", number: 19, variant: "Alola", type: ["Dark", "Normal"], isShiny: false, rarity: "Common", move: "Bite" },
+  { name: "Raticate (Alola)", number: 20, variant: "Alola", type: ["Dark", "Normal"], isShiny: false, rarity: "Uncommon", move: "Crunch" },
+    { name: "Raichu (Alola)", number: 26, variant: "Alola", type: ["Electric", "Psychic"], isShiny: false, rarity: "Rare", move: "Psychic" },
+    { name: 'Grubbin', number: 736, type: ['Bug'], isShiny: false, rarity: 'Common', move: 'Bug Bite' },
+    { name: 'Charjabug', number: 737, type: ['Bug', 'Electric'], isShiny: false, rarity: 'Uncommon', move: 'Spark' },
+    { name: 'Vikavolt', number: 738, type: ['Bug', 'Electric'], isShiny: false, rarity: 'Rare', move: 'Thunderbolt' },
+    { name: "Meowth (Alola)", number: 52, variant: "Alola", type: ["Dark"], isShiny: false, rarity: "Common", move: "Feint Attack" },
+  { name: "Persian (Alola)", number: 53, variant: "Alola", type: ["Dark"], isShiny: false, rarity: "Rare", move: "Night Slash" },
+  { name: "Grimer (Alola)", number: 88, variant: "Alola", type: ["Poison", "Dark"], isShiny: false, rarity: "Common", move: "Poison Fang" },
+  { name: "Muk (Alola)", number: 89, variant: "Alola", type: ["Poison", "Dark"], isShiny: false, rarity: "Uncommon", move: "Gunk Shot" },
+
   { name: 'Crabrawler', number: 739, type: ['Fighting'], isShiny: false, rarity: 'Uncommon', move: 'Crabhammer' },
   { name: 'Crabominable', number: 740, type: ['Fighting', 'Ice'], isShiny: false, rarity: 'Rare', move: 'Ice Punch' },
+  { name: "Diglett (Alola)", number: 50, variant: "Alola", type: ["Ground", "Steel"], isShiny: false, rarity: "Common", move: "Mud-Slap" },
+  { name: "Dugtrio (Alola)", number: 51, variant: "Alola", type: ["Ground", "Steel"], isShiny: false, rarity: "Rare", move: "Earthquake" },
   { name: 'Oricorio', number: 741, type: ['Fire', 'Flying'], isShiny: false, rarity: 'Rare', move: 'Revelation Dance' },
   { name: "Oricorio (Pom-Pom)", number: 741, variant: "PomPom", type: ["Electric", "Flying"], isShiny: false, rarity: "Rare", move: "Revelation Dance" },
   { name: "Oricorio (Pa'u)", number: 741, variant: "Pau", type: ["Psychic", "Flying"], isShiny: false, rarity: "Rare", move: "Revelation Dance" },
@@ -949,7 +1038,10 @@ export const allCards: Card[] = [
   { name: 'Ribombee', number: 743, type: ['Bug', 'Fairy'], isShiny: false, rarity: 'Uncommon', move: 'Pollen Puff' },
   { name: 'Rockruff', number: 744, type: ['Rock'], isShiny: false, rarity: 'Common', move: 'Rock Throw' },
   { name: 'Lycanroc', number: 745, type: ['Rock'], isShiny: false, rarity: 'Rare', move: 'Stone Edge' },
+  { name: "Lycanroc (Midnight)", number: 745, variant: "Midnight", type: ["Rock"], isShiny: false, rarity: "Rare", move: "Stone Edge" },
+    { name: "Lycanroc (Dusk)", number: 745, variant: "Dusk", type: ["Rock"], isShiny: false, rarity: "Rare", move: "Accelerock" },
   { name: 'Wishiwashi', number: 746, type: ['Water'], isShiny: false, rarity: 'Common', move: 'Water Gun' },
+    { name: "Wishiwashi (School)", number: 746, variant: "School", type: ["Water"], isShiny: false, rarity: "Epic", move: "Hydro Pump" },
   { name: 'Mareanie', number: 747, type: ['Poison', 'Water'], isShiny: false, rarity: 'Common', move: 'Poison Sting' },
   { name: 'Toxapex', number: 748, type: ['Poison', 'Water'], isShiny: false, rarity: 'Uncommon', move: 'Baneful Bunker' },
   { name: 'Mudbray', number: 749, type: ['Ground'], isShiny: false, rarity: 'Uncommon', move: 'Mud-Slap' },
@@ -962,6 +1054,7 @@ export const allCards: Card[] = [
   { name: 'Shiinotic', number: 756, type: ['Grass', 'Fairy'], isShiny: false, rarity: 'Uncommon', move: 'Moonblast' },
   { name: 'Salandit', number: 757, type: ['Poison', 'Fire'], isShiny: false, rarity: 'Common', move: 'Ember' },
   { name: 'Salazzle', number: 758, type: ['Poison', 'Fire'], isShiny: false, rarity: 'Rare', move: 'Flamethrower' },
+    { name: "Marowak (Alola)", number: 105, variant: "Alola", type: ["Fire", "Ghost"], isShiny: false, rarity: "Rare", move: "Shadow Bone" },
   { name: 'Stufful', number: 759, type: ['Normal', 'Fighting'], isShiny: false, rarity: 'Uncommon', move: 'Tackle' },
   { name: 'Bewear', number: 760, type: ['Normal', 'Fighting'], isShiny: false, rarity: 'Rare', move: 'Hammer Arm' },
   { name: 'Bounsweet', number: 761, type: ['Grass'], isShiny: false, rarity: 'Uncommon', move: 'Razor Leaf' },
@@ -993,14 +1086,32 @@ export const allCards: Card[] = [
   { name: 'Silvally (Ice)', number: 773, type: ['Ice'], isShiny: false, rarity: 'Legendary', move: 'Multi-Attack', variant: 'ice' },
   { name: 'Silvally (Dragon)', number: 773, type: ['Dragon'], isShiny: false, rarity: 'Legendary', move: 'Multi-Attack', variant: 'dragon' },
   { name: 'Silvally (Dark)', number: 773, type: ['Dark'], isShiny: false, rarity: 'Legendary', move: 'Multi-Attack', variant: 'dark' },
-  { name: 'Silvally (Fairy)', number: 773, type: ['Fairy'], isShiny: false, rarity: 'Legendary', move: 'Multi-Attack', variant: 'fairy' },  { name: 'Minior', number: 774, type: ['Rock', 'Flying'], isShiny: false, rarity: 'Uncommon', move: 'Power Gem' },
+  { name: 'Silvally (Fairy)', number: 773, type: ['Fairy'], isShiny: false, rarity: 'Legendary', move: 'Multi-Attack', variant: 'fairy' },
+  { name: 'Minior', number: 774, type: ['Rock', 'Flying'], isShiny: false, rarity: 'Uncommon', move: 'Power Gem' },
+  { name: "Minior (Red)", number: 774, variant: "Red", type: ["Rock", "Flying"], isShiny: false, rarity: "Rare", move: "Power Gem" },
+  { name: "Minior (Orange)", number: 774, variant: "Orange", type: ["Rock", "Flying"], isShiny: false, rarity: "Rare", move: "Power Gem" },
+  { name: "Minior (Yellow)", number: 774, variant: "Yellow", type: ["Rock", "Flying"], isShiny: false, rarity: "Rare", move: "Power Gem" },
+  { name: "Minior (Green)", number: 774, variant: "Green", type: ["Rock", "Flying"], isShiny: false, rarity: "Rare", move: "Power Gem" },
+  { name: "Minior (Blue)", number: 774, variant: "Blue", type: ["Rock", "Flying"], isShiny: false, rarity: "Rare", move: "Power Gem" },
+  { name: "Minior (Indigo)", number: 774, variant: "Indigo", type: ["Rock", "Flying"], isShiny: false, rarity: "Rare", move: "Power Gem" },
+  { name: "Minior (Violet)", number: 774, variant: "Violet", type: ["Rock", "Flying"], isShiny: false, rarity: "Rare", move: "Power Gem" },
   { name: 'Komala', number: 775, type: ['Normal'], isShiny: false, rarity: 'Rare', move: 'Slam' },
   { name: 'Turtonator', number: 776, type: ['Fire', 'Dragon'], isShiny: false, rarity: 'Rare', move: 'Shell Trap' },
   { name: 'Togedemaru', number: 777, type: ['Electric', 'Steel'], isShiny: false, rarity: 'Uncommon', move: 'Zing Zap' },
+    { name: "Geodude (Alola)", number: 74, variant: "Alola", type: ["Rock", "Electric"], isShiny: false, rarity: "Uncommon", move: "Thunder Punch" },
+  { name: "Graveler (Alola)", number: 75, variant: "Alola", type: ["Rock", "Electric"], isShiny: false, rarity: "Rare", move: "Thunderbolt" },
+  { name: "Golem (Alola)", number: 76, variant: "Alola", type: ["Rock", "Electric"], isShiny: false, rarity: "Epic", move: "Wild Charge" },
+
   { name: 'Mimikyu', number: 778, type: ['Ghost', 'Fairy'], isShiny: false, rarity: 'Rare', move: 'Shadow Sneak' },
   { name: 'Bruxish', number: 779, type: ['Water', 'Psychic'], isShiny: false, rarity: 'Rare', move: 'Psychic Fangs' },
   { name: 'Drampa', number: 780, type: ['Normal', 'Dragon'], isShiny: false, rarity: 'Rare', move: 'Dragon Pulse' },
+  { name: "Sandshrew (Alola)", number: 27, variant: "Alola", type: ["Ice", "Steel"], isShiny: false, rarity: "Common", move: "Ice Shard" },
+  { name: "Sandslash (Alola)", number: 28, variant: "Alola", type: ["Ice", "Steel"], isShiny: false, rarity: "Rare", move: "Icicle Crash" },
+  { name: "Vulpix (Alola)", number: 37, variant: "Alola", type: ["Ice"], isShiny: false, rarity: "Common", move: "Powder Snow" },
+  { name: "Ninetales (Alola)", number: 38, variant: "Alola", type: ["Ice", "Fairy"], isShiny: false, rarity: "Rare", move: "Dazzling Gleam" },
   { name: 'Dhelmise', number: 781, type: ['Ghost', 'Grass'], isShiny: false, rarity: 'Rare', move: 'Anchor Shot' },
+    { name: "Exeggutor (Alola)", number: 103, variant: "Alola", type: ["Grass", "Dragon"], isShiny: false, rarity: "Epic", move: "Dragon Hammer" },
+
   { name: 'Jangmo-o', number: 782, type: ['Dragon'], isShiny: false, rarity: 'Uncommon', move: 'Dragon Tail' },
   { name: 'Hakamo-o', number: 783, type: ['Dragon', 'Fighting'], isShiny: false, rarity: 'Rare', move: 'Dragon Claw' },
   { name: 'Kommo-o', number: 784, type: ['Dragon', 'Fighting'], isShiny: false, rarity: 'Epic', move: 'Clanging Scales' },
@@ -1020,7 +1131,11 @@ export const allCards: Card[] = [
   { name: 'Kartana', number: 798, type: ['Grass', 'Steel'], isShiny: false, rarity: 'Legendary', move: 'Leaf Blade' },
   { name: 'Guzzlord', number: 799, type: ['Dark', 'Dragon'], isShiny: false, rarity: 'Legendary', move: 'Dragon Rush' },
   { name: 'Necrozma', number: 800, type: ['Psychic'], isShiny: false, rarity: 'Legendary', move: 'Prismatic Laser' },
+  { name: "Dusk Mane Necrozma", number: 800, variant: "Dusk", type: ["Psychic", "Steel"], isShiny: false, rarity: "Legendary", move: "Prismatic Laser" },
+  { name: "Dawn Wings Necrozma", number: 800, variant: "Dawn", type: ["Psychic", "Ghost"], isShiny: false, rarity: "Legendary", move: "Prismatic Laser" },
+  { name: "Ultra Necrozma", number: 800, variant: "Ultra", type: ["Psychic", "Dragon"], isShiny: false, rarity: "Mythical", move: "Photon Geyser" },
   { name: 'Magearna', number: 801, type: ['Steel', 'Fairy'], isShiny: false, rarity: 'Mythical', move: 'Fleur Cannon' },
+  { name: "Magearna (Original)", number: 801, variant: "Original", type: ["Steel", "Fairy"], isShiny: false, rarity: "Mythical", move: "Fleur Cannon" },
   { name: 'Marshadow', number: 802, type: ['Fighting', 'Ghost'], isShiny: false, rarity: 'Mythical', move: 'Spectral Thief' },
   { name: 'Poipole', number: 803, type: ['Poison'], isShiny: false, rarity: 'Legendary', move: 'Venom Drench' },
   { name: 'Naganadel', number: 804, type: ['Poison', 'Dragon'], isShiny: false, rarity: 'Legendary', move: 'Dragon Pulse' },
@@ -1073,6 +1188,7 @@ export const allCards: Card[] = [
   { name: 'Barraskewda', number: 847, type: ['Water'], isShiny: false, rarity: 'Uncommon', move: 'Liquidation' },
   { name: 'Toxel', number: 848, type: ['Electric', 'Poison'], isShiny: false, rarity: 'Common', move: 'Nuzzle' },
   { name: 'Toxtricity', number: 849, type: ['Electric', 'Poison'], isShiny: false, rarity: 'Rare', move: 'Overdrive' },
+    { name: "Toxtricity (Low Key)", number: 849, variant: "LowKey", type: ["Electric", "Poison"], isShiny: false, rarity: "Rare", move: "Overdrive" },
   { name: 'Sizzlipede', number: 850, type: ['Fire', 'Bug'], isShiny: false, rarity: 'Common', move: 'Ember' },
   { name: 'Centiskorch', number: 851, type: ['Fire', 'Bug'], isShiny: false, rarity: 'Uncommon', move: 'Fire Lash' },
   { name: 'Clobbopus', number: 852, type: ['Fighting'], isShiny: false, rarity: 'Common', move: 'Pound' },
@@ -1085,11 +1201,22 @@ export const allCards: Card[] = [
   { name: 'Impidimp', number: 859, type: ['Dark', 'Fairy'], isShiny: false, rarity: 'Common', move: 'Bite' },
   { name: 'Morgrem', number: 860, type: ['Dark', 'Fairy'], isShiny: false, rarity: 'Uncommon', move: 'False Surrender' },
   { name: 'Grimmsnarl', number: 861, type: ['Dark', 'Fairy'], isShiny: false, rarity: 'Rare', move: 'Spirit Break' },
+  { name: "Stunfisk (Galar)", number: 618, variant: "Galar", type: ["Ground", "Steel"], isShiny: false, rarity: "Uncommon", move: "Snap Trap" },
+  { name: "Ponyta (Galar)", number: 77, variant: "Galar", type: ["Psychic"], isShiny: false, rarity: "Uncommon", move: "Confusion" },
+  { name: "Rapidash (Galar)", number: 78, variant: "Galar", type: ["Psychic", "Fairy"], isShiny: false, rarity: "Rare", move: "Dazzling Gleam" },
+  { name: "Weezing (Galar)", number: 110, variant: "Galar", type: ["Poison", "Fairy"], isShiny: false, rarity: "Rare", move: "Strange Steam" },
+  { name: "Zigzagoon (Galar)", number: 263, variant: "Galar", type: ["Dark", "Normal"], isShiny: false, rarity: "Common", move: "Tackle" },
+  { name: "Linoone (Galar)", number: 264, variant: "Galar", type: ["Dark", "Normal"], isShiny: false, rarity: "Uncommon", move: "Night Slash" },
   { name: 'Obstagoon', number: 862, type: ['Dark', 'Normal'], isShiny: false, rarity: 'Rare', move: 'Obstruct' },
+  { name: "Meowth (Galar)", number: 52, variant: "Galar", type: ["Steel"], isShiny: false, rarity: "Common", move: "Metal Claw" },
   { name: 'Perrserker', number: 863, type: ['Steel'], isShiny: false, rarity: 'Rare', move: 'Iron Head' },
+  { name: "Corsola (Galar)", number: 222, variant: "Galar", type: ["Ghost"], isShiny: false, rarity: "Common", move: "Shadow Ball" },
   { name: 'Cursola', number: 864, type: ['Ghost'], isShiny: false, rarity: 'Rare', move: 'Perish Song' },
-  { name: 'Sirfetch’d', number: 865, type: ['Fighting'], isShiny: false, rarity: 'Rare', move: 'Meteor Assault' },
+  { name: "Farfetch'd (Galar)", number: 83, variant: "Galar", type: ["Fighting"], isShiny: false, rarity: "Uncommon", move: "Brick Break" },
+  { name: "Sirfetch'd", number: 865, type: ['Fighting'], isShiny: false, rarity: 'Rare', move: 'Meteor Assault' },
+  { name: "Mr. Mime (Galar)", number: 122, variant: "Galar", type: ["Ice", "Psychic"], isShiny: false, rarity: "Uncommon", move: "Ice Beam" },
   { name: 'Mr. Rime', number: 866, type: ['Ice', 'Psychic'], isShiny: false, rarity: 'Rare', move: 'Freeze-Dry' },
+  { name: "Yamask (Galar)", number: 562, variant: "Galar", type: ["Ground", "Ghost"], isShiny: false, rarity: "Common", move: "Shadow Sneak" },
   { name: 'Runerigus', number: 867, type: ['Ground', 'Ghost'], isShiny: false, rarity: 'Rare', move: 'Shadow Claw' },
   { name: 'Milcery', number: 868, type: ['Fairy'], isShiny: false, rarity: 'Common', move: 'Tackle' },
   { name: 'Alcremie', number: 869, type: ['Fairy'], isShiny: false, rarity: 'Uncommon', move: 'Decorate' },
@@ -1097,9 +1224,13 @@ export const allCards: Card[] = [
   { name: 'Pincurchin', number: 871, type: ['Electric'], isShiny: false, rarity: 'Common', move: 'Thunder Shock' },
   { name: 'Snom', number: 872, type: ['Ice', 'Bug'], isShiny: false, rarity: 'Common', move: 'Powder Snow' },
   { name: 'Frosmoth', number: 873, type: ['Ice', 'Bug'], isShiny: false, rarity: 'Uncommon', move: 'Blizzard' },
+  { name: "Darumaka (Galar)", number: 554, variant: "Galar", type: ["Ice"], isShiny: false, rarity: "Uncommon", move: "Ice Punch" },
+  { name: "Darmanitan (Galar)", number: 555, variant: "Galar", type: ["Ice"], isShiny: false, rarity: "Rare", move: "Icicle Crash" },
+  { name: "Darmanitan Zen (Galar)", number: 555, variant: "GalarZen", type: ["Ice", "Fire"], isShiny: false, rarity: "Epic", move: "Flare Blitz" },
   { name: 'Stonjourner', number: 874, type: ['Rock'], isShiny: false, rarity: 'Uncommon', move: 'Rock Slide' },
   { name: 'Eiscue', number: 875, type: ['Ice'], isShiny: false, rarity: 'Uncommon', move: 'Icicle Crash' },
   { name: 'Indeedee♂', number: 876, type: ['Psychic', 'Normal'], isShiny: false, rarity: 'Rare', move: 'Psybeam' },
+  { name: "Indeedee♀", number: 876, variant: "female", type: ["Psychic", "Normal"], isShiny: false, rarity: "Rare", move: "Psybeam" },
   { name: 'Morpeko', number: 877, type: ['Electric', 'Dark'], isShiny: false, rarity: 'Uncommon', move: 'Aura Wheel' },
   { name: 'Cufant', number: 878, type: ['Steel'], isShiny: false, rarity: 'Common', move: 'Iron Head' },
   { name: 'Copperajah', number: 879, type: ['Steel'], isShiny: false, rarity: 'Rare', move: 'Heavy Slam' },
@@ -1112,26 +1243,90 @@ export const allCards: Card[] = [
   { name: 'Drakloak', number: 886, type: ['Dragon', 'Ghost'], isShiny: false, rarity: 'Rare', move: 'Dragon Pulse' },
   { name: 'Dragapult', number: 887, type: ['Dragon', 'Ghost'], isShiny: false, rarity: 'Epic', move: 'Dragon Darts' },
   { name: 'Zacian', number: 888, type: ['Fairy'], isShiny: false, rarity: 'Legendary', move: 'Behemoth Blade' },
+  { name: "Zacian (Crowned)", number: 888, variant: "Crowned", type: ["Fairy", "Steel"], isShiny: false, rarity: "Legendary", move: "Behemoth Blade" },
   { name: 'Zamazenta', number: 889, type: ['Fighting'], isShiny: false, rarity: 'Legendary', move: 'Behemoth Bash' },
+  { name: "Zamazenta (Crowned)", number: 889, variant: "Crowned", type: ["Fighting", "Steel"], isShiny: false, rarity: "Legendary", move: "Behemoth Bash" },
   { name: 'Eternatus', number: 890, type: ['Poison', 'Dragon'], isShiny: false, rarity: 'Legendary', move: 'Dynamax Cannon' },
+  { name: "Eternamax Eternatus", number: 890, variant: "Eternamax", type: ["Poison", "Dragon"], isShiny: false, rarity: "Mythical", move: "Eternabeam" },
+  { name: "Slowpoke (Galar)", number: 79, variant: "Galar", type: ["Psychic"], isShiny: false, rarity: "Common", move: "Confusion" },
+  { name: "Slowbro (Galar)", number: 80, variant: "Galar", type: ["Poison", "Psychic"], isShiny: false, rarity: "Rare", move: "Shell Side Arm" },
+  { name: "Slowking (Galar)", number: 199, variant: "Galar", type: ["Poison", "Psychic"], isShiny: false, rarity: "Rare", move: "Eerie Spell" },
   { name: 'Kubfu', number: 891, type: ['Fighting'], isShiny: false, rarity: 'Epic', move: 'Counter' },
-  { name: 'Urshifu', number: 892, type: ['Fighting', 'Dark'], isShiny: false, rarity: 'Legendary', move: 'Wicked Blow' },
+  { name: 'Urshifu (Single Strike)', number: 892, type: ['Fighting', 'Dark'], isShiny: false, rarity: 'Legendary', move: 'Wicked Blow' },
+  { name: "Urshifu (Rapid Strike)", number: 892, variant: "RapidStrike", type: ["Fighting", "Water"], isShiny: false, rarity: "Legendary", move: "Surging Strikes" },
   { name: 'Zarude', number: 893, type: ['Dark', 'Grass'], isShiny: false, rarity: 'Mythical', move: 'Jungle Healing' },
+  { name: "Articuno (Galar)", number: 144, variant: "Galar", type: ["Psychic", "Flying"], isShiny: false, rarity: "Legendary", move: "Freezing Glare" },
+  { name: "Zapdos (Galar)", number: 145, variant: "Galar", type: ["Fighting", "Flying"], isShiny: false, rarity: "Legendary", move: "Thunderous Kick" },
+  { name: "Moltres (Galar)", number: 146, variant: "Galar", type: ["Dark", "Flying"], isShiny: false, rarity: "Legendary", move: "Fiery Wrath" },
   { name: 'Regieleki', number: 894, type: ['Electric'], isShiny: false, rarity: 'Legendary', move: 'Thunder Cage' },
   { name: 'Regidrago', number: 895, type: ['Dragon'], isShiny: false, rarity: 'Legendary', move: 'Dragon Energy' },
   { name: 'Glastrier', number: 896, type: ['Ice'], isShiny: false, rarity: 'Legendary', move: 'Icicle Crash' },
   { name: 'Spectrier', number: 897, type: ['Ghost'], isShiny: false, rarity: 'Legendary', move: 'Shadow Ball' },
   { name: 'Calyrex', number: 898, type: ['Psychic', 'Grass'], isShiny: false, rarity: 'Legendary', move: 'Psychic' },
-  
+    { name: "Calyrex (Ice Rider)", number: 898, variant: "Ice", type: ["Psychic", "Ice"], isShiny: false, rarity: "Mythical", move: "Glacial Lance" },
+  { name: "Calyrex (Shadow Rider)", number: 898, variant: "Shadow", type: ["Psychic", "Ghost"], isShiny: false, rarity: "Mythical", move: "Astral Barrage" },
+    { name: "GMax Venusaur", number: 3, variant: "GMax", type: ["Grass", "Poison"], isShiny: false, rarity: "Legendary", move: "G-Max Vine Lash" },
+  { name: "GMax Charizard", number: 6, variant: "GMax", type: ["Fire", "Flying"], isShiny: false, rarity: "Legendary", move: "G-Max Wildfire" },
+  { name: "GMax Blastoise", number: 9, variant: "GMax", type: ["Water"], isShiny: false, rarity: "Legendary", move: "G-Max Cannonade" },
+  { name: "GMax Butterfree", number: 12, variant: "GMax", type: ["Bug", "Flying"], isShiny: false, rarity: "Legendary", move: "G-Max Befuddle" },
+  { name: "GMax Pikachu", number: 25, variant: "GMax", type: ["Electric"], isShiny: false, rarity: "Legendary", move: "G-Max Volt Crash" },
+  { name: "GMax Meowth", number: 52, variant: "GMax", type: ["Normal"], isShiny: false, rarity: "Legendary", move: "G-Max Gold Rush" },
+  { name: "GMax Machamp", number: 68, variant: "GMax", type: ["Fighting"], isShiny: false, rarity: "Legendary", move: "G-Max Chi Strike" },
+  { name: "GMax Gengar", number: 94, variant: "GMax", type: ["Ghost", "Poison"], isShiny: false, rarity: "Legendary", move: "G-Max Terror" },
+  { name: "GMax Kingler", number: 99, variant: "GMax", type: ["Water"], isShiny: false, rarity: "Legendary", move: "G-Max Foam Burst" },
+  { name: "GMax Lapras", number: 131, variant: "GMax", type: ["Water", "Ice"], isShiny: false, rarity: "Legendary", move: "G-Max Resonance" },
+  { name: "GMax Eevee", number: 133, variant: "GMax", type: ["Normal"], isShiny: false, rarity: "Legendary", move: "G-Max Cuddle" },
+  { name: "GMax Snorlax", number: 143, variant: "GMax", type: ["Normal"], isShiny: false, rarity: "Legendary", move: "G-Max Replenish" },
+  { name: "GMax Garbodor", number: 569, variant: "GMax", type: ["Poison"], isShiny: false, rarity: "Legendary", move: "G-Max Malodor" },
+  { name: "GMax Melmetal", number: 809, variant: "GMax", type: ["Steel"], isShiny: false, rarity: "Mythical", move: "G-Max Meltdown" },
+  { name: "GMax Rillaboom", number: 812, variant: "GMax", type: ["Grass"], isShiny: false, rarity: "Legendary", move: "G-Max Drum Solo" },
+  { name: "GMax Cinderace", number: 815, variant: "GMax", type: ["Fire"], isShiny: false, rarity: "Legendary", move: "G-Max Fireball" },
+  { name: "GMax Inteleon", number: 818, variant: "GMax", type: ["Water"], isShiny: false, rarity: "Legendary", move: "G-Max Hydrosnipe" },
+  { name: "GMax Corviknight", number: 823, variant: "GMax", type: ["Flying", "Steel"], isShiny: false, rarity: "Legendary", move: "G-Max Wind Rage" },
+  { name: "GMax Orbeetle", number: 826, variant: "GMax", type: ["Bug", "Psychic"], isShiny: false, rarity: "Legendary", move: "G-Max Gravitas" },
+  { name: "GMax Drednaw", number: 834, variant: "GMax", type: ["Water", "Rock"], isShiny: false, rarity: "Legendary", move: "G-Max Stonesurge" },
+  { name: "GMax Coalossal", number: 839, variant: "GMax", type: ["Rock", "Fire"], isShiny: false, rarity: "Legendary", move: "G-Max Volcalith" },
+  { name: "GMax Flapple", number: 841, variant: "GMax", type: ["Grass", "Dragon"], isShiny: false, rarity: "Legendary", move: "G-Max Tartness" },
+  { name: "GMax Appletun", number: 842, variant: "GMax", type: ["Grass", "Dragon"], isShiny: false, rarity: "Legendary", move: "G-Max Sweetness" },
+  { name: "GMax Sandaconda", number: 844, variant: "GMax", type: ["Ground"], isShiny: false, rarity: "Legendary", move: "G-Max Sandblast" },
+  { name: "GMax Toxtricity", number: 849, variant: "GMax", type: ["Electric", "Poison"], isShiny: false, rarity: "Legendary", move: "G-Max Volt Crash" },
+  { name: "GMax Centiskorch", number: 851, variant: "GMax", type: ["Fire", "Bug"], isShiny: false, rarity: "Legendary", move: "G-Max Centiferno" },
+  { name: "GMax Hatterene", number: 858, variant: "GMax", type: ["Psychic", "Fairy"], isShiny: false, rarity: "Legendary", move: "G-Max Smite" },
+  { name: "GMax Grimmsnarl", number: 861, variant: "GMax", type: ["Dark", "Fairy"], isShiny: false, rarity: "Legendary", move: "G-Max Snooze" },
+  { name: "GMax Alcremie", number: 869, variant: "GMax", type: ["Fairy"], isShiny: false, rarity: "Legendary", move: "G-Max Finale" },
+  { name: "GMax Copperajah", number: 879, variant: "GMax", type: ["Steel"], isShiny: false, rarity: "Legendary", move: "G-Max Steelsurge" },
+  { name: "GMax Duraludon", number: 884, variant: "GMax", type: ["Steel", "Dragon"], isShiny: false, rarity: "Legendary", move: "G-Max Depletion" },
+  { name: "GMax Urshifu (Single Strike)", number: 892, variant: "GMaxSingle", type: ["Fighting", "Dark"], isShiny: false, rarity: "Mythical", move: "G-Max One Blow" },
+  { name: "GMax Urshifu (Rapid Strike)", number: 892, variant: "GMaxRapid", type: ["Fighting", "Water"], isShiny: false, rarity: "Mythical", move: "G-Max Rapid Flow" },
+
   // Hisui
   { name: 'Wyrdeer', number: 899, type: ['Normal', 'Psychic'], isShiny: false, rarity: 'Rare', move: 'Psyshield Bash' },
   { name: 'Kleavor', number: 900, type: ['Bug', 'Rock'], isShiny: false, rarity: 'Rare', move: 'Stone Axe' },
   { name: 'Ursaluna', number: 901, type: ['Ground', 'Normal'], isShiny: false, rarity: 'Epic', move: 'Headlong Rush' },
+  { name: "Basculin (White-Stripe)", number: 550, variant: "White", type: ["Water"], isShiny: false, rarity: "Uncommon", move: "Wave Crash" },
   { name: 'Basculegion♂', number: 902, type: ['Water', 'Ghost'], isShiny: false, rarity: 'Rare', move: 'Wave Crash' },
+  { name: "Sneasel (Hisui)", number: 215, variant: "Hisui", type: ["Fighting", "Poison"], isShiny: false, rarity: "Common", move: "Poison Jab" },
+  { name: "Basculegion♀", number: 902, variant: "female", type: ["Water", "Ghost"], isShiny: false, rarity: "Rare", move: "Shadow Ball" },    
   { name: 'Sneasler', number: 903, type: ['Fighting', 'Poison'], isShiny: false, rarity: 'Rare', move: 'Dire Claw' },
+  { name: "Qwilfish (Hisui)", number: 211, variant: "Hisui", type: ["Dark", "Poison"], isShiny: false, rarity: "Common", move: "Poison Sting" },
   { name: 'Overqwil', number: 904, type: ['Dark', 'Poison'], isShiny: false, rarity: 'Rare', move: 'Barb Barrage' },
   { name: 'Enamorus', number: 905, type: ['Fairy', 'Flying'], isShiny: false, rarity: 'Legendary', move: 'Springtide Storm' },
-  
+  { name: "Enamorus (Therian)", number: 905, variant: "Therian", type: ["Fairy", "Flying"], isShiny: false, rarity: "Legendary", move: "Springtide Storm" },
+  { name: "Growlithe (Hisui)", number: 58, variant: "Hisui", type: ["Fire", "Rock"], isShiny: false, rarity: "Uncommon", move: "Flame Charge" },
+  { name: "Arcanine (Hisui)", number: 59, variant: "Hisui", type: ["Fire", "Rock"], isShiny: false, rarity: "Rare", move: "Raging Fury" },
+  { name: "Voltorb (Hisui)", number: 100, variant: "Hisui", type: ["Electric", "Grass"], isShiny: false, rarity: "Uncommon", move: "Thunder Shock" },
+  { name: "Electrode (Hisui)", number: 101, variant: "Hisui", type: ["Electric", "Grass"], isShiny: false, rarity: "Rare", move: "Chloroblast" },
+  { name: "Typhlosion (Hisui)", number: 157, variant: "Hisui", type: ["Fire", "Ghost"], isShiny: false, rarity: "Epic", move: "Infernal Parade" },
+  { name: "Samurott (Hisui)", number: 503, variant: "Hisui", type: ["Water", "Dark"], isShiny: false, rarity: "Epic", move: "Ceaseless Edge" },
+  { name: "Lilligant (Hisui)", number: 549, variant: "Hisui", type: ["Grass", "Fighting"], isShiny: false, rarity: "Rare", move: "Victory Dance" },
+  { name: "Zorua (Hisui)", number: 570, variant: "Hisui", type: ["Normal", "Ghost"], isShiny: false, rarity: "Uncommon", move: "Shadow Sneak" },
+  { name: "Zoroark (Hisui)", number: 571, variant: "Hisui", type: ["Normal", "Ghost"], isShiny: false, rarity: "Rare", move: "Bitter Malice" },
+  { name: "Braviary (Hisui)", number: 628, variant: "Hisui", type: ["Psychic", "Flying"], isShiny: false, rarity: "Rare", move: "Esper Wing" },
+  { name: "Sliggoo (Hisui)", number: 705, variant: "Hisui", type: ["Steel", "Dragon"], isShiny: false, rarity: "Rare", move: "Iron Head" },
+  { name: "Goodra (Hisui)", number: 706, variant: "Hisui", type: ["Steel", "Dragon"], isShiny: false, rarity: "Epic", move: "Shelter" },
+  { name: "Avalugg (Hisui)", number: 713, variant: "Hisui", type: ["Ice", "Rock"], isShiny: false, rarity: "Epic", move: "Mountain Gale" },
+  { name: "Decidueye (Hisui)", number: 724, variant: "Hisui", type: ["Grass", "Fighting"], isShiny: false, rarity: "Epic", move: "Triple Arrows" },
+
   // Paldea
     { name: 'Sprigatito', number: 906, type: ['Grass'], isShiny: false, rarity: 'Uncommon', move: 'Leafage' },
   { name: 'Floragato', number: 907, type: ['Grass'], isShiny: false, rarity: 'Rare', move: 'Magical Leaf' },
@@ -1143,7 +1338,8 @@ export const allCards: Card[] = [
   { name: 'Quaxwell', number: 913, type: ['Water'], isShiny: false, rarity: 'Rare', move: 'Aqua Jet' },
   { name: 'Quaquaval', number: 914, type: ['Water', 'Fighting'], isShiny: false, rarity: 'Epic', move: 'Aqua Step' },
   { name: 'Lechonk', number: 915, type: ['Normal'], isShiny: false, rarity: 'Common', move: 'Tackle' },
-  { name: 'Oinkologne', number: 916, type: ['Normal'], isShiny: false, rarity: 'Uncommon', move: 'Body Slam' },
+  { name: 'Oinkologne♂', number: 916, type: ['Normal'], isShiny: false, rarity: 'Uncommon', move: 'Body Slam' },
+    { name: "Oinkologne♀", number: 961, variant: "female", type: ["Normal"], isShiny: false, rarity: "Uncommon", move: "Body Slam" },
   { name: 'Tarountula', number: 917, type: ['Bug'], isShiny: false, rarity: 'Common', move: 'String Shot' },
   { name: 'Spidops', number: 918, type: ['Bug'], isShiny: false, rarity: 'Uncommon', move: 'Silk Trap' },
   { name: 'Nymble', number: 919, type: ['Bug'], isShiny: false, rarity: 'Common', move: 'Bug Bite' },
@@ -1153,12 +1349,17 @@ export const allCards: Card[] = [
   { name: 'Pawmot', number: 923, type: ['Electric', 'Fighting'], isShiny: false, rarity: 'Rare', move: 'Double Shock' },
   { name: 'Tandemaus', number: 924, type: ['Normal'], isShiny: false, rarity: 'Common', move: 'Tackle' },
   { name: 'Maushold', number: 925, type: ['Normal'], isShiny: false, rarity: 'Uncommon', move: 'Population Bomb' },
+    { name: "Maushold (Family of Three)", number: 925, variant: "Three", type: ["Normal"], isShiny: false, rarity: "Rare", move: "Population Bomb" },
   { name: 'Fidough', number: 926, type: ['Fairy'], isShiny: false, rarity: 'Common', move: 'Tackle' },
   { name: 'Dachsbun', number: 927, type: ['Fairy'], isShiny: false, rarity: 'Uncommon', move: 'Play Rough' },
   { name: 'Smoliv', number: 928, type: ['Grass', 'Normal'], isShiny: false, rarity: 'Common', move: 'Razor Leaf' },
   { name: 'Dolliv', number: 929, type: ['Grass', 'Normal'], isShiny: false, rarity: 'Uncommon', move: 'Energy Ball' },
   { name: 'Arboliva', number: 930, type: ['Grass', 'Normal'], isShiny: false, rarity: 'Rare', move: 'Terrain Pulse' },
-  { name: 'Squawkabilly', number: 931, type: ['Normal', 'Flying'], isShiny: false, rarity: 'Common', move: 'Peck' },
+  { name: 'Squawkabilly (Green)', number: 931, type: ['Normal', 'Flying'], isShiny: false, rarity: 'Common', move: 'Peck' },
+  { name: "Squawkabilly (Blue)", number: 931, variant: "Blue", type: ["Normal", "Flying"], isShiny: false, rarity: "Common", move: "Peck" },
+  { name: "Squawkabilly (Yellow)", number: 931, variant: "Yellow", type: ["Normal", "Flying"], isShiny: false, rarity: "Common", move: "Peck" },
+  { name: "Squawkabilly (White)", number: 931, variant: "White", type: ["Normal", "Flying"], isShiny: false, rarity: "Common", move: "Peck" },
+
   { name: 'Nacli', number: 932, type: ['Rock'], isShiny: false, rarity: 'Common', move: 'Rock Throw' },
   { name: 'Naclstack', number: 933, type: ['Rock'], isShiny: false, rarity: 'Uncommon', move: 'Rock Slide' },
   { name: 'Garganacl', number: 934, type: ['Rock'], isShiny: false, rarity: 'Rare', move: 'Salt Cure' },
@@ -1192,6 +1393,7 @@ export const allCards: Card[] = [
   { name: 'Bombirdier', number: 962, type: ['Flying', 'Dark'], isShiny: false, rarity: 'Uncommon', move: 'Rock Throw' },
   { name: 'Finizen', number: 963, type: ['Water'], isShiny: false, rarity: 'Uncommon', move: 'Aqua Jet' },
   { name: 'Palafin', number: 964, type: ['Water'], isShiny: false, rarity: 'Rare', move: 'Jet Punch' },
+    { name: "Palafin (Hero)", number: 964, variant: "Hero", type: ["Water"], isShiny: false, rarity: "Epic", move: "Jet Punch" },
   { name: 'Varoom', number: 965, type: ['Steel', 'Poison'], isShiny: false, rarity: 'Common', move: 'Poison Gas' },
   { name: 'Revavroom', number: 966, type: ['Steel', 'Poison'], isShiny: false, rarity: 'Uncommon', move: 'Spin Out' },
   { name: 'Cyclizar', number: 967, type: ['Dragon', 'Normal'], isShiny: false, rarity: 'Uncommon', move: 'Dragon Rush' },
@@ -1205,12 +1407,19 @@ export const allCards: Card[] = [
   { name: 'Cetitan', number: 975, type: ['Ice'], isShiny: false, rarity: 'Rare', move: 'Ice Spinner' },
   { name: 'Veluza', number: 976, type: ['Water', 'Psychic'], isShiny: false, rarity: 'Rare', move: 'Fillet Away' },
   { name: 'Dondozo', number: 977, type: ['Water'], isShiny: false, rarity: 'Epic', move: 'Order Up' },
-  { name: 'Tatsugiri', number: 978, type: ['Dragon', 'Water'], isShiny: false, rarity: 'Rare', move: 'Dragon Pulse' },
+  { name: 'Tatsugiri (Curly)', number: 978, type: ['Dragon', 'Water'], isShiny: false, rarity: 'Rare', move: 'Dragon Pulse' },
+  { name: "Tatsugiri (Droopy)", number: 978, variant: "Droopy", type: ["Dragon", "Water"], isShiny: false, rarity: "Uncommon", move: "Dragon Pulse" },
+  { name: "Tatsugiri (Stretchy)", number: 978, variant: "Stretchy", type: ["Dragon", "Water"], isShiny: false, rarity: "Uncommon", move: "Dragon Pulse" },
   { name: 'Annihilape', number: 979, type: ['Fighting', 'Ghost'], isShiny: false, rarity: 'Epic', move: 'Rage Fist' },
+  { name: "Wooper (Paldean)", number: 194, variant: "Paldea", type: ["Poison", "Ground"], isShiny: false, rarity: "Common", move: "Poison Sting" },
   { name: 'Clodsire', number: 980, type: ['Poison', 'Ground'], isShiny: false, rarity: 'Rare', move: 'Toxic Spikes' },
   { name: 'Farigiraf', number: 981, type: ['Normal', 'Psychic'], isShiny: false, rarity: 'Rare', move: 'Twin Beam' },
   { name: 'Dudunsparce', number: 982, type: ['Normal'], isShiny: false, rarity: 'Rare', move: 'Hyper Drill' },
+  { name: "Dudunsparce (Three Segment)", number: 982, variant: "Three", type: ["Normal"], isShiny: false, rarity: "Epic", move: "Hyper Drill" },
   { name: 'Kingambit', number: 983, type: ['Dark', 'Steel'], isShiny: false, rarity: 'Epic', move: 'Kowtow Cleave' },
+  { name: "Tauros (Combat)", number: 128, variant: "Combat", type: ["Fighting"], isShiny: false, rarity: "Rare", move: "Raging Bull" },
+  { name: "Tauros (Blaze)", number: 128, variant: "Blaze", type: ["Fighting", "Fire"], isShiny: false, rarity: "Rare", move: "Raging Bull" },
+  { name: "Tauros (Aqua)", number: 128, variant: "Aqua", type: ["Fighting", "Water"], isShiny: false, rarity: "Rare", move: "Raging Bull" },
   { name: 'Great Tusk', number: 984, type: ['Ground', 'Fighting'], isShiny: false, rarity: 'Legendary', move: 'Headlong Rush' },
   { name: 'Scream Tail', number: 985, type: ['Fairy', 'Psychic'], isShiny: false, rarity: 'Legendary', move: 'Play Rough' },
   { name: 'Brute Bonnet', number: 986, type: ['Grass', 'Dark'], isShiny: false, rarity: 'Legendary', move: 'Spore' },
@@ -1227,6 +1436,7 @@ export const allCards: Card[] = [
   { name: 'Arctibax', number: 997, type: ['Dragon', 'Ice'], isShiny: false, rarity: 'Rare', move: 'Dragon Claw' },
   { name: 'Baxcalibur', number: 998, type: ['Dragon', 'Ice'], isShiny: false, rarity: 'Epic', move: 'Glaive Rush' },
   { name: 'Gimmighoul', number: 999, type: ['Ghost'], isShiny: false, rarity: 'Uncommon', move: 'Astonish' },
+  { name: "Gimmighoul (Roaming)", number: 999, variant: "Roaming", type: ["Ghost"], isShiny: false, rarity: "Uncommon", move: "Astonish" },
   { name: 'Gholdengo', number: 1000, type: ['Steel', 'Ghost'], isShiny: false, rarity: 'Epic', move: 'Make It Rain' },
   { name: 'Wo-Chien', number: 1001, type: ['Dark', 'Grass'], isShiny: false, rarity: 'Legendary', move: 'Ruination' },
   { name: 'Chien-Pao', number: 1002, type: ['Dark', 'Ice'], isShiny: false, rarity: 'Legendary', move: 'Ruination' },
@@ -1244,6 +1454,7 @@ export const allCards: Card[] = [
   { name: 'Okidogi', number: 1014, type: ['Poison', 'Fighting'], isShiny: false, rarity: 'Legendary', move: 'Poison Jab' },
   { name: 'Munkidori', number: 1015, type: ['Poison', 'Psychic'], isShiny: false, rarity: 'Legendary', move: 'Sludge Bomb' },
   { name: 'Fezandipiti', number: 1016, type: ['Poison', 'Fairy'], isShiny: false, rarity: 'Legendary', move: 'Dazzling Gleam' },
+    { name: "Ursaluna (Bloodmoon)", number: 901, variant: "Bloodmoon", type: ["Ground", "Normal"], isShiny: false, rarity: "Legendary", move: "Blood Moon" },
   { name: 'Ogerpon', number: 1017, type: ['Grass'], isShiny: false, rarity: 'Legendary', move: 'Ivy Cudgel' },
   { name: "Ogerpon (Wellspring)", number: 1017, variant: "Wellspring", type: ["Grass", "Water"], isShiny: false, rarity: "Legendary", move: "Ivy Cudgel" },
   { name: "Ogerpon (Hearthflame)", number: 1017, variant: "Hearthflame", type: ["Grass", "Fire"], isShiny: false, rarity: "Legendary", move: "Ivy Cudgel" },
@@ -1255,211 +1466,143 @@ export const allCards: Card[] = [
   { name: 'Iron Boulder', number: 1022, type: ['Rock', 'Psychic'], isShiny: false, rarity: 'Legendary', move: 'Mighty Cleave' },
   { name: 'Iron Crown', number: 1023, type: ['Steel', 'Psychic'], isShiny: false, rarity: 'Legendary', move: 'Tachyon Cutter' },
   { name: 'Terapagos', number: 1024, type: ['Normal'], isShiny: false, rarity: 'Epic', move: 'Rapid Spin' },
-    { name: "Terapagos (Terastal)", number: 1024, variant: "Terastal", type: ["Normal"], isShiny: false, rarity: "Legendary", move: "Tera Blast" },
+  { name: "Terapagos (Terastal)", number: 1024, variant: "Terastal", type: ["Normal"], isShiny: false, rarity: "Legendary", move: "Tera Blast" },
   { name: "Terapagos (Stellar)", number: 1024, variant: "Stellar", type: ["Stellar"], isShiny: false, rarity: "Mythical", move: "Tera Starstorm" },
   { name: 'Pecharunt', number: 1025, type: ['Poison', 'Ghost'], isShiny: false, rarity: 'Mythical', move: 'Malignant Chain' },
 
     // Special Forms
-  { name: "Giratina (Origin)", number: 487, variant: "Origin", type: ["Ghost", "Dragon"], isShiny: false, rarity: "Legendary", move: "Shadow Force" },
-  { name: "Castform (Sunny)", number: 351, variant: "Sunny", type: ["Fire"], isShiny: false, rarity: "Uncommon", move: "Weather Ball" },
-  { name: "Castform (Rainy)", number: 351, variant: "Rainy", type: ["Water"], isShiny: false, rarity: "Uncommon", move: "Weather Ball" },
-  { name: "Castform (Snowy)", number: 351, variant: "Snowy", type: ["Ice"], isShiny: false, rarity: "Uncommon", move: "Weather Ball" },
-  { name: "Basculin (Blue-Stripe)", number: 550, variant: "Blue", type: ["Water"], isShiny: false, rarity: "Uncommon", move: "Aqua Jet" },
-  { name: "Darmanitan (Zen)", number: 555, variant: "Zen", type: ["Fire", "Psychic"], isShiny: false, rarity: "Rare", move: "Psychic" },
-  { name: "Meloetta (Pirouette)", number: 648, variant: "Pirouette", type: ["Normal", "Fighting"], isShiny: false, rarity: "Mythical", move: "Relic Song" },
-  { name: "Tornadus (Therian)", number: 641, variant: "Therian", type: ["Flying"], isShiny: false, rarity: "Legendary", move: "Bleakwind Storm" },
-  { name: "Thundurus (Therian)", number: 642, variant: "Therian", type: ["Electric", "Flying"], isShiny: false, rarity: "Legendary", move: "Wildbolt Storm" },
-  { name: "Landorus (Therian)", number: 645, variant: "Therian", type: ["Ground", "Flying"], isShiny: false, rarity: "Legendary", move: "Sandsear Storm" },
-  { name: "Kyurem (Black)", number: 646, variant: "Black", type: ["Dragon", "Ice"], isShiny: false, rarity: "Legendary", move: "Freeze Shock" },
-  { name: "Kyurem (White)", number: 646, variant: "White", type: ["Dragon", "Ice"], isShiny: false, rarity: "Legendary", move: "Ice Burn" },
-  { name: "Keldeo (Resolute)", number: 647, variant: "Resolute", type: ["Water", "Fighting"], isShiny: false, rarity: "Mythical", move: "Secret Sword" },
-  { name: "Meowstic♀", number: 678, variant: "female", type: ["Psychic"], isShiny: false, rarity: "Uncommon", move: "Psybeam" },
-  { name: "Aegislash (Blade)", number: 681, variant: "Blade", type: ["Steel", "Ghost"], isShiny: false, rarity: "Rare", move: "Sacred Sword" },
-  { name: "Mega Venusaur", number: 3, variant: "Mega", type: ["Grass", "Poison"], isShiny: false, rarity: "Legendary", move: "Sludge Bomb" },
-  { name: "Mega Charizard X", number: 6, variant: "MegaX", type: ["Fire", "Dragon"], isShiny: false, rarity: "Legendary", move: "Dragon Claw" },
-  { name: "Mega Charizard Y", number: 6, variant: "MegaY", type: ["Fire", "Flying"], isShiny: false, rarity: "Legendary", move: "Flamethrower" },
-  { name: "Mega Blastoise", number: 9, variant: "Mega", type: ["Water"], isShiny: false, rarity: "Legendary", move: "Hydro Cannon" },
-  { name: "Mega Alakazam", number: 65, variant: "Mega", type: ["Psychic"], isShiny: false, rarity: "Legendary", move: "Psychic" },
-  { name: "Mega Gengar", number: 94, variant: "Mega", type: ["Ghost", "Poison"], isShiny: false, rarity: "Legendary", move: "Shadow Ball" },
-  { name: "Mega Kangaskhan", number: 115, variant: "Mega", type: ["Normal"], isShiny: false, rarity: "Legendary", move: "Return" },
-  { name: "Mega Pinsir", number: 127, variant: "Mega", type: ["Bug", "Flying"], isShiny: false, rarity: "Legendary", move: "X-Scissor" },
-  { name: "Mega Gyarados", number: 130, variant: "Mega", type: ["Water", "Dark"], isShiny: false, rarity: "Legendary", move: "Crunch" },
-  { name: "Mega Aerodactyl", number: 142, variant: "Mega", type: ["Rock", "Flying"], isShiny: false, rarity: "Legendary", move: "Stone Edge" },
-  { name: "Mega Mewtwo X", number: 150, variant: "MegaX", type: ["Psychic", "Fighting"], isShiny: false, rarity: "Mythical", move: "Psystrike" },
-  { name: "Mega Mewtwo Y", number: 150, variant: "MegaY", type: ["Psychic"], isShiny: false, rarity: "Mythical", move: "Psystrike" },
-  { name: "Mega Ampharos", number: 181, variant: "Mega", type: ["Electric", "Dragon"], isShiny: false, rarity: "Legendary", move: "Thunderbolt" },
-  { name: "Mega Scizor", number: 212, variant: "Mega", type: ["Bug", "Steel"], isShiny: false, rarity: "Legendary", move: "Bullet Punch" },
-  { name: "Mega Heracross", number: 214, variant: "Mega", type: ["Bug", "Fighting"], isShiny: false, rarity: "Legendary", move: "Close Combat" },
-  { name: "Mega Houndoom", number: 229, variant: "Mega", type: ["Dark", "Fire"], isShiny: false, rarity: "Legendary", move: "Flamethrower" },
-  { name: "Mega Tyranitar", number: 248, variant: "Mega", type: ["Rock", "Dark"], isShiny: false, rarity: "Legendary", move: "Stone Edge" },
-  { name: "Mega Blaziken", number: 257, variant: "Mega", type: ["Fire", "Fighting"], isShiny: false, rarity: "Legendary", move: "Blaze Kick" },
-  { name: "Mega Gardevoir", number: 282, variant: "Mega", type: ["Psychic", "Fairy"], isShiny: false, rarity: "Legendary", move: "Moonblast" },
-  { name: "Mega Mawile", number: 303, variant: "Mega", type: ["Steel", "Fairy"], isShiny: false, rarity: "Legendary", move: "Play Rough" },
-  { name: "Mega Aggron", number: 306, variant: "Mega", type: ["Steel"], isShiny: false, rarity: "Legendary", move: "Heavy Slam" },
-  { name: "Mega Medicham", number: 308, variant: "Mega", type: ["Fighting", "Psychic"], isShiny: false, rarity: "Legendary", move: "High Jump Kick" },
-  { name: "Mega Manectric", number: 310, variant: "Mega", type: ["Electric"], isShiny: false, rarity: "Legendary", move: "Thunder" },
-  { name: "Mega Banette", number: 354, variant: "Mega", type: ["Ghost"], isShiny: false, rarity: "Legendary", move: "Shadow Sneak" },
-  { name: "Mega Absol", number: 359, variant: "Mega", type: ["Dark"], isShiny: false, rarity: "Legendary", move: "Night Slash" },
-  { name: "Mega Garchomp", number: 445, variant: "Mega", type: ["Dragon", "Ground"], isShiny: false, rarity: "Legendary", move: "Dragon Rush" },
-  { name: "Mega Lucario", number: 448, variant: "Mega", type: ["Fighting", "Steel"], isShiny: false, rarity: "Legendary", move: "Aura Sphere" },
-  { name: "Mega Abomasnow", number: 460, variant: "Mega", type: ["Grass", "Ice"], isShiny: false, rarity: "Legendary", move: "Blizzard" },
-  { name: "Mega Latias", number: 380, variant: "Mega", type: ["Dragon", "Psychic"], isShiny: false, rarity: "Mythical", move: "Mist Ball" },
-  { name: "Mega Latios", number: 381, variant: "Mega", type: ["Dragon", "Psychic"], isShiny: false, rarity: "Mythical", move: "Luster Purge" },
-  { name: "Mega Swampert", number: 260, variant: "Mega", type: ["Water", "Ground"], isShiny: false, rarity: "Legendary", move: "Hydro Pump" },
-  { name: "Mega Sceptile", number: 254, variant: "Mega", type: ["Grass", "Dragon"], isShiny: false, rarity: "Legendary", move: "Dragon Pulse" },
-  { name: "Mega Sableye", number: 302, variant: "Mega", type: ["Dark", "Ghost"], isShiny: false, rarity: "Legendary", move: "Shadow Sneak" },
-  { name: "Mega Altaria", number: 334, variant: "Mega", type: ["Dragon", "Fairy"], isShiny: false, rarity: "Legendary", move: "Moonblast" },
-  { name: "Mega Gallade", number: 475, variant: "Mega", type: ["Psychic", "Fighting"], isShiny: false, rarity: "Legendary", move: "Close Combat" },
-  { name: "Mega Audino", number: 531, variant: "Mega", type: ["Normal", "Fairy"], isShiny: false, rarity: "Legendary", move: "Dazzling Gleam" },
-  { name: "Mega Sharpedo", number: 319, variant: "Mega", type: ["Water", "Dark"], isShiny: false, rarity: "Legendary", move: "Crunch" },
-  { name: "Mega Slowbro", number: 80, variant: "Mega", type: ["Water", "Psychic"], isShiny: false, rarity: "Legendary", move: "Psychic" },
-  { name: "Mega Steelix", number: 208, variant: "Mega", type: ["Steel", "Ground"], isShiny: false, rarity: "Legendary", move: "Earthquake" },
-  { name: "Mega Pidgeot", number: 18, variant: "Mega", type: ["Normal", "Flying"], isShiny: false, rarity: "Legendary", move: "Hurricane" },
-  { name: "Mega Glalie", number: 362, variant: "Mega", type: ["Ice"], isShiny: false, rarity: "Legendary", move: "Ice Beam" },
-  { name: "Mega Diancie", number: 719, variant: "Mega", type: ["Rock", "Fairy"], isShiny: false, rarity: "Mythical", move: "Diamond Storm" },
-  { name: "Mega Metagross", number: 376, variant: "Mega", type: ["Steel", "Psychic"], isShiny: false, rarity: "Legendary", move: "Meteor Mash" },
-  { name: "Primal Kyogre", number: 382, variant: "Primal", type: ["Water"], isShiny: false, rarity: "Mythical", move: "Origin Pulse" },
-  { name: "Primal Groudon", number: 383, variant: "Primal", type: ["Ground", "Fire"], isShiny: false, rarity: "Mythical", move: "Precipice Blades" },
-  { name: "Mega Rayquaza", number: 384, variant: "Mega", type: ["Dragon", "Flying"], isShiny: false, rarity: "Mythical", move: "Dragon Ascent" },
-  { name: "Hoopa (Unbound)", number: 720, variant: "Unbound", type: ["Psychic", "Dark"], isShiny: false, rarity: "Mythical", move: "Hyperspace Fury" },
-  { name: "Mega Camerupt", number: 323, variant: "Mega", type: ["Fire", "Ground"], isShiny: false, rarity: "Legendary", move: "Eruption" },
-  { name: "Mega Lopunny", number: 428, variant: "Mega", type: ["Normal", "Fighting"], isShiny: false, rarity: "Legendary", move: "High Jump Kick" },
-  { name: "Mega Salamence", number: 373, variant: "Mega", type: ["Dragon", "Flying"], isShiny: false, rarity: "Legendary", move: "Dragon Claw" },
-  { name: "Mega Beedrill", number: 15, variant: "Mega", type: ["Bug", "Poison"], isShiny: false, rarity: "Legendary", move: "Poison Jab" },
-  { name: "Rattata (Alola)", number: 19, variant: "Alola", type: ["Dark", "Normal"], isShiny: false, rarity: "Common", move: "Bite" },
-  { name: "Raticate (Alola)", number: 20, variant: "Alola", type: ["Dark", "Normal"], isShiny: false, rarity: "Uncommon", move: "Crunch" },
-  { name: "Raichu (Alola)", number: 26, variant: "Alola", type: ["Electric", "Psychic"], isShiny: false, rarity: "Rare", move: "Psychic" },
-  { name: "Sandshrew (Alola)", number: 27, variant: "Alola", type: ["Ice", "Steel"], isShiny: false, rarity: "Common", move: "Ice Shard" },
-  { name: "Sandslash (Alola)", number: 28, variant: "Alola", type: ["Ice", "Steel"], isShiny: false, rarity: "Rare", move: "Icicle Crash" },
-  { name: "Vulpix (Alola)", number: 37, variant: "Alola", type: ["Ice"], isShiny: false, rarity: "Common", move: "Powder Snow" },
-  { name: "Ninetales (Alola)", number: 38, variant: "Alola", type: ["Ice", "Fairy"], isShiny: false, rarity: "Rare", move: "Dazzling Gleam" },
-  { name: "Diglett (Alola)", number: 50, variant: "Alola", type: ["Ground", "Steel"], isShiny: false, rarity: "Common", move: "Mud-Slap" },
-  { name: "Dugtrio (Alola)", number: 51, variant: "Alola", type: ["Ground", "Steel"], isShiny: false, rarity: "Rare", move: "Earthquake" },
-  { name: "Meowth (Alola)", number: 52, variant: "Alola", type: ["Dark"], isShiny: false, rarity: "Common", move: "Feint Attack" },
-  { name: "Persian (Alola)", number: 53, variant: "Alola", type: ["Dark"], isShiny: false, rarity: "Rare", move: "Night Slash" },
-  { name: "Geodude (Alola)", number: 74, variant: "Alola", type: ["Rock", "Electric"], isShiny: false, rarity: "Uncommon", move: "Thunder Punch" },
-  { name: "Graveler (Alola)", number: 75, variant: "Alola", type: ["Rock", "Electric"], isShiny: false, rarity: "Rare", move: "Thunderbolt" },
-  { name: "Golem (Alola)", number: 76, variant: "Alola", type: ["Rock", "Electric"], isShiny: false, rarity: "Epic", move: "Wild Charge" },
-  { name: "Grimer (Alola)", number: 88, variant: "Alola", type: ["Poison", "Dark"], isShiny: false, rarity: "Common", move: "Poison Fang" },
-  { name: "Muk (Alola)", number: 89, variant: "Alola", type: ["Poison", "Dark"], isShiny: false, rarity: "Uncommon", move: "Gunk Shot" },
-  { name: "Exeggutor (Alola)", number: 103, variant: "Alola", type: ["Grass", "Dragon"], isShiny: false, rarity: "Epic", move: "Dragon Hammer" },
-  { name: "Marowak (Alola)", number: 105, variant: "Alola", type: ["Fire", "Ghost"], isShiny: false, rarity: "Rare", move: "Shadow Bone" },
-  { name: "Greninja (Battle Bond)", number: 658, variant: "BattleBond", type: ["Water", "Dark"], isShiny: false, rarity: "Legendary", move: "Water Shuriken" },
-  { name: "Zygarde (10%)", number: 718, variant: "ten", type: ["Dragon", "Ground"], isShiny: false, rarity: "Legendary", move: "Thousand Waves" },
-  { name: "Zygarde (Complete)", number: 718, variant: "Complete", type: ["Dragon", "Ground"], isShiny: false, rarity: "Mythical", move: "Core Enforcer" },
-  { name: "Lycanroc (Midnight)", number: 745, variant: "Midnight", type: ["Rock"], isShiny: false, rarity: "Rare", move: "Stone Edge" },
-  { name: "Wishiwashi (School)", number: 746, variant: "School", type: ["Water"], isShiny: false, rarity: "Epic", move: "Hydro Pump" },
-  { name: "Minior (Red)", number: 774, variant: "Red", type: ["Rock", "Flying"], isShiny: false, rarity: "Rare", move: "Power Gem" },
-  { name: "Minior (Orange)", number: 774, variant: "Orange", type: ["Rock", "Flying"], isShiny: false, rarity: "Rare", move: "Power Gem" },
-  { name: "Minior (Yellow)", number: 774, variant: "Yellow", type: ["Rock", "Flying"], isShiny: false, rarity: "Rare", move: "Power Gem" },
-  { name: "Minior (Green)", number: 774, variant: "Green", type: ["Rock", "Flying"], isShiny: false, rarity: "Rare", move: "Power Gem" },
-  { name: "Minior (Blue)", number: 774, variant: "Blue", type: ["Rock", "Flying"], isShiny: false, rarity: "Rare", move: "Power Gem" },
-  { name: "Minior (Indigo)", number: 774, variant: "Indigo", type: ["Rock", "Flying"], isShiny: false, rarity: "Rare", move: "Power Gem" },
-  { name: "Minior (Violet)", number: 774, variant: "Violet", type: ["Rock", "Flying"], isShiny: false, rarity: "Rare", move: "Power Gem" },
-  { name: "Magearna (Original)", number: 801, variant: "Original", type: ["Steel", "Fairy"], isShiny: false, rarity: "Mythical", move: "Fleur Cannon" },
-  { name: "Lycanroc (Dusk)", number: 745, variant: "Dusk", type: ["Rock"], isShiny: false, rarity: "Rare", move: "Accelerock" },
-  { name: "Dusk Mane Necrozma", number: 800, variant: "Dusk", type: ["Psychic", "Steel"], isShiny: false, rarity: "Legendary", move: "Prismatic Laser" },
-  { name: "Dawn Wings Necrozma", number: 800, variant: "Dawn", type: ["Psychic", "Ghost"], isShiny: false, rarity: "Legendary", move: "Prismatic Laser" },
-  { name: "Ultra Necrozma", number: 800, variant: "Ultra", type: ["Psychic", "Dragon"], isShiny: false, rarity: "Mythical", move: "Photon Geyser" },
-  { name: "Meowth (Galar)", number: 52, variant: "Galar", type: ["Steel"], isShiny: false, rarity: "Common", move: "Metal Claw" },
-  { name: "Ponyta (Galar)", number: 77, variant: "Galar", type: ["Psychic"], isShiny: false, rarity: "Uncommon", move: "Confusion" },
-  { name: "Rapidash (Galar)", number: 78, variant: "Galar", type: ["Psychic", "Fairy"], isShiny: false, rarity: "Rare", move: "Dazzling Gleam" },
-  { name: "Slowpoke (Galar)", number: 79, variant: "Galar", type: ["Psychic"], isShiny: false, rarity: "Common", move: "Confusion" },
-  { name: "Slowbro (Galar)", number: 80, variant: "Galar", type: ["Poison", "Psychic"], isShiny: false, rarity: "Rare", move: "Shell Side Arm" },
-  { name: "Farfetch'd (Galar)", number: 83, variant: "Galar", type: ["Fighting"], isShiny: false, rarity: "Uncommon", move: "Brick Break" },
-  { name: "Weezing (Galar)", number: 110, variant: "Galar", type: ["Poison", "Fairy"], isShiny: false, rarity: "Rare", move: "Strange Steam" },
-  { name: "Mr. Mime (Galar)", number: 122, variant: "Galar", type: ["Ice", "Psychic"], isShiny: false, rarity: "Uncommon", move: "Ice Beam" },
-  { name: "Articuno (Galar)", number: 144, variant: "Galar", type: ["Psychic", "Flying"], isShiny: false, rarity: "Legendary", move: "Freezing Glare" },
-  { name: "Zapdos (Galar)", number: 145, variant: "Galar", type: ["Fighting", "Flying"], isShiny: false, rarity: "Legendary", move: "Thunderous Kick" },
-  { name: "Moltres (Galar)", number: 146, variant: "Galar", type: ["Dark", "Flying"], isShiny: false, rarity: "Legendary", move: "Fiery Wrath" },
-  { name: "Slowking (Galar)", number: 199, variant: "Galar", type: ["Poison", "Psychic"], isShiny: false, rarity: "Rare", move: "Eerie Spell" },
-  { name: "Corsola (Galar)", number: 222, variant: "Galar", type: ["Ghost"], isShiny: false, rarity: "Common", move: "Shadow Ball" },
-  { name: "Zigzagoon (Galar)", number: 263, variant: "Galar", type: ["Dark", "Normal"], isShiny: false, rarity: "Common", move: "Tackle" },
-  { name: "Linoone (Galar)", number: 264, variant: "Galar", type: ["Dark", "Normal"], isShiny: false, rarity: "Uncommon", move: "Night Slash" },
-  { name: "Darumaka (Galar)", number: 554, variant: "Galar", type: ["Ice"], isShiny: false, rarity: "Uncommon", move: "Ice Punch" },
-  { name: "Darmanitan (Galar)", number: 555, variant: "Galar", type: ["Ice"], isShiny: false, rarity: "Rare", move: "Icicle Crash" },
-  { name: "Darmanitan (Galar - Zen)", number: 555, variant: "GalarZen", type: ["Ice", "Fire"], isShiny: false, rarity: "Epic", move: "Flare Blitz" },
-  { name: "Yamask (Galar)", number: 562, variant: "Galar", type: ["Ground", "Ghost"], isShiny: false, rarity: "Common", move: "Shadow Sneak" },
-  { name: "Stunfisk (Galar)", number: 618, variant: "Galar", type: ["Ground", "Steel"], isShiny: false, rarity: "Uncommon", move: "Snap Trap" },
-  { name: "Toxtricity (Low Key)", number: 849, variant: "LowKey", type: ["Electric", "Poison"], isShiny: false, rarity: "Rare", move: "Overdrive" },
-  { name: "Indeedee♀", number: 876, variant: "female", type: ["Psychic", "Normal"], isShiny: false, rarity: "Rare", move: "Psybeam" },
-  { name: "Zacian (Crowned)", number: 888, variant: "Crowned", type: ["Fairy", "Steel"], isShiny: false, rarity: "Legendary", move: "Behemoth Blade" },
-  { name: "Zamazenta (Crowned)", number: 889, variant: "Crowned", type: ["Fighting", "Steel"], isShiny: false, rarity: "Legendary", move: "Behemoth Bash" },
-  { name: "Eternamax Eternatus", number: 890, variant: "Eternamax", type: ["Poison", "Dragon"], isShiny: false, rarity: "Mythical", move: "Dynamax Cannon" },
-  { name: "Urshifu (Rapid Strike)", number: 892, variant: "RapidStrike", type: ["Fighting", "Water"], isShiny: false, rarity: "Legendary", move: "Surging Strikes" },
-  { name: "Calyrex (Ice Rider)", number: 898, variant: "Ice", type: ["Psychic", "Ice"], isShiny: false, rarity: "Mythical", move: "Glacial Lance" },
-  { name: "Calyrex (Shadow Rider)", number: 898, variant: "Shadow", type: ["Psychic", "Ghost"], isShiny: false, rarity: "Mythical", move: "Astral Barrage" },
-  { name: "GMax Venusaur", number: 3, variant: "GMax", type: ["Grass", "Poison"], isShiny: false, rarity: "Legendary", move: "G-Max Vine Lash" },
-  { name: "GMax Charizard", number: 6, variant: "GMax", type: ["Fire", "Flying"], isShiny: false, rarity: "Legendary", move: "G-Max Wildfire" },
-  { name: "GMax Blastoise", number: 9, variant: "GMax", type: ["Water"], isShiny: false, rarity: "Legendary", move: "G-Max Cannonade" },
-  { name: "GMax Butterfree", number: 12, variant: "GMax", type: ["Bug", "Flying"], isShiny: false, rarity: "Legendary", move: "G-Max Befuddle" },
-  { name: "GMax Pikachu", number: 25, variant: "GMax", type: ["Electric"], isShiny: false, rarity: "Legendary", move: "G-Max Volt Crash" },
-  { name: "GMax Meowth", number: 52, variant: "GMax", type: ["Normal"], isShiny: false, rarity: "Legendary", move: "G-Max Gold Rush" },
-  { name: "GMax Machamp", number: 68, variant: "GMax", type: ["Fighting"], isShiny: false, rarity: "Legendary", move: "G-Max Chi Strike" },
-  { name: "GMax Gengar", number: 94, variant: "GMax", type: ["Ghost", "Poison"], isShiny: false, rarity: "Legendary", move: "G-Max Terror" },
-  { name: "GMax Kingler", number: 99, variant: "GMax", type: ["Water"], isShiny: false, rarity: "Legendary", move: "G-Max Foam Burst" },
-  { name: "GMax Lapras", number: 131, variant: "GMax", type: ["Water", "Ice"], isShiny: false, rarity: "Legendary", move: "G-Max Resonance" },
-  { name: "GMax Eevee", number: 133, variant: "GMax", type: ["Normal"], isShiny: false, rarity: "Legendary", move: "G-Max Cuddle" },
-  { name: "GMax Snorlax", number: 143, variant: "GMax", type: ["Normal"], isShiny: false, rarity: "Legendary", move: "G-Max Replenish" },
-  { name: "GMax Garbodor", number: 569, variant: "GMax", type: ["Poison"], isShiny: false, rarity: "Legendary", move: "G-Max Malodor" },
-  { name: "GMax Melmetal", number: 809, variant: "GMax", type: ["Steel"], isShiny: false, rarity: "Mythical", move: "G-Max Meltdown" },
-  { name: "GMax Rillaboom", number: 812, variant: "GMax", type: ["Grass"], isShiny: false, rarity: "Legendary", move: "G-Max Drum Solo" },
-  { name: "GMax Cinderace", number: 815, variant: "GMax", type: ["Fire"], isShiny: false, rarity: "Legendary", move: "G-Max Fireball" },
-  { name: "GMax Inteleon", number: 818, variant: "GMax", type: ["Water"], isShiny: false, rarity: "Legendary", move: "G-Max Hydrosnipe" },
-  { name: "GMax Corviknight", number: 823, variant: "GMax", type: ["Flying", "Steel"], isShiny: false, rarity: "Legendary", move: "G-Max Wind Rage" },
-  { name: "GMax Orbeetle", number: 826, variant: "GMax", type: ["Bug", "Psychic"], isShiny: false, rarity: "Legendary", move: "G-Max Gravitas" },
-  { name: "GMax Drednaw", number: 834, variant: "GMax", type: ["Water", "Rock"], isShiny: false, rarity: "Legendary", move: "G-Max Stonesurge" },
-  { name: "GMax Coalossal", number: 839, variant: "GMax", type: ["Rock", "Fire"], isShiny: false, rarity: "Legendary", move: "G-Max Volcalith" },
-  { name: "GMax Flapple", number: 841, variant: "GMax", type: ["Grass", "Dragon"], isShiny: false, rarity: "Legendary", move: "G-Max Tartness" },
-  { name: "GMax Appletun", number: 842, variant: "GMax", type: ["Grass", "Dragon"], isShiny: false, rarity: "Legendary", move: "G-Max Sweetness" },
-  { name: "GMax Sandaconda", number: 844, variant: "GMax", type: ["Ground"], isShiny: false, rarity: "Legendary", move: "G-Max Sandblast" },
-  { name: "GMax Toxtricity", number: 849, variant: "GMax", type: ["Electric", "Poison"], isShiny: false, rarity: "Legendary", move: "G-Max Volt Crash" },
-  { name: "GMax Centiskorch", number: 851, variant: "GMax", type: ["Fire", "Bug"], isShiny: false, rarity: "Legendary", move: "G-Max Centiferno" },
-  { name: "GMax Hatterene", number: 858, variant: "GMax", type: ["Psychic", "Fairy"], isShiny: false, rarity: "Legendary", move: "G-Max Smite" },
-  { name: "GMax Grimmsnarl", number: 861, variant: "GMax", type: ["Dark", "Fairy"], isShiny: false, rarity: "Legendary", move: "G-Max Snooze" },
-  { name: "GMax Alcremie", number: 869, variant: "GMax", type: ["Fairy"], isShiny: false, rarity: "Legendary", move: "G-Max Finale" },
-  { name: "GMax Copperajah", number: 879, variant: "GMax", type: ["Steel"], isShiny: false, rarity: "Legendary", move: "G-Max Steelsurge" },
-  { name: "GMax Duraludon", number: 884, variant: "GMax", type: ["Steel", "Dragon"], isShiny: false, rarity: "Legendary", move: "G-Max Depletion" },
-  { name: "GMax Urshifu (Single Strike)", number: 892, variant: "GMaxSingle", type: ["Fighting", "Dark"], isShiny: false, rarity: "Mythical", move: "G-Max One Blow" },
-  { name: "GMax Urshifu (Rapid Strike)", number: 892, variant: "GMaxRapid", type: ["Fighting", "Water"], isShiny: false, rarity: "Mythical", move: "G-Max Rapid Flow" },
-  { name: "Growlithe (Hisui)", number: 58, variant: "Hisui", type: ["Fire", "Rock"], isShiny: false, rarity: "Uncommon", move: "Flame Charge" },
-  { name: "Arcanine (Hisui)", number: 59, variant: "Hisui", type: ["Fire", "Rock"], isShiny: false, rarity: "Rare", move: "Raging Fury" },
-  { name: "Voltorb (Hisui)", number: 100, variant: "Hisui", type: ["Electric", "Grass"], isShiny: false, rarity: "Uncommon", move: "Thunder Shock" },
-  { name: "Electrode (Hisui)", number: 101, variant: "Hisui", type: ["Electric", "Grass"], isShiny: false, rarity: "Rare", move: "Chloroblast" },
-  { name: "Typhlosion (Hisui)", number: 157, variant: "Hisui", type: ["Fire", "Ghost"], isShiny: false, rarity: "Epic", move: "Infernal Parade" },
-  { name: "Qwilfish (Hisui)", number: 211, variant: "Hisui", type: ["Dark", "Poison"], isShiny: false, rarity: "Common", move: "Poison Sting" },
-  { name: "Sneasel (Hisui)", number: 215, variant: "Hisui", type: ["Fighting", "Poison"], isShiny: false, rarity: "Common", move: "Poison Jab" },
-  { name: "Samurott (Hisui)", number: 503, variant: "Hisui", type: ["Water", "Dark"], isShiny: false, rarity: "Epic", move: "Ceaseless Edge" },
-  { name: "Lilligant (Hisui)", number: 549, variant: "Hisui", type: ["Grass", "Fighting"], isShiny: false, rarity: "Rare", move: "Victory Dance" },
-  { name: "Zorua (Hisui)", number: 570, variant: "Hisui", type: ["Normal", "Ghost"], isShiny: false, rarity: "Uncommon", move: "Shadow Sneak" },
-  { name: "Zoroark (Hisui)", number: 571, variant: "Hisui", type: ["Normal", "Ghost"], isShiny: false, rarity: "Rare", move: "Bitter Malice" },
-  { name: "Braviary (Hisui)", number: 628, variant: "Hisui", type: ["Psychic", "Flying"], isShiny: false, rarity: "Rare", move: "Esper Wing" },
-  { name: "Sliggoo (Hisui)", number: 705, variant: "Hisui", type: ["Steel", "Dragon"], isShiny: false, rarity: "Rare", move: "Iron Head" },
-  { name: "Goodra (Hisui)", number: 706, variant: "Hisui", type: ["Steel", "Dragon"], isShiny: false, rarity: "Epic", move: "Shelter" },
-  { name: "Avalugg (Hisui)", number: 713, variant: "Hisui", type: ["Ice", "Rock"], isShiny: false, rarity: "Epic", move: "Mountain Gale" },
-  { name: "Decidueye (Hisui)", number: 724, variant: "Hisui", type: ["Grass", "Fighting"], isShiny: false, rarity: "Epic", move: "Triple Arrows" },
-  { name: "Dialga (Origin)", number: 483, variant: "Origin", type: ["Steel", "Dragon"], isShiny: false, rarity: "Legendary", move: "Roar of Time" },
-  { name: "Palkia (Origin)", number: 484, variant: "Origin", type: ["Water", "Dragon"], isShiny: false, rarity: "Legendary", move: "Spacial Rend" },
-  { name: "Basculin (White-Stripe)", number: 550, variant: "White", type: ["Water"], isShiny: false, rarity: "Uncommon", move: "Wave Crash" },
-  { name: "Basculegion♀", number: 902, variant: "female", type: ["Water", "Ghost"], isShiny: false, rarity: "Rare", move: "Shadow Ball" },
-  { name: "Enamorus (Therian)", number: 905, variant: "Therian", type: ["Fairy", "Flying"], isShiny: false, rarity: "Legendary", move: "Springtide Storm" },
-  { name: "Tauros (Combat)", number: 128, variant: "Combat", type: ["Fighting"], isShiny: false, rarity: "Rare", move: "Raging Bull" },
-  { name: "Tauros (Blaze)", number: 128, variant: "Blaze", type: ["Fighting", "Fire"], isShiny: false, rarity: "Rare", move: "Raging Bull" },
-  { name: "Tauros (Aqua)", number: 128, variant: "Aqua", type: ["Fighting", "Water"], isShiny: false, rarity: "Rare", move: "Raging Bull" },
-  { name: "Wooper (Paldean)", number: 194, variant: "Paldea", type: ["Poison", "Ground"], isShiny: false, rarity: "Common", move: "Poison Sting" },
-  { name: "Oinkologne♀", number: 961, variant: "female", type: ["Normal"], isShiny: false, rarity: "Uncommon", move: "Body Slam" },
-  { name: "Dudunsparce (Three Segment)", number: 982, variant: "Three", type: ["Normal"], isShiny: false, rarity: "Epic", move: "Hyper Drill" },
-  { name: "Palafin (Hero)", number: 964, variant: "Hero", type: ["Water"], isShiny: false, rarity: "Epic", move: "Jet Punch" },
-  { name: "Maushold (Family of Three)", number: 925, variant: "Three", type: ["Normal"], isShiny: false, rarity: "Rare", move: "Population Bomb" },
-  { name: "Tatsugiri (Droopy)", number: 978, variant: "Droopy", type: ["Dragon", "Water"], isShiny: false, rarity: "Uncommon", move: "Dragon Pulse" },
-  { name: "Tatsugiri (Stretchy)", number: 978, variant: "Stretchy", type: ["Dragon", "Water"], isShiny: false, rarity: "Uncommon", move: "Dragon Pulse" },
-  { name: "Squawkabilly (Blue)", number: 931, variant: "Blue", type: ["Normal", "Flying"], isShiny: false, rarity: "Common", move: "Peck" },
-  { name: "Squawkabilly (Yellow)", number: 931, variant: "Yellow", type: ["Normal", "Flying"], isShiny: false, rarity: "Common", move: "Peck" },
-  { name: "Squawkabilly (White)", number: 931, variant: "White", type: ["Normal", "Flying"], isShiny: false, rarity: "Common", move: "Peck" },
-  { name: "Gimmighoul (Roaming)", number: 999, variant: "Roaming", type: ["Ghost"], isShiny: false, rarity: "Uncommon", move: "Astonish" },
-  { name: "Ursaluna (Bloodmoon)", number: 901, variant: "Bloodmoon", type: ["Ground", "Normal"], isShiny: false, rarity: "Legendary", move: "Blood Moon" },
 ];
 
-export const specialFormRegionMapping: Record<number, string[]> = {
-  // 10277: ['Paldea'], // Terapagos-Stellar
+export const specialFormRegionMapping: Record<number, Record<string, string[]>> = {
+  // Kanto
+  19: { Alola: ['Alola'] }, // Rattata
+  20: { Alola: ['Alola'] }, // Raticate
+  26: { Alola: ['Alola'] }, // Raichu
+  27: { Alola: ['Alola'] }, // Sandshrew
+  28: { Alola: ['Alola'] }, // Sandslash
+  37: { Alola: ['Alola'] }, // Vulpix
+  38: { Alola: ['Alola'] }, // Ninetales
+  50: { Alola: ['Alola'] }, // Diglett
+  51: { Alola: ['Alola'] }, // Dugtrio
+  52: { Alola: ['Alola'], Galar: ['Galar'], GMax: ['Galar'] }, // Meowth
+  53: { Alola: ['Alola'] }, // Persian
+  74: { Alola: ['Alola'] }, // Geodude
+  75: { Alola: ['Alola'] }, // Graveler
+  76: { Alola: ['Alola'] }, // Golem
+  88: { Alola: ['Alola'] }, // Grimer
+  89: { Alola: ['Alola'] }, // Muk
+  103: { Alola: ['Alola'] }, // Exeggutor
+  105: { Alola: ['Alola'] }, // Marowak
+  // Johto
+  77: { Galar: ['Galar'] }, // Ponyta
+  78: { Galar: ['Galar'] }, // Rapidash
+  79: { Galar: ['Galar'] }, // Slowpoke
+  80: { Galar: ['Galar'], Mega: ['Kalos'] }, // Slowbro
+  83: { Galar: ['Galar'] }, // Farfetch'd
+  110: { Galar: ['Galar'] }, // Weezing
+  122: { Galar: ['Galar'] }, // Mr. Mime
+  199: { Galar: ['Galar'] }, // Slowking
+  // Hoenn
+  222: { Galar: ['Galar'] }, // Corsola
+  // Unova
+  263: { Galar: ['Galar'] }, // Zigzagoon
+  264: { Galar: ['Galar'] }, // Linoone
+  554: { Galar: ['Galar'] }, // Darumaka
+  555: { Galar: ['Galar'], GalarZen: ['Galar'] }, // Darmanitan
+  562: { Galar: ['Galar'] }, // Yamask
+  618: { Galar: ['Galar'] }, // Stunfisk
+  // Kalos
+  // Hisui
+  58: { Hisui: ['Hisui'] }, // Growlithe
+  59: { Hisui: ['Hisui'] }, // Arcanine
+  100: { Hisui: ['Hisui'] }, // Voltorb
+  101: { Hisui: ['Hisui'] }, // Electrode
+  157: { Hisui: ['Hisui'] }, // Typhlosion
+  211: { Hisui: ['Hisui'] }, // Qwilfish
+  215: { Hisui: ['Hisui'] }, // Sneasel
+  503: { Hisui: ['Hisui'] }, // Samurott
+  549: { Hisui: ['Hisui'] }, // Lilligant
+  570: { Hisui: ['Hisui'] }, // Zorua
+  571: { Hisui: ['Hisui'] }, // Zoroark
+  628: { Hisui: ['Hisui'] }, // Braviary
+  705: { Hisui: ['Hisui'] }, // Sliggoo
+  706: { Hisui: ['Hisui'] }, // Goodra
+  713: { Hisui: ['Hisui'] }, // Avalugg
+  724: { Hisui: ['Hisui'] }, // Decidueye
+  // Paldea
+  194: { Paldea: ['Paldea'] }, // Wooper
+  128: { Combat: ['Paldea'], Blaze: ['Paldea'], Aqua: ['Paldea'] }, // Tauros
+  901: { Bloodmoon: ['Paldea'] }, // Ursaluna
+  3: { Mega: ['Kalos'], GMax: ['Galar'] }, // Mega Venusaur, GMax Venusaur
+  6: { Megax: ['Kalos'], MegaY: ['Kalos'], GMax: ['Galar'] }, // Mega Charizard X, Y, GMax
+  9: { Mega: ['Kalos'], GMax: ['Galar'] }, // Mega Blastoise, GMax Blastoise
+  12: { GMax: ['Galar'] }, // GMax Butterfree
+  15: { Mega: ['Kalos'] }, // Mega Beedrill
+  18: { Mega: ['Kalos'] }, // Mega Pidgeot
+  25: { GMax: ['Galar'] }, // GMax Pikachu
+  65: { Mega: ['Kalos'] }, // Mega Alakazam
+  94: { Mega: ['Kalos'], GMax: ['Galar'] }, // Mega Gengar, GMax Gengar
+  115: { Mega: ['Kalos'] }, // Mega Kangaskhan
+  127: { Mega: ['Kalos'] }, // Mega Pinsir
+  130: { Mega: ['Kalos'] }, // Mega Gyarados
+  131: { GMax: ['Galar'] }, // GMax Lapras
+  133: { GMax: ['Galar'] }, // GMax Eevee
+  142: { Mega: ['Kalos'] }, // Mega Aerodactyl
+  143: { GMax: ['Galar'] }, // GMax Snorlax
+  150: { Megax: ['Kalos'], MegaY: ['Kalos'] }, // Mega Mewtwo X, Y
+  181: { Mega: ['Kalos'] }, // Mega Ampharos
+  208: { Mega: ['Kalos'] }, // Mega Steelix
+  212: { Mega: ['Kalos'] }, // Mega Scizor
+  214: { Mega: ['Kalos'] }, // Mega Heracross
+  229: { Mega: ['Kalos'] }, // Mega Houndoom
+  248: { Mega: ['Kalos'] }, // Mega Tyranitar
+  254: { Mega: ['Kalos'] }, // Mega Sceptile
+  257: { Mega: ['Kalos'] }, // Mega Blaziken
+  260: { Mega: ['Kalos'] }, // Mega Swampert
+  282: { Mega: ['Kalos'] }, // Mega Gardevoir
+  302: { Mega: ['Kalos'] }, // Mega Sableye
+  303: { Mega: ['Kalos'] }, // Mega Mawile
+  306: { Mega: ['Kalos'] }, // Mega Aggron
+  308: { Mega: ['Kalos'] }, // Mega Medicham
+  310: { Mega: ['Kalos'] }, // Mega Manectric
+  319: { Mega: ['Kalos'] }, // Mega Sharpedo
+  323: { Mega: ['Kalos'] }, // Mega Camerupt
+  334: { Mega: ['Kalos'] }, // Mega Altaria
+  354: { Mega: ['Kalos'] }, // Mega Banette
+  359: { Mega: ['Kalos'] }, // Mega Absol
+  362: { Mega: ['Kalos'] }, // Mega Glalie
+  373: { Mega: ['Kalos'] }, // Mega Salamence
+  376: { Mega: ['Kalos'] }, // Mega Metagross
+  380: { Mega: ['Kalos'] }, // Mega Latias
+  381: { Mega: ['Kalos'] }, // Mega Latios
+  428: { Mega: ['Kalos'] }, // Mega Lopunny
+  445: { Mega: ['Kalos'] }, // Mega Garchomp
+  448: { Mega: ['Kalos'] }, // Mega Lucario
+  460: { Mega: ['Kalos'] }, // Mega Abomasnow
+  475: { Mega: ['Kalos'] }, // Mega Gallade
+  531: { Mega: ['Kalos'] }, // Mega Audino
+  719: { Mega: ['Kalos'] }, // Mega Diancie
+  // GMax Forms
+  68: { GMax: ['Galar'] }, // GMax Machamp
+  99: { GMax: ['Galar'] }, // GMax Kingler
+  569: { GMax: ['Galar'] }, // GMax Garbodor
+  809: { GMax: ['Galar'] }, // GMax Melmetal
+  812: { GMax: ['Galar'] }, // GMax Rillaboom
+  815: { GMax: ['Galar'] }, // GMax Cinderace
+  818: { GMax: ['Galar'] }, // GMax Inteleon
+  823: { GMax: ['Galar'] }, // GMax Corviknight
+  826: { GMax: ['Galar'] }, // GMax Orbeetle
+  834: { GMax: ['Galar'] }, // GMax Drednaw
+  839: { GMax: ['Galar'] }, // GMax Coalossal
+  841: { GMax: ['Galar'] }, // GMax Flapple
+  842: { GMax: ['Galar'] }, // GMax Appletun
+  844: { GMax: ['Galar'] }, // GMax Sandaconda
+  849: { GMax: ['Galar'] }, // GMax Toxtricity
+  851: { GMax: ['Galar'] }, // GMax Centiskorch
+  858: { GMax: ['Galar'] }, // GMax Hatterene
+  861: { GMax: ['Galar'] }, // GMax Grimmsnarl
+  869: { GMax: ['Galar'] }, // GMax Alcremie
+  879: { GMax: ['Galar'] }, // GMax Copperajah
+  884: { GMax: ['Galar'] }, // GMax Duraludon
+  892: { GMaxSingle: ['Special'], GMaxRapid: ['Special'] }, // GMax Urshifu
 };
