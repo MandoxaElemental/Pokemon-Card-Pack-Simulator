@@ -177,11 +177,11 @@ export const CardPackOpener: React.FC = () => {
   };
 
   const rarityWeights: Record<Card['rarity'], number> = {
-    Common: 7,
+    Common: 40,
     Uncommon: 25,
     Rare: 15,
     Epic: 10,
-    Legendary: 40,
+    Legendary: 7,
     Mythical: 3,
   };
 
@@ -371,15 +371,37 @@ export const CardPackOpener: React.FC = () => {
 
   return (
     <div className="flex flex-col items-center justify-center p-6 text-black">
-      <h2 className="text-2xl font-bold mb-4">Pokemon Card Pack Opening Simulator</h2>
+      <h2 className="text-2xl font-bold mb-4">PokéPack Opening Simulator</h2>
       
       <div className="flex gap-4 mb-6">
-        <button onClick={openPack} disabled={opening} className="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded cursor-pointer shadow-xl/20 flex gap-2 items-center">
-        <Image src={opening ? '/icons/pack-open.png' : '/icons/pack-close.png'} alt={opening ? 'Pack Open' : 'Pack Close'} width={20} height={20} />
-          {opening ? 'Opening...' : 'Open Pack'}
-        </button>
-        <button onClick={handleResetClick} className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded cursor-pointer shadow-xl/20">Reset Collection</button>
-        <button onClick={toggleMute} className="bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded cursor-pointer flex items-center gap-1 shadow-xl/20">
+        <button
+  onClick={openPack}
+  disabled={opening}
+  className={`
+    bg-gradient-to-br from-white to-gray-200
+    hover:from-gray-100 hover:to-gray-300
+    active:from-gray-300 active:to-gray-400
+    text-black font-bold py-2 px-4 rounded-2xl
+    cursor-pointer
+    shadow-lg hover:shadow-xl
+    border border-gray-300
+    flex gap-2 items-center
+    transform transition-all duration-200
+    hover:scale-105 active:scale-95
+    ${opening ? 'opacity-50 cursor-not-allowed' : ''}
+  `}
+>
+  <Image
+    src={opening ? '/icons/pack-open.png' : '/icons/pack-close.png'}
+    alt={opening ? 'Pack Open' : 'Pack Close'}
+    width={20}
+    height={20}
+    className="invert"
+  />
+  {opening ? 'Opening...' : 'Open Pack'}
+</button>
+        <button onClick={handleResetClick} className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-2xl cursor-pointer shadow-xl/20">Reset Collection</button>
+        <button onClick={toggleMute} className="bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-2xl cursor-pointer flex items-center gap-1 shadow-xl/20">
           <Image src={isMuted ? '/icons/mute.svg' : '/icons/unmute.svg'} alt={isMuted ? 'Muted' : 'Unmuted'} width={30} height={30} className='invert' />
           {isMuted ? 'Unmute' : 'Mute'}
         </button>
@@ -425,8 +447,7 @@ export const CardPackOpener: React.FC = () => {
           const isSilvally = card.name === 'Silvally' || card.name.startsWith('Silvally (') || card.name === 'Type: Null';
           const isMega = card.name.startsWith('Mega ');
           const isGMax = card.name.startsWith('GMax ');
-          // const isUltraBeast = card.number;
-          return (
+          const isUltraBeast = (card.number >= 793 && card.number <= 799) || (card.number >= 803 && card.number <= 806);          return (
             <motion.div
               key={`card-${idx}-${cardKey}`}
               className="w-54 h-74 relative"
@@ -541,6 +562,22 @@ export const CardPackOpener: React.FC = () => {
                               />
                             </motion.div>
                           )}
+                          {isUltraBeast && (
+                            <motion.div
+                              initial={{ scale: 0.8, opacity: 0 }}
+                              animate={{ scale: 1, opacity: 0.5 }}
+                              transition={{ duration: 0.5, delay: 0.2 }}
+                              className="absolute inset-0 flex justify-center items-center z-10"
+                            >
+                              <Image
+                                src="/icons/ultra-wormhole.png"
+                                alt="Ultra-Wormhole"
+                                width={200}
+                                height={200}
+                                className="object-contain opacity-90"
+                              />
+                            </motion.div>
+                          )}
                           <Image
                             src={imagePath}
                             alt={card.name}
@@ -571,8 +608,18 @@ export const CardPackOpener: React.FC = () => {
         <div className="text-lg font-semibold">Packs Opened: {packsOpened}</div>
         <button
           onClick={() => { setSelectedCard(null); setShowDex(true); }}
-          className="bg-teal-600 hover:bg-teal-700 text-white font-bold py-1 px-3 rounded cursor-pointer shadow-xl/20"
+          className="bg-gradient-to-br from-white to-gray-200
+    hover:from-gray-100 hover:to-gray-300
+    active:from-gray-300 active:to-gray-400
+    text-black font-bold py-2 px-4 rounded-2xl
+    cursor-pointer
+    shadow-lg hover:shadow-xl
+    border border-gray-300
+    flex gap-2 items-center
+    transform transition-all duration-200
+    hover:scale-105 active:scale-95"
         >
+          <Image src='/dex.png' alt='dex' width={20} height={20} className='invert'/>
           View Card Dex
         </button>
       </div>
@@ -584,7 +631,7 @@ export const CardPackOpener: React.FC = () => {
               onClick={() => { setShowDex(false); setSelectedCard(null); }}
               className="absolute top-2 right-4 text-gray-300 hover:text-white text-3xl cursor-pointer"
             >
-              ✕
+              ✖
             </button>
             <h3 className="text-2xl font-bold mb-4">Card Dex</h3>
             <p className="mb-4">You&apos;ve collected {Object.keys(collectedCards).length} out of {allCards.length} cards.</p>

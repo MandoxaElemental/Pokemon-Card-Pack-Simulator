@@ -259,7 +259,7 @@ body {
 
 .main-background{
 background: #C2DBED;
-background: linear-gradient(180deg, rgba(194, 219, 237, 1) 0%, rgba(228, 241, 246, 1) 20%, rgba(228, 241, 246, 1) 80%, rgba(194, 219, 237, 1) 100%);
+background: linear-gradient(180deg, rgba(228, 241, 246, 1) 0%, rgba(228, 241, 246, 1) 80%, rgba(194, 219, 237, 1) 100%);
 }
 
 .main-background-dark {

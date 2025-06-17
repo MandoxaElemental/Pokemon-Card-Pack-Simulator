@@ -89,17 +89,44 @@ const About: React.FC = () => {
       <div className="flex gap-2 items-center">
         <button
           onClick={() => setShowModal(true)}
-          className="h-9 w-9 flex items-center justify-center bg-white font-bold text-2xl rounded-full shadow-lg hover:bg-slate-200 cursor-pointer transition-colors"
+          className="h-10 w-10 bg-gradient-to-br from-white to-gray-200
+    hover:from-gray-100 hover:to-gray-300
+    active:from-gray-300 active:to-gray-400
+    text-black font-bold rounded-full
+    cursor-pointer
+    shadow-lg hover:shadow-xl
+    border border-gray-300
+    flex items-center justify-center
+    transform transition-all duration-200
+    hover:scale-105 active:scale-95 text-2xl"
         >
           ?
         </button>
+        <Link href="https://x.com/GReinares" target="_blank" rel="noopener noreferrer">
+        <button
+          className="h-10 w-10 bg-gradient-to-br from-white to-gray-200
+    hover:from-gray-100 hover:to-gray-300
+    active:from-gray-300 active:to-gray-400
+    text-black font-bold rounded-full
+    cursor-pointer
+    shadow-lg hover:shadow-xl
+    border border-gray-300
+    flex items-center justify-center
+    transform transition-all duration-200
+    hover:scale-105 active:scale-95 text-2xl"
+        >
+        <Image src='/icons/twitter-x.svg' alt='x' width={20} height={20} className=''/>
+          
+        </button>
+        </Link>
         <Link href="https://ko-fi.com/S6S2P5VOY" target="_blank" rel="noopener noreferrer">
           <Image
             src="/ko-fi.webp"
             alt="Buy Me a Coffee at ko-fi.com"
             width={140}
             height={36}
-            className="hover:opacity-80 shadow-lg rounded-xl transition-opacity"
+            className="hover:opacity-80 shadow-lg rounded-xl transform transition-all duration-200
+    hover:scale-105 active:scale-95 text-2xl"
             style={{ border: '0px', height: '36px' }}
           />
         </Link>
