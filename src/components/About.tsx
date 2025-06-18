@@ -65,6 +65,7 @@ const About: React.FC = () => {
           ✖
         </button>
         <h3 className="text-xl font-bold mb-4 border-b-2 border-[#8c9ca4]">Welcome to PokéPack Opening Simulator - v1.0.0</h3>
+        <div className="p-3 inset-shadow-sm inset-shadow-[#8c9ca4] rounded-lg">
         <p className="mb-2">
           Just a small solo side project I am working on. Feel free to contact me if you have any suggestions, or find any bugs as this is still a work in progress.
         </p>
@@ -81,6 +82,7 @@ const About: React.FC = () => {
           ))}
         </ul>
         <p>(There is also a 1% chance that your card will be Shiny!)</p>
+        </div>
       </div>
     </div>
   );

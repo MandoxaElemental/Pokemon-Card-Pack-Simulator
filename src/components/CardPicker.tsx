@@ -422,20 +422,20 @@ export const CardPackOpener: React.FC<CardPackOpenerProps> = ({ curatedPack }) =
           <Image
             src={opening ? '/icons/pack-open.png' : '/icons/pack-close.png'}
             alt={opening ? 'Pack Open' : 'Pack Close'}
-            width={20}
-            height={20}
+            width={15}
+            height={15}
             className="invert"
           />
           {opening ? 'Opening...' : 'Open Pack'}
         </button>
         <button onClick={handleResetClick} 
-        className="bg-gradient-to-br from-red-600 to-red-800 hover:from-red-500 hover:to-red-700 active:from-red-700 active:to-red-900 text-white font-bold py-2 px-4 rounded-2xl cursor-pointer shadow-lg hover:shadow-xl border border-red-600 flex gap-2 items-center transform transition-all duration-200 hover:scale-105 active:scale-95">Reset Collection</button>
+        className="bg-gradient-to-br from-red-600 to-red-800 hover:from-red-500 hover:to-red-700 active:from-red-700 active:to-red-900 text-white font-bold py-2 px-4 rounded-2xl cursor-pointer shadow-lg hover:shadow-xl border border-red-700 flex gap-2 items-center transform transition-all duration-200 hover:scale-105 active:scale-95">Reset Collection</button>
       </div>
 
       {showResetModal && <ResetConfirmationModal />}
 
       {showWaveCards && cards.length === 0 && (
-        <div className="relative w-full h-74 grid grid-cols-5 gap-4 perspective text-white mb-6">
+        <div className="relative w-full h-74 grid grid-cols-5 gap-4 perspective text-white my-2">
           {Array.from({ length: 5 }).map((_, idx) => (
             <motion.div
               key={`wave-card-${idx}`}
@@ -676,17 +676,17 @@ export const CardPackOpener: React.FC<CardPackOpenerProps> = ({ curatedPack }) =
             }
           }}
         >
-          <div ref={modalContentRef} className="bg-gray-900 rounded-lg max-w-3xl w-full p-6 text-white relative overflow-y-auto max-h-[90vh]">
+          <div ref={modalContentRef} className="bg-[#E4F1F6] rounded-lg max-w-3xl w-full p-6 text-[#2A3F55] relative overflow-y-auto max-h-[90vh]">
             <button
               onClick={() => { setShowDex(false); setSelectedCard(null); }}
-              className="absolute top-2 right-4 text-gray-300 hover:text-white text-3xl cursor-pointer"
+              className="absolute top-2 right-4 text-[#2A3F55] hover:opacity-80 text-3xl cursor-pointer"
             >
               ✖
             </button>
             <h3 className="text-2xl font-bold mb-4">Card Dex</h3>
             <p className="mb-4">You&apos;ve collected {Object.keys(collectedCards).length} out of {allCards.length} cards.</p>
             {selectedCard && collectedCards[selectedCard] && (
-              <div className="flex items-center gap-4 mb-6 p-4 border rounded-lg bg-gray-800 shadow-lg">
+              <div className="flex items-center gap-4 mb-6 p-4 rounded-lg inset-shadow-sm inset-shadow-[#8c9ca4]">
                 <div className="w-32 h-32 relative">
                   <Image
                     src={
@@ -705,8 +705,8 @@ export const CardPackOpener: React.FC<CardPackOpenerProps> = ({ curatedPack }) =
                       ? `${collectedCards[selectedCard].card.name} ✦`
                       : collectedCards[selectedCard].card.name}
                   </h4>
-                  <p className="text-sm italic text-gray-300 mb-1">{collectedCards[selectedCard].card.move}</p>
-                  <p className={`flex items-center gap-1 text-sm font-semibold ${collectedCards[selectedCard].card.rarity === 'Mythical' ? 'text-[#ffd700]' : 'text-white'}`}>
+                  <p className="text-sm italic mb-1">{collectedCards[selectedCard].card.move}</p>
+                  <p className={`flex items-center gap-1 text-sm font-semibold`}>
                     Rarity: {getRarityIcon(collectedCards[selectedCard].card.rarity)} {collectedCards[selectedCard].card.rarity}
                   </p>
                   <div className="text-sm flex items-center gap-1">
@@ -727,7 +727,11 @@ export const CardPackOpener: React.FC<CardPackOpenerProps> = ({ curatedPack }) =
                     <button
                       key={region}
                       onClick={() => setCurrentRegion(region as keyof typeof regionRanges)}
-                      className={`cursor-pointer px-3 py-1 rounded ${currentRegion === region ? 'bg-blue-600' : 'bg-gray-700 hover:bg-gray-600'}`}
+                      className={`cursor-pointer px-3 py-1 rounded-lg transform transition-all duration-200 hover:scale-105 active:scale-95 shadow-md hover:shadow-lg ${
+                          currentRegion === region
+                            ? 'bg-gradient-to-br from-blue-400 to-blue-600 hover:from-blue-300 hover:to-blue-500 active:from-blue-500 active:to-blue-700 text-white border border-blue-500'
+                            : 'bg-gradient-to-br from-white to-gray-200hover:from-gray-100 hover:to-gray-300 active:from-gray-300 active:to-gray-400'
+                        }`}
                     >
                       {region}
                     </button>
@@ -741,7 +745,8 @@ export const CardPackOpener: React.FC<CardPackOpenerProps> = ({ curatedPack }) =
                     <button
                       key={rarity}
                       onClick={() => setCurrentRarity(rarity)}
-                      className={`cursor-pointer px-3 py-1 rounded ${currentRarity === rarity ? 'bg-blue-600' : 'bg-gray-700 hover:bg-gray-600'}`}
+                      className={`cursor-pointer px-3 py-1 rounded-lg transform transition-all duration-200 hover:scale-105 active:scale-95 shadow-md hover:shadow-lg ${currentRarity === rarity ? 'bg-gradient-to-br from-blue-400 to-blue-600 hover:from-blue-300 hover:to-blue-500 active:from-blue-500 active:to-blue-700 text-white border border-blue-500'
+                            : 'bg-gradient-to-br from-white to-gray-200hover:from-gray-100 hover:to-gray-300 active:from-gray-300 active:to-gray-400'}`}
                     >
                       {rarity}
                     </button>
@@ -764,7 +769,7 @@ export const CardPackOpener: React.FC<CardPackOpenerProps> = ({ curatedPack }) =
                           src={imagePath}
                           alt={card.name}
                           fill
-                          className={`object-contain ${!owned ? 'brightness-0' : ''}`}
+                          className={`object-contain ${!owned ? 'brightness-0 opacity-50' : ''}`}
                         />
                       </div>
                       <div className="font-semibold text-md text-center">

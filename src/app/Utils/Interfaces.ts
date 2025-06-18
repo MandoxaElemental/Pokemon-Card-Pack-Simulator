@@ -97,8 +97,86 @@ export const themedPacks: BoosterPack[] = [
       const [start, end] = regionRanges['Johto'] || [0, 0];
       return (
         card.number >= start &&
-        card.number <= end &&
-        !card.variant
+        card.number <= end
+      );
+    },
+  },
+  {
+    id: 'hoenn',
+    name: 'Hoenn',
+    filter: (card: Card) => {
+      const [start, end] = regionRanges['Hoenn'] || [0, 0];
+      return (
+        card.number >= start &&
+        card.number <= end
+      );
+    },
+  },
+  {
+    id: 'sinnoh',
+    name: 'Sinnoh',
+    filter: (card: Card) => {
+    const [sinnohStart, sinnohEnd] = regionRanges['Sinnoh'] || [0, 0];
+    const [hisuiStart, hisuiEnd] = regionRanges['Hisui'] || [0, 0];
+    
+    return (
+      (card.number >= sinnohStart && card.number <= sinnohEnd) ||
+      (hisuiStart !== 0 && card.number >= hisuiStart && card.number <= hisuiEnd)
+    );
+  },
+  },
+  {
+    id: 'unova',
+    name: 'Unova',
+    filter: (card: Card) => {
+      const [start, end] = regionRanges['Unova'] || [0, 0];
+      return (
+        card.number >= start &&
+        card.number <= end
+      );
+    },
+  },
+  {
+    id: 'kalos',
+    name: 'Kalos',
+    filter: (card: Card) => {
+      const [start, end] = regionRanges['Kalos'] || [0, 0];
+      return (
+        card.number >= start &&
+        card.number <= end
+      );
+    },
+  },
+  {
+    id: 'alola',
+    name: 'Alola',
+    filter: (card: Card) => {
+      const [start, end] = regionRanges['Alola'] || [0, 0];
+      return (
+        card.number >= start &&
+        card.number <= end
+      );
+    },
+  },
+  {
+    id: 'galar',
+    name: 'Galar',
+    filter: (card: Card) => {
+      const [start, end] = regionRanges['Galar'] || [0, 0];
+      return (
+        card.number >= start &&
+        card.number <= end
+      );
+    },
+  },
+  {
+    id: 'paldea',
+    name: 'Paldea',
+    filter: (card: Card) => {
+      const [start, end] = regionRanges['Paldea'] || [0, 0];
+      return (
+        card.number >= start &&
+        card.number <= end
       );
     },
   },
@@ -1335,7 +1413,7 @@ export const allCards: Card[] = [
   { name: 'Enamorus', number: 905, type: ['Fairy', 'Flying'], isShiny: false, rarity: 'Legendary', move: 'Springtide Storm' },
   { name: "Enamorus (Therian)", number: 905, variant: "Therian", type: ["Fairy", "Flying"], isShiny: false, rarity: "Legendary", move: "Springtide Storm" },
   { name: "Growlithe (Hisui)", number: 58, variant: "Hisui", type: ["Fire", "Rock"], isShiny: false, rarity: "Uncommon", move: "Flame Charge" },
-  { name: "Arcanine (Hisui)", number: 59, variant: "Hisui", type: ["Fire", "Rock"], isShiny: false, rarity: "Rare", move: "Raging Fury" },
+  { name: "Arcanine (Hisui)", number: 59, variant: "Hisui", type: ["Fire", "Rock"], isShiny: false, rarity: "Epic", move: "Raging Fury" },
   { name: "Voltorb (Hisui)", number: 100, variant: "Hisui", type: ["Electric", "Grass"], isShiny: false, rarity: "Uncommon", move: "Thunder Shock" },
   { name: "Electrode (Hisui)", number: 101, variant: "Hisui", type: ["Electric", "Grass"], isShiny: false, rarity: "Rare", move: "Chloroblast" },
   { name: "Typhlosion (Hisui)", number: 157, variant: "Hisui", type: ["Fire", "Ghost"], isShiny: false, rarity: "Epic", move: "Infernal Parade" },
