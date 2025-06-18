@@ -918,7 +918,7 @@ export const allCards: Card[] = [
   { name: 'Furfrou (Diamond)', number: 676, type: ['Normal'], isShiny: false, rarity: 'Rare', move: 'Tackle', variant: 'diamond' },
   { name: 'Furfrou (Heart)', number: 676, type: ['Normal'], isShiny: false, rarity: 'Rare', move: 'Tackle', variant: 'heart' },
   { name: 'Furfrou (Kabuki)', number: 676, type: ['Normal'], isShiny: false, rarity: 'Rare', move: 'Tackle', variant: 'kabuki' },
-  { name: 'Furfrou (La Reine)', number: 676, type: ['Normal'], isShiny: false, rarity: 'Rare', move: 'Tackle', variant: 'la-reine' },
+  { name: 'Furfrou (La Reine)', number: 676, type: ['Normal'], isShiny: false, rarity: 'Rare', move: 'Tackle', variant: 'lareine' },
   { name: 'Furfrou (Matron)', number: 676, type: ['Normal'], isShiny: false, rarity: 'Rare', move: 'Tackle', variant: 'matron' },
   { name: 'Furfrou (Dandy)', number: 676, type: ['Normal'], isShiny: false, rarity: 'Rare', move: 'Tackle', variant: 'dandy' },
   { name: 'Furfrou (Debutante)', number: 676, type: ['Normal'], isShiny: false, rarity: 'Rare', move: 'Tackle', variant: 'debutante' },
@@ -1628,7 +1628,6 @@ export const specialFormRegionMapping: Record<number, Record<string, string[]>> 
   879: { GMax: ['Galar'] }, // GMax Copperajah
   884: { GMax: ['Galar'] }, // GMax Duraludon
   892: { GMaxSingle: ['Galar'], GMaxRapid: ['Galar'] }, // GMax Urshifu
-  385: {Attack: ['Hoenn'], Defense: ['Hoenn'], Speed: ['Hoenn']},
   492: {Sky: ['Sinnoh']},
   487: {Origin: ['Sinnoh']},
   945: {Heat: ['Sinnoh'], Wash:['Sinnoh'], Frost: ['Sinnoh'], Fan: ['Sinnoh'], Mow: ['Sinnoh']},
@@ -1670,6 +1669,7 @@ export const specialFormRegionMapping: Record<number, Record<string, string[]>> 
   999: {Roaming: ['Paldea']},
   1017: {Hearthflame: ['Paldea'], Wellspring: ['Paldea'], Cornerstone: ['Paldea']},
   1024: {Terastal: ['Paldea'], Stellar: ['Paldea']},
+  386: {Attack: ['Hoenn'], Defense: ['Hoenn'], Speed: ['Hoenn']},
   442: {east: ['Sinnoh'], west: ['Sinnoh']},
   443: {east: ['Sinnoh'], west: ['Sinnoh']},
   201: {a: ['Johto'], b: ['Johto'], c: ['Johto'], d: ['Johto'], e: ['Johto'], f: ['Johto'], g: ['Johto'], h: ['Johto'], i: ['Johto'], j: ['Johto'], k: ['Johto'], l: ['Johto'], m: ['Johto'], n: ['Johto'], o: ['Johto'], p: ['Johto'], q: ['Johto'], r: ['Johto'], s: ['Johto'], t: ['Johto'], u: ['Johto'], v: ['Johto'], w: ['Johto'], x: ['Johto'], y: ['Johto'], z: ['Johto'], exclamation: ['Johto'], question: ['Johto']},
