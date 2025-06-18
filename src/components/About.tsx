@@ -64,7 +64,7 @@ const About: React.FC = () => {
         >
           ✖
         </button>
-        <h3 className="text-xl font-bold mb-4 border-b-2 border-[#8c9ca4]">Welcome to PokéPack Opening Simulator - v1.0.0</h3>
+        <h3 className="text-xl font-bold mb-4">Welcome to PokéPack Opening Simulator - v1.0.0</h3>
         <div className="p-3 inset-shadow-sm inset-shadow-[#8c9ca4] rounded-lg">
         <p className="mb-2">
           Just a small solo side project I am working on. Feel free to contact me if you have any suggestions, or find any bugs as this is still a work in progress.
@@ -98,7 +98,7 @@ const About: React.FC = () => {
         </button>
         <button
           onClick={toggleMute}
-          className="h-10 w-10 bg-gradient-to-br from-white to-gray-200 hover:from-gray-100 hover:to-gray-300 active:from-gray-300 active:to-gray-400 text-black font-bold rounded-full cursor-pointer shadow-lg hover:shadow-xl border border-gray-300 flex items-center justify-center transform transition-all duration-200 hover:scale-105 active:scale-95"
+          className={`h-10 w-10 bg-gradient-to-br from-white to-gray-200 hover:from-gray-100 hover:to-gray-300 active:from-gray-300 active:to-gray-400 text-black font-bold rounded-full cursor-pointer shadow-lg hover:shadow-xl border border-gray-300 flex items-center justify-center transform transition-all duration-200 hover:scale-105 active:scale-95 ${isMuted ? 'inset-shadow-xs inset-shadow-[#8c9ca4]' : ''}`}
         >
           <Image src={isMuted ? '/icons/mute.svg' : '/icons/unmute.svg'} alt={isMuted ? 'Muted' : 'Unmuted'} width={30} height={30} />
         </button>

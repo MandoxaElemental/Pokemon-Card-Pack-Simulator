@@ -61,18 +61,18 @@ export const PackSelector: React.FC<PackSelectorProps> = ({ selectedPack, setSel
         
       </button>
       {isOpen && (
-        <div className="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-[600px] bg-gray-800 rounded-2xl shadow-xl/20 p-4 z-50 max-h-96 overflow-y-auto">
-          <div className="grid grid-cols-5 gap-4">
+        <div className="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-[600px] bg-[#E4F1F6] rounded-2xl shadow-xl/20 p-4 z-50 max-h-96 overflow-y-auto">
+          <div className="grid grid-cols-5 gap-4 rounded-lg inset-shadow-sm inset-shadow-[#8c9ca4] p-3">
             {themedPacks.map(pack => (
               <button
                 key={pack.id}
                 onClick={() => handlePackSelect(pack.id)}
                 className={`
                   flex flex-col items-center gap-2 p-2 rounded-lg
-                  hover:bg-gray-700
+                  hover:bg-blue-700
                   transition-all duration-200
-                  ${pack.id === selectedPack ? 'bg-gray-600' : ''}
-                  min-w-[100px]
+                  ${pack.id === selectedPack ? 'bg-blue-500 inset-shadow-sm inset-shadow-blue-700' : ''}
+                  min-w-[100px] cursor-pointer
                 `}
               >
                 <Image
@@ -80,9 +80,9 @@ export const PackSelector: React.FC<PackSelectorProps> = ({ selectedPack, setSel
                   alt={pack.name}
                   width={80}
                   height={120}
-                  className="rounded-md shadow-md hover:scale-110 transition-transform duration-200"
+                  className="hover:scale-110 transition-transform duration-200"
                 />
-                <span className="text-white text-sm font-semibold text-center">{pack.name}</span>
+                <span className="text-sm font-semibold text-center">{pack.name}</span>
               </button>
             ))}
           </div>

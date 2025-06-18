@@ -1,7 +1,7 @@
 'use client';
 import React, { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
-import { motion } from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion';
 import { allCards, Card, regionRanges, specialFormRegionMapping, themedPacks, BoosterPack } from '@/app/Utils/Interfaces';
 import { PackSelector } from './PackSelector';
 import { useSound } from '@/app/Context/SoundContext';
@@ -39,12 +39,16 @@ export const CardPackOpener: React.FC<CardPackOpenerProps> = ({ curatedPack }) =
   const cardRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
   const [currentRegion, setCurrentRegion] = useState<keyof typeof regionRanges | 'All'>('All');
   const [currentRarity, setCurrentRarity] = useState<'All' | Card['rarity']>('All');
+    const [currentType, setCurrentType] = useState<string>('All');
   const slideSoundRef = useRef<HTMLAudioElement | null>(null);
   const flipSoundRef = useRef<HTMLAudioElement | null>(null);
   const mythicJingleRef = useRef<HTMLAudioElement | null>(null);
   const legendJingleRef = useRef<HTMLAudioElement | null>(null);
   const shinyJingleRef = useRef<HTMLAudioElement | null>(null);
   const modalContentRef = useRef<HTMLDivElement>(null);
+  const [isFiltersOpen, setIsFiltersOpen] = useState(false);
+  const [isShinyToggled, setIsShinyToggled] = useState(false);
+
 
   const displayedCards = Array.from(
     new Set(
@@ -61,6 +65,7 @@ export const CardPackOpener: React.FC<CardPackOpenerProps> = ({ curatedPack }) =
           );
         })
         .filter(card => currentRarity === 'All' || card.rarity === currentRarity)
+        .filter((card => currentType === 'All' || card.type.includes(currentType)))
         .map(card => `${card.name}-${card.number}${card.variant ? `-${card.variant}` : ''}`)
     )
   ).map(key => {
@@ -370,17 +375,20 @@ export const CardPackOpener: React.FC<CardPackOpenerProps> = ({ curatedPack }) =
 
   const handleCardClick = (cardKey: string) => {
     setSelectedCard(cardKey);
+    setIsShinyToggled(false)
     setShowDex(true);
   };
 
   const ResetConfirmationModal = () => (
     <div className="fixed inset-0 bg-black/50 flex justify-center items-center z-50 p-6" onClick={() => setShowResetModal(false)}>
       <div className="bg-[#E4F1F6] rounded-lg max-w-md w-full p-6 text-[#2A3F55] relative">
-        <h3 className="text-xl font-bold mb-4 border-b border-[#8c9ca4]">WARNING</h3>
+        <h3 className="text-xl font-bold mb-2 bord">WARNING</h3>
+        <div className="rounded-lg inset-shadow-sm inset-shadow-[#8c9ca4] p-3">
         <p className="mb-6">Resetting your collection will delete all your collected cards and progress. This action cannot be undone.</p>
         <div className="flex justify-end gap-4">
-          <button onClick={() => setShowResetModal(false)} className="bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded cursor-pointer">Cancel</button>
-          <button onClick={clearStorage} className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded cursor-pointer">Confirm</button>
+          <button onClick={() => setShowResetModal(false)} className="bg-gradient-to-br from-gray-600 to-gray-800 hover:from-gray-500 hover:to-gray-700 active:from-gray-700 active:to-gray-900 text-white font-bold py-2 px-4 rounded-2xl cursor-pointer shadow-lg hover:shadow-xl border border-gray-700 flex gap-2 items-center transform transition-all duration-200 hover:scale-105 active:scale-95">Cancel</button>
+          <button onClick={clearStorage} className="bg-gradient-to-br from-red-600 to-red-800 hover:from-red-500 hover:to-red-700 active:from-red-700 active:to-red-900 text-white font-bold py-2 px-4 rounded-2xl cursor-pointer shadow-lg hover:shadow-xl border border-red-700 flex gap-2 items-center transform transition-all duration-200 hover:scale-105 active:scale-95">Confirm</button>
+        </div>
         </div>
       </div>
     </div>
@@ -416,7 +424,7 @@ export const CardPackOpener: React.FC<CardPackOpenerProps> = ({ curatedPack }) =
             flex gap-2 items-center
             transform transition-all duration-200
             hover:scale-105 active:scale-95
-            ${opening ? 'opacity-50 cursor-not-allowed' : ''}
+            ${opening ? 'opacity-50 cursor-not-allowed inset-shadow-sm inset-shadow-[#8c9ca4]' : ''}
           `}
         >
           <Image
@@ -435,13 +443,13 @@ export const CardPackOpener: React.FC<CardPackOpenerProps> = ({ curatedPack }) =
       {showResetModal && <ResetConfirmationModal />}
 
       {showWaveCards && cards.length === 0 && (
-        <div className="relative w-full h-74 grid grid-cols-5 gap-4 perspective text-white my-2">
+        <div className="relative w-full h-[320px] grid grid-cols-5 gap-4 perspective text-white rounded-lg inset-shadow-sm inset-shadow-[#8c9ca4] p-3">
           {Array.from({ length: 5 }).map((_, idx) => (
             <motion.div
               key={`wave-card-${idx}`}
               className="w-54 h-74 relative"
               animate={{
-                y: [0, -20, 0],
+                y: [0, -10, 10, 0],
                 transition: {
                   duration: 1.5,
                   repeat: Infinity,
@@ -463,7 +471,7 @@ export const CardPackOpener: React.FC<CardPackOpenerProps> = ({ curatedPack }) =
         </div>
       )}
 
-      <div className={`${showWaveCards && cards.length === 0 ? 'hidden' : 'relative'} w-full h-74 grid grid-cols-5 gap-4 perspective text-white`}>
+      <div className={`${showWaveCards && cards.length === 0 ? 'hidden' : 'relative'} min-w-[1168px] h-[320px] grid grid-cols-5 gap-4 perspective text-white rounded-lg inset-shadow-sm inset-shadow-[#8c9ca4] p-3`}>
         {cards.map((card, idx) => {
           const imagePath = card.variant ? `${card.isShiny ? '/shiny' : '/home-icons'}/${card.number}-${card.variant}.png` : `${card.isShiny ? '/shiny' : '/home-icons'}/${card.number}.png`;
           const cardKey = `${card.name}-${card.number}${card.variant ? `-${card.variant}` : ''}`;
@@ -672,92 +680,176 @@ export const CardPackOpener: React.FC<CardPackOpenerProps> = ({ curatedPack }) =
           onClick={(e) => {
             if (modalContentRef.current && !modalContentRef.current.contains(e.target as Node)) {
               setShowDex(false);
+              setIsFiltersOpen(false);
               setSelectedCard(null);
             }
           }}
         >
           <div ref={modalContentRef} className="bg-[#E4F1F6] rounded-lg max-w-3xl w-full p-6 text-[#2A3F55] relative overflow-y-auto max-h-[90vh]">
             <button
-              onClick={() => { setShowDex(false); setSelectedCard(null); }}
+              onClick={() => { setShowDex(false); setIsFiltersOpen(false); setSelectedCard(null); }}
               className="absolute top-2 right-4 text-[#2A3F55] hover:opacity-80 text-3xl cursor-pointer"
             >
               ✖
             </button>
             <h3 className="text-2xl font-bold mb-4">Card Dex</h3>
             <p className="mb-4">You&apos;ve collected {Object.keys(collectedCards).length} out of {allCards.length} cards.</p>
-            {selectedCard && collectedCards[selectedCard] && (
-              <div className="flex items-center gap-4 mb-6 p-4 rounded-lg inset-shadow-sm inset-shadow-[#8c9ca4]">
-                <div className="w-32 h-32 relative">
+        {selectedCard && collectedCards[selectedCard] && (() => {
+        return (
+          <div className="flex gap-2 mb-6 p-4 rounded-lg inset-shadow-sm inset-shadow-[#8c9ca4]">
+            <div className="w-32 h-32 relative">
+              <motion.div
+                key={isShinyToggled ? 'shiny' : 'regular'}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.2 }}
+                className="w-full h-full"
+              >
+                <Image
+                  src={
+                    collectedCards[selectedCard].card.variant
+                      ? `${isShinyToggled ? '/shiny' : '/home-icons'}/${collectedCards[selectedCard].card.number}-${collectedCards[selectedCard].card.variant}.png`
+                      : `${isShinyToggled ? '/shiny' : '/home-icons'}/${collectedCards[selectedCard].card.number}.png`
+                  }
+                  alt={`${collectedCards[selectedCard].card.name}${isShinyToggled ? ' (Shiny)' : ''}`}
+                  fill
+                  className="object-contain relative z-20"
+                />
+              </motion.div>
+            </div>
+            <div>
+                <button
+                  onClick={() => setIsShinyToggled(!isShinyToggled)}
+                  className={`bg-gradient-to-br from-white to-gray-200 p-2 rounded-full shadow-md hover:shadow-lg transform transition-all duration-200 hover:scale-105 active:scale-95 focus:ring-2 focus:ring-[#8c9ca4] focus:outline-none ${!collectedCards[selectedCard].isShiny ? 'opacity-50 cursor-not-allowed inset-shadow-sm inset-shadow-[#8c9ca4]' : 'cursor-pointer'}`}
+                  aria-label={isShinyToggled ? 'Switch to regular form' : 'Switch to shiny form'}
+                  title={isShinyToggled ? 'Show regular form' : 'Show shiny form'}
+                >
                   <Image
-                    src={
-                      collectedCards[selectedCard].card.variant
-                        ? `${collectedCards[selectedCard].isShiny ? '/shiny' : '/home-icons'}/${collectedCards[selectedCard].card.number}-${collectedCards[selectedCard].card.variant}.png`
-                        : `${collectedCards[selectedCard].isShiny ? '/shiny' : '/home-icons'}/${collectedCards[selectedCard].card.number}.png`
-                    }
-                    alt={collectedCards[selectedCard].card.name}
-                    fill
-                    className="object-contain relative z-20"
+                    src={`/icons/Shiny${isShinyToggled ? 'Active' : ''}.png`}
+                    alt="Toggle shiny form"
+                    width={20}
+                    height={20}
+                    className="object-contain"
                   />
-                </div>
+                </button>
+
+            </div>
+            <div className="pt-1">
+              <h4 className="text-xl font-bold">
+                {collectedCards[selectedCard].isShiny
+                ? `${collectedCards[selectedCard].card.name} ✦`
+                : collectedCards[selectedCard].card.name}
+              </h4>
+              <p className="text-sm italic mb-1">{collectedCards[selectedCard].card.move}</p>
+              <p className="flex items-center gap-1 text-sm font-semibold">
+                Rarity: {getRarityIcon(collectedCards[selectedCard].card.rarity)} {collectedCards[selectedCard].card.rarity}
+              </p>
+              <div className="text-sm flex items-center gap-1">
+                Type:
+                {collectedCards[selectedCard].card.type.map((t, idx) => (
+                  <Image key={idx} src={`/icons/types/${t}.png`} alt={`${t} icon`} width={20} height={20} />
+                ))}
+              </div>
+              <p className="text-sm">Owned: {collectedCards[selectedCard].count}</p>
+            </div>
+          </div>
+        );
+      })()}
+      <div className="mb-4">
+        <button
+          onClick={() => setIsFiltersOpen(!isFiltersOpen)}
+          className={`cursor-pointer w-full flex justify-between items-center bg-gradient-to-br from-white to-gray-200 text-[#2A3F55] font-semibold text-md px-4 py-2 rounded-lg shadow-sm hover:shadow-md focus:ring-2 focus:ring-[#8c9ca4] focus:outline-none transition-all duration-200 ${isFiltersOpen ?'opacity-50 inset-shadow-sm inset-shadow-[#8c9ca4]' : ''}`}
+          aria-expanded={isFiltersOpen}
+          aria-controls="filter-controls"
+          aria-label={isFiltersOpen ? 'Collapse filters' : 'Expand filters'}
+        >
+          <span>Filters</span>
+          <motion.svg
+            className="w-5 h-5"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            animate={{ rotate: isFiltersOpen ? 180 : 0 }}
+            transition={{ duration: 0.3 }}
+          >
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+          </motion.svg>
+        </button>
+        <AnimatePresence>
+          {isFiltersOpen && (
+            <motion.div
+              id="filter-controls"
+              initial={{ height: 0, opacity: 0 }}
+              animate={{ height: 'auto', opacity: 1 }}
+              exit={{ height: 0, opacity: 0 }}
+              transition={{ duration: 0.3, ease: [0.445, 0.05, 0.55, 0.95] }}
+              className="overflow-hidden mt-2"
+            >
+              <div className="grid gap-2 p-4 rounded-lg bg-[#DDE8ED] inset-shadow-sm inset-shadow-[#8c9ca4]">
                 <div>
-                  <h4 className="text-xl font-bold">
-                    {collectedCards[selectedCard].isShiny
-                      ? `${collectedCards[selectedCard].card.name} ✦`
-                      : collectedCards[selectedCard].card.name}
-                  </h4>
-                  <p className="text-sm italic mb-1">{collectedCards[selectedCard].card.move}</p>
-                  <p className={`flex items-center gap-1 text-sm font-semibold`}>
-                    Rarity: {getRarityIcon(collectedCards[selectedCard].card.rarity)} {collectedCards[selectedCard].card.rarity}
-                  </p>
-                  <div className="text-sm flex items-center gap-1">
-                    Type:
-                    {collectedCards[selectedCard].card.type.map((t, idx) => (
-                      <Image key={idx} src={`/icons/types/${t}.png`} alt={`${t} icon`} width={20} height={20} />
+                  <p className="font-semibold text-md mb-2">Regions:</p>
+                  <div className="flex gap-2 mb-4 flex-wrap">
+                    {['All', ...Object.keys(regionRanges)].map(region => (
+                      <button
+                        key={region}
+                        onClick={() => setCurrentRegion(region as keyof typeof regionRanges)}
+                        className={`cursor-pointer px-3 py-1 rounded-lg transform transition-all duration-200 hover:scale-105 active:scale-95 shadow-md hover:shadow-lg ${
+                          currentRegion === region
+                            ? 'bg-gradient-to-br from-blue-400 to-blue-600 hover:from-blue-300 hover:to-blue-500 active:from-blue-500 active:to-blue-700 text-white border border-blue-500 inset-shadow-xs inset-shadow-blue-700'
+                            : 'bg-gradient-to-br from-white to-gray-200 hover:from-gray-100 hover:to-gray-300 active:from-gray-300 active:to-gray-400'
+                        }`}
+                      >
+                        {region}
+                      </button>
                     ))}
                   </div>
-                  <p className="text-sm">Owned: {collectedCards[selectedCard].count}</p>
                 </div>
-              </div>
-            )}
-            <div className="grid grid-cols-2 gap-2">
-              <div>
-                <p className="font-semibold text-md">Regions:</p>
-                <div className="flex gap-2 mb-4 flex-wrap">
-                  {['All', ...Object.keys(regionRanges)].map(region => (
-                    <button
-                      key={region}
-                      onClick={() => setCurrentRegion(region as keyof typeof regionRanges)}
-                      className={`cursor-pointer px-3 py-1 rounded-lg transform transition-all duration-200 hover:scale-105 active:scale-95 shadow-md hover:shadow-lg ${
-                          currentRegion === region
-                            ? 'bg-gradient-to-br from-blue-400 to-blue-600 hover:from-blue-300 hover:to-blue-500 active:from-blue-500 active:to-blue-700 text-white border border-blue-500'
-                            : 'bg-gradient-to-br from-white to-gray-200hover:from-gray-100 hover:to-gray-300 active:from-gray-300 active:to-gray-400'
+                <div>
+                  <p className="font-semibold text-md mb-2">Rarity:</p>
+                  <div className="flex gap-2 mb-4 flex-wrap">
+                    {(['All', 'Common', 'Uncommon', 'Rare', 'Epic', 'Legendary', 'Mythical'] as const).map(rarity => (
+                      <button
+                        key={rarity}
+                        onClick={() => setCurrentRarity(rarity)}
+                        className={`cursor-pointer px-3 py-1 rounded-lg transform transition-all duration-200 hover:scale-105 active:scale-95 shadow-md hover:shadow-lg ${
+                          currentRarity === rarity
+                            ? 'bg-gradient-to-br from-blue-400 to-blue-600 hover:from-blue-300 hover:to-blue-500 active:from-blue-500 active:to-blue-700 text-white border border-blue-500 inset-shadow-xs inset-shadow-blue-700'
+                            : 'bg-gradient-to-br from-white to-gray-200 hover:from-gray-100 hover:to-gray-300 active:from-gray-300 active:to-gray-400'
                         }`}
-                    >
-                      {region}
-                    </button>
-                  ))}
+                      >
+                        {rarity}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+                  <div>
+                  <p className="font-semibold text-md mb-2">Type:</p>
+                  <div className="flex gap-2 mb-4 flex-wrap">
+                    {(['All', 'Normal', 'Fighting', 'Flying', 'Poison', 'Ground', 'Rock', 'Bug', 'Ghost', 'Steel', 'Fire', 'Water', 'Grass', 'Electric', 'Psychic', 'Ice', 'Dragon', 'Dark', 'Fairy', 'Stellar'] as const).map(type => (
+                      <button
+                        key={type}
+                        onClick={() => setCurrentType(type)}
+                        className={`cursor-pointer px-3 py-1 rounded-lg transform transition-all duration-200 hover:scale-105 active:scale-95 shadow-md hover:shadow-lg ${
+                          currentType === type
+                            ? 'bg-gradient-to-br from-blue-400 to-blue-600 hover:from-blue-300 hover:to-blue-500 active:from-blue-500 active:to-blue-700 text-white border border-blue-500 inset-shadow-xs inset-shadow-blue-700'
+                            : 'bg-gradient-to-br from-white to-gray-200 hover:from-gray-100 hover:to-gray-300 active:from-gray-300 active:to-gray-400'
+                        }`}
+                      >
+                        {type}
+                      </button>
+                    ))}
+                  </div>
                 </div>
               </div>
-              <div>
-                <p className="font-semibold text-md">Rarity:</p>
-                <div className="flex gap-2 mb-4 flex-wrap">
-                  {(['All', 'Common', 'Uncommon', 'Rare', 'Epic', 'Legendary', 'Mythical'] as const).map(rarity => (
-                    <button
-                      key={rarity}
-                      onClick={() => setCurrentRarity(rarity)}
-                      className={`cursor-pointer px-3 py-1 rounded-lg transform transition-all duration-200 hover:scale-105 active:scale-95 shadow-md hover:shadow-lg ${currentRarity === rarity ? 'bg-gradient-to-br from-blue-400 to-blue-600 hover:from-blue-300 hover:to-blue-500 active:from-blue-500 active:to-blue-700 text-white border border-blue-500'
-                            : 'bg-gradient-to-br from-white to-gray-200hover:from-gray-100 hover:to-gray-300 active:from-gray-300 active:to-gray-400'}`}
-                    >
-                      {rarity}
-                    </button>
-                  ))}
-                </div>
-              </div>
-            </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
             {displayedCards.length === 0 ? (
               <p className="text-center text-gray-400 mt-10">No cards available for this region or rarity yet.</p>
             ) : (
-              <div className="grid grid-cols-5 gap-4">
+              <div className="grid grid-cols-5 gap-4 rounded-lg inset-shadow-sm inset-shadow-[#8c9ca4] p-3">
                 {displayedCards.map(card => {
                   const cardKey = `${card.name}-${card.number}${card.variant ? `-${card.variant}` : ''}`;
                   const owned = collectedCards[cardKey];
@@ -773,7 +865,7 @@ export const CardPackOpener: React.FC<CardPackOpenerProps> = ({ curatedPack }) =
                         />
                       </div>
                       <div className="font-semibold text-md text-center">
-                        {card.isShiny ? `${card.name} ✦` : card.name}
+                        {owned && collectedCards[cardKey].isShiny ? `${card.name} ✦` : card.name}
                       </div>
                       <div className={`${card.rarity === 'Mythical' ? 'text-[#ffd700]' : 'text-white'}`}>
                         {getRarityIcon(card.rarity)}

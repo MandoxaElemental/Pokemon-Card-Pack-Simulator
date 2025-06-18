@@ -90,96 +90,110 @@ export const themedPacks: BoosterPack[] = [
       );
     },
   },
-  {
-    id: 'johto',
-    name: 'Johto',
-    filter: (card: Card) => {
-      const [start, end] = regionRanges['Johto'] || [0, 0];
-      return (
-        card.number >= start &&
-        card.number <= end
-      );
-    },
-  },
-  {
-    id: 'hoenn',
-    name: 'Hoenn',
-    filter: (card: Card) => {
-      const [start, end] = regionRanges['Hoenn'] || [0, 0];
-      return (
-        card.number >= start &&
-        card.number <= end
-      );
-    },
-  },
-  {
-    id: 'sinnoh',
-    name: 'Sinnoh',
-    filter: (card: Card) => {
-    const [sinnohStart, sinnohEnd] = regionRanges['Sinnoh'] || [0, 0];
-    const [hisuiStart, hisuiEnd] = regionRanges['Hisui'] || [0, 0];
+{
+  id: 'johto',
+  name: 'Johto',
+  filter: (card: Card) => {
+    const [johtoStart, johtoEnd] = regionRanges['Johto'] || [0, 0];
+    const variantRegions = specialFormRegionMapping[card.number]?.[card.variant || ''] || [];
     
     return (
-      (card.number >= sinnohStart && card.number <= sinnohEnd) ||
-      (hisuiStart !== 0 && card.number >= hisuiStart && card.number <= hisuiEnd)
+      (card.number >= johtoStart && card.number <= johtoEnd && (!card.variant || variantRegions.includes('Johto')))
     );
   },
+},
+
+{
+  id: 'hoenn',
+  name: 'Hoenn',
+  filter: (card: Card) => {
+    const [hoennStart, hoennEnd] = regionRanges['Hoenn'] || [0, 0];
+    const variantRegions = specialFormRegionMapping[card.number]?.[card.variant || ''] || [];
+    
+    return (
+      (card.number >= hoennStart && card.number <= hoennEnd && (!card.variant || variantRegions.includes('Hoenn')))
+    );
   },
-  {
-    id: 'unova',
-    name: 'Unova',
-    filter: (card: Card) => {
-      const [start, end] = regionRanges['Unova'] || [0, 0];
-      return (
-        card.number >= start &&
-        card.number <= end
-      );
-    },
+},
+{
+  id: 'sinnoh',
+  name: 'Sinnoh & Hisui',
+  filter: (card: Card) => {
+    const [sinnohStart, sinnohEnd] = regionRanges['Sinnoh'] || [0, 0];
+    const [hisuiStart, hisuiEnd] = regionRanges['Hisui'] || [0, 0];
+    const variantRegions = specialFormRegionMapping[card.number]?.[card.variant || ''] || [];
+    
+    return (
+      (card.number >= sinnohStart && card.number <= sinnohEnd && (!card.variant || variantRegions.includes('Sinnoh'))) ||
+      variantRegions.includes('Hisui') ||
+      (hisuiStart !== 0 && !card.variant && card.number >= hisuiStart && card.number <= hisuiEnd)
+    );
   },
-  {
-    id: 'kalos',
-    name: 'Kalos',
-    filter: (card: Card) => {
-      const [start, end] = regionRanges['Kalos'] || [0, 0];
-      return (
-        card.number >= start &&
-        card.number <= end
-      );
-    },
+},
+{
+  id: 'unova',
+  name: 'Unova',
+  filter: (card: Card) => {
+    const [unovaStart, unovaEnd] = regionRanges['Unova'] || [0, 0];
+    const variantRegions = specialFormRegionMapping[card.number]?.[card.variant || ''] || [];
+    
+    return (
+      (card.number >= unovaStart && card.number <= unovaEnd && (!card.variant || variantRegions.includes('Unova')))
+    );
   },
-  {
-    id: 'alola',
-    name: 'Alola',
-    filter: (card: Card) => {
-      const [start, end] = regionRanges['Alola'] || [0, 0];
-      return (
-        card.number >= start &&
-        card.number <= end
-      );
-    },
+},
+{
+  id: 'kalos',
+  name: 'Kalos',
+  filter: (card: Card) => {
+    const [kalosStart, kalosEnd] = regionRanges['Kalos'] || [0, 0];
+    const variantRegions = specialFormRegionMapping[card.number]?.[card.variant || ''] || [];
+    
+    return (
+      (card.number >= kalosStart && card.number <= kalosEnd && (!card.variant || variantRegions.includes('Kalos') || variantRegions.includes('KalosZen'))) ||
+      variantRegions.includes('Kalos')
+    );
   },
-  {
-    id: 'galar',
-    name: 'Galar',
-    filter: (card: Card) => {
-      const [start, end] = regionRanges['Galar'] || [0, 0];
-      return (
-        card.number >= start &&
-        card.number <= end
-      );
-    },
+},
+{
+  id: 'alola',
+  name: 'Alola',
+  filter: (card: Card) => {
+    const [alolaStart, alolaEnd] = regionRanges['Alola'] || [0, 0];
+    const variantRegions = specialFormRegionMapping[card.number]?.[card.variant || ''] || [];
+    
+    return (
+      (card.number >= alolaStart && card.number <= alolaEnd && (!card.variant || variantRegions.includes('Alola') || variantRegions.includes('AlolaZen'))) ||
+      variantRegions.includes('Alola')
+    );
   },
-  {
-    id: 'paldea',
-    name: 'Paldea',
-    filter: (card: Card) => {
-      const [start, end] = regionRanges['Paldea'] || [0, 0];
-      return (
-        card.number >= start &&
-        card.number <= end
-      );
-    },
+},
+{
+  id: 'galar',
+  name: 'Galar',
+  filter: (card: Card) => {
+    const [galarStart, galarEnd] = regionRanges['Galar'] || [0, 0];
+    const variantRegions = specialFormRegionMapping[card.number]?.[card.variant || ''] || [];
+    
+    return (
+      (card.number >= galarStart && card.number <= galarEnd && (!card.variant || variantRegions.includes('Galar') || variantRegions.includes('GalarZen'))) ||
+      variantRegions.includes('Galar')
+    );
   },
+},
+{
+  id: 'paldea',
+  name: 'Paldea',
+  filter: (card: Card) => {
+    const [paldeaStart, paldeaEnd] = regionRanges['Paldea'] || [0, 0];
+    const variantRegions = specialFormRegionMapping[card.number]?.[card.variant || ''] || [];
+    
+    return (
+      (card.number >= paldeaStart && card.number <= paldeaEnd && (!card.variant || variantRegions.includes('Paldea') || variantRegions.includes('PaldeaZen'))) ||
+      variantRegions.includes('Paldea')
+    );
+  },
+}
 ];
 
 // filter: (card: Card) => {
