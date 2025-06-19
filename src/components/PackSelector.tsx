@@ -76,7 +76,7 @@ export const PackSelector: React.FC<PackSelectorProps> = ({ selectedPack, setSel
                 `}
               >
                 <Image
-                  src={`/booster/mystery-pack.png`}
+                  src={`/booster/${pack.id}-pack.png`}
                   alt={pack.name}
                   width={80}
                   height={120}

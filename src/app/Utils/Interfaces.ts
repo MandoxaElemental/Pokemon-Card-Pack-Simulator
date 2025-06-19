@@ -1584,8 +1584,6 @@ export const allCards: Card[] = [
   { name: "Terapagos (Terastal)", number: 1024, variant: "Terastal", type: ["Normal"], isShiny: false, rarity: "Legendary", move: "Tera Blast" },
   { name: "Terapagos (Stellar)", number: 1024, variant: "Stellar", type: ["Stellar"], isShiny: false, rarity: "Mythical", move: "Tera Starstorm" },
   { name: 'Pecharunt', number: 1025, type: ['Poison', 'Ghost'], isShiny: false, rarity: 'Mythical', move: 'Malignant Chain' },
-
-    // Special Forms
 ];
 
 export const specialFormRegionMapping: Record<number, Record<string, string[]>> = {
@@ -1649,7 +1647,7 @@ export const specialFormRegionMapping: Record<number, Record<string, string[]>> 
   128: { Combat: ['Paldea'], Blaze: ['Paldea'], Aqua: ['Paldea'] }, // Tauros
   901: { Bloodmoon: ['Paldea'] }, // Ursaluna
   3: { Mega: ['Kalos'], GMax: ['Galar'] }, // Mega Venusaur, GMax Venusaur
-  6: { Megax: ['Kalos'], MegaY: ['Kalos'], GMax: ['Galar'] }, // Mega Charizard X, Y, GMax
+  6: { MegaX: ['Kalos'], MegaY: ['Kalos'], GMax: ['Galar'] }, // Mega Charizard X, Y, GMax
   9: { Mega: ['Kalos'], GMax: ['Galar'] }, // Mega Blastoise, GMax Blastoise
   12: { GMax: ['Galar'] }, // GMax Butterfree
   15: { Mega: ['Kalos'] }, // Mega Beedrill
@@ -1664,7 +1662,7 @@ export const specialFormRegionMapping: Record<number, Record<string, string[]>> 
   133: { GMax: ['Galar'] }, // GMax Eevee
   142: { Mega: ['Kalos'] }, // Mega Aerodactyl
   143: { GMax: ['Galar'] }, // GMax Snorlax
-  150: { Megax: ['Kalos'], MegaY: ['Kalos'] }, // Mega Mewtwo X, Y
+  150: { MegaX: ['Kalos'], MegaY: ['Kalos'] }, // Mega Mewtwo X, Y
   181: { Mega: ['Kalos'] }, // Mega Ampharos
   208: { Mega: ['Kalos'] }, // Mega Steelix
   212: { Mega: ['Kalos'] }, // Mega Scizor

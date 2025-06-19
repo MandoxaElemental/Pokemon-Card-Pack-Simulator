@@ -5,6 +5,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { allCards, Card, regionRanges, specialFormRegionMapping, themedPacks, BoosterPack } from '@/app/Utils/Interfaces';
 import { PackSelector } from './PackSelector';
 import { useSound } from '@/app/Context/SoundContext';
+import Achievements from './Achievements';
 
 type CardCollection = {
   [key: string]: { card: Card; count: number; isShiny: boolean };
@@ -34,6 +35,7 @@ export const CardPackOpener: React.FC<CardPackOpenerProps> = ({ curatedPack }) =
   const [, setDoubleFlipped] = useState<boolean[]>([]);
   const [selectedCard, setSelectedCard] = useState<string | null>(null);
   const [showResetModal, setShowResetModal] = useState(false);
+  const [showAchievements, setShowAchievements] = useState(false);
   const [showWaveCards, setShowWaveCards] = useState(true);
   const [selectedPack, setSelectedPack] = useState<string>(curatedPack ? curatedPack.id : 'mystery');
   const cardRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
@@ -138,6 +140,7 @@ export const CardPackOpener: React.FC<CardPackOpenerProps> = ({ curatedPack }) =
   const clearStorage = () => {
     try {
       localStorage.removeItem('pokemonCollection');
+      localStorage.removeItem('completedAchievements');
       setCollectedCards({});
       setPacksOpened(0);
       setCards([]);
@@ -672,9 +675,27 @@ export const CardPackOpener: React.FC<CardPackOpenerProps> = ({ curatedPack }) =
           <Image src='/dex.png' alt='dex' width={20} height={20} className='invert'/>
           View Card Dex
         </button>
+        <button
+  onClick={() => setShowAchievements(true)}
+  className="cursor-pointer bg-gradient-to-br from-blue-400 to-blue-600 text-white font-semibold text-md px-4 py-2 rounded-lg shadow-md hover:shadow-lg hover:from-blue-300 hover:to-blue-500 active:from-blue-500 active:to-blue-700 transition-all duration-200 focus:ring-2 focus:ring-[#8c9ca4]"
+>
+  Achievements
+</button>
       </div>
-
+ <AnimatePresence>
       {showDex && (
+         <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.3 }}
+                  className="fixed inset-0 bg-black/50 flex justify-center items-center z-50 p-6"
+                  onClick={(e) => {
+                    if (modalContentRef.current && !modalContentRef.current.contains(e.target as Node)) {
+                      setShowDex(false);
+                    }
+                  }}
+                >
         <div
           className="fixed inset-0 bg-black/50 flex justify-center items-center z-50 p-6"
           onClick={(e) => {
@@ -878,7 +899,14 @@ export const CardPackOpener: React.FC<CardPackOpenerProps> = ({ curatedPack }) =
             )}
           </div>
         </div>
+        </motion.div>
       )}
+       </AnimatePresence>
+      <Achievements
+  showAchievements={showAchievements}
+  setShowAchievements={setShowAchievements}
+  collectedCards={collectedCards}
+/>
     </div>
   );
 };

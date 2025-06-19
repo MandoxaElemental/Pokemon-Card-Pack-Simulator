@@ -1,13 +1,16 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Card } from '@/app/Utils/Interfaces';
 import { useSound } from '@/app/Context/SoundContext';
+import { AnimatePresence, motion } from 'framer-motion';
 
 const About: React.FC = () => {
   const { isMuted, toggleMute } = useSound();
   const [showModal, setShowModal] = useState(false);
+const modalContentRef = useRef<HTMLDivElement>(null);
+  
 
   const getRarityIcon = (rarity: Card['rarity']) => {
     const diamondIconPath = '/diamond.png';
@@ -49,43 +52,58 @@ const About: React.FC = () => {
     Mythical: 3,
   };
 
-  const AboutModal = () => (
-    <div
-      className="fixed inset-0 bg-black/50 flex justify-center items-center z-50 p-6"
-      onClick={() => setShowModal(false)}
-    >
-      <div
-        className="bg-[#E4F1F6] rounded-lg max-w-md w-full p-6 relative text-[#2A3F55]"
-        onClick={(e) => e.stopPropagation()}
-      >
-        <button
-          onClick={() => setShowModal(false)}
-          className="absolute top-2 right-4 hover:opacity-80 text-3xl cursor-pointer text-[#8c9ca4]"
-        >
-          ✖
-        </button>
-        <h3 className="text-xl font-bold mb-4">Welcome to PokéPack Opening Simulator - v1.0.0</h3>
-        <div className="p-3 inset-shadow-sm inset-shadow-[#8c9ca4] rounded-lg">
-        <p className="mb-2">
-          Just a small solo side project I am working on. Feel free to contact me if you have any suggestions, or find any bugs as this is still a work in progress.
-        </p>
-        <h4 className="text-lg font-semibold mb-2">Card Rarities</h4>
-        <ul className="space-y-2 mb-2">
-          {Object.entries(rarityWeights).map(([rarity, weight]) => (
-            <li key={rarity} className="flex items-center gap-2">
-              <span className="w-auto flex items-center gap-1">
-                {getRarityIcon(rarity as Card['rarity'])}
-                <span className="font-medium">{rarity}:</span>
-              </span>
-              <span className="text-sm">Weight - {weight}%</span>
-            </li>
-          ))}
-        </ul>
-        <p>(There is also a 1% chance that your card will be Shiny!)</p>
-        </div>
-      </div>
-    </div>
-  );
+//   const AboutModal = () => (
+//     // <AnimatePresence>
+//     // <motion.div
+//     //         initial={{ opacity: 0 }}
+//     //       animate={{ opacity: 1 }}
+//     //       exit={{ opacity: 0 }}
+//     //       transition={{ duration: 0.3 }}
+//     //   className="fixed inset-0 bg-black/50 flex justify-center items-center z-50 p-6"
+//     //   onClick={(e) => {
+//     //         if (modalContentRef.current && !modalContentRef.current.contains(e.target as Node)) {
+//     //           setShowModal(false);
+//     //         }
+//     //       }}
+//     // >
+//     //   <motion.div
+//     //   ref={modalContentRef}
+//     //         initial={{ scale: 0.8, opacity: 0 }}
+//     //         animate={{ scale: 1, opacity: 1 }}
+//     //         exit={{ scale: 0.8, opacity: 0 }}
+//     //         transition={{ duration: 0.3, ease: [0.445, 0.05, 0.55, 0.95] }}
+//     //     className="bg-[#E4F1F6] rounded-lg max-w-md w-full p-6 relative text-[#2A3F55]"
+//     //     onClick={(e) => e.stopPropagation()}
+//     //   >
+//     //     <button
+//     //       onClick={() => setShowModal(false)}
+//     //       className="absolute top-2 right-4 hover:opacity-80 text-3xl cursor-pointer text-[#8c9ca4]"
+//     //     >
+//     //       ✖
+//     //     </button>
+//     //     <h3 className="text-xl font-bold mb-4">Welcome to PokéPack Opening Simulator - v1.0.0</h3>
+//     //     <div className="p-3 inset-shadow-sm inset-shadow-[#8c9ca4] rounded-lg">
+//     //     <p className="mb-2">
+//     //       Just a small solo side project I am working on. Feel free to contact me if you have any suggestions, or find any bugs as this is still a work in progress.
+//     //     </p>
+//     //     <h4 className="text-lg font-semibold mb-2">Card Rarities</h4>
+//     //     <ul className="space-y-2 mb-2">
+//     //       {Object.entries(rarityWeights).map(([rarity, weight]) => (
+//     //         <li key={rarity} className="flex items-center gap-2">
+//     //           <span className="w-auto flex items-center gap-1">
+//     //             {getRarityIcon(rarity as Card['rarity'])}
+//     //             <span className="font-medium">{rarity}:</span>
+//     //           </span>
+//     //           <span className="text-sm">Weight - {weight}%</span>
+//     //         </li>
+//     //       ))}
+//     //     </ul>
+//     //     <p>(There is also a 1% chance that your card will be Shiny!)</p>
+//     //     </div>
+//     //   </motion.div>
+//     // </motion.div>
+//     // </AnimatePresence>
+//   );
 
   return (
     <div className="absolute top-5 right-5">
@@ -120,7 +138,60 @@ const About: React.FC = () => {
           />
         </Link>
       </div>
-      {showModal && <AboutModal />}
+      {showModal && 
+      (
+            <AnimatePresence>
+    <motion.div
+            initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.3 }}
+      className="fixed inset-0 bg-black/50 flex justify-center items-center z-50 p-6"
+      onClick={(e) => {
+            if (modalContentRef.current && !modalContentRef.current.contains(e.target as Node)) {
+              setShowModal(false);
+            }
+          }}
+    >
+      <motion.div
+      ref={modalContentRef}
+            initial={{ scale: 0.8, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            exit={{ scale: 0.8, opacity: 0 }}
+            transition={{ duration: 0.3, ease: [0.445, 0.05, 0.55, 0.95] }}
+        className="bg-[#E4F1F6] rounded-lg max-w-md w-full p-6 relative text-[#2A3F55]"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <button
+          onClick={() => setShowModal(false)}
+          className="absolute top-2 right-4 hover:opacity-80 text-3xl cursor-pointer text-[#8c9ca4]"
+        >
+          ✖
+        </button>
+        <h3 className="text-xl font-bold mb-4">Welcome to PokéPack Opening Simulator - v1.0.0</h3>
+        <div className="p-3 inset-shadow-sm inset-shadow-[#8c9ca4] rounded-lg">
+        <p className="mb-2">
+          Just a small solo side project I am working on. Feel free to contact me if you have any suggestions, or find any bugs as this is still a work in progress.
+        </p>
+        <h4 className="text-lg font-semibold mb-2">Card Rarities</h4>
+        <ul className="space-y-2 mb-2">
+          {Object.entries(rarityWeights).map(([rarity, weight]) => (
+            <li key={rarity} className="flex items-center gap-2">
+              <span className="w-auto flex items-center gap-1">
+                {getRarityIcon(rarity as Card['rarity'])}
+                <span className="font-medium">{rarity}:</span>
+              </span>
+              <span className="text-sm">Weight - {weight}%</span>
+            </li>
+          ))}
+        </ul>
+        <p>(There is also a 1% chance that your card will be Shiny!)</p>
+        </div>
+      </motion.div>
+    </motion.div>
+    </AnimatePresence>
+      )
+      }
     </div>
   );
 };
