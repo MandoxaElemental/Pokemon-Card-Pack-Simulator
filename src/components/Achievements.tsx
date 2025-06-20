@@ -29,6 +29,7 @@ interface Achievement {
   showIcons: boolean;
   requiredCards?: Array<{
     cardKey: string;
+    cardKeyBase?: string;
     variant?: string;
     isShiny?: boolean;
     minCount?: number;
@@ -51,27 +52,59 @@ interface Toast {
   name: string;
 }
 
+interface PopupState {
+  visible: boolean;
+  achievementId: string | null;
+  position: { x: number; y: number };
+}
+
 export default function Achievements({ showAchievements, setShowAchievements, collectedCards }: AchievementsProps) {
   const modalContentRef = useRef<HTMLDivElement>(null);
   const [toasts, setToasts] = useState<Toast[]>([]);
-const [prevCompleted, setPrevCompleted] = useState<Set<string>>(() => {
-  if (typeof window !== 'undefined') {
-    const saved = localStorage.getItem('completedAchievements');
-    return new Set(saved ? JSON.parse(saved) : []);
-  }
-  return new Set();
-});
+  const [popup, setPopup] = useState<PopupState>({ visible: false, achievementId: null, position: { x: 0, y: 0 } });
+  const [prevCompleted, setPrevCompleted] = useState<Set<string>>(() => {
+    if (typeof window !== 'undefined') {
+      const saved = localStorage.getItem('completedAchievements');
+      return new Set(saved ? JSON.parse(saved) : []);
+    }
+    return new Set();
+  });
+
   const getProgress = (achievement: Achievement) => {
     if (achievement.requiredCards) {
-      const completed = achievement.requiredCards.filter(req => {
-        const fullKey = `${req.cardKey}${req.variant ? `-${req.variant}` : ''}`;
-        const card = collectedCards[fullKey];
-        if (!card) return false;
-        const shinyMatches = req.isShiny === undefined || card.isShiny === req.isShiny;
-        const countMatches = (card.count || 0) >= (req.minCount || 1);
-        return shinyMatches && countMatches;
-      }).length;
-      return { completed, total: achievement.requiredCards.length };
+      let completed = 0;
+      const groupedRequirements: Record<string, { minCount: number; cardKeys: string[] }> = {};
+
+      achievement.requiredCards.forEach(req => {
+        const key = req.cardKeyBase || req.cardKey;
+        if (!groupedRequirements[key]) {
+          groupedRequirements[key] = { minCount: req.minCount || 1, cardKeys: [] };
+        }
+        groupedRequirements[key].cardKeys.push(`${req.cardKey}${req.variant ? `-${req.variant}` : ''}`);
+        groupedRequirements[key].minCount = Math.max(groupedRequirements[key].minCount, req.minCount || 1);
+      });
+
+      for (const key in groupedRequirements) {
+        const { minCount, cardKeys } = groupedRequirements[key];
+        let totalCount = 0;
+
+        cardKeys.forEach(fullKey => {
+          const card = collectedCards[fullKey];
+          if (card) {
+            const req = achievement.requiredCards!.find(r => `${r.cardKey}${r.variant ? `-${r.variant}` : ''}` === fullKey);
+            const shinyMatches = !req?.isShiny || card.isShiny === req.isShiny;
+            if (shinyMatches) {
+              totalCount += card.count || 0;
+            }
+          }
+        });
+
+        if (totalCount >= minCount) {
+          completed += 1;
+        }
+      }
+
+      return { completed, total: Object.keys(groupedRequirements).length };
     } else if (achievement.collectionGoal) {
       const { property, value, targetCount } = achievement.collectionGoal;
       let completed = 0;
@@ -103,7 +136,7 @@ const [prevCompleted, setPrevCompleted] = useState<Set<string>>(() => {
       return [];
     }
     if (achievement.requiredCards) {
-      return achievement.requiredCards.slice(0, 3).map(req => {
+      return achievement.requiredCards.map(req => {
         const fullKey = `${req.cardKey}${req.variant ? `-${req.variant}` : ''}`;
         const card = collectedCards[fullKey];
         const cardData = card?.card || allCards.find(c => {
@@ -116,7 +149,25 @@ const [prevCompleted, setPrevCompleted] = useState<Set<string>>(() => {
     return [];
   };
 
-    useEffect(() => {
+  const handleInteraction = (e: React.MouseEvent | React.TouchEvent, achievement: Achievement) => {
+    if (!achievement.showIcons) return;
+    e.preventDefault();
+    const rect = (e.currentTarget as HTMLElement).getBoundingClientRect();
+    setPopup({
+      visible: true,
+      achievementId: achievement.id,
+      position: {
+        x: rect.left,
+        y: rect.top + rect.height + 8, // Add small gap below the box
+      },
+    });
+  };
+
+  const handleInteractionEnd = () => {
+    setPopup({ visible: false, achievementId: null, position: { x: 0, y: 0 } });
+  };
+
+  useEffect(() => {
     const currentCompleted = new Set<string>();
     const newToasts: Toast[] = [];
 
@@ -186,7 +237,7 @@ const [prevCompleted, setPrevCompleted] = useState<Set<string>>(() => {
                   return completed >= total;
                 }).length} of {achievements.length} achievements.
               </p>
-              <div className="space-y-4">
+              <div className="grid grid-cols-3 gap-2">
                 {achievements.map(achievement => {
                   const { completed, total } = getProgress(achievement);
                   const isComplete = completed >= total;
@@ -197,22 +248,25 @@ const [prevCompleted, setPrevCompleted] = useState<Set<string>>(() => {
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ duration: 0.3, delay: 0.1 * achievements.indexOf(achievement) }}
-                      className={`p-4 rounded-lg inset-shadow-sm inset-shadow-[#8c9ca4] ${
+                      className={`p-4 flex flex-col justify-between rounded-lg inset-shadow-sm inset-shadow-[#8c9ca4] ${
                         isComplete ? 'bg-gradient-to-br from-green-100 to-green-200' : 'bg-[#DDE8ED]'
                       }`}
+                      onMouseEnter={(e) => handleInteraction(e, achievement)}
+                      onMouseLeave={handleInteractionEnd}
+                      onTouchStart={(e) => handleInteraction(e, achievement)}
                     >
                       <div className="flex items-start gap-3 mb-2">
-                        <div className="w-8 h-8 relative flex-shrink-0">
+                        <div className="w-12 h-12 relative flex-shrink-0">
                           <Image
                             src={`/badges/${achievement.id}.png`}
                             alt={`${achievement.name} Badge`}
                             fill
-                            className="object-contain"
+                            className={`object-contain ${!isComplete ? 'brightness-0 opacity-50' : ''}`}
                           />
                         </div>
                         <div className="flex-1">
                           <div className="flex justify-between items-center">
-                            <h4 className="text-lg font-bold">{achievement.name}</h4>
+                            <h4 className="text-md font-bold">{achievement.name}</h4>
                             <span className="text-sm font-semibold">
                               {completed}/{total} {isComplete ? '✓' : ''}
                             </span>
@@ -220,34 +274,7 @@ const [prevCompleted, setPrevCompleted] = useState<Set<string>>(() => {
                           <p className="text-sm">{achievement.description}</p>
                         </div>
                       </div>
-                      {representativeCards.length > 0 && (
-                        <div className="flex gap-2 flex-wrap mt-2">
-                          {representativeCards.map(({ fullKey, card, cardData, isShiny }) => {
-                            const isOwned = card && (isShiny === undefined || card.isShiny === isShiny) && card.count >= 1;
-                            return (
-                              <div key={fullKey} className="flex flex-col items-center">
-                                <div className="w-12 h-12 relative">
-                                  <Image
-                                    src={
-                                      cardData
-                                        ? `${isOwned && (isShiny || card?.isShiny) ? '/shiny' : '/home-icons'}/${cardData.number}${cardData.variant ? `-${cardData.variant}` : ''}.png`
-                                        : '/home-icons/placeholder.png'
-                                    }
-                                    alt={cardData?.name || 'Unknown'}
-                                    fill
-                                    className={`object-contain ${!isOwned ? 'brightness-0 opacity-50' : ''}`}
-                                  />
-                                </div>
-                                <span className="text-xs text-center">
-                                  {cardData?.name || 'Unknown'}
-                                  {isShiny ? ' ✦' : ''}
-                                </span>
-                              </div>
-                            );
-                          })}
-                        </div>
-                      )}
-                      <div className="mt-2 bg-gray-200 rounded-full h-2">
+                      <div className="mt-2 bg-black/25 rounded-full h-2">
                         <div
                           className="bg-blue-500 h-2 rounded-full"
                           style={{ width: `${Math.min((completed / total) * 100, 100)}%` }}
@@ -258,6 +285,51 @@ const [prevCompleted, setPrevCompleted] = useState<Set<string>>(() => {
                 })}
               </div>
             </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+      <AnimatePresence>
+        {popup.visible && popup.achievementId && (
+          <motion.div
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.8 }}
+            transition={{ duration: 0.2 }}
+            className="fixed bg-[#E4F1F6] text-[#2A3F55] rounded-lg shadow-lg p-4 z-60 w-auto"
+            style={{ top: popup.position.y, left: popup.position.x }}
+          >
+            {(() => {
+              const achievement = achievements.find(a => a.id === popup.achievementId);
+              if (!achievement || !achievement.showIcons) return null;
+              const representativeCards = getRepresentativeCards(achievement);
+              return (
+                <div className={`grid ${representativeCards.length < 10 ? 'grid-cols-3' : representativeCards.length === 10 ? 'grid-cols-5' : 'grid-cols-10'} gap-2`}>
+                  {representativeCards.map(({ fullKey, card, cardData, isShiny }) => {
+                    const isOwned = card && (isShiny === undefined || card.isShiny === isShiny) && card.count >= 1;
+                    return (
+                      <div key={fullKey} className="flex flex-col items-center">
+                        <div className="w-12 h-12 relative">
+                          <Image
+                            src={
+                              cardData
+                                ? `${isOwned && (isShiny || card?.isShiny) ? '/shiny' : '/home-icons'}/${cardData.number}${cardData.variant ? `-${cardData.variant}` : ''}.png`
+                                : '/home-icons/placeholder.png'
+                            }
+                            alt={cardData?.name || 'Unknown'}
+                            fill
+                            className={`object-contain ${!isOwned ? 'brightness-0 opacity-50' : ''}`}
+                          />
+                        </div>
+                        <span className="text-xs text-center">
+                          {cardData?.name || 'Unknown'}
+                          {isShiny ? ' ✦' : ''} ({card?.count || 0})
+                        </span>
+                      </div>
+                    );
+                  })}
+                </div>
+              );
+            })()}
           </motion.div>
         )}
       </AnimatePresence>

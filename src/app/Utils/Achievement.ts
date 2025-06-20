@@ -5,6 +5,7 @@ interface Achievement {
   showIcons: boolean;
   requiredCards?: Array<{
     cardKey: string;
+    cardKeyBase?: string;
     variant?: string;
     isShiny?: boolean;
     minCount?: number;
@@ -18,27 +19,133 @@ interface Achievement {
 
 export const achievements: Achievement[] = [
   {
-    id: 'kanto-starters',
-    name: 'Kanto Starters',
-    description: 'Collect the Kanto starter Pokémon.',
+    id: 'starters',
+    name: 'First Picks',
+    description: 'Collect all First Parter Pokémon.',
     showIcons: true,
     requiredCards: [
       { cardKey: 'Bulbasaur-1' },
       { cardKey: 'Charmander-4' },
       { cardKey: 'Squirtle-7' },
+      { cardKey: 'Chikorita-152' },      
+      { cardKey: 'Cyndaquil-155' },      
+      { cardKey: 'Totodile-158' },      
+      { cardKey: 'Treecko-252' },      
+      { cardKey: 'Torchic-255' },      
+      { cardKey: 'Mudkip-258' },      
+      { cardKey: 'Turtwig-387' },      
+      { cardKey: 'Chimchar-390' },      
+      { cardKey: 'Piplup-393' },      
+      { cardKey: 'Snivy-495' },      
+      { cardKey: 'Tepig-498' },      
+      { cardKey: 'Oshawott-501' },      
+      { cardKey: 'Chespin-650' },      
+      { cardKey: 'Fennekin-653' },      
+      { cardKey: 'Froakie-656' },      
+      { cardKey: 'Rowlet-722' },      
+      { cardKey: 'Litten-725' },      
+      { cardKey: 'Popplio-728' },      
+      { cardKey: 'Grookey-810' },      
+      { cardKey: 'Scorbunny-813' },      
+      { cardKey: 'Sobble-816' },      
+      { cardKey: 'Sprigatito-906' },      
+      { cardKey: 'Fuecoco-909' },      
+      { cardKey: 'Quaxly-912' },      
+    ],
+  },
+    {
+    id: 'eevee',
+    name: 'Veevee Volley',
+    description: 'Collect Eevee and all of its Evolutions',
+    showIcons: true,
+    requiredCards: [
+      { cardKey: 'Eevee-133' },
+      { cardKey: 'Vaporeon-134' },
+      { cardKey: 'Jolteon-135' },
+      { cardKey: 'Flareon-136' },
+      { cardKey: 'Espeon-196' },
+      { cardKey: 'Umbreon-197' },
+      { cardKey: 'Leafeon-470' },
+      { cardKey: 'Glaceon-471' },
+      { cardKey: 'Sylveon-700' },
+      { cardKey: 'GMax Eevee-133', variant: 'GMax'}
+    ],
+  },
+//   {
+//   id: 'gholdengo',
+//   name: 'Good as Gold',
+//   description: 'Collect 99 Gimmighoul (any form) and a Gholdengo.',
+//   showIcons: false,
+//   requiredCards: [
+//     {
+//       cardKey: 'Gimmighoul-999',
+//       cardKeyBase: 'Gimmighoul-999',
+//       minCount: 99,
+//     },
+//     {
+//       cardKey: 'Gimmighoul-999-Roaming',
+//       cardKeyBase: 'Gimmighoul-999',
+//       minCount: 0,
+//       variant: 'Roaming',
+//     },
+//     { cardKey: 'Gholdengo-1000' },
+//   ],
+  
+// },
+  {
+    id: 'regi',
+    name: 'ÜN ÜN ÜN',
+    description: 'Collect Regigigas and the Legendary Titans',
+    showIcons: true,
+    requiredCards: [
+      { cardKey: 'Regigigas-486' },
+      { cardKey: 'Regirock-377' },
+      { cardKey: 'Regice-378' },
+      { cardKey: 'Registeel-379' },
+      { cardKey: 'Regieleki-894' },
+      { cardKey: 'Regidrago-895' },
     ],
   },
   {
-    id: 'terastal-master',
-    name: 'Terastal Master',
-    description: 'Collect all forms of Terapagos.',
+    id: 'tao',
+    name: 'Truth/Ideals',
+    description: 'Collect Reshiram, Zekrom, and Kyurem',
     showIcons: true,
     requiredCards: [
-      { cardKey: 'Terapagos-1024' },
-      { cardKey: 'Terapagos (Terastal)-1024', variant: 'Terastal' },
-      { cardKey: 'Terapagos (Stellar)-1024', variant: 'Stellar' },
+      { cardKey: 'Reshiram-643' },
+      { cardKey: 'Kyurem (White)-646', variant: 'White' },
+      { cardKey: 'Kyurem-646' },
+      { cardKey: 'Kyurem (Black)-646', variant: 'Black' },
+      { cardKey: 'Zekrom-644' },
     ],
   },
+    {
+    id: 'apple',
+    name: 'An Applin a Day',
+    description: 'Collect Applin and all of its Evolutions and Forms',
+    showIcons: true,
+    requiredCards: [
+      { cardKey: 'Applin-840' },
+      { cardKey: 'Flapple-841' },
+      { cardKey: 'GMax Flapple-841', variant: 'GMax' },
+      { cardKey: 'Appletun-842' },  
+      { cardKey: 'GMax Appletun-842', variant: 'GMax' },  
+      { cardKey: 'Dipplin-1011' },  
+      { cardKey: 'Hydrapple-1019' },  
+    ],
+  },
+
+//   {
+//     id: 'terastal-master',
+//     name: 'Terastal Master',
+//     description: 'Collect all forms of Terapagos.',
+//     showIcons: true,
+//     requiredCards: [
+//       { cardKey: 'Terapagos-1024' },
+//       { cardKey: 'Terapagos (Terastal)-1024', variant: 'Terastal' },
+//       { cardKey: 'Terapagos (Stellar)-1024', variant: 'Stellar' },
+//     ],
+//   },
   {
     id: 'legendary-birds',
     name: 'Uno, Dos, Tres',
@@ -51,7 +158,6 @@ export const achievements: Achievement[] = [
       { cardKey: 'Articuno (Galar)-144', variant: 'Galar' },
       { cardKey: 'Zapdos (Galar)-145', variant: 'Galar' },
       { cardKey: 'Moltres (Galar)-146', variant: 'Galar' },
-    //   { cardKey: 'Terapagos (Stellar)-1024', variant: 'Stellar', },
     ],
   },
   {
@@ -284,15 +390,15 @@ export const achievements: Achievement[] = [
       targetCount: 10,
     },
   },
-  {
-    id: 'kanto-collector',
-    name: 'Kanto Completionist',
-    description: 'Collect all Pokémon cards from the Kanto region.',
-    showIcons: false,
-    collectionGoal: {
-      property: 'region',
-      value: 'Kanto',
-      targetCount: 151
-    },
-  },
+//   {
+//     id: 'kanto-collector',
+//     name: 'Kanto Completionist',
+//     description: 'Collect all Pokémon cards from the Kanto region.',
+//     showIcons: false,
+//     collectionGoal: {
+//       property: 'region',
+//       value: 'Kanto',
+//       targetCount: 151
+//     },
+//   },
 ];

@@ -439,6 +439,14 @@ export const CardPackOpener: React.FC<CardPackOpenerProps> = ({ curatedPack }) =
           />
           {opening ? 'Opening...' : 'Open Pack'}
         </button>
+                <button
+  onClick={() => setShowAchievements(true)}
+  className="font-bold flex gap-2 items-center cursor-pointer bg-gradient-to-br from-blue-400 to-blue-600 text-white text-md px-4 py-2 rounded-xl shadow-md hover:shadow-lg hover:from-blue-300 hover:to-blue-500 active:from-blue-500 active:to-blue-700 transition-all duration-200 focus:ring-2 focus:ring-[#8c9ca4] hover:scale-105 active:scale-95"
+>
+  <Image src='/icons/badge.png' alt='badge' width={20} height={20} className=''/>
+
+  Achievements
+</button>
         <button onClick={handleResetClick} 
         className="bg-gradient-to-br from-red-600 to-red-800 hover:from-red-500 hover:to-red-700 active:from-red-700 active:to-red-900 text-white font-bold py-2 px-4 rounded-2xl cursor-pointer shadow-lg hover:shadow-xl border border-red-700 flex gap-2 items-center transform transition-all duration-200 hover:scale-105 active:scale-95">Reset Collection</button>
       </div>
@@ -675,12 +683,7 @@ export const CardPackOpener: React.FC<CardPackOpenerProps> = ({ curatedPack }) =
           <Image src='/dex.png' alt='dex' width={20} height={20} className='invert'/>
           View Card Dex
         </button>
-        <button
-  onClick={() => setShowAchievements(true)}
-  className="cursor-pointer bg-gradient-to-br from-blue-400 to-blue-600 text-white font-semibold text-md px-4 py-2 rounded-lg shadow-md hover:shadow-lg hover:from-blue-300 hover:to-blue-500 active:from-blue-500 active:to-blue-700 transition-all duration-200 focus:ring-2 focus:ring-[#8c9ca4]"
->
-  Achievements
-</button>
+
       </div>
  <AnimatePresence>
       {showDex && (
@@ -745,6 +748,7 @@ export const CardPackOpener: React.FC<CardPackOpenerProps> = ({ curatedPack }) =
                   className={`bg-gradient-to-br from-white to-gray-200 p-2 rounded-full shadow-md hover:shadow-lg transform transition-all duration-200 hover:scale-105 active:scale-95 focus:ring-2 focus:ring-[#8c9ca4] focus:outline-none ${!collectedCards[selectedCard].isShiny ? 'opacity-50 cursor-not-allowed inset-shadow-sm inset-shadow-[#8c9ca4]' : 'cursor-pointer'}`}
                   aria-label={isShinyToggled ? 'Switch to regular form' : 'Switch to shiny form'}
                   title={isShinyToggled ? 'Show regular form' : 'Show shiny form'}
+                  disabled={!selectedCard || !collectedCards[selectedCard] || !collectedCards[selectedCard].isShiny}
                 >
                   <Image
                     src={`/icons/Shiny${isShinyToggled ? 'Active' : ''}.png`}
