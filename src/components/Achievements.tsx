@@ -56,13 +56,12 @@ interface PopupState {
   visible: boolean;
   achievementId: string | null;
   position: { x: number; y: number };
-  columns: number;
 }
 
 export default function Achievements({ showAchievements, setShowAchievements, collectedCards }: AchievementsProps) {
   const modalContentRef = useRef<HTMLDivElement>(null);
   const [toasts, setToasts] = useState<Toast[]>([]);
-  const [popup, setPopup] = useState<PopupState>({ visible: false, achievementId: null, position: { x: 0, y: 0 }, columns: 3 });
+  const [popup, setPopup] = useState<PopupState>({ visible: false, achievementId: null, position: { x: 0, y: 0 } });
   const [prevCompleted, setPrevCompleted] = useState<Set<string>>(() => {
     if (typeof window !== 'undefined') {
       const saved = localStorage.getItem('completedAchievements');
@@ -154,31 +153,18 @@ export default function Achievements({ showAchievements, setShowAchievements, co
     if (!achievement.showIcons) return;
     e.preventDefault();
     const rect = (e.currentTarget as HTMLElement).getBoundingClientRect();
-    const viewportWidth = window.innerWidth;
-    const maxPopupWidth = 600;
-    const cardCount = getRepresentativeCards(achievement).length;
-    const columns = cardCount < 10 ? 3 : cardCount <= 15 ? 5 : cardCount <= 20 ? 7 : 10;
-    const estimatedWidth = columns * (48 + 16);
-    const popupWidth = Math.min(estimatedWidth, maxPopupWidth);
-    let xPos = rect.left;
-
-    if (xPos + popupWidth > viewportWidth) {
-      xPos = Math.max(0, viewportWidth - popupWidth - 8);
-    }
-
     setPopup({
       visible: true,
       achievementId: achievement.id,
       position: {
-        x: xPos,
-        y: rect.top + rect.height + 8,
+        x: rect.left,
+        y: rect.top + rect.height, // Add small gap below the box
       },
-      columns,
     });
   };
 
   const handleInteractionEnd = () => {
-    setPopup({ visible: false, achievementId: null, position: { x: 0, y: 0 }, columns: 3 });
+    setPopup({ visible: false, achievementId: null, position: { x: 0, y: 0 } });
   };
 
   useEffect(() => {
@@ -251,7 +237,7 @@ export default function Achievements({ showAchievements, setShowAchievements, co
                   return completed >= total;
                 }).length} of {achievements.length} achievements.
               </p>
-              <div className="grid grid-cols-3 gap-2">
+              <div className="grid grid-cols-2 gap-2">
                 {achievements.map(achievement => {
                   const { completed, total } = getProgress(achievement);
                   const isComplete = completed >= total;
@@ -308,7 +294,7 @@ export default function Achievements({ showAchievements, setShowAchievements, co
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.8 }}
             transition={{ duration: 0.2 }}
-            className="fixed bg-[#E4F1F6] text-[#2A3F55] rounded-lg shadow-lg p-4 z-60 max-w-[600px] border border-[#2A3F55]/20 max-h-[400px] overflow-y-auto"
+            className="fixed bg-[#E4F1F6] text-[#2A3F55] rounded-lg shadow-lg p-4 z-60 w-auto"
             style={{ top: popup.position.y, left: popup.position.x }}
           >
             {(() => {
@@ -316,7 +302,7 @@ export default function Achievements({ showAchievements, setShowAchievements, co
               if (!achievement || !achievement.showIcons) return null;
               const representativeCards = getRepresentativeCards(achievement);
               return (
-                <div className={`grid grid-cols-${popup.columns} gap-2`}>
+                <div className={`grid ${representativeCards.length < 10 ? 'grid-cols-3' : representativeCards.length === 10 ? 'grid-cols-5' : 'grid-cols-10'} gap-2`}>
                   {representativeCards.map(({ fullKey, card, cardData, isShiny }) => {
                     const isOwned = card && (isShiny === undefined || card.isShiny === isShiny) && card.count >= 1;
                     return (
