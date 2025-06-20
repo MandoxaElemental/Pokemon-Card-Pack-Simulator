@@ -1293,7 +1293,7 @@ export const allCards: Card[] = [
   { name: 'Carkol', number: 838, type: ['Rock', 'Fire'], isShiny: false, rarity: 'Uncommon', move: 'Flame Charge' },
   { name: 'Coalossal', number: 839, type: ['Rock', 'Fire'], isShiny: false, rarity: 'Rare', move: 'Tar Shot' },
   { name: 'Applin', number: 840, type: ['Grass', 'Dragon'], isShiny: false, rarity: 'Common', move: 'Withdraw' },
-  { name: 'Flapple', number: 841Added, type: ['Grass', 'Dragon'], isShiny: false, rarity: 'Rare', move: 'Grav Apple' },
+  { name: 'Flapple', number: 841, type: ['Grass', 'Dragon'], isShiny: false, rarity: 'Rare', move: 'Grav Apple' },
   { name: 'Appletun', number: 842, type: ['Grass', 'Dragon'], isShiny: false, rarity: 'Rare', move: 'Apple Acid' },
   { name: 'Silicobra', number: 843, type: ['Ground'], isShiny: false, rarity: 'Common', move: 'Sand Attack' },
   { name: 'Sandaconda', number: 844, type: ['Ground'], isShiny: false, rarity: 'Uncommon', move: 'Sand Tomb' },
