@@ -833,7 +833,7 @@ export const allCards: Card[] = [
   { name: "Basculin (Blue-Stripe)", number: 550, variant: "Blue", type: ["Water"], isShiny: false, rarity: "Uncommon", move: "Aqua Jet" },
   { name: 'Sandile', number: 551, type: ['Ground', 'Dark'], isShiny: false, rarity: 'Uncommon', move: 'Bite' },
   { name: 'Krokorok', number: 552, type: ['Ground', 'Dark'], isShiny: false, rarity: 'Rare', move: 'Crunch' },
-  { name: 'Krokodile', number: 553, type: ['Ground', 'Dark'], isShiny: false, rarity: 'Epic', move: 'Earthquake' },
+  { name: 'Krookodile', number: 553, type: ['Ground', 'Dark'], isShiny: false, rarity: 'Epic', move: 'Earthquake' },
   { name: 'Darumaka', number: 554, type: ['Fire'], isShiny: false, rarity: 'Common', move: 'Fire Punch' },
   { name: 'Darmanitan', number: 555, type: ['Fire'], isShiny: false, rarity: 'Rare', move: 'Flare Blitz' },
   { name: "Darmanitan Zen", number: 555, variant: "Zen", type: ["Fire", "Psychic"], isShiny: false, rarity: "Rare", move: "Psychic" },

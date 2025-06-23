@@ -222,6 +222,15 @@ body {
   animation-delay: 1.3s;
 }
 
+@font-face{
+  font-family: 'Unown';
+  src: URL('/fonts/Unown.tff') format('truetype')
+}
+
+.unown-font{
+  font-family: 'Unown';
+}
+
 @keyframes twinkle {
   0% { opacity: 0; transform: scale(0.8); }
   50% { opacity: 0.9; transform: scale(1.2); }
@@ -292,4 +301,8 @@ background: linear-gradient(180deg, rgba(228, 241, 246, 1) 0%, rgba(228, 241, 24
 .main-background-dark {
   background: #1E2A3C;
   background: linear-gradient(180deg, rgba(30, 42, 60, 1) 0%, rgba(40, 52, 70, 1) 20%, rgba(40, 52, 70, 1) 80%, rgba(30, 42, 60, 1) 100%);
+}
+
+.scaled {
+  transform: scale(0.5)
 }

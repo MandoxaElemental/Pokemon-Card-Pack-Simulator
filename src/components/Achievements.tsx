@@ -265,7 +265,7 @@ export default function Achievements({ showAchievements, setShowAchievements, co
                         </div>
                         <div className="flex-1">
                           <div className="flex justify-between items-center">
-                            <h4 className="text-md font-bold">{achievement.name}</h4>
+                            <h4 className={`text-md font-bold ${achievement.id === 'unown' ? 'unown-font' : ''}`}>{achievement.name}</h4>
                             <span className="text-sm font-semibold">
                               {completed}/{total} {isComplete ? '✓' : ''}
                             </span>

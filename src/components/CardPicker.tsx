@@ -482,7 +482,7 @@ export const CardPackOpener: React.FC<CardPackOpenerProps> = ({ curatedPack }) =
         </div>
       )}
 
-      <div className={`${showWaveCards && cards.length === 0 ? 'hidden' : 'relative'} min-w-[1168px] h-[320px] grid grid-cols-5 gap-4 perspective text-white rounded-lg inset-shadow-sm inset-shadow-[#8c9ca4] p-3`}>
+      <div className={`${showWaveCards && cards.length === 0 ? 'hidden' : 'relative'} w-auto md:min-w-[1168px] h-auto md:h-[320px] grid grid-cols-3 md:grid-cols-5 gap-4 perspective text-white rounded-lg inset-shadow-sm inset-shadow-[#8c9ca4] p-3`}>
         {cards.map((card, idx) => {
           const imagePath = card.variant ? `${card.isShiny ? '/shiny' : '/home-icons'}/${card.number}-${card.variant}.png` : `${card.isShiny ? '/shiny' : '/home-icons'}/${card.number}.png`;
           const cardKey = `${card.name}-${card.number}${card.variant ? `-${card.variant}` : ''}`;
@@ -495,7 +495,7 @@ export const CardPackOpener: React.FC<CardPackOpenerProps> = ({ curatedPack }) =
           return (
             <motion.div
               key={`card-${idx}-${cardKey}`}
-              className="w-54 h-74 relative"
+              className="w-54 h-74 relative md:scaled"
               initial={{ y: 100, opacity: 0 }}
               animate={{ y: entered[idx] ? 0 : 100, opacity: entered[idx] ? 1 : 0, rotate: shaking[idx] && !revealed[idx] ? [0, -5, 5, -5, 5, 0] : 0 }}
               transition={{ duration: shaking[idx] && !revealed[idx] ? 0.5 : 0.5, delay: idx * 0.1 }}
