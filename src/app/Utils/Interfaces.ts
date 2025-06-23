@@ -1216,7 +1216,7 @@ export const allCards: Card[] = [
   { name: 'Togedemaru', number: 777, type: ['Electric', 'Steel'], isShiny: false, rarity: 'Uncommon', move: 'Zing Zap' },
     { name: "Geodude (Alola)", number: 74, variant: "Alola", type: ["Rock", "Electric"], isShiny: false, rarity: "Uncommon", move: "Thunder Punch" },
   { name: "Graveler (Alola)", number: 75, variant: "Alola", type: ["Rock", "Electric"], isShiny: false, rarity: "Rare", move: "Thunderbolt" },
-  { name: "Golem (Alola)", number: 76, variant: "Alola", type: ["Rock", "Electric"], isShiny: false, rarity: "Epic", move: "Wild Charge" },
+  { name: "arceus (Alola)", number: 76, variant: "Alola", type: ["Rock", "Electric"], isShiny: false, rarity: "Epic", move: "Wild Charge" },
 
   { name: 'Mimikyu', number: 778, type: ['Ghost', 'Fairy'], isShiny: false, rarity: 'Rare', move: 'Shadow Sneak' },
   { name: 'Bruxish', number: 779, type: ['Water', 'Psychic'], isShiny: false, rarity: 'Rare', move: 'Psychic Fangs' },

@@ -152,19 +152,19 @@ export default function Achievements({ showAchievements, setShowAchievements, co
     return [];
   };
 
-  const handleInteraction = (e: React.MouseEvent | React.TouchEvent, achievement: Achievement) => {
-    if (!achievement.showIcons) return;
-    e.preventDefault();
-    const rect = (e.currentTarget as HTMLElement).getBoundingClientRect();
-    setPopup({
-      visible: true,
-      achievementId: achievement.id,
-      position: {
-        x: rect.left,
-        y: rect.top + rect.height, // Add small gap below the box
-      },
-    });
-  };
+ const handleInteraction = (e: React.MouseEvent | React.TouchEvent, achievement: Achievement) => {
+  if (!achievement.showIcons) return;
+  e.preventDefault();
+  const rect = (e.currentTarget as HTMLElement).getBoundingClientRect();
+  setPopup({
+    visible: true,
+    achievementId: achievement.id,
+    position: {
+      x: rect.right + 8,
+      y: rect.top,
+    },
+  });
+};
 
   const handleInteractionEnd = () => {
     setPopup({ visible: false, achievementId: null, position: { x: 0, y: 0 } });
@@ -206,12 +206,24 @@ export default function Achievements({ showAchievements, setShowAchievements, co
     <div className="relative">
       <AnimatePresence>
         {showAchievements && (
+             <motion.div
+                      initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.3 }}
+                className="fixed inset-0 bg-black/50 flex justify-center items-center z-50 p-6"
+                onClick={(e) => {
+                      if (modalContentRef.current && !modalContentRef.current.contains(e.target as Node)) {
+                        setShowAchievements(false);
+                      }
+                    }}
+              >
           <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.3 }}
-            className="fixed inset-0 bg-black/50 flex justify-center items-center z-50 p-6"
+            initial={{ x: '-100%' }}
+            animate={{ x: 0 }}
+            exit={{ x: '-100%' }}
+            transition={{ duration: 0.3, ease: [0.445, 0.05, 0.55, 0.95] }}
+            className="fixed top-0 left-0 h-full bg-[#E4F1F6] rounded-r-lg max-w-96 w-full p-6 text-[#2A3F55] z-50 overflow-y-auto"
             onClick={(e) => {
               if (modalContentRef.current && !modalContentRef.current.contains(e.target as Node)) {
                 setShowAchievements(false);
@@ -220,11 +232,7 @@ export default function Achievements({ showAchievements, setShowAchievements, co
           >
             <motion.div
               ref={modalContentRef}
-              initial={{ scale: 0.8, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.8, opacity: 0 }}
-              transition={{ duration: 0.3, ease: [0.445, 0.05, 0.55, 0.95] }}
-              className="bg-[#E4F1F6] rounded-lg max-w-3xl w-full p-6 text-[#2A3F55] relative overflow-y-auto max-h-[90vh]"
+              className="relative"
             >
               <button
                 onClick={() => setShowAchievements(false)}
@@ -240,7 +248,7 @@ export default function Achievements({ showAchievements, setShowAchievements, co
                   return completed >= total;
                 }).length} of {achievements.length} achievements.
               </p>
-              <div className="grid grid-cols-2 gap-2">
+              <div className="grid grid-cols-1 gap-2">
                 {achievements.map(achievement => {
                   const { completed, total } = getProgress(achievement);
                   const isComplete = completed >= total;
@@ -288,6 +296,7 @@ export default function Achievements({ showAchievements, setShowAchievements, co
               </div>
             </motion.div>
           </motion.div>
+              </motion.div>
         )}
       </AnimatePresence>
       <AnimatePresence>
@@ -309,12 +318,12 @@ export default function Achievements({ showAchievements, setShowAchievements, co
                   {representativeCards.map(({ fullKey, card, cardData, isShiny }) => {
                     const isOwned = card && (isShiny === undefined || card.isShiny === isShiny) && card.count >= 1;
                     return (
-                      <div key={fullKey} className="flex flex-col items-center">
+                      <div key={fullKey} className="w-14 flex flex-col items-center">
                         <div className="w-12 h-12 relative">
                           <Image
                             src={
                               cardData
-                                ? `${isOwned && (isShiny || card?.isShiny) ? '/shiny' : '/home-icons'}/${cardData.number}${cardData.variant ? `-${cardData.variant}` : ''}.png`
+                                ? `${isOwned && (isShiny && card.isShiny) ? '/shiny' : '/home-icons'}/${cardData.number}${cardData.variant ? `-${cardData.variant}` : ''}.png`
                                 : '/home-icons/placeholder.png'
                             }
                             alt={cardData?.name || 'Unknown'}
