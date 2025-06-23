@@ -140,7 +140,10 @@ export default function Achievements({ showAchievements, setShowAchievements, co
         const fullKey = `${req.cardKey}${req.variant ? `-${req.variant}` : ''}`;
         const card = collectedCards[fullKey];
         const cardData = card?.card || allCards.find(c => {
-          const [name, number] = req.cardKey.split('-');
+          const lastHyphenIndex = req.cardKey.lastIndexOf('-');
+          if (lastHyphenIndex === -1) return false;
+          const name = req.cardKey.slice(0, lastHyphenIndex);
+          const number = req.cardKey.slice(lastHyphenIndex + 1);
           return c.name === name && c.number === parseInt(number) && (req.variant ? c.variant === req.variant : !c.variant);
         });
         return { fullKey, card, cardData, isShiny: req.isShiny };
@@ -321,7 +324,7 @@ export default function Achievements({ showAchievements, setShowAchievements, co
                         </div>
                         <span className="text-xs text-center">
                           {cardData?.name || 'Unknown'}
-                          {isShiny ? ' ✦' : ''} ({card?.count || 0})
+                          {isShiny ? ' ✦' : ''}
                         </span>
                       </div>
                     );

@@ -57,19 +57,19 @@ const modalContentRef = useRef<HTMLDivElement>(null);
       <div className="flex gap-2 items-center">
         <button
           onClick={() => setShowModal(true)}
-          className="h-10 w-10 bg-gradient-to-br from-white to-gray-200 hover:from-gray-100 hover:to-gray-300 active:from-gray-300 active:to-gray-400 text-black font-bold rounded-full cursor-pointer shadow-lg hover:shadow-xl border border-gray-300 flex items-center justify-center transform transition-all duration-200 hover:scale-105 active:scale-95 text-2xl"
+          className="h-10 w-10 bg-gradient-to-br from-white to-gray-200 hover:from-gray-100 hover:to-gray-300 active:from-gray-300 active:to-gray-400 text-black font-bold rounded-full cursor-pointer drop-shadow-sm/25 hover:shadow-xl border border-gray-300 flex items-center justify-center transform transition-all duration-200 hover:scale-105 active:scale-95 text-2xl"
         >
           ?
         </button>
         <button
           onClick={toggleMute}
-          className={`h-10 w-10 bg-gradient-to-br from-white to-gray-200 hover:from-gray-100 hover:to-gray-300 active:from-gray-300 active:to-gray-400 text-black font-bold rounded-full cursor-pointer shadow-lg hover:shadow-xl border border-gray-300 flex items-center justify-center transform transition-all duration-200 hover:scale-105 active:scale-95 ${isMuted ? 'inset-shadow-xs inset-shadow-[#8c9ca4]' : ''}`}
+          className={`h-10 w-10 bg-gradient-to-br from-white to-gray-200 hover:from-gray-100 hover:to-gray-300 active:from-gray-300 active:to-gray-400 text-black font-bold rounded-full cursor-pointer drop-shadow-sm/25 hover:shadow-xl border border-gray-300 flex items-center justify-center transform transition-all duration-200 hover:scale-105 active:scale-95 ${isMuted ? 'inset-shadow-xs inset-shadow-[#8c9ca4]' : ''}`}
         >
           <Image src={isMuted ? '/icons/mute.svg' : '/icons/unmute.svg'} alt={isMuted ? 'Muted' : 'Unmuted'} width={30} height={30} />
         </button>
         <Link href="https://x.com/GReinares" target="_blank" rel="noopener noreferrer">
           <button
-            className="h-10 w-10 bg-gradient-to-br from-white to-gray-200 hover:from-gray-100 hover:to-gray-300 active:from-gray-300 active:to-gray-400 text-black font-bold rounded-full cursor-pointer shadow-lg hover:shadow-xl border border-gray-300 flex items-center justify-center transform transition-all duration-200 hover:scale-105 active:scale-95 text-2xl"
+            className="h-10 w-10 bg-gradient-to-br from-white to-gray-200 hover:from-gray-100 hover:to-gray-300 active:from-gray-300 active:to-gray-400 text-black font-bold rounded-full cursor-pointer drop-shadow-sm/25 hover:shadow-xl border border-gray-300 flex items-center justify-center transform transition-all duration-200 hover:scale-105 active:scale-95 text-2xl"
           >
             <Image src='/icons/twitter-x.svg' alt='x' width={20} height={20} />
           </button>
@@ -80,7 +80,7 @@ const modalContentRef = useRef<HTMLDivElement>(null);
             alt="Buy Me a Coffee at ko-fi.com"
             width={140}
             height={36}
-            className="hover:opacity-80 shadow-lg rounded-xl transform transition-all duration-200 hover:scale-105 active:scale-95 text-2xl"
+            className="hover:opacity-80 drop-shadow-sm/25 rounded-xl transform transition-all duration-200 hover:scale-105 active:scale-95 text-2xl"
             style={{ border: '0px', height: '36px' }}
           />
         </Link>

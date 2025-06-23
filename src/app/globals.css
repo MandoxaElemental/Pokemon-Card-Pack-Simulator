@@ -224,7 +224,7 @@ body {
 
 @font-face{
   font-family: 'Unown';
-  src: URL('/fonts/Unown.tff') format('truetype')
+  src: url('/Unown.tff') format('truetype')
 }
 
 .unown-font{

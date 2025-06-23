@@ -389,8 +389,8 @@ export const CardPackOpener: React.FC<CardPackOpenerProps> = ({ curatedPack }) =
         <div className="rounded-lg inset-shadow-sm inset-shadow-[#8c9ca4] p-3">
         <p className="mb-6">Resetting your collection will delete all your collected cards and progress. This action cannot be undone.</p>
         <div className="flex justify-end gap-4">
-          <button onClick={() => setShowResetModal(false)} className="bg-gradient-to-br from-gray-600 to-gray-800 hover:from-gray-500 hover:to-gray-700 active:from-gray-700 active:to-gray-900 text-white font-bold py-2 px-4 rounded-2xl cursor-pointer shadow-lg hover:shadow-xl border border-gray-700 flex gap-2 items-center transform transition-all duration-200 hover:scale-105 active:scale-95">Cancel</button>
-          <button onClick={clearStorage} className="bg-gradient-to-br from-red-600 to-red-800 hover:from-red-500 hover:to-red-700 active:from-red-700 active:to-red-900 text-white font-bold py-2 px-4 rounded-2xl cursor-pointer shadow-lg hover:shadow-xl border border-red-700 flex gap-2 items-center transform transition-all duration-200 hover:scale-105 active:scale-95">Confirm</button>
+          <button onClick={() => setShowResetModal(false)} className="bg-gradient-to-br from-gray-600 to-gray-800 hover:from-gray-500 hover:to-gray-700 active:from-gray-700 active:to-gray-900 text-white font-bold py-2 px-4 rounded-2xl cursor-pointer drop-shadow-sm/25 hover:shadow-xl border border-gray-700 flex gap-2 items-center transform transition-all duration-200 hover:scale-105 active:scale-95">Cancel</button>
+          <button onClick={clearStorage} className="bg-gradient-to-br from-red-600 to-red-800 hover:from-red-500 hover:to-red-700 active:from-red-700 active:to-red-900 text-white font-bold py-2 px-4 rounded-2xl cursor-pointer drop-shadow-sm/25 hover:shadow-xl border border-red-700 flex gap-2 items-center transform transition-all duration-200 hover:scale-105 active:scale-95">Confirm</button>
         </div>
         </div>
       </div>
@@ -422,7 +422,7 @@ export const CardPackOpener: React.FC<CardPackOpenerProps> = ({ curatedPack }) =
             active:from-gray-300 active:to-gray-400
             text-black font-bold py-2 px-4 rounded-2xl
             cursor-pointer
-            shadow-lg hover:shadow-xl
+            drop-shadow-sm/25 hover:shadow-xl
             border border-gray-300
             flex gap-2 items-center
             transform transition-all duration-200
@@ -441,14 +441,14 @@ export const CardPackOpener: React.FC<CardPackOpenerProps> = ({ curatedPack }) =
         </button>
                 <button
   onClick={() => setShowAchievements(true)}
-  className="font-bold flex gap-2 items-center cursor-pointer bg-gradient-to-br from-blue-400 to-blue-600 text-white text-md px-4 py-2 rounded-xl shadow-md hover:shadow-lg hover:from-blue-300 hover:to-blue-500 active:from-blue-500 active:to-blue-700 transition-all duration-200 focus:ring-2 focus:ring-[#8c9ca4] hover:scale-105 active:scale-95"
+  className="font-bold flex gap-2 items-center cursor-pointer bg-gradient-to-br from-blue-400 to-blue-600 text-white text-md px-4 py-2 rounded-xl shadow-md drop-shadow-sm/25 hover:from-blue-300 hover:to-blue-500 active:from-blue-500 active:to-blue-700 transition-all duration-200 focus:ring-2 focus:ring-[#8c9ca4] hover:scale-105 active:scale-95"
 >
   <Image src='/icons/badge.png' alt='badge' width={20} height={20} className=''/>
 
   Achievements
 </button>
         <button onClick={handleResetClick} 
-        className="bg-gradient-to-br from-red-600 to-red-800 hover:from-red-500 hover:to-red-700 active:from-red-700 active:to-red-900 text-white font-bold py-2 px-4 rounded-2xl cursor-pointer shadow-lg hover:shadow-xl border border-red-700 flex gap-2 items-center transform transition-all duration-200 hover:scale-105 active:scale-95">Reset Collection</button>
+        className="bg-gradient-to-br from-red-600 to-red-800 hover:from-red-500 hover:to-red-700 active:from-red-700 active:to-red-900 text-white font-bold py-2 px-4 rounded-2xl cursor-pointer drop-shadow-sm/25 hover:shadow-xl border border-red-700 flex gap-2 items-center transform transition-all duration-200 hover:scale-105 active:scale-95">Reset Collection</button>
       </div>
 
       {showResetModal && <ResetConfirmationModal />}
@@ -542,7 +542,7 @@ export const CardPackOpener: React.FC<CardPackOpenerProps> = ({ curatedPack }) =
                     {revealed[idx] && (
                       <>
                         {isNewCard[idx] && (
-                          <div className="absolute top-3 left-3 bg-white text-slate-400 border-slate-400 text-xs font-bold px-2 py-1 z-30 rounded-full shadow-lg">
+                          <div className="absolute top-3 left-3 bg-white text-slate-400 border-slate-400 text-xs font-bold px-2 py-1 z-30 rounded-full drop-shadow-sm/25">
                             NEW
                           </div>
                         )}
@@ -678,7 +678,7 @@ export const CardPackOpener: React.FC<CardPackOpenerProps> = ({ curatedPack }) =
         <div className="text-lg font-semibold">Packs Opened: {packsOpened}</div>
         <button
           onClick={() => { setSelectedCard(null); setShowDex(true); }}
-          className="bg-gradient-to-br from-white to-gray-200 hover:from-gray-100 hover:to-gray-300 active:from-gray-300 active:to-gray-400 text-black font-bold py-2 px-4 rounded-2xl cursor-pointer shadow-lg hover:shadow-xl border border-gray-300 flex gap-2 items-center transform transition-all duration-200 hover:scale-105 active:scale-95"
+          className="bg-gradient-to-br from-white to-gray-200 hover:from-gray-100 hover:to-gray-300 active:from-gray-300 active:to-gray-400 text-black font-bold py-2 px-4 rounded-2xl cursor-pointer drop-shadow-sm/25 hover:shadow-xl border border-gray-300 flex gap-2 items-center transform transition-all duration-200 hover:scale-105 active:scale-95"
         >
           <Image src='/dex.png' alt='dex' width={20} height={20} className='invert'/>
           View Card Dex
@@ -745,7 +745,7 @@ export const CardPackOpener: React.FC<CardPackOpenerProps> = ({ curatedPack }) =
             <div>
                 <button
                   onClick={() => setIsShinyToggled(!isShinyToggled)}
-                  className={`bg-gradient-to-br from-white to-gray-200 p-2 rounded-full shadow-md hover:shadow-lg transform transition-all duration-200 hover:scale-105 active:scale-95 focus:ring-2 focus:ring-[#8c9ca4] focus:outline-none ${!collectedCards[selectedCard].isShiny ? 'opacity-50 cursor-not-allowed inset-shadow-sm inset-shadow-[#8c9ca4]' : 'cursor-pointer'}`}
+                  className={`bg-gradient-to-br from-white to-gray-200 p-2 rounded-full shadow-md hover:drop-shadow-sm/25 transform transition-all duration-200 hover:scale-105 active:scale-95 focus:ring-2 focus:ring-[#8c9ca4] focus:outline-none ${!collectedCards[selectedCard].isShiny ? 'opacity-50 cursor-not-allowed inset-shadow-sm inset-shadow-[#8c9ca4]' : 'cursor-pointer'}`}
                   aria-label={isShinyToggled ? 'Switch to regular form' : 'Switch to shiny form'}
                   title={isShinyToggled ? 'Show regular form' : 'Show shiny form'}
                   disabled={!selectedCard || !collectedCards[selectedCard] || !collectedCards[selectedCard].isShiny}
@@ -819,7 +819,7 @@ export const CardPackOpener: React.FC<CardPackOpenerProps> = ({ curatedPack }) =
                       <button
                         key={region}
                         onClick={() => setCurrentRegion(region as keyof typeof regionRanges)}
-                        className={`cursor-pointer px-3 py-1 rounded-lg transform transition-all duration-200 hover:scale-105 active:scale-95 shadow-md hover:shadow-lg ${
+                        className={`cursor-pointer px-3 py-1 rounded-lg transform transition-all duration-200 hover:scale-105 active:scale-95 shadow-md hover:drop-shadow-sm/25 ${
                           currentRegion === region
                             ? 'bg-gradient-to-br from-blue-400 to-blue-600 hover:from-blue-300 hover:to-blue-500 active:from-blue-500 active:to-blue-700 text-white border border-blue-500 inset-shadow-xs inset-shadow-blue-700'
                             : 'bg-gradient-to-br from-white to-gray-200 hover:from-gray-100 hover:to-gray-300 active:from-gray-300 active:to-gray-400'
@@ -837,7 +837,7 @@ export const CardPackOpener: React.FC<CardPackOpenerProps> = ({ curatedPack }) =
                       <button
                         key={rarity}
                         onClick={() => setCurrentRarity(rarity)}
-                        className={`cursor-pointer px-3 py-1 rounded-lg transform transition-all duration-200 hover:scale-105 active:scale-95 shadow-md hover:shadow-lg ${
+                        className={`cursor-pointer px-3 py-1 rounded-lg transform transition-all duration-200 hover:scale-105 active:scale-95 shadow-md hover:drop-shadow-sm/25 ${
                           currentRarity === rarity
                             ? 'bg-gradient-to-br from-blue-400 to-blue-600 hover:from-blue-300 hover:to-blue-500 active:from-blue-500 active:to-blue-700 text-white border border-blue-500 inset-shadow-xs inset-shadow-blue-700'
                             : 'bg-gradient-to-br from-white to-gray-200 hover:from-gray-100 hover:to-gray-300 active:from-gray-300 active:to-gray-400'
@@ -855,7 +855,7 @@ export const CardPackOpener: React.FC<CardPackOpenerProps> = ({ curatedPack }) =
                       <button
                         key={type}
                         onClick={() => setCurrentType(type)}
-                        className={`cursor-pointer px-3 py-1 rounded-lg transform transition-all duration-200 hover:scale-105 active:scale-95 shadow-md hover:shadow-lg ${
+                        className={`cursor-pointer px-3 py-1 rounded-lg transform transition-all duration-200 hover:scale-105 active:scale-95 shadow-md hover:drop-shadow-sm/25 ${
                           currentType === type
                             ? 'bg-gradient-to-br from-blue-400 to-blue-600 hover:from-blue-300 hover:to-blue-500 active:from-blue-500 active:to-blue-700 text-white border border-blue-500 inset-shadow-xs inset-shadow-blue-700'
                             : 'bg-gradient-to-br from-white to-gray-200 hover:from-gray-100 hover:to-gray-300 active:from-gray-300 active:to-gray-400'
