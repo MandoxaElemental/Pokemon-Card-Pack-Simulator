@@ -193,6 +193,16 @@ export const themedPacks: BoosterPack[] = [
       variantRegions.includes('Paldea')
     );
   },
+},
+{
+  id: 'conquest',
+  name: 'Conquest',
+  filter: (card: Card) => {
+   const allowedNumbers = [133, 134, 135, 136, 196, 197, 470, 471, 280, 281, 282, 475, 129, 130, 172, 25, 26, 194, 195, 174, 39, 40, 41, 42, 169, 396, 397, 398, 399, 400, 543, 544, 545, 403, 404, 405, 607, 608, 609, 524, 525, 526, 548, 549, 179, 180, 181, 546, 547, 447, 448, 433, 358, 23, 24, 204, 205, 52, 53, 363, 364, 365, 574, 575, 576, 551, 552, 553, 355, 356, 477, 517, 518, 522, 523, 147, 148, 149, 246, 247, 248, 374, 375, 376, 443, 444, 445, 453, 454, 633, 634, 635, 361, 362, 478, 572, 573, 66, 67, 68, 532, 533, 534, 613, 614, 501, 502, 503, 4, 5, 6, 92, 93, 94, 390, 391, 392, 495, 496, 497, 498, 499, 500, 540, 541, 542, 63, 64, 65, 252, 253, 254, 393, 394, 395, 511, 512, 513, 514, 515, 516, 554, 555, 610, 611, 612, 595, 596, 304, 305, 306, 529, 530, 570, 571, 451, 452, 624, 625, 111, 112, 464, 410, 411, 559, 560, 425, 426, 627, 628, 347, 348, 636, 637, 95, 208, 15, 446, 143, 587, 215, 461, 200, 429, 531, 455, 442, 123, 212, 131, 639, 144, 379, 383, 483, 150, 643, 644, 493, 384];
+   return (
+     (allowedNumbers.includes(card.number) && !card.variant)
+   );
+ },
 }
 ];
 
@@ -1216,7 +1226,7 @@ export const allCards: Card[] = [
   { name: 'Togedemaru', number: 777, type: ['Electric', 'Steel'], isShiny: false, rarity: 'Uncommon', move: 'Zing Zap' },
     { name: "Geodude (Alola)", number: 74, variant: "Alola", type: ["Rock", "Electric"], isShiny: false, rarity: "Uncommon", move: "Thunder Punch" },
   { name: "Graveler (Alola)", number: 75, variant: "Alola", type: ["Rock", "Electric"], isShiny: false, rarity: "Rare", move: "Thunderbolt" },
-  { name: "arceus (Alola)", number: 76, variant: "Alola", type: ["Rock", "Electric"], isShiny: false, rarity: "Epic", move: "Wild Charge" },
+  { name: "Golem (Alola)", number: 76, variant: "Alola", type: ["Rock", "Electric"], isShiny: false, rarity: "Epic", move: "Wild Charge" },
 
   { name: 'Mimikyu', number: 778, type: ['Ghost', 'Fairy'], isShiny: false, rarity: 'Rare', move: 'Shadow Sneak' },
   { name: 'Bruxish', number: 779, type: ['Water', 'Psychic'], isShiny: false, rarity: 'Rare', move: 'Psychic Fangs' },

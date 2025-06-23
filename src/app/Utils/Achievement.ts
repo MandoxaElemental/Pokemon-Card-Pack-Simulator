@@ -237,7 +237,7 @@ requiredCards: [
   { cardKey: 'Slurpuff-685' },
   { cardKey: 'Trevenant-709' },
   { cardKey: 'Gourgeist-711' },
-  { cardKey: 'Golem (Alola)-76', variant: 'Alola' },
+  // { cardKey: 'Golem (Alola)-76', variant: 'Alola' },
 ]
 
   },
@@ -324,6 +324,7 @@ requiredCards: [
   { cardKey: 'Kabuto-140' },
   { cardKey: 'Kabutops-141' },
   { cardKey: 'Aerodactyl-142' },
+  { cardKey: 'Mega Aerodactyl-142', variant: 'Mega' },
   { cardKey: 'Lileep-345' },
   { cardKey: 'Cradily-346' },
   { cardKey: 'Anorith-347' },
@@ -539,6 +540,19 @@ requiredCards: [
       { cardKey: 'Hydrapple-1019' },  
     ],
   },
+    {
+    id: 'urshifu',
+    name: 'Two Fists',
+    description: 'Collect Kubfu and all of its Evolutions and Forms',
+    showIcons: true,
+    requiredCards: [
+      { cardKey: 'Kubfu-891' },
+      { cardKey: 'Urshifu (Single Strike)-892' },
+      { cardKey: 'GMax Urshifu (Single Strike)-892', variant: 'GMaxSingle' },
+      { cardKey: 'Urshifu (Rapid Strike)-892', variant: 'RapidStrike' },  
+      { cardKey: 'GMax Urshifu (Rapid Strike)-892', variant: 'GMaxRapid' },  
+    ],
+  },
      {
     id: 'scarlet',
     name: 'Scarlet Book',
@@ -576,6 +590,44 @@ requiredCards: [
   { cardKey: 'Iron Crown-1023' },
   { cardKey: 'Miraidon-1008' },
 ],
+  },
+
+  {
+    id: 'weather',
+    name: 'Rain or Shine',
+    description: 'Collect Pokemon who can set the Weather',
+    showIcons: true,
+    requiredCards: [
+  { cardKey: 'Vulpix-37' },
+  { cardKey: 'Ninetales-38' },
+  { cardKey: 'Torkoal-324' },
+  { cardKey: 'Mega Charizard Y-6', variant: 'MegaY' },
+  { cardKey: 'Groudon-383' },
+  { cardKey: 'Primal Groudon-383', variant: 'Primal' },
+
+  { cardKey: 'Politoed-186' },
+  { cardKey: 'Pelipper-279' },
+  { cardKey: 'Kyogre-382' },
+  { cardKey: 'Primal Kyogre-382', variant: 'Primal' },
+
+  { cardKey: 'Tyranitar-248' },
+  { cardKey: 'Mega Tyranitar-248', variant: 'Mega' },
+  { cardKey: 'Hippopotas-449' },
+  { cardKey: 'Hippowdon-450' },
+  { cardKey: 'Gigalith-526' },
+
+  { cardKey: 'Snover-459' },
+  { cardKey: 'Abomasnow-460' },
+  { cardKey: 'Mega Abomasnow-460', variant: 'Mega' },
+  { cardKey: 'Vanilluxe-584' },
+
+  { cardKey: 'Vulpix (Alola)-37', variant: 'Alola' },
+  { cardKey: 'Ninetales (Alola)-38', variant: 'Alola' },
+
+  { cardKey: 'Amaura-698' },
+  { cardKey: 'Aurorus-699' },
+]
+
   },
 
 //   {
@@ -750,6 +802,61 @@ requiredCards: [
 { cardKey: 'Steelix-208' },
   { cardKey: 'Xerneas-716', variant: 'active' },
     ],
+  },
+  {
+    id: 'dungeon',
+    name: 'Heroes & Partners',
+    description: 'Collect all Hero and Partner Pokemon',
+    showIcons: true,
+    requiredCards: [
+  { cardKey: 'Bulbasaur-1' },
+  { cardKey: 'Charmander-4' },
+  { cardKey: 'Squirtle-7' },
+  { cardKey: 'Pikachu-25' },
+  { cardKey: 'Meowth-52' },
+  { cardKey: 'Psyduck-54' },
+  { cardKey: 'Growlithe-58' },
+  { cardKey: 'Machop-66' },
+  { cardKey: 'Cubone-104' },
+  { cardKey: 'Vulpix-37' },
+  { cardKey: 'Eevee-133' },
+
+  { cardKey: 'Chikorita-152' },
+  { cardKey: 'Cyndaquil-155' },
+  { cardKey: 'Totodile-158' },
+  { cardKey: 'Pichu-172' },
+  { cardKey: 'Togepi-175' },
+  { cardKey: 'Mareep-179' },
+  { cardKey: 'Wooper-194' },
+  { cardKey: 'Teddiursa-216' },
+  { cardKey: 'Elekid-239' },
+  { cardKey: 'Phanpy-231' },
+
+  { cardKey: 'Treecko-252' },
+  { cardKey: 'Torchic-255' },
+  { cardKey: 'Mudkip-258' },
+  { cardKey: 'Skitty-300' },
+  { cardKey: 'Azurill-298' },
+  { cardKey: 'Wynaut-360' },
+
+  { cardKey: 'Turtwig-387' },
+  { cardKey: 'Chimchar-390' },
+  { cardKey: 'Piplup-393' },
+  { cardKey: 'Shinx-403' },
+  { cardKey: 'Pachirisu-417' },
+  { cardKey: 'Buneary-427' },
+  { cardKey: 'Riolu-447' },
+  { cardKey: 'Munchlax-446' },
+
+  { cardKey: 'Snivy-495' },
+  { cardKey: 'Tepig-498' },
+  { cardKey: 'Oshawott-501' },
+  { cardKey: 'Axew-610' },
+
+  { cardKey: 'Chespin-650' },
+  { cardKey: 'Fennekin-653' },
+  { cardKey: 'Froakie-656' },
+]
   },
   {
     id: 'heroes',
