@@ -44,13 +44,16 @@ export interface BoosterPack {
   name: string;
   filter: (card: Card) => boolean;
   weights?: Partial<Record<Card['rarity'], number>>;
+  carouselCards?: string[];
+  chaseCard?: string;
+  shinyChase?: boolean;
 }
 
 export const themedPacks: BoosterPack[] = [
   {
     id: 'mystery',
     name: 'Mystery',
-    filter: () => true, // All cards
+    filter: () => true,
     weights: {
       Common: 40,
       Uncommon: 25,
@@ -59,151 +62,146 @@ export const themedPacks: BoosterPack[] = [
       Legendary: 7,
       Mythical: 3,
     },
+    carouselCards: ['Mew-151', 'Rayquaza-384', 'Garchomp-445', 'Pikachu-25', 'Gholdengo-1000', 'Melmetal-809'],
+    chaseCard: 'Melmetal-809',
   },
-  // {
-  //   id: 'fire',
-  //   name: 'Fire Blaze Pack',
-  //   filter: (card: Card) => card.type.includes('Fire'),
-  //   weights: {
-  //     Common: 35,
-  //     Uncommon: 25,
-  //     Rare: 20,
-  //     Epic: 12,
-  //     Legendary: 6,
-  //     Mythical: 2,
-  //   },
-  // },
-  // {
-  //   id: 'water',
-  //   name: 'Aqua Surge Pack',
-  //   filter: (card: Card) => card.type.includes('Water'),
-  // },
   {
     id: '151',
     name: 'Original 151',
     filter: (card: Card) => {
       const [start, end] = regionRanges['Kanto'] || [0, 0];
+      return card.number >= start && card.number <= end && !card.variant;
+    },
+    carouselCards: ['Bulbasaur-1', 'Charizard-6', 'Pikachu-25', 'Arcanine-58', 'Gengar-94', 'Snorlax-143', 'Dragonite-149', 'Mewtwo-150', 'Mew-151'],
+    chaseCard: 'Mew-151',
+  },
+  {
+    id: 'johto',
+    name: 'Johto',
+    filter: (card: Card) => {
+      const [johtoStart, johtoEnd] = regionRanges['Johto'] || [0, 0];
+      const variantRegions = specialFormRegionMapping[card.number]?.[card.variant || ''] || [];
+      return card.number >= johtoStart && card.number <= johtoEnd && (!card.variant || variantRegions.includes('Johto'));
+    },
+    carouselCards: ['Chikorita-152', 'Typhlosion-157', 'Feraligatr-160', 'Togepi-175', 'Espeon-196', 'Suicune-245', 'Lugia-249', 'Celebi-251'],
+    chaseCard: 'Celebi-251',
+  },
+  {
+    id: 'hoenn',
+    name: 'Hoenn',
+    filter: (card: Card) => {
+      const [hoennStart, hoennEnd] = regionRanges['Hoenn'] || [0, 0];
+      const variantRegions = specialFormRegionMapping[card.number]?.[card.variant || ''] || [];
+      return card.number >= hoennStart && card.number <= hoennEnd && (!card.variant || variantRegions.includes('Hoenn'));
+    },
+    carouselCards: ['Treecko-252', 'Blaziken-257', 'Swampert-260', 'Gardevoir-282', 'Kyogre-382', 'Groudon-383', 'Mega Rayquaza-384'],
+    chaseCard: 'Mega Rayquaza-384',
+  },
+  {
+    id: 'sinnoh',
+    name: 'Sinnoh & Hisui',
+    filter: (card: Card) => {
+      const [sinnohStart, sinnohEnd] = regionRanges['Sinnoh'] || [0, 0];
+      const [hisuiStart, hisuiEnd] = regionRanges['Hisui'] || [0, 0];
+      const variantRegions = specialFormRegionMapping[card.number]?.[card.variant || ''] || [];
       return (
-        card.number >= start &&
-        card.number <= end &&
-        !card.variant
+        (card.number >= sinnohStart && card.number <= sinnohEnd && (!card.variant || variantRegions.includes('Sinnoh'))) ||
+        variantRegions.includes('Hisui') ||
+        (hisuiStart !== 0 && !card.variant && card.number >= hisuiStart && card.number <= hisuiEnd)
       );
     },
+    carouselCards: ['Turtwig-387', 'Infernape-392', 'Empoleon-395', 'Garchomp-445', 'Arceus-493'],
+    chaseCard: 'Arceus-493',
   },
-{
-  id: 'johto',
-  name: 'Johto',
-  filter: (card: Card) => {
-    const [johtoStart, johtoEnd] = regionRanges['Johto'] || [0, 0];
-    const variantRegions = specialFormRegionMapping[card.number]?.[card.variant || ''] || [];
-    
-    return (
-      (card.number >= johtoStart && card.number <= johtoEnd && (!card.variant || variantRegions.includes('Johto')))
-    );
+  {
+    id: 'unova',
+    name: 'Unova',
+    filter: (card: Card) => {
+      const [unovaStart, unovaEnd] = regionRanges['Unova'] || [0, 0];
+      const variantRegions = specialFormRegionMapping[card.number]?.[card.variant || ''] || [];
+      return card.number >= unovaStart && card.number <= unovaEnd && (!card.variant || variantRegions.includes('Unova'));
+    },
+    carouselCards: ['Snivy-495', 'Emboar-500', 'Samurott-503', 'Zoroark-571', 'Volcarona-637', 'Reshiram-643', 'Zekrom-644', 'Meloetta-648'],
+    chaseCard: 'Meloetta-648',
   },
-},
-
-{
-  id: 'hoenn',
-  name: 'Hoenn',
-  filter: (card: Card) => {
-    const [hoennStart, hoennEnd] = regionRanges['Hoenn'] || [0, 0];
-    const variantRegions = specialFormRegionMapping[card.number]?.[card.variant || ''] || [];
-    
-    return (
-      (card.number >= hoennStart && card.number <= hoennEnd && (!card.variant || variantRegions.includes('Hoenn')))
-    );
+  {
+    id: 'kalos',
+    name: 'Kalos',
+    filter: (card: Card) => {
+      const [kalosStart, kalosEnd] = regionRanges['Kalos'] || [0, 0];
+      const variantRegions = specialFormRegionMapping[card.number]?.[card.variant || ''] || [];
+      return (
+        (card.number >= kalosStart && card.number <= kalosEnd && (!card.variant || variantRegions.includes('Kalos') || variantRegions.includes('KalosZen'))) ||
+        variantRegions.includes('Kalos')
+      );
+    },
+    carouselCards: ['Chespin-650', 'Delphox-655', 'Greninja-658', 'Aegislash-681', 'Sylveon-700', 'Xerneas-716', 'Zygarde (Complete)-718'],
+    chaseCard: 'Zygarde (Complete)-718',
   },
-},
-{
-  id: 'sinnoh',
-  name: 'Sinnoh & Hisui',
-  filter: (card: Card) => {
-    const [sinnohStart, sinnohEnd] = regionRanges['Sinnoh'] || [0, 0];
-    const [hisuiStart, hisuiEnd] = regionRanges['Hisui'] || [0, 0];
-    const variantRegions = specialFormRegionMapping[card.number]?.[card.variant || ''] || [];
-    
-    return (
-      (card.number >= sinnohStart && card.number <= sinnohEnd && (!card.variant || variantRegions.includes('Sinnoh'))) ||
-      variantRegions.includes('Hisui') ||
-      (hisuiStart !== 0 && !card.variant && card.number >= hisuiStart && card.number <= hisuiEnd)
-    );
+  {
+    id: 'alola',
+    name: 'Alola',
+    filter: (card: Card) => {
+      const [alolaStart, alolaEnd] = regionRanges['Alola'] || [0, 0];
+      const variantRegions = specialFormRegionMapping[card.number]?.[card.variant || ''] || [];
+      return (
+        (card.number >= alolaStart && card.number <= alolaEnd && (!card.variant || variantRegions.includes('Alola') || variantRegions.includes('AlolaZen'))) ||
+        variantRegions.includes('Alola')
+      );
+    },
+    carouselCards: ['Rowlet-722', 'Incineroar-727', 'Primarina-730', 'Mimikyu-778', 'Tapu Koko-785'],
+    chaseCard: 'Tapu Koko-785',
   },
-},
-{
-  id: 'unova',
-  name: 'Unova',
-  filter: (card: Card) => {
-    const [unovaStart, unovaEnd] = regionRanges['Unova'] || [0, 0];
-    const variantRegions = specialFormRegionMapping[card.number]?.[card.variant || ''] || [];
-    
-    return (
-      (card.number >= unovaStart && card.number <= unovaEnd && (!card.variant || variantRegions.includes('Unova')))
-    );
+  {
+    id: 'galar',
+    name: 'Galar',
+    filter: (card: Card) => {
+      const [galarStart, galarEnd] = regionRanges['Galar'] || [0, 0];
+      const variantRegions = specialFormRegionMapping[card.number]?.[card.variant || ''] || [];
+      return (
+        (card.number >= galarStart && card.number <= galarEnd && (!card.variant || variantRegions.includes('Galar') || variantRegions.includes('GalarZen'))) ||
+        variantRegions.includes('Galar')
+      );
+    },
+    carouselCards: ['Grookey-810', 'Cinderace-815', 'Inteleon-818', 'Zacian-888', 'Moltres (Galar)-146'],
+    chaseCard: 'Zacian-888',
   },
-},
-{
-  id: 'kalos',
-  name: 'Kalos',
-  filter: (card: Card) => {
-    const [kalosStart, kalosEnd] = regionRanges['Kalos'] || [0, 0];
-    const variantRegions = specialFormRegionMapping[card.number]?.[card.variant || ''] || [];
-    
-    return (
-      (card.number >= kalosStart && card.number <= kalosEnd && (!card.variant || variantRegions.includes('Kalos') || variantRegions.includes('KalosZen'))) ||
-      variantRegions.includes('Kalos')
-    );
+  {
+    id: 'paldea',
+    name: 'Paldea',
+    filter: (card: Card) => {
+      const [paldeaStart, paldeaEnd] = regionRanges['Paldea'] || [0, 0];
+      const variantRegions = specialFormRegionMapping[card.number]?.[card.variant || ''] || [];
+      return (
+        (card.number >= paldeaStart && card.number <= paldeaEnd && (!card.variant || variantRegions.includes('Paldea') || variantRegions.includes('PaldeaZen'))) ||
+        variantRegions.includes('Paldea')
+      );
+    },
+    carouselCards: ['Sprigatito-906', 'Fuecoco-909', 'Quaquaval-914', 'Tinkaton-959', 'Clodsire-980', 'Gholdengo-1000', 'Ogerpon-1017', 'Terapagos (Stellar)-1024'],
+    chaseCard: 'Terapagos (Stellar)-1024',
   },
-},
-{
-  id: 'alola',
-  name: 'Alola',
-  filter: (card: Card) => {
-    const [alolaStart, alolaEnd] = regionRanges['Alola'] || [0, 0];
-    const variantRegions = specialFormRegionMapping[card.number]?.[card.variant || ''] || [];
-    
-    return (
-      (card.number >= alolaStart && card.number <= alolaEnd && (!card.variant || variantRegions.includes('Alola') || variantRegions.includes('AlolaZen'))) ||
-      variantRegions.includes('Alola')
-    );
+  {
+    id: 'conquest',
+    name: 'Conquest',
+    filter: (card: Card) => {
+      const allowedNumbers = [
+        133, 134, 135, 136, 196, 197, 470, 471, 280, 281, 282, 475, 129, 130, 172, 25, 26, 194, 195, 174, 39, 40,
+        41, 42, 169, 396, 397, 398, 399, 400, 543, 544, 545, 403, 404, 405, 607, 608, 609, 524, 525, 526, 548,
+        549, 179, 180, 181, 546, 547, 447, 448, 433, 358, 23, 24, 204, 205, 52, 53, 363, 364, 365, 574, 575,
+        576, 551, 552, 553, 355, 356, 477, 517, 518, 522, 523, 147, 148, 149, 246, 247, 248, 374, 375, 376, 443,
+        444, 445, 453, 454, 633, 634, 635, 361, 362, 478, 572, 573, 66, 67, 68, 532, 533, 534, 613, 614, 501,
+        502, 503, 4, 5, 6, 92, 93, 94, 390, 391, 392, 495, 496, 497, 498, 499, 500, 540, 541, 542, 63, 64, 65,
+        252, 253, 254, 393, 394, 395, 511, 512, 513, 514, 515, 516, 554, 555, 610, 611, 612, 595, 596, 304, 305,
+        306, 529, 530, 570, 571, 451, 452, 624, 625, 111, 112, 464, 410, 411, 559, 560, 425, 426, 627, 628, 347,
+        348, 636, 637, 95, 208, 15, 446, 143, 587, 215, 461, 200, 429, 531, 455, 442, 123, 212, 131, 639, 144,
+        379, 383, 483, 150, 643, 644, 493, 384
+      ];
+      return allowedNumbers.includes(card.number) && !card.variant;
+    },
+    carouselCards: ['Eevee-133', 'Jigglypuff-39', 'Articuno-144', 'Mewtwo-150', 'Groudon-383', 'Zekrom-644', 'Arceus-493', 'Rayquaza-384'],
+    chaseCard: 'Rayquaza-384',
+    shinyChase: true,
   },
-},
-{
-  id: 'galar',
-  name: 'Galar',
-  filter: (card: Card) => {
-    const [galarStart, galarEnd] = regionRanges['Galar'] || [0, 0];
-    const variantRegions = specialFormRegionMapping[card.number]?.[card.variant || ''] || [];
-    
-    return (
-      (card.number >= galarStart && card.number <= galarEnd && (!card.variant || variantRegions.includes('Galar') || variantRegions.includes('GalarZen'))) ||
-      variantRegions.includes('Galar')
-    );
-  },
-},
-{
-  id: 'paldea',
-  name: 'Paldea',
-  filter: (card: Card) => {
-    const [paldeaStart, paldeaEnd] = regionRanges['Paldea'] || [0, 0];
-    const variantRegions = specialFormRegionMapping[card.number]?.[card.variant || ''] || [];
-    
-    return (
-      (card.number >= paldeaStart && card.number <= paldeaEnd && (!card.variant || variantRegions.includes('Paldea') || variantRegions.includes('PaldeaZen'))) ||
-      variantRegions.includes('Paldea')
-    );
-  },
-},
-{
-  id: 'conquest',
-  name: 'Conquest',
-  filter: (card: Card) => {
-   const allowedNumbers = [133, 134, 135, 136, 196, 197, 470, 471, 280, 281, 282, 475, 129, 130, 172, 25, 26, 194, 195, 174, 39, 40, 41, 42, 169, 396, 397, 398, 399, 400, 543, 544, 545, 403, 404, 405, 607, 608, 609, 524, 525, 526, 548, 549, 179, 180, 181, 546, 547, 447, 448, 433, 358, 23, 24, 204, 205, 52, 53, 363, 364, 365, 574, 575, 576, 551, 552, 553, 355, 356, 477, 517, 518, 522, 523, 147, 148, 149, 246, 247, 248, 374, 375, 376, 443, 444, 445, 453, 454, 633, 634, 635, 361, 362, 478, 572, 573, 66, 67, 68, 532, 533, 534, 613, 614, 501, 502, 503, 4, 5, 6, 92, 93, 94, 390, 391, 392, 495, 496, 497, 498, 499, 500, 540, 541, 542, 63, 64, 65, 252, 253, 254, 393, 394, 395, 511, 512, 513, 514, 515, 516, 554, 555, 610, 611, 612, 595, 596, 304, 305, 306, 529, 530, 570, 571, 451, 452, 624, 625, 111, 112, 464, 410, 411, 559, 560, 425, 426, 627, 628, 347, 348, 636, 637, 95, 208, 15, 446, 143, 587, 215, 461, 200, 429, 531, 455, 442, 123, 212, 131, 639, 144, 379, 383, 483, 150, 643, 644, 493, 384];
-   return (
-     (allowedNumbers.includes(card.number) && !card.variant)
-   );
- },
-}
 ];
 
 // filter: (card: Card) => {

@@ -306,3 +306,58 @@ background: linear-gradient(180deg, rgba(228, 241, 246, 1) 0%, rgba(228, 241, 24
 .scaled {
   transform: scale(0.5)
 }
+
+/* Smooth glow animation */
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 10px rgba(234, 179, 8, 0.4); }
+  50% { box-shadow: 0 0 20px rgba(234, 179, 8, 0.8); }
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 1.5s ease-in-out infinite;
+}
+
+/* Infinite scroll animation */
+@keyframes scroll {
+  0% { transform: translateX(0%); }
+  100% { transform: translateX(-200%); }
+}
+
+.infinite-scroll {
+  animation-play-state: running;
+}
+
+.infinite-scroll:hover {
+  animation-play-state: paused;
+}
+
+/* Custom scrollbar for pack grid */
+.max-h-240px::-webkit-scrollbar {
+  width: 6px;
+}
+
+.max-h-240px::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 3px;
+}
+
+.max-h-240px::-webkit-scrollbar-thumb {
+  background: #8c9ca4;
+  border-radius: 3px;
+}
+
+.max-h-240px::-webkit-scrollbar-thumb:hover {
+  background: #6b7a82;
+}
+
+@keyframes spin-slow {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+.animate-spin-slow {
+  animation: spin-slow 5s linear infinite;
+}

@@ -495,7 +495,7 @@ export const CardPackOpener: React.FC<CardPackOpenerProps> = ({ curatedPack }) =
           return (
             <motion.div
               key={`card-${idx}-${cardKey}`}
-              className="w-54 h-74 relative md:scaled"
+              className="w-54 h-74 relative"
               initial={{ y: 100, opacity: 0 }}
               animate={{ y: entered[idx] ? 0 : 100, opacity: entered[idx] ? 1 : 0, rotate: shaking[idx] && !revealed[idx] ? [0, -5, 5, -5, 5, 0] : 0 }}
               transition={{ duration: shaking[idx] && !revealed[idx] ? 0.5 : 0.5, delay: idx * 0.1 }}
@@ -507,12 +507,12 @@ export const CardPackOpener: React.FC<CardPackOpenerProps> = ({ curatedPack }) =
                 transition={{ duration: 0.6 }}
                 className="absolute inset-0 w-full h-full transform-style-preserve-3d"
               >
-                <div className="absolute w-full h-full backface-hidden">
+                <div className="absolute w-full h-full backface-hidden md:scale-100 scale-50">
                   <Image src="/cardback.png" alt="Card Back" fill className="rounded-xl border-2 border-gray-600" />
                 </div>
 
                 <div
-                  className={`absolute w-full h-full rotateY-180 backface-hidden p-1.5 rounded-xl flex flex-col items-center justify-between text-center shadow-xl/30 ${card.isShiny ? "bg-white" : getTypeBorderClass(card.rarity)} ${card.rarity === 'Mythical' && revealed[idx] && !card.isShiny ? 'glow-mythical' : card.isShiny ? 'glow-shiny twinkle-shiny' : ''} ${revealed[idx] ? 'cursor-pointer hover:scale-105 transition-transform' : ''}`}
+                  className={`absolute md:scale-100 scale-50 w-full h-full rotateY-180 backface-hidden p-1.5 rounded-xl flex flex-col items-center justify-between text-center shadow-xl/30 ${card.isShiny ? "bg-white" : getTypeBorderClass(card.rarity)} ${card.rarity === 'Mythical' && revealed[idx] && !card.isShiny ? 'glow-mythical' : card.isShiny ? 'glow-shiny twinkle-shiny' : ''} ${revealed[idx] ? 'cursor-pointer hover:scale-105 transition-transform' : ''}`}
                   onClick={() => revealed[idx] && handleCardClick(cardKey)}
                 >
                   <div

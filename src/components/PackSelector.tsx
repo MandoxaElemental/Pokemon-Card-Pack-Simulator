@@ -1,7 +1,7 @@
-'use client';
 import React, { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
-import { BoosterPack } from '@/app/Utils/Interfaces';
+import { motion, AnimatePresence } from 'framer-motion';
+import { BoosterPack, Card, allCards } from '@/app/Utils/Interfaces';
 
 interface PackSelectorProps {
   selectedPack: string;
@@ -12,8 +12,23 @@ interface PackSelectorProps {
 
 export const PackSelector: React.FC<PackSelectorProps> = ({ selectedPack, setSelectedPack, themedPacks, disabled }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const [hoveredPackId, setHoveredPackId] = useState<string | null>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
+  // Determine which pack's cards to display (hovered pack or selected pack)
+  const displayPack = hoveredPackId
+    ? themedPacks.find(pack => pack.id === hoveredPackId) || themedPacks[0]
+    : themedPacks.find(pack => pack.id === selectedPack) || themedPacks[0];
+
+  const packCards = (displayPack.carouselCards || [])
+    .map(cardKey => {
+      const [name, number, variant] = cardKey.split('-');
+      return allCards.find(c => c.name === name && c.number === parseInt(number) && (!variant || c.variant === variant));
+    })
+    .filter((card): card is Card => !!card);
+  const shinyCheck = displayPack.shinyChase || false;
+
+  // Click outside handler
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
@@ -31,63 +46,128 @@ export const PackSelector: React.FC<PackSelectorProps> = ({ selectedPack, setSel
   const handlePackSelect = (packId: string) => {
     if (!disabled) {
       setSelectedPack(packId);
-      setIsOpen(false);
     }
   };
 
-  const selectedPackData = themedPacks.find(pack => pack.id === selectedPack) || themedPacks[0];
-
   return (
-    <div className="relative" ref={dropdownRef}>
+    <div className="relative flex flex-col items-center" ref={dropdownRef}>
       <button
         onClick={toggleDropdown}
         className={`
           bg-gradient-to-br from-gray-700 to-gray-800
           hover:from-gray-600 hover:to-gray-700
-          active:from-gray-800 active:to-gray-900
           text-white font-bold py-2 px-4 rounded-2xl
-          cursor-pointer
           shadow-lg hover:shadow-xl
           border border-gray-500
           flex gap-2 items-center justify-center
           transform transition-all duration-200
           hover:scale-105 active:scale-95
-          ${disabled ? 'opacity-50 cursor-not-allowed' : ''}
+          ${disabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}
         `}
         disabled={disabled}
+        aria-label={`Select booster pack, currently ${displayPack.name}`}
       >
-        {selectedPackData.name}
-        <Image src='/caret-down-fill.svg' alt='caret-down' width={15} height={15} className='invert'/>
-        
+        {displayPack.name}
+        <Image src="/caret-down-fill.svg" alt="caret-down" width={15} height={15} className="invert" />
       </button>
-      {isOpen && (
-        <div className="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-[600px] bg-[#E4F1F6] rounded-2xl shadow-xl/20 p-4 z-50 max-h-96 overflow-y-auto">
-          <div className="grid grid-cols-5 gap-4 rounded-lg inset-shadow-sm inset-shadow-[#8c9ca4] p-3">
-            {themedPacks.map(pack => (
-              <button
-                key={pack.id}
-                onClick={() => handlePackSelect(pack.id)}
-                className={`
-                  flex flex-col items-center gap-2 p-2 rounded-lg
-                  hover:bg-blue-700
-                  transition-all duration-200
-                  ${pack.id === selectedPack ? 'bg-blue-500 inset-shadow-sm inset-shadow-blue-700' : ''}
-                  min-w-[100px] cursor-pointer
-                `}
-              >
-                <Image
-                  src={`/booster/${pack.id}-pack.png`}
-                  alt={pack.name}
-                  width={80}
-                  height={120}
-                  className="hover:scale-110 transition-transform duration-200"
-                />
-                <span className="text-sm font-semibold text-center">{pack.name}</span>
-              </button>
-            ))}
-          </div>
-        </div>
-      )}
+
+      {/* Dropdown Menu */}
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            transition={{ duration: 0.2 }}
+            className="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-[600px] bg-[#E4F1F6] rounded-2xl shadow-xl p-4 z-50"
+          >
+            <div className="flex justify-center">
+              {packCards.length > 0 ? (
+                <div className="w-[80%] h-[120px] rounded-lg inset-shadow-sm inset-shadow-[#8c9ca4] overflow-x-hidden mb-4 pt-2">
+                  <div
+                    className="flex gap-2 infinite-scroll"
+                    style={{
+                      display: 'flex',
+                      whiteSpace: 'nowrap',
+                      animation: packCards.length > 3 ? `scroll ${packCards.length * 3}s linear infinite` : 'none',
+                    }}
+                  >
+                    {[...packCards, ...packCards, ...packCards, ...packCards].map((card, index) => {
+                      const isChaseCard = `${card.name}-${card.number}` === displayPack.chaseCard;
+                      return (
+                        <div
+                          key={`${card.number}-${card.variant || ''}-${index}`}
+                          className="flex flex-col items-center min-w-[80px]"
+                        >
+                          <div className="relative w-[80px] h-[80px]">
+                            {isChaseCard && (
+                              <div
+                                className="absolute inset-0 bg-[url('/glow.png')] bg-center bg-no-repeat bg-contain animate-spin-slow"
+                                style={{ zIndex: -1 }}
+                              />
+                            )}
+                            <Image
+                              src={`/${isChaseCard && shinyCheck ? 'shiny' : 'home-icons'}/${card.number}${card.variant ? `-${card.variant}` : ''}.png`}
+                              alt={card.name}
+                              width={100}
+                              height={100}
+                              className="object-contain z-20"
+                              onError={(e) => {
+                                e.currentTarget.src = '/home-icons/placeholder.png';
+                              }}
+                            />
+                          </div>
+                          <span className="text-xs font-semibold text-[#2A3F55] mt-1 text-center">
+                            {card.name}
+                          </span>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              ) : (
+                <div className="w-[80%] h-[120px] flex justify-center items-center mb-4">
+                  <span className="text-sm font-semibold text-[#2A3F55]">No cards available</span>
+                </div>
+              )}
+            </div>
+
+            {/* Scrollable Pack Grid */}
+            <div className="max-h-[240px] overflow-y-auto rounded-lg inset-shadow-sm inset-shadow-[#8c9ca4] p-3">
+              <div className="grid grid-cols-5 gap-4">
+                {themedPacks.map(pack => (
+                  <button
+                    key={pack.id}
+                    onClick={() => handlePackSelect(pack.id)}
+                    onMouseEnter={() => setHoveredPackId(pack.id)}
+                    onMouseLeave={() => setHoveredPackId(null)}
+                    className={`
+                      flex flex-col items-center gap-2 p-2 rounded-lg
+                      hover:bg-blue-700 hover:text-white
+                      transition-all duration-200
+                      ${pack.id === selectedPack ? 'bg-blue-500 text-white inset-shadow-sm inset-shadow-blue-700' : ''}
+                      min-w-[100px] cursor-pointer
+                    `}
+                    aria-label={`Select ${pack.name} pack, hover to preview cards`}
+                  >
+                    <Image
+                      src={`/booster/${pack.id}-pack.png`}
+                      alt={pack.name}
+                      width={80}
+                      height={120}
+                      className="hover:scale-110 transition-transform duration-200"
+                      onError={(e) => {
+                        e.currentTarget.src = '/booster/placeholder-pack.png';
+                      }}
+                    />
+                    <span className="text-sm font-semibold text-center">{pack.name}</span>
+                  </button>
+                ))}
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 };
