@@ -163,8 +163,8 @@ export const themedPacks: BoosterPack[] = [
         variantRegions.includes('Galar')
       );
     },
-    carouselCards: ['Grookey-810', 'Cinderace-815', 'Inteleon-818', 'Zacian-888', 'Moltres (Galar)-146'],
-    chaseCard: 'Zacian-888',
+    carouselCards: ['Grookey-810', 'Cinderace-815', 'Inteleon-818', 'Dragapult-887', 'Zacian (Crowned)-888', 'Urshifu (Single Strike)-892', 'Moltres (Galar)-146'],
+    chaseCard: '',
   },
   {
     id: 'paldea',

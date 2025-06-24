@@ -97,9 +97,9 @@ export const PackSelector: React.FC<PackSelectorProps> = ({ selectedPack, setSel
                       return (
                         <div
                           key={`${card.number}-${card.variant || ''}-${index}`}
-                          className="flex flex-col items-center min-w-[80px]"
+                          className="flex flex-col items-center min-w-[100px]"
                         >
-                          <div className="relative w-[80px] h-[80px]">
+                          <div className="relative w-[100px] h-[100px]">
                             {isChaseCard && (
                               <div
                                 className="absolute inset-0 bg-[url('/glow.png')] bg-center bg-no-repeat bg-contain animate-spin-slow"
@@ -111,15 +111,12 @@ export const PackSelector: React.FC<PackSelectorProps> = ({ selectedPack, setSel
                               alt={card.name}
                               width={100}
                               height={100}
-                              className={`${isChaseCard ? 'fill-yellow-300 drop-shadow-lg drop-shadow-cyan-500/50' : ''} object-contain z-20`}
+                              className={`${isChaseCard ? 'drop-shadow-lg drop-shadow-yellow-300/50' : ''} object-contain z-20`}
                               onError={(e) => {
                                 e.currentTarget.src = '/home-icons/placeholder.png';
                               }}
                             />
                           </div>
-                          <span className="text-xs font-semibold text-[#2A3F55] mt-1 text-center">
-                            {card.name}
-                          </span>
                         </div>
                       );
                     })}
