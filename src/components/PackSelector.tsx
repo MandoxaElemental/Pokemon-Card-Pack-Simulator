@@ -111,7 +111,7 @@ export const PackSelector: React.FC<PackSelectorProps> = ({ selectedPack, setSel
                               alt={card.name}
                               width={100}
                               height={100}
-                              className={`${isChaseCard ? 'drop-shadow-lg drop-shadow-yellow-300/50' : ''} object-contain z-20`}
+                              className={`${isChaseCard ? 'drop-shadow-lg drop-shadow-yellow-400/50' : 'drop-shadow-md/50'} object-contain z-20`}
                               onError={(e) => {
                                 e.currentTarget.src = '/home-icons/placeholder.png';
                               }}

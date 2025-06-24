@@ -653,7 +653,7 @@ export const CardPackOpener: React.FC<CardPackOpenerProps> = ({ curatedPack }) =
                             alt={card.name}
                             width={200}
                             height={200}
-                            className="mb-1 w-full h-full rounded-t-lg relative z-20"
+                            className="mb-1 w-full h-full rounded-t-lg relative z-20 drop-shadow-xl/25"
                           />
                         </div>
                         <p className={`${card.artist ? 'relative' : 'hidden'} text-sm italic z-20`}>Art by: {card.artist}</p>
@@ -738,7 +738,7 @@ export const CardPackOpener: React.FC<CardPackOpenerProps> = ({ curatedPack }) =
                   }
                   alt={`${collectedCards[selectedCard].card.name}${isShinyToggled ? ' (Shiny)' : ''}`}
                   fill
-                  className="object-contain relative z-20"
+                  className="object-contain relative z-20 drop-shadow-lg/50"
                 />
               </motion.div>
             </div>
