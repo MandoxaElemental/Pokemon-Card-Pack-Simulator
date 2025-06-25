@@ -99,16 +99,12 @@ export const themedPacks: BoosterPack[] = [
   },
   {
     id: 'sinnoh',
-    name: 'Sinnoh & Hisui',
+    name: 'Sinnoh',
     filter: (card: Card) => {
       const [sinnohStart, sinnohEnd] = regionRanges['Sinnoh'] || [0, 0];
-      const [hisuiStart, hisuiEnd] = regionRanges['Hisui'] || [0, 0];
       const variantRegions = specialFormRegionMapping[card.number]?.[card.variant || ''] || [];
       return (
-        (card.number >= sinnohStart && card.number <= sinnohEnd && (!card.variant || variantRegions.includes('Sinnoh'))) ||
-        variantRegions.includes('Hisui') ||
-        (hisuiStart !== 0 && !card.variant && card.number >= hisuiStart && card.number <= hisuiEnd)
-      );
+        (card.number >= sinnohStart && card.number <= sinnohEnd && (!card.variant || variantRegions.includes('Sinnoh'))));
     },
     carouselCards: ['Turtwig-387', 'Infernape-392', 'Empoleon-395', 'Garchomp-445', 'Lucario-448', 'Arceus-493'],
     chaseCard: 'Arceus-493',
@@ -149,18 +145,20 @@ export const themedPacks: BoosterPack[] = [
         variantRegions.includes('Alola')
       );
     },
-    carouselCards: ['Rowlet-722', 'Incineroar-727', 'Primarina-730', 'Lycanroc (Dusk)-745', 'Mimikyu-778', 'Tapu Koko-785', 'Ultra Necrozma-800'],
+    carouselCards: ['Rowlet-722', 'Incineroar-727', 'Primarina-730', 'Lycanroc (Dusk)-745', 'Mimikyu-778', 'Tapu Koko-785', 'Nihilego-793', 'Ultra Necrozma-800'],
     chaseCard: 'Ultra Necrozma-800',
   },
   {
     id: 'galar',
     name: 'Galar',
-    filter: (card: Card) => {
+        filter: (card: Card) => {
       const [galarStart, galarEnd] = regionRanges['Galar'] || [0, 0];
+      const [hisuiStart, hisuiEnd] = regionRanges['Hisui'] || [0, 0];
       const variantRegions = specialFormRegionMapping[card.number]?.[card.variant || ''] || [];
       return (
-        (card.number >= galarStart && card.number <= galarEnd && (!card.variant || variantRegions.includes('Galar') || variantRegions.includes('GalarZen'))) ||
-        variantRegions.includes('Galar')
+        (card.number >= galarStart && card.number <= galarEnd && (!card.variant || variantRegions.includes('Galar'))) ||
+        variantRegions.includes('Hisui') ||
+        (hisuiStart !== 0 && !card.variant && card.number >= hisuiStart && card.number <= hisuiEnd)
       );
     },
     carouselCards: ['Grookey-810', 'Cinderace-815', 'Inteleon-818', 'Dragapult-887', 'Zacian (Crowned)-888', 'Urshifu (Single Strike)-892', 'Moltres (Galar)-146', 'Calyrex (Shadow Rider)-898'],
@@ -209,7 +207,7 @@ export const themedPacks: BoosterPack[] = [
       const allowedNumbers = [
         666, 172, 810, 813, 626, 18, 465, 587, 265, 198, 10, 214, 127, 85, 580, 581, 399, 276, 389, 129, 163, 765, 671, 415, 416, 700, 492, 154, 133, 25, 742, 659, 508, 396, 52, 531, 19, 568, 185, 702, 190, 11, 267, 24, 193, 731, 733, 168, 755, 289, 3, 510, 194, 195, 260, 166, 816, 470, 151, 677, 275, 352, 585, 586, 521, 780, 674, 1, 497, 840, 760, 282, 38, 270, 196, 251, 350, 278, 103, 739, 426, 335, 336, 182, 686, 771, 68, 618, 224, 222, 456, 366, 730, 26, 769, 319, 7, 9, 131, 226, 279, 321, 747, 134, 490, 370, 594, 320, 346, 457, 211, 693, 73, 170, 171, 121, 592, 768, 249, 746, 451, 27, 328, 330, 115, 630,  774, 843, 255, 695, 745, 450, 248, 95, 334, 403, 405, 663, 391, 142, 697, 75, 567, 218, 324, 4, 6, 157, 136, 250, 637, 162, 613, 614, 262, 461, 628, 220, 473, 227, 460, 37, 225, 872, 873, 740, 361, 362, 478, 124, 363, 393, 584, 713, 87, 699, 471, 245, 169, 595, 74, 703, 94, 714, 710, 453, 425, 35, 302, 409, 706, 303, 135, 719, 208, 229, 830, 177, 359, 757, 715, 527, 561, 606, 623, 609, 197, 385, 716, 285, 590, 143, 160, 357, 54, 217, 529, 173, 130, 50, 744, 758, 498, 558, 472, 545, 109, 317, 807, 709
       ];
-         const nonVariantOnly = [194, 38, 103, 52, 618, 27, 211, 25, 19, 18, 6, 3, 460, 628, 133, 319, 74, 75, 706, 127, 214, 94, 302, 303, 492, 282, 815, 359, 248, 719, 362, 208, 222];
+         const nonVariantOnly = [194, 38, 103, 52, 618, 27, 211, 25, 19, 18, 6, 3, 460, 628, 133, 319, 74, 75, 706, 127, 214, 94, 302, 303, 492, 282, 815, 359, 248, 719, 362, 208, 222, 142, 143];
     const variantOnly = [26, 28, 37, 716];
     const allowedVariants = ['Alola', 'active'];
 
@@ -221,6 +219,26 @@ export const themedPacks: BoosterPack[] = [
     },
     carouselCards: ['Meganium-154', 'Milotic-350', 'Wishiwashi (School)-746', 'Volcarona-637', 'Steelix-208', 'Xerneas-716'],
     chaseCard: 'Xerneas-716',
+  },
+  {
+    id: 'fossil',
+    name: 'Fossil',
+    filter: (card: Card) => {
+      const allowedNumbers = [
+        27, 28, 50, 51, 63, 64, 65, 74, 75, 76, 95, 90, 91, 43, 44, 45, 104, 105, 111, 112, 114, 131, 138, 139, 140, 141, 142, 177, 178, 182, 185, 193, 201, 206, 208, 213, 218, 219, 220, 221, 222, 230, 231, 232, 246, 247, 248, 293, 294, 295, 296, 297, 299, 304, 305, 306, 318, 319, 324, 331, 332, 337, 338, 343, 344, 345, 346, 347, 348, 369, 320, 321, 377, 378, 379, 387, 388, 379, 408, 409, 410, 411, 438, 436, 437, 442, 455, 464, 465, 469, 473, 476, 485, 524, 525, 526, 557, 558, 562, 563, 564, 565, 566, 567, 590, 591, 621, 622, 523, 629, 630, 636, 637, 649, 688, 689, 696, 697, 698, 699, 703, 712, 713, 739, 740, 774, 776, 837, 838, 839, 843, 844, 864, 867, 874, 871, 771, 880, 881, 882, 883, 894, 895, 486, 900, 123, 932, 933, 934, 946, 947, 950, 953, 954, 982, 39, 40, 174, 81, 82, 462, 79, 80, 199, 200, 429, 561
+      ];
+         const nonVariantOnly = [50, 51];
+    const variantOnly = [1];
+    const allowedVariants = [''];
+
+    return allowedNumbers.includes(card.number) && (
+      (nonVariantOnly.includes(card.number) && !card.variant) ||
+      (variantOnly.includes(card.number) && allowedVariants.includes(card.variant || '')) ||
+      (!nonVariantOnly.includes(card.number) && !variantOnly.includes(card.number))
+    );
+    },
+    carouselCards: ['Omanyte-138', 'Anorith-347', 'Bastiodon-411', 'Carracosta-565', 'Tyrantrum-697', 'Dracovish-882', 'Mega Aerodactyl-142', 'Regigigas-486', 'Genesect-649'],
+    chaseCard: 'Genesect-649',
   },
 ];
 
@@ -700,7 +718,8 @@ export const allCards: Card[] = [
   { name: 'Buizel', number: 418, type: ['Water'], isShiny: false, rarity: 'Common', move: 'Water Gun' },
   { name: 'Floatzel', number: 419, type: ['Water'], isShiny: false, rarity: 'Uncommon', move: 'Aqua Jet' },
   { name: 'Cherubi', number: 420, type: ['Grass'], isShiny: false, rarity: 'Common', move: 'Magical Leaf' },
-  { name: 'Cherrim', number: 421, type: ['Grass'], isShiny: false, rarity: 'Uncommon', move: 'Petal Dance' },
+  { name: 'Cherrim (Overcast)', number: 421, type: ['Grass'], isShiny: false, rarity: 'Rare', move: 'Petal Dance' },
+  { name: 'Cherrim (Sunshine)', number: 421, type: ['Grass'], isShiny: false, rarity: 'Rare', move: 'Petal Dance', variant: 'sunshine'},
   { name: 'Shellos (West)', number: 422, type: ['Water'], isShiny: false, rarity: 'Common', move: 'Mud-Slap', variant: 'west' },
   { name: 'Shellos (East)', number: 422, type: ['Water'], isShiny: false, rarity: 'Common', move: 'Mud-Slap', variant: 'east' },
   { name: 'Gastrodon (West)', number: 423, type: ['Water', 'Ground'], isShiny: false, rarity: 'Uncommon', move: 'Mud Bomb', variant: 'west' },
@@ -1259,10 +1278,10 @@ export const allCards: Card[] = [
   { name: 'Jangmo-o', number: 782, type: ['Dragon'], isShiny: false, rarity: 'Uncommon', move: 'Dragon Tail' },
   { name: 'Hakamo-o', number: 783, type: ['Dragon', 'Fighting'], isShiny: false, rarity: 'Rare', move: 'Dragon Claw' },
   { name: 'Kommo-o', number: 784, type: ['Dragon', 'Fighting'], isShiny: false, rarity: 'Epic', move: 'Clanging Scales' },
-  { name: 'Tapu Koko', number: 785, type: ['Electric', 'Fairy'], isShiny: false, rarity: 'Legendary', move: 'Nature’s Madness' },
-  { name: 'Tapu Lele', number: 786, type: ['Psychic', 'Fairy'], isShiny: false, rarity: 'Legendary', move: 'Nature’s Madness' },
-  { name: 'Tapu Bulu', number: 787, type: ['Grass', 'Fairy'], isShiny: false, rarity: 'Legendary', move: 'Nature’s Madness' },
-  { name: 'Tapu Fini', number: 788, type: ['Water', 'Fairy'], isShiny: false, rarity: 'Legendary', move: 'Nature’s Madness' },
+  { name: 'Tapu Koko', number: 785, type: ['Electric', 'Fairy'], isShiny: false, rarity: 'Legendary', move: "Nature's Madness" },
+  { name: 'Tapu Lele', number: 786, type: ['Psychic', 'Fairy'], isShiny: false, rarity: 'Legendary', move: "Nature's Madness" },
+  { name: 'Tapu Bulu', number: 787, type: ['Grass', 'Fairy'], isShiny: false, rarity: 'Legendary', move: "Nature's Madness" },
+  { name: 'Tapu Fini', number: 788, type: ['Water', 'Fairy'], isShiny: false, rarity: 'Legendary', move: "Nature's Madness" },
   { name: 'Cosmog', number: 789, type: ['Psychic'], isShiny: false, rarity: 'Epic', move: 'Splash' },
   { name: 'Cosmoem', number: 790, type: ['Psychic'], isShiny: false, rarity: 'Epic', move: 'Cosmic Power' },
   { name: 'Solgaleo', number: 791, type: ['Psychic', 'Steel'], isShiny: false, rarity: 'Legendary', move: 'Sunsteel Strike' },
@@ -1749,6 +1768,7 @@ export const specialFormRegionMapping: Record<number, Record<string, string[]>> 
   884: { GMax: ['Galar'] }, // GMax Duraludon
   892: { GMaxSingle: ['Galar'], GMaxRapid: ['Galar'] }, // GMax Urshifu
   492: {Sky: ['Sinnoh']},
+  421: {sunshine: ['Sinnoh']},
   487: {Origin: ['Sinnoh']},
   945: {Heat: ['Sinnoh'], Wash:['Sinnoh'], Frost: ['Sinnoh'], Fan: ['Sinnoh'], Mow: ['Sinnoh']},
   351: {Sunny: ['Hoenn'], Rainy: ['Hoenn'], Snowy: ['Hoenn']},

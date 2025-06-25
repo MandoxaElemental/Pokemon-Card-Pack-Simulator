@@ -41,7 +41,8 @@ export const CardPackOpener: React.FC<CardPackOpenerProps> = ({ curatedPack }) =
   const cardRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
   const [currentRegion, setCurrentRegion] = useState<keyof typeof regionRanges | 'All'>('All');
   const [currentRarity, setCurrentRarity] = useState<'All' | Card['rarity']>('All');
-    const [currentType, setCurrentType] = useState<string>('All');
+  const [currentType, setCurrentType] = useState<string>('All');
+  const [displayMode, setDisplayMode] = useState<'All' | 'Owned' | 'Missing'>('All');
   const slideSoundRef = useRef<HTMLAudioElement | null>(null);
   const flipSoundRef = useRef<HTMLAudioElement | null>(null);
   const mythicJingleRef = useRef<HTMLAudioElement | null>(null);
@@ -67,7 +68,14 @@ export const CardPackOpener: React.FC<CardPackOpenerProps> = ({ curatedPack }) =
           );
         })
         .filter(card => currentRarity === 'All' || card.rarity === currentRarity)
-        .filter((card => currentType === 'All' || card.type.includes(currentType)))
+        .filter(card => currentType === 'All' || card.type.includes(currentType))
+        .filter(card => {
+          const cardKey = `${card.name}-${card.number}${card.variant ? `-${card.variant}` : ''}`;
+          if (displayMode === 'All') return true;
+          if (displayMode === 'Owned') return !!collectedCards[cardKey];
+          if (displayMode === 'Missing') return !collectedCards[cardKey];
+          return true;
+        })
         .map(card => `${card.name}-${card.number}${card.variant ? `-${card.variant}` : ''}`)
     )
   ).map(key => {
@@ -812,6 +820,24 @@ export const CardPackOpener: React.FC<CardPackOpenerProps> = ({ curatedPack }) =
               className="overflow-hidden mt-2"
             >
               <div className="grid gap-2 p-4 rounded-lg bg-[#DDE8ED] inset-shadow-sm inset-shadow-[#8c9ca4]">
+                                        <div>
+                          <p className="font-semibold text-md mb-2">Display Mode:</p>
+                          <div className="flex gap-2 mb-4 flex-wrap">
+                            {(['All', 'Owned', 'Missing'] as const).map(mode => (
+                              <button
+                                key={mode}
+                                onClick={() => setDisplayMode(mode)}
+                                className={`cursor-pointer px-3 py-1 rounded-lg transform transition-all duration-200 hover:scale-105 active:scale-95 shadow-md hover:drop-shadow-sm/25 ${
+                                  displayMode === mode
+                                    ? 'bg-gradient-to-br from-blue-400 to-blue-600 hover:from-blue-300 hover:to-blue-500 active:from-blue-500 active:to-blue-700 text-white border border-blue-500 inset-shadow-xs inset-shadow-blue-700'
+                                    : 'bg-gradient-to-br from-white to-gray-200 hover:from-gray-100 hover:to-gray-300 active:from-gray-300 active:to-gray-400'
+                                }`}
+                              >
+                                {mode}
+                              </button>
+                            ))}
+                          </div>
+                        </div>
                 <div>
                   <p className="font-semibold text-md mb-2">Regions:</p>
                   <div className="flex gap-2 mb-4 flex-wrap">
