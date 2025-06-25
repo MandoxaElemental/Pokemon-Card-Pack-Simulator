@@ -110,7 +110,7 @@ export const themedPacks: BoosterPack[] = [
         (hisuiStart !== 0 && !card.variant && card.number >= hisuiStart && card.number <= hisuiEnd)
       );
     },
-    carouselCards: ['Turtwig-387', 'Infernape-392', 'Empoleon-395', 'Garchomp-445', 'Arceus-493'],
+    carouselCards: ['Turtwig-387', 'Infernape-392', 'Empoleon-395', 'Garchomp-445', 'Lucario-448', 'Arceus-493'],
     chaseCard: 'Arceus-493',
   },
   {
@@ -135,7 +135,7 @@ export const themedPacks: BoosterPack[] = [
         variantRegions.includes('Kalos')
       );
     },
-    carouselCards: ['Chespin-650', 'Delphox-655', 'Greninja-658', 'Aegislash-681', 'Sylveon-700', 'Xerneas-716', 'Zygarde (Complete)-718'],
+    carouselCards: ['Chespin-650', 'Delphox-655', 'Greninja-658', 'Aegislash-681', 'Sylveon-700', 'Mega Charizard X-6', 'Xerneas-716', 'Zygarde (Complete)-718'],
     chaseCard: 'Zygarde (Complete)-718',
   },
   {
@@ -145,12 +145,12 @@ export const themedPacks: BoosterPack[] = [
       const [alolaStart, alolaEnd] = regionRanges['Alola'] || [0, 0];
       const variantRegions = specialFormRegionMapping[card.number]?.[card.variant || ''] || [];
       return (
-        (card.number >= alolaStart && card.number <= alolaEnd && (!card.variant || variantRegions.includes('Alola') || variantRegions.includes('AlolaZen'))) ||
+        (card.number >= alolaStart && card.number <= alolaEnd && (!card.variant || variantRegions.includes('Alola'))) ||
         variantRegions.includes('Alola')
       );
     },
-    carouselCards: ['Rowlet-722', 'Incineroar-727', 'Primarina-730', 'Mimikyu-778', 'Tapu Koko-785'],
-    chaseCard: 'Tapu Koko-785',
+    carouselCards: ['Rowlet-722', 'Incineroar-727', 'Primarina-730', 'Lycanroc (Dusk)-745', 'Mimikyu-778', 'Tapu Koko-785', 'Ultra Necrozma-800'],
+    chaseCard: 'Ultra Necrozma-800',
   },
   {
     id: 'galar',
@@ -163,8 +163,8 @@ export const themedPacks: BoosterPack[] = [
         variantRegions.includes('Galar')
       );
     },
-    carouselCards: ['Grookey-810', 'Cinderace-815', 'Inteleon-818', 'Dragapult-887', 'Zacian (Crowned)-888', 'Urshifu (Single Strike)-892', 'Moltres (Galar)-146'],
-    chaseCard: '',
+    carouselCards: ['Grookey-810', 'Cinderace-815', 'Inteleon-818', 'Dragapult-887', 'Zacian (Crowned)-888', 'Urshifu (Single Strike)-892', 'Moltres (Galar)-146', 'Calyrex (Shadow Rider)-898'],
+    chaseCard: 'Calyrex (Shadow Rider)-898',
   },
   {
     id: 'paldea',
@@ -201,6 +201,26 @@ export const themedPacks: BoosterPack[] = [
     carouselCards: ['Eevee-133', 'Jigglypuff-39', 'Articuno-144', 'Mewtwo-150', 'Groudon-383', 'Zekrom-644', 'Arceus-493', 'Rayquaza-384'],
     chaseCard: 'Rayquaza-384',
     shinyChase: true,
+  },
+  {
+    id: 'snap',
+    name: 'Snap',
+    filter: (card: Card) => {
+      const allowedNumbers = [
+        666, 172, 810, 813, 626, 18, 465, 587, 265, 198, 10, 214, 127, 85, 580, 581, 399, 276, 389, 129, 163, 765, 671, 415, 416, 700, 492, 154, 133, 25, 742, 659, 508, 396, 52, 531, 19, 568, 185, 702, 190, 11, 267, 24, 193, 731, 733, 168, 755, 289, 3, 510, 194, 195, 260, 166, 816, 470, 151, 677, 275, 352, 585, 586, 521, 780, 674, 1, 497, 840, 760, 282, 38, 270, 196, 251, 350, 278, 103, 739, 426, 335, 336, 182, 686, 771, 68, 618, 224, 222, 456, 366, 730, 26, 769, 319, 7, 9, 131, 226, 279, 321, 747, 134, 490, 370, 594, 320, 346, 457, 211, 693, 73, 170, 171, 121, 592, 768, 249, 746, 451, 27, 328, 330, 115, 630,  774, 843, 255, 695, 745, 450, 248, 95, 334, 403, 405, 663, 391, 142, 697, 75, 567, 218, 324, 4, 6, 157, 136, 250, 637, 162, 613, 614, 262, 461, 628, 220, 473, 227, 460, 37, 225, 872, 873, 740, 361, 362, 478, 124, 363, 393, 584, 713, 87, 699, 471, 245, 169, 595, 74, 703, 94, 714, 710, 453, 425, 35, 302, 409, 706, 303, 135, 719, 208, 229, 830, 177, 359, 757, 715, 527, 561, 606, 623, 609, 197, 385, 716, 285, 590, 143, 160, 357, 54, 217, 529, 173, 130, 50, 744, 758, 498, 558, 472, 545, 109, 317, 807, 709
+      ];
+         const nonVariantOnly = [194, 38, 103, 52, 618, 27, 211, 25, 19, 18, 6, 3, 460, 628, 133, 319, 74, 75, 706, 127, 214, 94, 302, 303, 492, 282, 815, 359, 248, 719, 362, 208, 222];
+    const variantOnly = [26, 28, 37, 716];
+    const allowedVariants = ['Alola', 'active'];
+
+    return allowedNumbers.includes(card.number) && (
+      (nonVariantOnly.includes(card.number) && !card.variant) ||
+      (variantOnly.includes(card.number) && allowedVariants.includes(card.variant || '')) ||
+      (!nonVariantOnly.includes(card.number) && !variantOnly.includes(card.number))
+    );
+    },
+    carouselCards: ['Meganium-154', 'Milotic-350', 'Wishiwashi (School)-746', 'Volcarona-637', 'Steelix-208', 'Xerneas-716'],
+    chaseCard: 'Xerneas-716',
   },
 ];
 

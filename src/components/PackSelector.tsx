@@ -131,7 +131,7 @@ export const PackSelector: React.FC<PackSelectorProps> = ({ selectedPack, setSel
 
             {/* Scrollable Pack Grid */}
             <div className="max-h-[240px] overflow-y-auto rounded-lg inset-shadow-sm inset-shadow-[#8c9ca4] p-3">
-              <div className="grid grid-cols-5 gap-4">
+              <div className="grid grid-cols-5 gap-2">
                 {themedPacks.map(pack => (
                   <button
                     key={pack.id}
