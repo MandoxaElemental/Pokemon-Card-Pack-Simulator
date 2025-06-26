@@ -482,7 +482,7 @@ requiredCards: [
   },
   {
     id: 'totem',
-    name: 'Standing Before You: Totem Pokemon',
+    name: 'Totem Challenge',
     description: 'Collect the Totem Pokemon',
     showIcons: true,
     requiredCards: [
@@ -934,6 +934,7 @@ requiredCards: [
   { cardKey: 'Arceus (Dark)-493', variant: 'dark' },
   { cardKey: 'Arceus (Steel)-493', variant: 'steel' },
   { cardKey: 'Arceus (Fairy)-493', variant: 'fairy' },
+  { cardKey: 'Arceus (???)-493', variant: 'unknown' },
 ]
   },
   {

@@ -201,13 +201,33 @@ export const themedPacks: BoosterPack[] = [
     shinyChase: true,
   },
   {
+    id: 'unite',
+    name: 'Unite',
+    filter: (card: Card) => {
+      const allowedNumbers = [
+        1, 2, 3, 4, 5, 6, 7, 8, 9, 25, 26, 35, 36, 37, 38, 39, 40, 54, 66, 67, 68, 77, 78, 79, 80, 84, 85, 92, 93, 94, 122, 129, 130, 131, 143, 147, 148, 149, 150, 151, 183, 184, 133, 196, 197, 123, 212, 113, 242, 245, 246, 247, 248, 250,  255, 256, 257,  280, 281, 282, 302, 358, 374, 375, 376, 380, 381, 443, 444, 445, 448, 470, 471, 220, 221, 473, 491, 557, 558, 570, 571, 607, 608, 609, 653, 654, 655, 656, 657, 658, 661, 662, 663, 679, 680, 681, 700, 704, 705, 706, 708, 709, 720, 722, 723, 724, 761, 762, 763, 764, 778, 794, 807, 813, 814, 815, 816, 817, 818, 819, 820, 829, 830, 845, 868, 869, 870, 884, 885, 886, 887, 888, 891, 892, 906, 907, 908, 935, 936, 937, 957, 958, 959, 1008, 190, 424, 341, 352, 531, 415, 516, 506, 507, 63, 49, 165, 166, 191, 192, 751, 752, 101, 872, 873, 659, 660, 876, 333, 334, 177, 178, 272, 626, 479, 834, 145, 486, 713, 589, 617, 894, 377, 378, 379, 384, 515, 516, 875, 613, 614, 939, 973, 128, 225, 895, 234, 144
+      ];
+         const nonVariantOnly = [3, 6, 9, 79, 80, 94, 122, 130, 131, 143, 248, 212, 257, 282, 302, 358, 376, 380, 381, 445, 448, 570, 571, 658, 705, 706, 724, 815, 818, 101, 479, 834, 145, 713, 384, 128, 144, 334];
+    const variantOnly = [26, 37, 38, 77, 78, 888, 52, 53, 876, 128];
+    const allowedVariants = ['Alola', 'Galar', 'Crowned', 'female', 'Combat'];
+
+    return allowedNumbers.includes(card.number) && (
+      (nonVariantOnly.includes(card.number) && !card.variant) ||
+      (variantOnly.includes(card.number) && allowedVariants.includes(card.variant || '')) ||
+      (!nonVariantOnly.includes(card.number) && !variantOnly.includes(card.number))
+    );
+    },
+    carouselCards: ['Pikachu-25', 'Rapidash (Galar)-78', 'Blissey-242', 'Mimikyu-778', 'Darkrai-491', 'Miraidon-1008'],
+    chaseCard: '',
+  },
+  {
     id: 'snap',
     name: 'Snap',
     filter: (card: Card) => {
       const allowedNumbers = [
         666, 172, 810, 813, 626, 18, 465, 587, 265, 198, 10, 214, 127, 85, 580, 581, 399, 276, 389, 129, 163, 765, 671, 415, 416, 700, 492, 154, 133, 25, 742, 659, 508, 396, 52, 531, 19, 568, 185, 702, 190, 11, 267, 24, 193, 731, 733, 168, 755, 289, 3, 510, 194, 195, 260, 166, 816, 470, 151, 677, 275, 352, 585, 586, 521, 780, 674, 1, 497, 840, 760, 282, 38, 270, 196, 251, 350, 278, 103, 739, 426, 335, 336, 182, 686, 771, 68, 618, 224, 222, 456, 366, 730, 26, 769, 319, 7, 9, 131, 226, 279, 321, 747, 134, 490, 370, 594, 320, 346, 457, 211, 693, 73, 170, 171, 121, 592, 768, 249, 746, 451, 27, 328, 330, 115, 630,  774, 843, 255, 695, 745, 450, 248, 95, 334, 403, 405, 663, 391, 142, 697, 75, 567, 218, 324, 4, 6, 157, 136, 250, 637, 162, 613, 614, 262, 461, 628, 220, 473, 227, 460, 37, 225, 872, 873, 740, 361, 362, 478, 124, 363, 393, 584, 713, 87, 699, 471, 245, 169, 595, 74, 703, 94, 714, 710, 453, 425, 35, 302, 409, 706, 303, 135, 719, 208, 229, 830, 177, 359, 757, 715, 527, 561, 606, 623, 609, 197, 385, 716, 285, 590, 143, 160, 357, 54, 217, 529, 173, 130, 50, 744, 758, 498, 558, 472, 545, 109, 317, 807, 709
       ];
-         const nonVariantOnly = [194, 38, 103, 52, 618, 27, 211, 25, 19, 18, 6, 3, 460, 628, 133, 319, 74, 75, 706, 127, 214, 94, 302, 303, 492, 282, 815, 359, 248, 719, 362, 208, 222, 142, 143];
+         const nonVariantOnly = [194, 38, 103, 52, 618, 27, 211, 25, 19, 18, 6, 3, 460, 628, 133, 319, 74, 75, 706, 127, 214, 94, 302, 303, 492, 282, 815, 359, 248, 719, 362, 208, 222, 142, 143, 9];
     const variantOnly = [26, 28, 37, 716];
     const allowedVariants = ['Alola', 'active'];
 
@@ -239,6 +259,26 @@ export const themedPacks: BoosterPack[] = [
     },
     carouselCards: ['Omanyte-138', 'Anorith-347', 'Bastiodon-411', 'Carracosta-565', 'Tyrantrum-697', 'Dracovish-882', 'Mega Aerodactyl-142', 'Regigigas-486', 'Genesect-649'],
     chaseCard: 'Genesect-649',
+  },
+  {
+    id: 'urshifu',
+    name: 'Might & Mastery',
+    filter: (card: Card) => {
+      const allowedNumbers = [
+        1, 2, 3, 7, 8, 9, 56, 57, 66, 67, 68, 83, 106, 107, 214, 236, 237, 296, 297, 307, 308, 447, 448, 453, 454, 280, 281, 475, 532, 533, 534, 538, 539, 559, 560, 619, 620, 674,  675, 701, 759, 760, 766, 782, 783, 784, 802, 852, 853, 865, 870, 891, 892, 973, 979, 60, 61, 62, 129, 130, 273, 274, 275, 285, 286, 318, 319, 341, 342, 501, 502, 503, 551, 552, 553, 821, 822, 823, 827, 828, 845, 846, 847, 912, 913, 914,  919, 920, 403, 404, 405, 239, 125, 466, 522, 523, 921, 922, 923, 113, 242, 440, 427, 428, 531, 963, 954, 656, 657, 658, 744, 745
+      ];
+         const nonVariantOnly = [0];
+    const variantOnly = [83];
+    const allowedVariants = ['Galar'];
+
+    return allowedNumbers.includes(card.number) && (
+      (nonVariantOnly.includes(card.number) && !card.variant) ||
+      (variantOnly.includes(card.number) && allowedVariants.includes(card.variant || '')) ||
+      (!nonVariantOnly.includes(card.number) && !variantOnly.includes(card.number))
+    );
+    },
+    carouselCards: ['Kubfu-891', 'Urshifu (Single Strike)-892', 'Urshifu (Rapid Strike)-892', 'GMax Urshifu (Single Strike)-892', 'GMax Urshifu (Rapid Strike)-892'],
+    chaseCard: '',
   },
 ];
 
@@ -818,6 +858,7 @@ export const allCards: Card[] = [
   { name: 'Arceus (Dragon)', number: 493, type: ['Dragon'], isShiny: false, rarity: 'Mythical', move: 'Judgment', variant: 'dragon' },
   { name: 'Arceus (Dark)', number: 493, type: ['Dark'], isShiny: false, rarity: 'Mythical', move: 'Judgment', variant: 'dark' },
   { name: 'Arceus (Fairy)', number: 493, type: ['Fairy'], isShiny: false, rarity: 'Mythical', move: 'Judgment', variant: 'fairy' },
+  { name: 'Arceus (???)', number: 493, type: ['Stellar'], isShiny: false, rarity: 'Mythical', move: 'Judgment', variant: 'unknown', artist: '@FedeFadePSK' },
   //Unova
    { name: 'Victini', number: 494, type: ['Psychic', 'Fire'], isShiny: false, rarity: 'Mythical', move: 'V-create' },
   { name: 'Snivy', number: 495, type: ['Grass'], isShiny: false, rarity: 'Uncommon', move: 'Leaf Blade' },
@@ -1813,7 +1854,7 @@ export const specialFormRegionMapping: Record<number, Record<string, string[]>> 
   442: {east: ['Sinnoh'], west: ['Sinnoh']},
   443: {east: ['Sinnoh'], west: ['Sinnoh']},
   201: {a: ['Johto'], b: ['Johto'], c: ['Johto'], d: ['Johto'], e: ['Johto'], f: ['Johto'], g: ['Johto'], h: ['Johto'], i: ['Johto'], j: ['Johto'], k: ['Johto'], l: ['Johto'], m: ['Johto'], n: ['Johto'], o: ['Johto'], p: ['Johto'], q: ['Johto'], r: ['Johto'], s: ['Johto'], t: ['Johto'], u: ['Johto'], v: ['Johto'], w: ['Johto'], x: ['Johto'], y: ['Johto'], z: ['Johto'], exclamation: ['Johto'], question: ['Johto']},
-  493: {fighting: ['Sinnoh'], flying: ['Sinnoh'], poison: ['Sinnoh'], ground: ['Sinnoh'], rock: ['Sinnoh'], bug: ['Sinnoh'], ghost: ['Sinnoh'], steel: ['Sinnoh'], fire: ['Sinnoh'], water: ['Sinnoh'], grass: ['Sinnoh'], electric: ['Sinnoh'], psychic: ['Sinnoh'], ice: ['Sinnoh'], dragon: ['Sinnoh'], dark: ['Sinnoh'], fairy: ['Sinnoh']},
+  493: {fighting: ['Sinnoh'], flying: ['Sinnoh'], poison: ['Sinnoh'], ground: ['Sinnoh'], rock: ['Sinnoh'], bug: ['Sinnoh'], ghost: ['Sinnoh'], steel: ['Sinnoh'], fire: ['Sinnoh'], water: ['Sinnoh'], grass: ['Sinnoh'], electric: ['Sinnoh'], psychic: ['Sinnoh'], ice: ['Sinnoh'], dragon: ['Sinnoh'], dark: ['Sinnoh'], fairy: ['Sinnoh'], unknwon: ['Sinnoh']},
   773: {fighting: ['Alola'], flying: ['Alola'], poison: ['Alola'], ground: ['Alola'], rock: ['Alola'], bug: ['Alola'], ghost: ['Alola'], steel: ['Alola'], fire: ['Alola'], water: ['Alola'], grass: ['Alola'], electric: ['Alola'], psychic: ['Alola'], ice: ['Alola'], dragon: ['Alola'], dark: ['Alola'], fairy: ['Alola']},
   585: {spring: ['Unova'], summer: ['Unova'], autumn: ['Unova'], winter: ['Unova']},
   586: {spring: ['Unova'], summer: ['Unova'], autumn: ['Unova'], winter: ['Unova']},
