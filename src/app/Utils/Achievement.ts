@@ -92,6 +92,7 @@ export const achievements: Achievement[] = [
   { cardKey: 'Pawmi-921' },
   { cardKey: 'Pawmo-922' },
   { cardKey: 'Pawmot-923' },
+  { cardKey: 'GMax Pikachu-25', variant: 'GMax' },
 ]
   },
     {
@@ -500,6 +501,28 @@ requiredCards: [
   { cardKey: 'Ribombee-743' },
 ]
   },
+  {
+    id: 'myth',
+    name: 'Myths of Hisui',
+    description: 'Collect the Totem Pokemon',
+    showIcons: true,
+    requiredCards: [
+    { cardKey: 'Wyrdeer-899' },
+    { cardKey: 'Kleavor-900' },
+    { cardKey: 'Lilligant (Hisui)-549', variant: 'Hisui' },
+    { cardKey: 'Ursaluna-901' },
+    { cardKey: 'Basculegion♂-902' },
+    { cardKey: 'Arcanine (Hisui)-59', variant: 'Hisui' },
+    { cardKey: 'Electrode (Hisui)-101', variant: 'Hisui' },
+    { cardKey: 'Sneasler-903' },
+    { cardKey: 'Braviary (Hisui)-628', variant: 'Hisui' },
+    { cardKey: 'Avalugg (Hisui)-713', variant: 'Hisui' },
+    { cardKey: 'Dialga (Origin)-483', variant: 'Origin' },
+    { cardKey: 'Palkia (Origin)-484', variant: 'Origin' },
+    { cardKey: 'Giratina (Origin)-487', variant: 'Origin' },
+    { cardKey: 'Arceus-493'},
+  ]
+  },
       {
     id: 'silvally',
     name: 'RKS',
@@ -833,12 +856,12 @@ requiredCards: [
     description: 'Collect the Illumina Phenomenon Pokemon',
     showIcons: true,
     requiredCards: [
-  { cardKey: 'Meganium-154' },
-{ cardKey: 'Milotic-350' },
-{ cardKey: 'Wishiwashi (School)-746', variant: 'School' },  
-{ cardKey: 'Volcarona-637' },
-{ cardKey: 'Steelix-208' },
-  { cardKey: 'Xerneas-716', variant: 'active' },
+  { cardKey: 'Meganium (Lumina)-154', variant: 'lumina' },
+{ cardKey: 'Milotic (Lumina)-350', variant: 'lumina' },
+{ cardKey: 'Wishiwashi (Lumina)-746', variant: 'lumina' },  
+{ cardKey: 'Volcarona (Lumina)-637', variant: 'lumina' },
+{ cardKey: 'Steelix (Lumina)-208', variant: 'lumina' },
+  { cardKey: 'Xerneas (Lumina)-716', variant: 'lumina' },
     ],
   },
   {

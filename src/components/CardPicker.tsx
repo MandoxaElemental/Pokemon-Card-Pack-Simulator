@@ -2,10 +2,11 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 import { AnimatePresence, motion } from 'framer-motion';
-import { allCards, Card, regionRanges, specialFormRegionMapping, themedPacks, BoosterPack } from '@/app/Utils/Interfaces';
+import { allCards, Card, regionRanges, specialFormRegionMapping, BoosterPack } from '@/app/Utils/Interfaces';
 import { PackSelector } from './PackSelector';
 import { useSound } from '@/app/Context/SoundContext';
 import Achievements from './Achievements';
+import { themedPacks } from '@/app/Utils/Packs';
 
 type CardCollection = {
   [key: string]: { card: Card; count: number; isShiny: boolean };
