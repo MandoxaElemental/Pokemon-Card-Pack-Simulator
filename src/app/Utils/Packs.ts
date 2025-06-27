@@ -253,4 +253,16 @@ export const themedPacks: BoosterPack[] = [
     carouselCards: ['Lucario-448', 'Braixen-654', 'Pikachu Libre-25', 'Shadow Mewtwo-150', 'Mega Shadow Mewtwo X-150'],
     chaseCard: 'Mega Shadow Mewtwo X-150',
   },
+    {
+    id: 'pokewalker',
+    name: 'Pokéwalker',
+    filter: (card: Card) => {
+      const allowedNumbers = [
+        16, 19, 21, 25, 29, 32, 35, 39, 41, 42, 43, 44, 46, 48, 52, 54, 60, 61, 63, 66, 69, 70, 72, 74, 77, 79, 81, 84, 88, 90, 92, 93, 95, 98, 100, 102, 105, 109, 111, 114, 115, 116, 118, 120, 128, 129, 133, 147, 161, 162, 163, 164, 170, 173, 174, 177, 179, 183, 187, 191, 194, 198, 200, 202, 203, 215, 218, 220, 222, 223, 224, 228, 234, 238, 239, 240, 255, 263, 264, 265, 279, 298, 300, 302, 307, 313, 314, 318, 320, 349, 351, 352, 355, 357, 361, 374, 399, 400, 401, 403, 406, 415, 417, 418, 422, 427, 433, 436, 438, 439, 440, 441, 442, 446, 453, 456, 459
+      ];
+      return allowedNumbers.includes(card.number) && !card.variant;
+    },
+    carouselCards: ['Pikachu-25', 'Onix-95', 'Marowak-105', 'Eevee-133', 'Torchic-255', 'Munchlax-446', 'Spiritomb-442'],
+    chaseCard: 'Spiritomb-442',
+  },
 ];

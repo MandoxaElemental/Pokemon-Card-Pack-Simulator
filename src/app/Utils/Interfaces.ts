@@ -204,7 +204,7 @@ export const allCards: Card[] = [
   { name: 'Kabuto', number: 140, type: ['Rock', 'Water'], isShiny: false, rarity: 'Uncommon', move: 'Rock Throw' },
   { name: 'Kabutops', number: 141, type: ['Rock', 'Water'], isShiny: false, rarity: 'Rare', move: 'Stone Edge' },
   { name: 'Aerodactyl', number: 142, type: ['Rock', 'Flying'], isShiny: false, rarity: 'Epic', move: 'Hyper Beam' },
-  { name: 'Snorlax', number: 143, type: ['Normal'], isShiny: false, rarity: 'Epic', move: 'Body Slam' },
+  { name: 'Snorlax', number: 143, type: ['Normal'], isShiny: false, rarity: 'Epic', move: 'Giga Impact' },
   { name: 'Articuno', number: 144, type: ['Ice', 'Flying'], isShiny: false, rarity: 'Legendary', move: 'Blizzard' },
   { name: 'Zapdos', number: 145, type: ['Electric', 'Flying'], isShiny: false, rarity: 'Legendary', move: 'Thunder' },
   { name: 'Moltres', number: 146, type: ['Fire', 'Flying'], isShiny: false, rarity: 'Legendary', move: 'Flamethrower' },
