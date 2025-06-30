@@ -561,7 +561,7 @@ className="w-[35vw] sm:w-[25vw] md:w-[16vw] aspect-[5/7] relative max-w-[200px] 
                             NEW
                           </div>
                         )}
-                        <div className="absolute top-3 right-3 flex gap-1">
+                        <div className="absolute top-3 right-3 flex gap-1 z-30">
                           {card.type.map((t, idx) => (
                             <Image key={idx} src={`/icons/types/${t}.png`} alt={`${t} icon`} width={20} height={20} />
                           ))}
@@ -672,11 +672,11 @@ className="w-[35vw] sm:w-[25vw] md:w-[16vw] aspect-[5/7] relative max-w-[200px] 
                         </div>
                         <p className={`${card.artist ? 'relative' : 'hidden'} text-sm italic z-20`}>Art by: {card.artist}</p>
                         <div className={card.isShiny ? 'text-black' : 'text-white'}>
-                          <div className="font-bold text-md text-center">{card.isShiny ? `${card.name} ✦` : card.name}</div>
+                          <div className="font-bold text-sm md:text-md text-center">{card.isShiny ? `${card.name} ✦` : card.name}</div>
                           <div className={`flex justify-center pt-1 ${card.rarity === 'Mythical' ? 'text-[#ffd700] text-shadow-white' : card.isShiny ? 'text-black' : 'text-white'}`}>
                             {getRarityIcon(card.rarity)}
                           </div>
-                          <div className="text-sm italic">{card.move}</div>
+                          <div className="text-xs md:text-sm italic">{card.move}</div>
                         </div>
                       </>
                     )}
