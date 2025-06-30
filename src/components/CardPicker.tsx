@@ -408,7 +408,7 @@ export const CardPackOpener: React.FC<CardPackOpenerProps> = ({ curatedPack }) =
 
   return (
     <div className="flex flex-col items-center justify-center p-6 text-black">
-      <h2 className="text-2xl font-bold mb-4">PokéPack Opening Simulator</h2>
+      <h2 className="mt-10 md:mt-0 text-2xl font-bold mb-4">PokéPack Opening Simulator</h2>
       
       {!curatedPack && (
         <div className="flex gap-4 mb-4">
@@ -421,7 +421,14 @@ export const CardPackOpener: React.FC<CardPackOpenerProps> = ({ curatedPack }) =
         </div>
       )}
 
-      <div className="flex gap-4 mb-6">
+      <div className="grid grid-cols-3 auto-cols-fr gap-2 mb-6">
+        <button
+  onClick={() => setShowAchievements(true)}
+  className="font-bold flex gap-2 items-center cursor-pointer bg-gradient-to-br from-blue-400 to-blue-600 text-white text-md px-4 py-2 justify-center rounded-2xl shadow-md drop-shadow-sm/25 hover:from-blue-300 hover:to-blue-500 active:from-blue-500 active:to-blue-700 transition-all duration-200 focus:ring-2 focus:ring-[#8c9ca4] hover:scale-105 active:scale-95"
+>
+  <Image src='/icons/badge.png' alt='badge' width={20} height={20} className=''/>
+  <div className='md:block hidden'>Achievements</div>
+        </button>
         <button
           onClick={openPack}
           disabled={opening}
@@ -430,7 +437,7 @@ export const CardPackOpener: React.FC<CardPackOpenerProps> = ({ curatedPack }) =
             hover:from-gray-100 hover:to-gray-300
             active:from-gray-300 active:to-gray-400
             text-black font-bold py-2 px-4 rounded-2xl
-            cursor-pointer
+            cursor-pointer justify-center
             drop-shadow-sm/25 hover:shadow-xl
             border border-gray-300
             flex gap-2 items-center
@@ -446,28 +453,28 @@ export const CardPackOpener: React.FC<CardPackOpenerProps> = ({ curatedPack }) =
             height={15}
             className="invert"
           />
+          <div className='md:block hidden'>
           {opening ? 'Opening...' : 'Open Pack'}
+          </div>
         </button>
-                <button
-  onClick={() => setShowAchievements(true)}
-  className="font-bold flex gap-2 items-center cursor-pointer bg-gradient-to-br from-blue-400 to-blue-600 text-white text-md px-4 py-2 rounded-xl shadow-md drop-shadow-sm/25 hover:from-blue-300 hover:to-blue-500 active:from-blue-500 active:to-blue-700 transition-all duration-200 focus:ring-2 focus:ring-[#8c9ca4] hover:scale-105 active:scale-95"
->
-  <Image src='/icons/badge.png' alt='badge' width={20} height={20} className=''/>
-
-  Achievements
-</button>
         <button onClick={handleResetClick} 
-        className="bg-gradient-to-br from-red-600 to-red-800 hover:from-red-500 hover:to-red-700 active:from-red-700 active:to-red-900 text-white font-bold py-2 px-4 rounded-2xl cursor-pointer drop-shadow-sm/25 hover:shadow-xl border border-red-700 flex gap-2 items-center transform transition-all duration-200 hover:scale-105 active:scale-95">Reset Collection</button>
+        className="bg-gradient-to-br from-red-600 to-red-800 hover:from-red-500 hover:to-red-700 active:from-red-700 active:to-red-900 text-white font-bold py-2 px-4 rounded-2xl cursor-pointer drop-shadow-sm/25 hover:shadow-xl border border-red-700 flex gap-2 items-center transform transition-all duration-200 hover:scale-105 active:scale-95"
+        >
+            <Image src='/icons/trash.png' alt='trash' width={20} height={20} className=''/>
+          <div className='md:block hidden'>
+            Reset Collection
+            </div>
+          </button>
       </div>
 
       {showResetModal && <ResetConfirmationModal />}
 
       {showWaveCards && cards.length === 0 && (
-        <div className="relative w-full h-[320px] grid grid-cols-5 gap-4 perspective text-white rounded-lg inset-shadow-sm inset-shadow-[#8c9ca4] p-3">
-          {Array.from({ length: 5 }).map((_, idx) => (
-            <motion.div
-              key={`wave-card-${idx}`}
-              className="w-54 h-74 relative"
+<div className="relative w-full max-w-[90vw] h-auto grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-2 sm:gap-4 perspective text-white rounded-lg inset-shadow-sm inset-shadow-[#8c9ca4] p-2 sm:p-3">
+  {Array.from({ length: 5 }).map((_, idx) => (
+    <motion.div
+      key={`wave-card-${idx}`}
+      className="w-[35vw] sm:w-[25vw] md:w-[16vw] aspect-[5/7] relative max-w-[200px] min-w-[100px]"
               animate={{
                 y: [0, -10, 10, 0],
                 transition: {
@@ -491,8 +498,8 @@ export const CardPackOpener: React.FC<CardPackOpenerProps> = ({ curatedPack }) =
         </div>
       )}
 
-      <div className={`${showWaveCards && cards.length === 0 ? 'hidden' : 'relative'} w-auto md:min-w-[1168px] h-auto md:h-[320px] grid grid-cols-3 md:grid-cols-5 gap-4 perspective text-white rounded-lg inset-shadow-sm inset-shadow-[#8c9ca4] p-3`}>
-        {cards.map((card, idx) => {
+<div className={`${showWaveCards && cards.length === 0 ? 'hidden' : 'relative'} w-full max-w-[90vw] h-auto grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-2 sm:gap-4 perspective text-white rounded-lg inset-shadow-sm inset-shadow-[#8c9ca4] p-2 sm:p-3`}>
+          {cards.map((card, idx) => {
           const imagePath = card.variant ? `${card.isShiny ? '/shiny' : '/home-icons'}/${card.number}-${card.variant}.png` : `${card.isShiny ? '/shiny' : '/home-icons'}/${card.number}.png`;
           const cardKey = `${card.name}-${card.number}${card.variant ? `-${card.variant}` : ''}`;
           const isArceus = card.name === 'Arceus' || card.name.startsWith('Arceus (');
@@ -504,8 +511,7 @@ export const CardPackOpener: React.FC<CardPackOpenerProps> = ({ curatedPack }) =
           return (
             <motion.div
               key={`card-${idx}-${cardKey}`}
-              className="w-54 h-74 relative"
-              initial={{ y: 100, opacity: 0 }}
+className="w-[35vw] sm:w-[25vw] md:w-[16vw] aspect-[5/7] relative max-w-[200px] min-w-[100px]"              initial={{ y: 100, opacity: 0 }}
               animate={{ y: entered[idx] ? 0 : 100, opacity: entered[idx] ? 1 : 0, rotate: shaking[idx] && !revealed[idx] ? [0, -5, 5, -5, 5, 0] : 0 }}
               transition={{ duration: shaking[idx] && !revealed[idx] ? 0.5 : 0.5, delay: idx * 0.1 }}
               style={{ zIndex: 2 }}
@@ -516,12 +522,12 @@ export const CardPackOpener: React.FC<CardPackOpenerProps> = ({ curatedPack }) =
                 transition={{ duration: 0.6 }}
                 className="absolute inset-0 w-full h-full transform-style-preserve-3d"
               >
-                <div className="absolute w-full h-full backface-hidden md:scale-100 scale-50">
+                <div className="absolute w-full h-full backface-hidden ">
                   <Image src="/cardback.png" alt="Card Back" fill className="rounded-xl border-2 border-gray-600" />
                 </div>
 
                 <div
-                  className={`absolute md:scale-100 scale-50 w-full h-full rotateY-180 backface-hidden p-1.5 rounded-xl flex flex-col items-center justify-between text-center shadow-xl/30 ${card.isShiny ? "bg-white" : getTypeBorderClass(card.rarity)} ${card.rarity === 'Mythical' && revealed[idx] && !card.isShiny ? 'glow-mythical' : card.isShiny ? 'glow-shiny twinkle-shiny' : ''} ${revealed[idx] ? 'cursor-pointer hover:scale-105 transition-transform' : ''}`}
+                  className={`absolute  w-full h-full rotateY-180 backface-hidden p-1.5 rounded-xl flex flex-col items-center justify-between text-center shadow-xl/30 ${card.isShiny ? "bg-white" : getTypeBorderClass(card.rarity)} ${card.rarity === 'Mythical' && revealed[idx] && !card.isShiny ? 'glow-mythical' : card.isShiny ? 'glow-shiny twinkle-shiny' : ''} ${revealed[idx] ? 'cursor-pointer hover:scale-105 transition-transform' : ''}`}
                   onClick={() => revealed[idx] && handleCardClick(cardKey)}
                 >
                   <div
@@ -560,7 +566,7 @@ export const CardPackOpener: React.FC<CardPackOpenerProps> = ({ curatedPack }) =
                             <Image key={idx} src={`/icons/types/${t}.png`} alt={`${t} icon`} width={20} height={20} />
                           ))}
                         </div>
-                        <div className='flex justify-center items-center w-44 h-44 p-2 relative'>
+                        <div className='flex justify-center items-center w-[80%] h-[80%] p-2 relative'>
                           {isArceus && (
                             <motion.div
                               initial={{ scale: 0.8, opacity: 0 }}
@@ -658,12 +664,11 @@ export const CardPackOpener: React.FC<CardPackOpenerProps> = ({ curatedPack }) =
                             </motion.div>
                           )}
                           <Image
-                            src={imagePath}
-                            alt={card.name}
-                            width={200}
-                            height={200}
-                            className="mb-1 w-full h-full rounded-t-lg relative z-20 drop-shadow-xl/25"
-                          />
+  src={imagePath}
+  alt={card.name}
+  fill
+  className="mb-1 w-[80%] h-[80%] mx-auto rounded-t-lg relative z-20 drop-shadow-xl/25 object-contain"
+/>
                         </div>
                         <p className={`${card.artist ? 'relative' : 'hidden'} text-sm italic z-20`}>Art by: {card.artist}</p>
                         <div className={card.isShiny ? 'text-black' : 'text-white'}>
@@ -718,8 +723,8 @@ export const CardPackOpener: React.FC<CardPackOpenerProps> = ({ curatedPack }) =
             }
           }}
         >
-          <div ref={modalContentRef} className="bg-[#E4F1F6] rounded-lg max-w-3xl w-full p-6 text-[#2A3F55] relative overflow-y-auto max-h-[90vh]">
-            <button
+<div ref={modalContentRef} className="bg-[#E4F1F6] rounded-lg w-full max-w-[95vw] sm:max-w-3xl p-4 sm:p-6 text-[#2A3F55] relative overflow-y-auto max-h-[90vh]">
+              <button
               onClick={() => { setShowDex(false); setIsFiltersOpen(false); setSelectedCard(null); }}
               className="absolute top-2 right-4 text-[#2A3F55] hover:opacity-80 text-3xl cursor-pointer"
             >
@@ -901,8 +906,8 @@ export const CardPackOpener: React.FC<CardPackOpenerProps> = ({ curatedPack }) =
             {displayedCards.length === 0 ? (
               <p className="text-center text-gray-400 mt-10">No cards available for this region or rarity yet.</p>
             ) : (
-              <div className="grid grid-cols-5 gap-4 rounded-lg inset-shadow-sm inset-shadow-[#8c9ca4] p-3">
-                {displayedCards.map(card => {
+<div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-2 sm:gap-4 rounded-lg inset-shadow-sm inset-shadow-[#8c9ca4] p-2 sm:p-3">
+                  {displayedCards.map(card => {
                   const cardKey = `${card.name}-${card.number}${card.variant ? `-${card.variant}` : ''}`;
                   const owned = collectedCards[cardKey];
                   const imagePath = card.variant ? `/home-icons/${card.number}-${card.variant}.png` : `/home-icons/${card.number}.png`;

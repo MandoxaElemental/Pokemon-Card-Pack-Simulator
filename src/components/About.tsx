@@ -115,7 +115,7 @@ const modalContentRef = useRef<HTMLDivElement>(null);
         >
           ✖
         </button>
-        <h3 className="text-xl font-bold mb-4">Welcome to PokéPack Opening Simulator - Alpha v1.0.1</h3>
+        <h3 className="text-xl font-bold mb-4">Welcome to PokéPack Opening Simulator - Alpha v1.0.2</h3>
         <div className="p-3 inset-shadow-sm inset-shadow-[#8c9ca4] rounded-lg">
         <p className="mb-2">
           Just a small solo side project I am working on. Feel free to contact me if you have any suggestions, or find any bugs as this is still a work in progress.
