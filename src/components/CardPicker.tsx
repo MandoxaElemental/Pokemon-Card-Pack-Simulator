@@ -424,11 +424,12 @@ export const CardPackOpener: React.FC<CardPackOpenerProps> = ({ curatedPack }) =
       <div className="grid grid-cols-3 auto-cols-fr gap-2 mb-6">
         <button
   onClick={() => setShowAchievements(true)}
-  className="font-bold flex gap-2 items-center cursor-pointer bg-gradient-to-br from-blue-400 to-blue-600 text-white text-md px-4 py-2 justify-center rounded-2xl shadow-md drop-shadow-sm/25 hover:from-blue-300 hover:to-blue-500 active:from-blue-500 active:to-blue-700 transition-all duration-200 focus:ring-2 focus:ring-[#8c9ca4] hover:scale-105 active:scale-95"
+  className="font-bold flex gap-2 items-center cursor-pointer bg-gradient-to-br from-blue-400 to-blue-600 text-white text-md px-4 py-2 justify-center rounded-full md:rounded-2xl shadow-md drop-shadow-sm/25 hover:from-blue-300 hover:to-blue-500 active:from-blue-500 active:to-blue-700 transition-all duration-200 focus:ring-2 focus:ring-[#8c9ca4] hover:scale-105 active:scale-95"
 >
   <Image src='/icons/badge.png' alt='badge' width={20} height={20} className=''/>
   <div className='md:block hidden'>Achievements</div>
         </button>
+        <div className='flex justify-center'>
         <button
           onClick={openPack}
           disabled={opening}
@@ -436,7 +437,7 @@ export const CardPackOpener: React.FC<CardPackOpenerProps> = ({ curatedPack }) =
             bg-gradient-to-br from-white to-gray-200
             hover:from-gray-100 hover:to-gray-300
             active:from-gray-300 active:to-gray-400
-            text-black font-bold py-2 px-4 rounded-2xl
+            text-black font-bold py-2 px-4 rounded-full md:rounded-2xl
             cursor-pointer justify-center
             drop-shadow-sm/25 hover:shadow-xl
             border border-gray-300
@@ -457,8 +458,9 @@ export const CardPackOpener: React.FC<CardPackOpenerProps> = ({ curatedPack }) =
           {opening ? 'Opening...' : 'Open Pack'}
           </div>
         </button>
+        </div>
         <button onClick={handleResetClick} 
-        className="bg-gradient-to-br from-red-600 to-red-800 hover:from-red-500 hover:to-red-700 active:from-red-700 active:to-red-900 text-white font-bold py-2 px-4 rounded-2xl cursor-pointer drop-shadow-sm/25 hover:shadow-xl border border-red-700 flex gap-2 items-center transform transition-all duration-200 hover:scale-105 active:scale-95"
+        className="bg-gradient-to-br from-red-600 to-red-800 hover:from-red-500 hover:to-red-700 active:from-red-700 active:to-red-900 text-white font-bold py-2 px-4 rounded-full md:rounded-2xl cursor-pointer drop-shadow-sm/25 hover:shadow-xl border border-red-700 flex gap-2 items-center transform transition-all duration-200 hover:scale-105 active:scale-95"
         >
             <Image src='/icons/trash.png' alt='trash' width={20} height={20} className=''/>
           <div className='md:block hidden'>
@@ -566,7 +568,7 @@ className="w-[35vw] sm:w-[25vw] md:w-[16vw] aspect-[5/7] relative max-w-[200px] 
                             <Image key={idx} src={`/icons/types/${t}.png`} alt={`${t} icon`} width={20} height={20} />
                           ))}
                         </div>
-                        <div className='flex justify-center items-center w-[80%] h-[80%] p-2 relative'>
+                        <div className='flex justify-center items-center w-[90%] h-[90%] p-2 relative'>
                           {isArceus && (
                             <motion.div
                               initial={{ scale: 0.8, opacity: 0 }}
@@ -664,11 +666,11 @@ className="w-[35vw] sm:w-[25vw] md:w-[16vw] aspect-[5/7] relative max-w-[200px] 
                             </motion.div>
                           )}
                           <Image
-  src={imagePath}
-  alt={card.name}
-  fill
-  className="mb-1 w-[80%] h-[80%] mx-auto rounded-t-lg relative z-20 drop-shadow-xl/25 object-contain"
-/>
+                            src={imagePath}
+                            alt={card.name}
+                            fill
+                            className="mb-1 w-[80%] h-[80%] mx-auto rounded-t-lg relative z-20 drop-shadow-xl/25 object-contain"
+                          />
                         </div>
                         <p className={`${card.artist ? 'relative' : 'hidden'} text-sm italic z-20`}>Art by: {card.artist}</p>
                         <div className={card.isShiny ? 'text-black' : 'text-white'}>

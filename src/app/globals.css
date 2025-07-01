@@ -317,7 +317,6 @@ background: linear-gradient(180deg, rgba(228, 241, 246, 1) 0%, rgba(228, 241, 24
   animation: pulse-glow 1.5s ease-in-out infinite;
 }
 
-/* Infinite scroll animation */
 @keyframes scroll {
   0% { transform: translateX(0%); }
   100% { transform: translateX(-200%); }
@@ -331,7 +330,6 @@ background: linear-gradient(180deg, rgba(228, 241, 246, 1) 0%, rgba(228, 241, 24
   animation-play-state: paused;
 }
 
-/* Custom scrollbar for pack grid */
 .max-h-240px::-webkit-scrollbar {
   width: 6px;
 }

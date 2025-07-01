@@ -15,7 +15,6 @@ export const PackSelector: React.FC<PackSelectorProps> = ({ selectedPack, setSel
   const [hoveredPackId, setHoveredPackId] = useState<string | null>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
-  // Determine which pack's cards to display (hovered pack or selected pack)
   const displayPack = hoveredPackId
     ? themedPacks.find(pack => pack.id === hoveredPackId) || themedPacks[0]
     : themedPacks.find(pack => pack.id === selectedPack) || themedPacks[0];
@@ -28,7 +27,6 @@ export const PackSelector: React.FC<PackSelectorProps> = ({ selectedPack, setSel
     .filter((card): card is Card => !!card);
   const shinyCheck = displayPack.shinyChase || false;
 
-  // Click outside handler
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
@@ -71,7 +69,6 @@ export const PackSelector: React.FC<PackSelectorProps> = ({ selectedPack, setSel
         <Image src="/caret-down-fill.svg" alt="caret-down" width={15} height={15} className="invert" />
       </button>
 
-      {/* Dropdown Menu */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
@@ -79,7 +76,7 @@ export const PackSelector: React.FC<PackSelectorProps> = ({ selectedPack, setSel
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
             transition={{ duration: 0.2 }}
-            className="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-[600px] bg-[#E4F1F6] rounded-2xl shadow-xl p-4 z-50"
+            className="scale-50 sm:scale-75 md:scale-100 absolute top-full left-1/2 -translate-x-1/2 md:mt-2 w-[600px] bg-[#E4F1F6] rounded-2xl shadow-xl p-4 z-50"
           >
             <div className="flex justify-center">
               {packCards.length > 0 ? (

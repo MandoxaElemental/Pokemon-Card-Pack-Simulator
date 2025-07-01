@@ -74,7 +74,7 @@ export const achievements: Achievement[] = [
     {
     id: 'pika',
     name: 'Pika! Pika!',
-    description: 'Collect Pikachu and all of the Pika-Clones',
+    description: 'Collect Pokemon with Electric Cheeks',
     showIcons: true,
     requiredCards: [
   { cardKey: 'Pichu-172' },
@@ -93,6 +93,21 @@ export const achievements: Achievement[] = [
   { cardKey: 'Pawmo-922' },
   { cardKey: 'Pawmot-923' },
   { cardKey: 'GMax Pikachu-25', variant: 'GMax' },
+]
+  },
+    {
+    id: 'meowth',
+    name: "Meowth that's Right",
+    description: 'Collect All Meowth Variants and Evolutions',
+    showIcons: true,
+    requiredCards: [
+  { cardKey: 'Meowth-52' },
+  { cardKey: 'Persian-53' },
+  { cardKey: 'Meowth (Alola)-52', variant: 'Alola' },
+  { cardKey: 'Persian (Alola)-53', variant: 'Alola' },
+  { cardKey: 'Meowth (Galar)-52', variant: 'Galar' },
+  { cardKey: 'Perrserker-863' },
+  { cardKey: 'GMax Meowth-52', variant: 'GMax' },
 ]
   },
     {
