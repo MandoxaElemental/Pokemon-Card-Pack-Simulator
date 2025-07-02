@@ -275,4 +275,24 @@ export const themedPacks: BoosterPack[] = [
     carouselCards: ['Pikachu-25', 'Onix-95', 'Marowak-105', 'Eevee-133', 'Torchic-255', 'Munchlax-446', 'Spiritomb-442'],
     chaseCard: 'Spiritomb-442',
   },
+    {
+    id: 'sweet',
+    name: 'Sweet Delights',
+    filter: (card: Card) => {
+      const allowedNumbers = [
+        35, 36, 39, 40, 63, 64, 65, 77, 78, 83, 102, 103, 173, 174, 175, 176, 43, 44, 182, 191, 192, 213, 216, 217, 241, 315, 406, 407, 415, 416, 420, 421, 548, 549, 582, 583, 584, 669, 670, 671, 682, 683, 684, 685, 742, 743, 753, 754, 761, 762, 763, 764, 829, 830, 840, 841, 842, 854, 855, 856, 857, 858, 867, 875, 877, 819, 820, 868, 869, 924, 925, 926, 927, 928, 929, 930, 915, 916, 932, 933, 934, 1011, 1012, 1013, 1019, 1025, 357, 69, 70, 71, 143, 316, 317, 446, 511, 512, 513, 514, 515, 516
+      ];
+         const nonVariantOnly = [549];
+    const variantOnly = [77, 78, 83];
+    const allowedVariants = ['Galar'];
+
+    return allowedNumbers.includes(card.number) && (
+      (nonVariantOnly.includes(card.number) && !card.variant) ||
+      (variantOnly.includes(card.number) && allowedVariants.includes(card.variant || '')) ||
+      (!nonVariantOnly.includes(card.number) && !variantOnly.includes(card.number))
+    );
+    },
+    carouselCards: ['Alcremie-869', 'Alcremie (Caramel Swirl / Flower)-869', 'Alcremie (Lemon / Star)-869', 'Alcremie (Matcha / Clover)-869', 'Alcremie (Salted / Berry)-869', 'Alcremie (Ruby / Ribbon)-869', 'Alcremie (Rainbow Swirl / Love)-869', 'GMax Alcremie-869'],
+    chaseCard: 'GMax Alcremie-869',
+  },
 ];
