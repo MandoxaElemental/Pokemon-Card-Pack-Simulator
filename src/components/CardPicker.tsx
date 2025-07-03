@@ -50,7 +50,6 @@ export const CardPackOpener: React.FC<CardPackOpenerProps> = ({ curatedPack }) =
   const legendJingleRef = useRef<HTMLAudioElement | null>(null);
   const shinyJingleRef = useRef<HTMLAudioElement | null>(null);
   const pokemonCryRef = useRef<HTMLAudioElement | null>(null);
-  const audioContextRef = useRef<AudioContext | null>(null);
   const modalContentRef = useRef<HTMLDivElement>(null);
   const [isFiltersOpen, setIsFiltersOpen] = useState(false);
   const [isShinyToggled, setIsShinyToggled] = useState(false);

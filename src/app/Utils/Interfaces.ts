@@ -1314,7 +1314,7 @@ export const allCards: Card[] = [
   { name: "GMax Charizard", number: 6, variant: "GMax", type: ["Fire", "Flying"], isShiny: false, audio: 'charizard', rarity: "Legendary", move: "G-Max Wildfire" },
   { name: "GMax Blastoise", number: 9, variant: "GMax", type: ["Water"], isShiny: false, audio: 'blastoise', rarity: "Legendary", move: "G-Max Cannonade" },
   { name: "GMax Butterfree", number: 12, variant: "GMax", type: ["Bug", "Flying"], isShiny: false, audio: 'butterfree', rarity: "Legendary", move: "G-Max Befuddle" },
-  { name: "GMax Pikachu", number: 25, variant: "GMax", type: ["Electric"], isShiny: false, audio: 'pikachu-partner', rarity: "Legendary", move: "G-Max Volt Crash" },
+  { name: "GMax Pikachu", number: 25, variant: "GMax", type: ["Electric"], isShiny: false, audio: 'pikachu-sterter', rarity: "Legendary", move: "G-Max Volt Crash" },
   { name: "GMax Meowth", number: 52, variant: "GMax", type: ["Normal"], isShiny: false, audio: 'meowth', rarity: "Legendary", move: "G-Max Gold Rush" },
   { name: "GMax Machamp", number: 68, variant: "GMax", type: ["Fighting"], isShiny: false, audio: 'machamp', rarity: "Legendary", move: "G-Max Chi Strike" },
   { name: "GMax Gengar", number: 94, variant: "GMax", type: ["Ghost", "Poison"], isShiny: false, audio: 'gengar', rarity: "Legendary", move: "G-Max Terror" },
