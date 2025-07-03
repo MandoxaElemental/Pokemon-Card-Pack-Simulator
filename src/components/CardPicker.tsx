@@ -49,6 +49,8 @@ export const CardPackOpener: React.FC<CardPackOpenerProps> = ({ curatedPack }) =
   const mythicJingleRef = useRef<HTMLAudioElement | null>(null);
   const legendJingleRef = useRef<HTMLAudioElement | null>(null);
   const shinyJingleRef = useRef<HTMLAudioElement | null>(null);
+  const pokemonCryRef = useRef<HTMLAudioElement | null>(null);
+  const audioContextRef = useRef<AudioContext | null>(null);
   const modalContentRef = useRef<HTMLDivElement>(null);
   const [isFiltersOpen, setIsFiltersOpen] = useState(false);
   const [isShinyToggled, setIsShinyToggled] = useState(false);
@@ -96,11 +98,14 @@ export const CardPackOpener: React.FC<CardPackOpenerProps> = ({ curatedPack }) =
     mythicJingleRef.current = new Audio('/sounds/mythic-jingle.mp3');
     legendJingleRef.current = new Audio('/sounds/legend-jingle.mp3');
     shinyJingleRef.current = new Audio('/sounds/shiny-jingle.mp3');
+    pokemonCryRef.current = new Audio();
+    
     slideSoundRef.current.volume = 0.5;
     flipSoundRef.current.volume = 0.5;
     mythicJingleRef.current.volume = 0.5;
     legendJingleRef.current.volume = 0.5;
     shinyJingleRef.current.volume = 0.5;
+    pokemonCryRef.current.volume = 0.5;
   }, []);
 
   useEffect(() => {
@@ -146,6 +151,17 @@ export const CardPackOpener: React.FC<CardPackOpenerProps> = ({ curatedPack }) =
     }
   }, [showDex, selectedCard]);
 
+    const playPokemonCry = (cardKey: string) => {
+    if (pokemonCryRef.current) {
+      pokemonCryRef.current.pause();
+      pokemonCryRef.current.src = '';
+      pokemonCryRef.current.src = `https://play.pokemonshowdown.com/audio/cries/${cardKey}.mp3`;
+      if (!isMuted) {
+        pokemonCryRef.current.play().catch(e => console.error('Error playing Pokémon cry:', e));
+      }
+    }
+  };
+
   const clearStorage = () => {
     try {
       localStorage.removeItem('pokemonCollection');
@@ -177,7 +193,7 @@ export const CardPackOpener: React.FC<CardPackOpenerProps> = ({ curatedPack }) =
     const renderRepeatedImage = (src: string, count: number) => (
       <span className="inline-flex gap-0.5 items-center justify-center">
         {Array.from({ length: count }).map((_, i) => (
-          <Image key={i} src={src} alt="rarity" width={16} height={16} />
+          <Image key={i} src={src} alt="rarity" width={12} height={12} />
         ))}
       </span>
     );
@@ -754,7 +770,8 @@ className="w-[35vw] sm:w-[25vw] md:w-[16vw] aspect-[5/7] relative max-w-[200px] 
                   }
                   alt={`${collectedCards[selectedCard].card.name}${isShinyToggled ? ' (Shiny)' : ''}`}
                   fill
-                  className="object-contain relative z-20 drop-shadow-lg/50"
+                  className="object-contain relative z-20 cursor-pointer drop-shadow-lg/50"
+                  onClick={() => playPokemonCry(collectedCards[selectedCard].card.audio)}
                 />
               </motion.div>
             </div>
@@ -786,7 +803,7 @@ className="w-[35vw] sm:w-[25vw] md:w-[16vw] aspect-[5/7] relative max-w-[200px] 
               <p className="flex items-center gap-1 text-sm font-semibold">
                 Rarity: {getRarityIcon(collectedCards[selectedCard].card.rarity)} {collectedCards[selectedCard].card.rarity}
               </p>
-              <div className="text-sm flex items-center gap-1">
+              <div className="text-sm my-1 flex items-center gap-1">
                 Type:
                 {collectedCards[selectedCard].card.type.map((t, idx) => (
                   <Image key={idx} src={`/icons/types/${t}.png`} alt={`${t} icon`} width={20} height={20} />
