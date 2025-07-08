@@ -111,7 +111,7 @@ const modalContentRef = useRef<HTMLDivElement>(null);
       >
         <button
           onClick={() => setShowModal(false)}
-          className="absolute top-2 right-4 hover:opacity-80 text-3xl cursor-pointer text-[#8c9ca4]"
+          className="absolute top-2 right-4 hover:opacity-80 text-3xl cursor-pointer"
         >
           ✖
         </button>

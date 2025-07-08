@@ -1,4 +1,4 @@
-'use client';
+'use client'
 import React, { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 import { AnimatePresence, motion } from 'framer-motion';
@@ -15,6 +15,12 @@ type CardCollection = {
 interface SavedData {
   collectedCards: CardCollection;
   packsOpened: number;
+  dailyMission?: {
+    targetCardKey: string;
+    missionStart: string;
+    streak: number;
+    missionCompleted: boolean;
+  };
 }
 
 interface CardPackOpenerProps {
@@ -36,9 +42,17 @@ export const CardPackOpener: React.FC<CardPackOpenerProps> = ({ curatedPack }) =
   const [, setDoubleFlipped] = useState<boolean[]>([]);
   const [selectedCard, setSelectedCard] = useState<string | null>(null);
   const [showResetModal, setShowResetModal] = useState(false);
+  const [showMissionModal, setShowMissionModal] = useState(false);
   const [showAchievements, setShowAchievements] = useState(false);
   const [showWaveCards, setShowWaveCards] = useState(true);
   const [selectedPack, setSelectedPack] = useState<string>(curatedPack ? curatedPack.id : 'mystery');
+  const [dailyMission, setDailyMission] = useState<{
+    targetCard: Card | null;
+    missionStart: Date | null;
+    streak: number;
+    missionCompleted: boolean;
+  }>({ targetCard: null, missionStart: null, streak: 0, missionCompleted: false });
+  const [timeRemaining, setTimeRemaining] = useState<string>('00:00:00');
   const cardRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
   const [currentRegion, setCurrentRegion] = useState<keyof typeof regionRanges | 'All'>('All');
   const [currentRarity, setCurrentRarity] = useState<'All' | Card['rarity']>('All');
@@ -50,10 +64,9 @@ export const CardPackOpener: React.FC<CardPackOpenerProps> = ({ curatedPack }) =
   const legendJingleRef = useRef<HTMLAudioElement | null>(null);
   const shinyJingleRef = useRef<HTMLAudioElement | null>(null);
   const pokemonCryRef = useRef<HTMLAudioElement | null>(null);
-  const modalContentRef = useRef<HTMLDivElement>(null);
+  const dexModalContentRef = useRef<HTMLDivElement>(null);
   const [isFiltersOpen, setIsFiltersOpen] = useState(false);
   const [isShinyToggled, setIsShinyToggled] = useState(false);
-
 
   const displayedCards = Array.from(
     new Set(
@@ -86,8 +99,76 @@ export const CardPackOpener: React.FC<CardPackOpenerProps> = ({ curatedPack }) =
   }).filter((card): card is Card => card !== undefined);
 
   useEffect(() => {
-    if (showDex && modalContentRef.current) {
-      modalContentRef.current.scrollTop = 0;
+    const initializeDailyMission = () => {
+      const savedData = localStorage.getItem('pokemonCollection');
+      let missionData: SavedData['dailyMission'] = undefined;
+      if (savedData) {
+        try {
+          const parsed = JSON.parse(savedData) as SavedData;
+          missionData = parsed.dailyMission;
+        } catch (error) {
+          console.error('Error parsing daily mission from localStorage:', error);
+        }
+      }
+
+      const now = new Date();
+      const todayMidnightUTC = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate() + 1));
+      const isNewDay = !missionData || new Date(missionData.missionStart).toDateString() !== now.toDateString();
+
+      if (isNewDay) {
+        const targetCard = allCards[Math.floor(Math.random() * allCards.length)];
+        setDailyMission({
+          targetCard,
+          missionStart: now,
+          streak: missionData && new Date(missionData.missionStart).toDateString() === new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate())).toDateString() ? missionData.streak : 0,
+          missionCompleted: false,
+        });
+      } else {
+        const targetCard = allCards.find(c => {
+          const cardKey = `${c.name}-${c.number}${c.variant ? `-${c.variant}` : ''}`;
+          return cardKey === missionData!.targetCardKey;
+        });
+        setDailyMission({
+          targetCard: targetCard || null,
+          missionStart: new Date(missionData!.missionStart),
+          streak: missionData!.streak,
+          missionCompleted: missionData!.missionCompleted || false,
+        });
+      }
+    };
+
+    initializeDailyMission();
+  }, []);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      const now = new Date();
+      const todayMidnightUTC = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate() + 1));
+      const timeDiff = todayMidnightUTC.getTime() - now.getTime();
+
+      if (timeDiff <= 0) {
+        const targetCard = allCards[Math.floor(Math.random() * allCards.length)];
+        setDailyMission(prev => ({
+          targetCard,
+          missionStart: now,
+          streak: prev.missionStart && new Date(prev.missionStart).toDateString() === new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate())).toDateString() ? prev.streak : 0,
+          missionCompleted: false,
+        }));
+      } else {
+        const hours = Math.floor(timeDiff / (1000 * 60 * 60));
+        const minutes = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((timeDiff % (1000 * 60)) / 1000);
+        const newTime = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        setTimeRemaining(prev => (prev !== newTime ? newTime : prev));
+      }
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, []);
+
+  useEffect(() => {
+    if (showDex && dexModalContentRef.current) {
+      dexModalContentRef.current.scrollTop = 0;
     }
   }, [showDex, selectedCard]);
 
@@ -98,7 +179,6 @@ export const CardPackOpener: React.FC<CardPackOpenerProps> = ({ curatedPack }) =
     legendJingleRef.current = new Audio('/sounds/legend-jingle.mp3');
     shinyJingleRef.current = new Audio('/sounds/shiny-jingle.mp3');
     pokemonCryRef.current = new Audio();
-    
     slideSoundRef.current.volume = 0.5;
     flipSoundRef.current.volume = 0.5;
     mythicJingleRef.current.volume = 0.5;
@@ -135,14 +215,23 @@ export const CardPackOpener: React.FC<CardPackOpenerProps> = ({ curatedPack }) =
   }, []);
 
   useEffect(() => {
-    if (Object.keys(collectedCards).length > 0 || packsOpened > 0) {
+    if (Object.keys(collectedCards).length > 0 || packsOpened > 0 || dailyMission.targetCard) {
       try {
-        localStorage.setItem('pokemonCollection', JSON.stringify({ collectedCards, packsOpened }));
+        localStorage.setItem('pokemonCollection', JSON.stringify({
+          collectedCards,
+          packsOpened,
+          dailyMission: dailyMission.targetCard ? {
+            targetCardKey: `${dailyMission.targetCard.name}-${dailyMission.targetCard.number}${dailyMission.targetCard.variant ? `-${dailyMission.targetCard.variant}` : ''}`,
+            missionStart: dailyMission.missionStart?.toISOString(),
+            streak: dailyMission.streak,
+            missionCompleted: dailyMission.missionCompleted,
+          } : undefined,
+        }));
       } catch (error) {
         console.error('Error saving to localStorage:', error);
       }
     }
-  }, [collectedCards, packsOpened]);
+  }, [collectedCards, packsOpened, dailyMission]);
 
   useEffect(() => {
     if (showDex && selectedCard && cardRefs.current[selectedCard]) {
@@ -150,7 +239,7 @@ export const CardPackOpener: React.FC<CardPackOpenerProps> = ({ curatedPack }) =
     }
   }, [showDex, selectedCard]);
 
-    const playPokemonCry = (cardKey: string) => {
+  const playPokemonCry = (cardKey: string) => {
     if (pokemonCryRef.current) {
       pokemonCryRef.current.pause();
       pokemonCryRef.current.src = '';
@@ -172,7 +261,7 @@ export const CardPackOpener: React.FC<CardPackOpenerProps> = ({ curatedPack }) =
       setRevealed([]);
       setIsNewCard([]);
       setShowWaveCards(true);
-
+      setDailyMission({ targetCard: null, missionStart: null, streak: 0, missionCompleted: false });
       console.log('Cleared localStorage');
     } catch (error) {
       console.error('Error clearing localStorage:', error);
@@ -182,6 +271,9 @@ export const CardPackOpener: React.FC<CardPackOpenerProps> = ({ curatedPack }) =
 
   const handleResetClick = () => {
     setShowResetModal(true);
+  };
+  const handleMissionClick = () => {
+    setShowMissionModal(true);
   };
 
   const getRarityIcon = (rarity: Card['rarity']) => {
@@ -267,6 +359,11 @@ export const CardPackOpener: React.FC<CardPackOpenerProps> = ({ curatedPack }) =
       }
 
       const updatedCollected = { ...collectedCards };
+      let missionCompleted = false;
+      const targetCardKey = dailyMission.targetCard
+        ? `${dailyMission.targetCard.name}-${dailyMission.targetCard.number}${dailyMission.targetCard.variant ? `-${dailyMission.targetCard.variant}` : ''}`
+        : '';
+
       newCards.forEach((card) => {
         const key = `${card.name}-${card.number}${card.variant ? `-${card.variant}` : ''}`;
         if (updatedCollected[key]) {
@@ -274,6 +371,14 @@ export const CardPackOpener: React.FC<CardPackOpenerProps> = ({ curatedPack }) =
           if (card.isShiny) updatedCollected[key].isShiny = true;
         } else {
           updatedCollected[key] = { card: card, count: 1, isShiny: card.isShiny || false };
+        }
+        if (key === targetCardKey && !missionCompleted) {
+          missionCompleted = true;
+          setDailyMission(prev => ({
+            ...prev,
+            streak: prev.streak + 1,
+            missionCompleted: true,
+          }));
         }
       });
 
@@ -402,7 +507,7 @@ export const CardPackOpener: React.FC<CardPackOpenerProps> = ({ curatedPack }) =
 
   const handleCardClick = (cardKey: string) => {
     setSelectedCard(cardKey);
-    setIsShinyToggled(false)
+    setIsShinyToggled(false);
     setShowDex(true);
   };
 
@@ -411,20 +516,116 @@ export const CardPackOpener: React.FC<CardPackOpenerProps> = ({ curatedPack }) =
       <div className="bg-[#E4F1F6] rounded-lg max-w-md w-full p-6 text-[#2A3F55] relative">
         <h3 className="text-xl font-bold mb-2 bord">WARNING</h3>
         <div className="rounded-lg inset-shadow-sm inset-shadow-[#8c9ca4] p-3">
-        <p className="mb-6">Resetting your collection will delete all your collected cards and progress. This action cannot be undone.</p>
-        <div className="flex justify-end gap-4">
-          <button onClick={() => setShowResetModal(false)} className="bg-gradient-to-br from-gray-600 to-gray-800 hover:from-gray-500 hover:to-gray-700 active:from-gray-700 active:to-gray-900 text-white font-bold py-2 px-4 rounded-2xl cursor-pointer drop-shadow-sm/25 hover:shadow-xl border border-gray-700 flex gap-2 items-center transform transition-all duration-200 hover:scale-105 active:scale-95">Cancel</button>
-          <button onClick={clearStorage} className="bg-gradient-to-br from-red-600 to-red-800 hover:from-red-500 hover:to-red-700 active:from-red-700 active:to-red-900 text-white font-bold py-2 px-4 rounded-2xl cursor-pointer drop-shadow-sm/25 hover:shadow-xl border border-red-700 flex gap-2 items-center transform transition-all duration-200 hover:scale-105 active:scale-95">Confirm</button>
-        </div>
+          <p className="mb-6">Resetting your collection will delete all your collected cards, progress, and daily mission data. This action cannot be undone.</p>
+          <div className="flex justify-end gap-4">
+            <button
+              onClick={() => setShowResetModal(false)}
+              className="bg-gradient-to-br from-gray-600 to-gray-800 hover:from-gray-500 hover:to-gray-700 active:from-gray-700 active:to-gray-900 text-white font-bold py-2 px-4 rounded-2xl cursor-pointer drop-shadow-sm/25 hover:shadow-xl border border-gray-700 flex gap-2 items-center transform transition-all duration-200 hover:scale-105 active:scale-95"
+            >
+              Cancel
+            </button>
+            <button
+              onClick={clearStorage}
+              className="bg-gradient-to-br from-red-600 to-red-800 hover:from-red-500 hover:to-red-700 active:from-red-700 active:to-red-900 text-white font-bold py-2 px-4 rounded-2xl cursor-pointer drop-shadow-sm/25 hover:shadow-xl border border-red-700 flex gap-2 items-center transform transition-all duration-200 hover:scale-105 active:scale-95"
+            >
+              Confirm
+            </button>
+          </div>
         </div>
       </div>
     </div>
   );
 
+  const DailyMissionBox = React.memo(() => (
+    <div className="fixed inset-0 bg-black/50 flex justify-center items-center z-50 p-6" onClick={() => setShowMissionModal(false)}>
+          <div className="bg-[#E4F1F6] rounded-lg max-w-md w-full p-6 text-[#2A3F55] relative">
+            <button
+          onClick={() => setShowMissionModal(false)}
+          className="absolute top-2 right-4 hover:opacity-80 text-3xl cursor-pointer"
+        >
+          ✖
+        </button>
+        <div className="flex items-center gap-2 mb-2">
+        <h3 className="text-lg font-bold">Daily Mission</h3>
+        {dailyMission.missionCompleted && (
+          <p>
+            ✓
+          </p>
+        )}
+      </div>
+      <p className="text-sm mb-2">
+        {dailyMission.missionCompleted ? 'Mission Completed!' : 'Draw this Pokémon to continue your streak!'}
+      </p>
+            <div className={`inset-shadow-sm inset-shadow-[#8c9ca4] ${dailyMission.missionCompleted ? 'bg-gradient-to-br from-green-100 to-green-200' : 'bg-[#E4F1F6]'} rounded-lg p-4 text-[#2A3F55] shadow-md z-50`}>
+      {dailyMission.targetCard ? (
+        <div className="flex flex-col items-center">
+          <div className='flex items-center gap-5'>
+            <div className="w-30 h-30 relative mb-2">
+              <Image
+                src={
+                  dailyMission.targetCard.variant
+                    ? `/home-icons/${dailyMission.targetCard.number}-${dailyMission.targetCard.variant}.png`
+                    : `/home-icons/${dailyMission.targetCard.number}.png`
+                }
+                alt={dailyMission.targetCard.name}
+                fill
+                className={`object-contain cursor-pointer ${dailyMission.missionCompleted ? '' : 'brightness-0 opacity-50'}`}
+                onClick={() => playPokemonCry(dailyMission.targetCard!.audio)}
+              />
+            </div>
+            <div>
+            <p className="font-semibold text-lg">{dailyMission.targetCard.name}</p>
+            <div className="flex items-center gap-1 text-md">
+              Rarity: {getRarityIcon(dailyMission.targetCard.rarity)}
+            </div>
+            <div className="flex items-center gap-1 text-md">
+              Type:
+              {dailyMission.targetCard.type.map((t, idx) => (
+                <Image key={idx} src={`/icons/types/${t}.png`} alt={`${t} icon`} width={16} height={16} />
+              ))}
+            </div>
+            </div>
+          </div>
+        </div>
+      ) : (
+        <p className="text-sm italic">Loading mission...</p>
+      )}
+    </div>
+    <div className="flex justify-around items-center w-full mt-3 text-lg font-semibold">
+            <p>Time: {timeRemaining || '00:00:00'}</p>
+            <p>Streak: {dailyMission.streak}</p>
+          </div>
+      </div>
+    </div>
+  ));
+
   return (
     <div className="flex flex-col items-center justify-center p-6 text-black">
+          <div className="absolute top-5 left-5">
+        <button
+          onClick={() => setShowMissionModal(true)}
+          className="h-10 w-10 bg-gradient-to-br from-white to-gray-200 hover:from-gray-100 hover:to-gray-300 active:from-gray-300 active:to-gray-400 text-black font-bold rounded-full cursor-pointer drop-shadow-sm/25 hover:shadow-xl border border-gray-300 flex items-center justify-center transform transition-all duration-200 hover:scale-105 active:scale-95 text-2xl"
+        >
+          <Image src='/icons/mission.png' alt='mission' width={20} height={20} className="invert"/>
+        </button>
+  </div>
+      <style>
+        {`
+          @media (min-width: 640px) and (max-width: 767px) {
+            .center-last-row-sm {
+              display: flex;
+              flex-wrap: wrap;
+              justify-content: center;
+            }
+            .center-last-row-sm > * {
+              flex: 0 0 calc(33.333% - 0.5rem); /* Match sm:grid-cols-3 with gap-2 */
+              max-width: calc(33.333% - 0.5rem);
+            }
+          }
+        `}
+      </style>
       <h2 className="mt-10 md:mt-0 text-2xl font-bold mb-4">PokéPack Opening Simulator</h2>
-      
+
       {!curatedPack && (
         <div className="flex gap-4 mb-4">
           <PackSelector
@@ -438,60 +639,57 @@ export const CardPackOpener: React.FC<CardPackOpenerProps> = ({ curatedPack }) =
 
       <div className="grid grid-cols-3 auto-cols-fr gap-2 mb-6">
         <button
-  onClick={() => setShowAchievements(true)}
-  className="font-bold flex gap-2 items-center cursor-pointer bg-gradient-to-br from-blue-400 to-blue-600 text-white text-md px-4 py-2 justify-center rounded-full md:rounded-2xl shadow-md drop-shadow-sm/25 hover:from-blue-300 hover:to-blue-500 active:from-blue-500 active:to-blue-700 transition-all duration-200 focus:ring-2 focus:ring-[#8c9ca4] hover:scale-105 active:scale-95"
->
-  <Image src='/icons/badge.png' alt='badge' width={20} height={20} className=''/>
-  <div className='md:block hidden'>Achievements</div>
-        </button>
-        <div className='flex justify-center'>
-        <button
-          onClick={openPack}
-          disabled={opening}
-          className={`
-            bg-gradient-to-br from-white to-gray-200
-            hover:from-gray-100 hover:to-gray-300
-            active:from-gray-300 active:to-gray-400
-            text-black font-bold py-2 px-4 rounded-full md:rounded-2xl
-            cursor-pointer justify-center
-            drop-shadow-sm/25 hover:shadow-xl
-            border border-gray-300
-            flex gap-2 items-center
-            transform transition-all duration-200
-            hover:scale-105 active:scale-95
-            ${opening ? 'opacity-50 cursor-not-allowed inset-shadow-sm inset-shadow-[#8c9ca4]' : ''}
-          `}
+          onClick={() => setShowAchievements(true)}
+          className="font-bold flex gap-2 items-center cursor-pointer bg-gradient-to-br from-blue-400 to-blue-600 text-white text-md px-4 py-2 justify-center rounded-full md:rounded-2xl shadow-md drop-shadow-sm/25 hover:from-blue-300 hover:to-blue-500 active:from-blue-500 active:to-blue-700 transition-all duration-200 focus:ring-2 focus:ring-[#8c9ca4] hover:scale-105 active:scale-95"
         >
-          <Image
-            src={opening ? '/icons/pack-open.png' : '/icons/pack-close.png'}
-            alt={opening ? 'Pack Open' : 'Pack Close'}
-            width={15}
-            height={15}
-            className="invert"
-          />
-          <div className='md:block hidden'>
-          {opening ? 'Opening...' : 'Open Pack'}
-          </div>
+          <Image src="/icons/badge.png" alt="badge" width={20} height={20} className="" />
+          <div className="md:block hidden">Achievements</div>
         </button>
-        </div>
-        <button onClick={handleResetClick} 
-        className="bg-gradient-to-br from-red-600 to-red-800 hover:from-red-500 hover:to-red-700 active:from-red-700 active:to-red-900 text-white font-bold py-2 px-4 rounded-full md:rounded-2xl cursor-pointer drop-shadow-sm/25 hover:shadow-xl border border-red-700 flex gap-2 items-center transform transition-all duration-200 hover:scale-105 active:scale-95"
-        >
-            <Image src='/icons/trash.png' alt='trash' width={20} height={20} className=''/>
-          <div className='md:block hidden'>
-            Reset Collection
-            </div>
+        <div className="flex justify-center">
+          <button
+            onClick={openPack}
+            disabled={opening}
+            className={`
+              bg-gradient-to-br from-white to-gray-200
+              hover:from-gray-100 hover:to-gray-300
+              active:from-gray-300 active:to-gray-400
+              text-black font-bold py-2 px-4 rounded-full md:rounded-2xl
+              cursor-pointer justify-center
+              drop-shadow-sm/25 hover:shadow-xl
+              border border-gray-300
+              flex gap-2 items-center
+              transform transition-all duration-200
+              hover:scale-105 active:scale-95
+              ${opening ? 'opacity-50 cursor-not-allowed inset-shadow-sm inset-shadow-[#8c9ca4]' : ''}
+            `}
+          >
+            <Image
+              src={opening ? '/icons/pack-open.png' : '/icons/pack-close.png'}
+              alt={opening ? 'Pack Open' : 'Pack Close'}
+              width={15}
+              height={15}
+              className="invert"
+            />
+            <div className="md:block hidden">{opening ? 'Opening...' : 'Open Pack'}</div>
           </button>
+        </div>
+        <button
+          onClick={handleResetClick}
+          className="bg-gradient-to-br from-red-600 to-red-800 hover:from-red-500 hover:to-red-700 active:from-red-700 active:to-red-900 text-white font-bold py-2 px-4 rounded-full md:rounded-2xl cursor-pointer drop-shadow-sm/25 hover:shadow-xl border border-red-700 flex gap-2 items-center transform transition-all duration-200 hover:scale-105 active:scale-95"
+        >
+          <Image src="/icons/trash.png" alt="trash" width={20} height={20} className="" />
+          <div className="md:block hidden">Reset Collection</div>
+        </button>
       </div>
-
+      {showMissionModal && <DailyMissionBox />}
       {showResetModal && <ResetConfirmationModal />}
 
       {showWaveCards && cards.length === 0 && (
-<div className="relative w-full max-w-[90vw] h-auto grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-2 sm:gap-4 perspective text-white rounded-lg inset-shadow-sm inset-shadow-[#8c9ca4] p-2 sm:p-3">
-  {Array.from({ length: 5 }).map((_, idx) => (
-    <motion.div
-      key={`wave-card-${idx}`}
-      className="w-[35vw] sm:w-[25vw] md:w-[16vw] aspect-[5/7] relative max-w-[200px] min-w-[100px]"
+        <div className="relative w-full max-w-[90vw] h-auto grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-2 sm:gap-4 perspective text-white rounded-lg inset-shadow-sm inset-shadow-[#8c9ca4] p-2 sm:p-3">
+          {Array.from({ length: 5 }).map((_, idx) => (
+            <motion.div
+              key={`wave-card-${idx}`}
+              className="w-[35vw] sm:w-[25vw] md:w-[16vw] aspect-[5/7] relative max-w-[200px] min-w-[100px]"
               animate={{
                 y: [0, -10, 10, 0],
                 transition: {
@@ -503,21 +701,20 @@ export const CardPackOpener: React.FC<CardPackOpenerProps> = ({ curatedPack }) =
               }}
             >
               <div className="absolute w-full h-full backface-hidden">
-                <Image
-                  src="/cardback.png"
-                  alt="Card Back"
-                  fill
-                  className="rounded-xl border-2 border-gray-600"
-                />
+                <Image src="/cardback.png" alt="Card Back" fill className="rounded-xl border-2 border-gray-600" />
               </div>
             </motion.div>
           ))}
         </div>
       )}
 
-<div className={`${showWaveCards && cards.length === 0 ? 'hidden' : 'relative'} w-full max-w-[90vw] h-auto grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-2 sm:gap-4 perspective text-white rounded-lg inset-shadow-sm inset-shadow-[#8c9ca4] p-2 sm:p-3`}>
-          {cards.map((card, idx) => {
-          const imagePath = card.variant ? `${card.isShiny ? '/shiny' : '/home-icons'}/${card.number}-${card.variant}.png` : `${card.isShiny ? '/shiny' : '/home-icons'}/${card.number}.png`;
+      <div
+        className={`${showWaveCards && cards.length === 0 ? 'hidden' : 'relative'} w-full max-w-[90vw] h-auto grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-2 sm:gap-4 perspective text-white rounded-lg inset-shadow-sm inset-shadow-[#8c9ca4] p-2 sm:p-3`}
+      >
+        {cards.map((card, idx) => {
+          const imagePath = card.variant
+            ? `${card.isShiny ? '/shiny' : '/home-icons'}/${card.number}-${card.variant}.png`
+            : `${card.isShiny ? '/shiny' : '/home-icons'}/${card.number}.png`;
           const cardKey = `${card.name}-${card.number}${card.variant ? `-${card.variant}` : ''}`;
           const isArceus = card.name === 'Arceus' || card.name.startsWith('Arceus (');
           const isSilvally = card.name === 'Silvally' || card.name.startsWith('Silvally (') || card.name === 'Type: Null';
@@ -528,7 +725,8 @@ export const CardPackOpener: React.FC<CardPackOpenerProps> = ({ curatedPack }) =
           return (
             <motion.div
               key={`card-${idx}-${cardKey}`}
-className="w-[35vw] sm:w-[25vw] md:w-[16vw] aspect-[5/7] relative max-w-[200px] min-w-[100px]"              initial={{ y: 100, opacity: 0 }}
+              className="w-[35vw] sm:w-[25vw] md:w-[16vw] aspect-[5/7] relative max-w-[200px] min-w-[100px]"
+              initial={{ y: 100, opacity: 0 }}
               animate={{ y: entered[idx] ? 0 : 100, opacity: entered[idx] ? 1 : 0, rotate: shaking[idx] && !revealed[idx] ? [0, -5, 5, -5, 5, 0] : 0 }}
               transition={{ duration: shaking[idx] && !revealed[idx] ? 0.5 : 0.5, delay: idx * 0.1 }}
               style={{ zIndex: 2 }}
@@ -539,16 +737,19 @@ className="w-[35vw] sm:w-[25vw] md:w-[16vw] aspect-[5/7] relative max-w-[200px] 
                 transition={{ duration: 0.6 }}
                 className="absolute inset-0 w-full h-full transform-style-preserve-3d"
               >
-                <div className="absolute w-full h-full backface-hidden ">
+                <div className="absolute w-full h-full backface-hidden">
                   <Image src="/cardback.png" alt="Card Back" fill className="rounded-xl border-2 border-gray-600" />
                 </div>
-
                 <div
-                  className={`absolute  w-full h-full rotateY-180 backface-hidden p-1.5 rounded-xl flex flex-col items-center justify-between text-center shadow-xl/30 ${card.isShiny ? "bg-white" : getTypeBorderClass(card.rarity)} ${card.rarity === 'Mythical' && revealed[idx] && !card.isShiny ? 'glow-mythical' : card.isShiny ? 'glow-shiny twinkle-shiny' : ''} ${revealed[idx] ? 'cursor-pointer hover:scale-105 transition-transform' : ''}`}
+                  className={`absolute w-full h-full rotateY-180 backface-hidden p-1.5 rounded-xl flex flex-col items-center justify-between text-center shadow-xl/30 ${
+                    card.isShiny ? 'bg-white' : getTypeBorderClass(card.rarity)
+                  } ${card.rarity === 'Mythical' && revealed[idx] && !card.isShiny ? 'glow-mythical' : card.isShiny ? 'glow-shiny twinkle-shiny' : ''} ${
+                    revealed[idx] ? 'cursor-pointer hover:scale-105 transition-transform' : ''
+                  }`}
                   onClick={() => revealed[idx] && handleCardClick(cardKey)}
                 >
                   <div
-                    className='w-full h-full rounded-lg flex flex-col items-center justify-between text-center p-2'
+                    className="w-full h-full rounded-lg flex flex-col items-center justify-between text-center p-2"
                     style={{
                       background: getGradientBackground(card.type),
                       ...(card.isShiny && revealed[idx]
@@ -583,7 +784,7 @@ className="w-[35vw] sm:w-[25vw] md:w-[16vw] aspect-[5/7] relative max-w-[200px] 
                             <Image key={idx} src={`/icons/types/${t}.png`} alt={`${t} icon`} width={20} height={20} />
                           ))}
                         </div>
-                        <div className='flex justify-center items-center w-[90%] h-[90%] p-2 relative'>
+                        <div className="flex justify-center items-center w-[90%] h-[90%] p-2 relative">
                           {isArceus && (
                             <motion.div
                               initial={{ scale: 0.8, opacity: 0 }}
@@ -625,7 +826,7 @@ className="w-[35vw] sm:w-[25vw] md:w-[16vw] aspect-[5/7] relative max-w-[200px] 
                             >
                               <Image
                                 src={`/icons/${card.number === 382 ? 'blue' : 'red'}-orb.png`}
-                                alt={`orb`}
+                                alt="orb"
                                 width={160}
                                 height={160}
                                 className="object-contain opacity-80"
@@ -708,143 +909,146 @@ className="w-[35vw] sm:w-[25vw] md:w-[16vw] aspect-[5/7] relative max-w-[200px] 
       <div className="flex gap-4 mt-6 items-center">
         <div className="text-lg font-semibold">Packs Opened: {packsOpened}</div>
         <button
-          onClick={() => { setSelectedCard(null); setShowDex(true); }}
+          onClick={() => {
+            setSelectedCard(null);
+            setShowDex(true);
+          }}
           className="bg-gradient-to-br from-white to-gray-200 hover:from-gray-100 hover:to-gray-300 active:from-gray-300 active:to-gray-400 text-black font-bold py-2 px-4 rounded-2xl cursor-pointer drop-shadow-sm/25 hover:shadow-xl border border-gray-300 flex gap-2 items-center transform transition-all duration-200 hover:scale-105 active:scale-95"
         >
-          <Image src='/dex.png' alt='dex' width={20} height={20} className='invert'/>
+          <Image src="/dex.png" alt="dex" width={20} height={20} className="invert" />
           View Card Dex
         </button>
-
       </div>
- <AnimatePresence>
-      {showDex && (
-         <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.3 }}
-                  className="fixed inset-0 bg-black/50 flex justify-center items-center z-50 p-6"
-                  onClick={(e) => {
-                    if (modalContentRef.current && !modalContentRef.current.contains(e.target as Node)) {
-                      setShowDex(false);
-                    }
-                  }}
-                >
-        <div
-          className="fixed inset-0 bg-black/50 flex justify-center items-center z-50 p-6"
-          onClick={(e) => {
-            if (modalContentRef.current && !modalContentRef.current.contains(e.target as Node)) {
-              setShowDex(false);
-              setIsFiltersOpen(false);
-              setSelectedCard(null);
-            }
-          }}
-        >
-<div ref={modalContentRef} className="bg-[#E4F1F6] rounded-lg w-full max-w-[95vw] sm:max-w-3xl p-4 sm:p-6 text-[#2A3F55] relative overflow-y-auto max-h-[90vh]">
-              <button
-              onClick={() => { setShowDex(false); setIsFiltersOpen(false); setSelectedCard(null); }}
-              className="absolute top-2 right-4 text-[#2A3F55] hover:opacity-80 text-3xl cursor-pointer"
-            >
-              ✖
-            </button>
-            <h3 className="text-2xl font-bold mb-4">Card Dex</h3>
-            <p className="mb-4">You&apos;ve collected {Object.keys(collectedCards).length} out of {allCards.length} cards.</p>
-        {selectedCard && collectedCards[selectedCard] && (() => {
-        return (
-          <div className="flex gap-2 mb-6 p-4 rounded-lg inset-shadow-sm inset-shadow-[#8c9ca4]">
-            <div className="w-32 h-32 relative">
-              <motion.div
-                key={isShinyToggled ? 'shiny' : 'regular'}
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.2 }}
-                className="w-full h-full"
-              >
-                <Image
-                  src={
-                    collectedCards[selectedCard].card.variant
-                      ? `${isShinyToggled ? '/shiny' : '/home-icons'}/${collectedCards[selectedCard].card.number}-${collectedCards[selectedCard].card.variant}.png`
-                      : `${isShinyToggled ? '/shiny' : '/home-icons'}/${collectedCards[selectedCard].card.number}.png`
-                  }
-                  alt={`${collectedCards[selectedCard].card.name}${isShinyToggled ? ' (Shiny)' : ''}`}
-                  fill
-                  className="object-contain relative z-20 cursor-pointer drop-shadow-lg/50"
-                  onClick={() => playPokemonCry(collectedCards[selectedCard].card.audio)}
-                />
-              </motion.div>
-            </div>
-            <div>
-                <button
-                  onClick={() => setIsShinyToggled(!isShinyToggled)}
-                  className={`bg-gradient-to-br from-white to-gray-200 p-2 rounded-full shadow-md hover:drop-shadow-sm/25 transform transition-all duration-200 hover:scale-105 active:scale-95 focus:ring-2 focus:ring-[#8c9ca4] focus:outline-none ${!collectedCards[selectedCard].isShiny ? 'opacity-50 cursor-not-allowed inset-shadow-sm inset-shadow-[#8c9ca4]' : 'cursor-pointer'}`}
-                  aria-label={isShinyToggled ? 'Switch to regular form' : 'Switch to shiny form'}
-                  title={isShinyToggled ? 'Show regular form' : 'Show shiny form'}
-                  disabled={!selectedCard || !collectedCards[selectedCard] || !collectedCards[selectedCard].isShiny}
-                >
-                  <Image
-                    src={`/icons/Shiny${isShinyToggled ? 'Active' : ''}.png`}
-                    alt="Toggle shiny form"
-                    width={20}
-                    height={20}
-                    className="object-contain"
-                  />
-                </button>
 
-            </div>
-            <div className="pt-1">
-              <h4 className="text-xl font-bold">
-                {collectedCards[selectedCard].isShiny
-                ? `${collectedCards[selectedCard].card.name} ✦`
-                : collectedCards[selectedCard].card.name}
-              </h4>
-              <p className="text-sm italic mb-1">{collectedCards[selectedCard].card.move}</p>
-              <p className="flex items-center gap-1 text-sm font-semibold">
-                Rarity: {getRarityIcon(collectedCards[selectedCard].card.rarity)} {collectedCards[selectedCard].card.rarity}
-              </p>
-              <div className="text-sm my-1 flex items-center gap-1">
-                Type:
-                {collectedCards[selectedCard].card.type.map((t, idx) => (
-                  <Image key={idx} src={`/icons/types/${t}.png`} alt={`${t} icon`} width={20} height={20} />
-                ))}
-              </div>
-              <p className="text-sm">Owned: {collectedCards[selectedCard].count}</p>
-            </div>
-          </div>
-        );
-      })()}
-      <div className="mb-4">
-        <button
-          onClick={() => setIsFiltersOpen(!isFiltersOpen)}
-          className={`cursor-pointer w-full flex justify-between items-center bg-gradient-to-br from-white to-gray-200 text-[#2A3F55] font-semibold text-md px-4 py-2 rounded-lg shadow-sm hover:shadow-md focus:ring-2 focus:ring-[#8c9ca4] focus:outline-none transition-all duration-200 ${isFiltersOpen ?'opacity-50 inset-shadow-sm inset-shadow-[#8c9ca4]' : ''}`}
-          aria-expanded={isFiltersOpen}
-          aria-controls="filter-controls"
-          aria-label={isFiltersOpen ? 'Collapse filters' : 'Expand filters'}
-        >
-          <span>Filters</span>
-          <motion.svg
-            className="w-5 h-5"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-            animate={{ rotate: isFiltersOpen ? 180 : 0 }}
+      <AnimatePresence>
+        {showDex && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
+            className="fixed inset-0 bg-black/50 flex justify-center items-center z-50 p-6"
+            onClick={(e) => {
+              if (dexModalContentRef.current && !dexModalContentRef.current.contains(e.target as Node)) {
+                setShowDex(false);
+                setIsFiltersOpen(false);
+                setSelectedCard(null);
+              }
+            }}
           >
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-          </motion.svg>
-        </button>
-        <AnimatePresence>
-          {isFiltersOpen && (
-            <motion.div
-              id="filter-controls"
-              initial={{ height: 0, opacity: 0 }}
-              animate={{ height: 'auto', opacity: 1 }}
-              exit={{ height: 0, opacity: 0 }}
-              transition={{ duration: 0.3, ease: [0.445, 0.05, 0.55, 0.95] }}
-              className="overflow-hidden mt-2"
+            <div
+              ref={dexModalContentRef}
+              className="bg-[#E4F1F6] rounded-lg w-full max-w-[95vw] sm:max-w-3xl p-4 sm:p-6 text-[#2A3F55] relative overflow-y-auto max-h-[90vh] center-last-row-sm"
             >
-              <div className="grid gap-2 p-4 rounded-lg bg-[#DDE8ED] inset-shadow-sm inset-shadow-[#8c9ca4]">
-                                        <div>
+              <button
+                onClick={() => {
+                  setShowDex(false);
+                  setIsFiltersOpen(false);
+                  setSelectedCard(null);
+                }}
+                className="absolute top-2 right-4 text-[#2A3F55] hover:opacity-80 text-3xl cursor-pointer"
+              >
+                ✖
+              </button>
+              <h3 className="text-lg sm:text-xl md:text-2xl font-bold mb-4">Card Dex</h3>
+              <p className="mb-4">You&apos;ve collected {Object.keys(collectedCards).length} out of {allCards.length} cards.</p>
+              {selectedCard && collectedCards[selectedCard] && (() => {
+                return (
+                  <div className="flex gap-2 mb-6 p-4 rounded-lg inset-shadow-sm inset-shadow-[#8c9ca4]">
+                    <div className="w-32 h-32 relative">
+                      <motion.div
+                        key={isShinyToggled ? 'shiny' : 'regular'}
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ duration: 0.2 }}
+                        className="w-full h-full"
+                      >
+                        <Image
+                          src={
+                            collectedCards[selectedCard].card.variant
+                              ? `${isShinyToggled ? '/shiny' : '/home-icons'}/${collectedCards[selectedCard].card.number}-${collectedCards[selectedCard].card.variant}.png`
+                              : `${isShinyToggled ? '/shiny' : '/home-icons'}/${collectedCards[selectedCard].card.number}.png`
+                          }
+                          alt={`${collectedCards[selectedCard].card.name}${isShinyToggled ? ' (Shiny)' : ''}`}
+                          fill
+                          className="object-contain relative z-20 cursor-pointer drop-shadow-lg/50"
+                          onClick={() => playPokemonCry(collectedCards[selectedCard].card.audio)}
+                        />
+                      </motion.div>
+                    </div>
+                    <div>
+                      <button
+                        onClick={() => setIsShinyToggled(!isShinyToggled)}
+                        className={`bg-gradient-to-br from-white to-gray-200 p-2 rounded-full shadow-md hover:drop-shadow-sm/25 transform transition-all duration-200 hover:scale-105 active:scale-95 focus:ring-2 focus:ring-[#8c9ca4] focus:outline-none ${
+                          !collectedCards[selectedCard].isShiny ? 'opacity-25 cursor-not-allowed inset-shadow-sm inset-shadow-[#8c9ca4]' : 'cursor-pointer'
+                        }`}
+                        aria-label={isShinyToggled ? 'Switch to regular form' : 'Switch to shiny form'}
+                        title={isShinyToggled ? 'Show regular form' : 'Show shiny form'}
+                        disabled={!selectedCard || !collectedCards[selectedCard] || !collectedCards[selectedCard].isShiny}
+                      >
+                        <Image
+                          src={`/icons/Shiny${isShinyToggled ? 'Active' : ''}.png`}
+                          alt="Toggle shiny form"
+                          width={20}
+                          height={20}
+                          className="object-contain"
+                        />
+                      </button>
+                    </div>
+                    <div className="pt-1">
+                      <h4 className="text-xl font-bold">
+                        {collectedCards[selectedCard].isShiny ? `${collectedCards[selectedCard].card.name} ✦` : collectedCards[selectedCard].card.name}
+                      </h4>
+                      <p className="text-sm italic mb-1">{collectedCards[selectedCard].card.move}</p>
+                      <p className="flex items-center gap-1 text-sm font-semibold">
+                        Rarity: {getRarityIcon(collectedCards[selectedCard].card.rarity)} {collectedCards[selectedCard].card.rarity}
+                      </p>
+                      <div className="text-sm my-1 flex items-center gap-1">
+                        Type:
+                        {collectedCards[selectedCard].card.type.map((t, idx) => (
+                          <Image key={idx} src={`/icons/types/${t}.png`} alt={`${t} icon`} width={20} height={20} />
+                        ))}
+                      </div>
+                      <p className="text-sm">Owned: {collectedCards[selectedCard].count}</p>
+                    </div>
+                  </div>
+                );
+              })()}
+              <div className="mb-4">
+                <button
+                  onClick={() => setIsFiltersOpen(!isFiltersOpen)}
+                  className={`cursor-pointer w-full flex justify-between items-center bg-gradient-to-br from-white to-gray-200 text-[#2A3F55] font-semibold text-md px-4 py-2 rounded-lg shadow-sm hover:shadow-md focus:ring-2 focus:ring-[#8c9ca4] focus:outline-none transition-all duration-200 ${
+                    isFiltersOpen ? 'opacity-50 inset-shadow-sm inset-shadow-[#8c9ca4]' : ''
+                  }`}
+                  aria-expanded={isFiltersOpen}
+                  aria-controls="filter-controls"
+                  aria-label={isFiltersOpen ? 'Collapse filters' : 'Expand filters'}
+                >
+                  <span>Filters</span>
+                  <motion.svg
+                    className="w-5 h-5"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    animate={{ rotate: isFiltersOpen ? 180 : 0 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                  </motion.svg>
+                </button>
+                <AnimatePresence>
+                  {isFiltersOpen && (
+                    <motion.div
+                      id="filter-controls"
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: 'auto', opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      transition={{ duration: 0.3, ease: [0.445, 0.05, 0.55, 0.95] }}
+                      className="overflow-hidden mt-2"
+                    >
+                      <div className="grid gap-2 p-4 rounded-lg bg-[#DDE8ED] inset-shadow-sm inset-shadow-[#8c9ca4]">
+                        <div>
                           <p className="font-semibold text-md mb-2">Display Mode:</p>
                           <div className="flex gap-2 mb-4 flex-wrap">
                             {(['All', 'Owned', 'Missing'] as const).map(mode => (
@@ -862,105 +1066,100 @@ className="w-[35vw] sm:w-[25vw] md:w-[16vw] aspect-[5/7] relative max-w-[200px] 
                             ))}
                           </div>
                         </div>
-                <div>
-                  <p className="font-semibold text-md mb-2">Regions:</p>
-                  <div className="flex gap-2 mb-4 flex-wrap">
-                    {['All', ...Object.keys(regionRanges)].map(region => (
-                      <button
-                        key={region}
-                        onClick={() => setCurrentRegion(region as keyof typeof regionRanges)}
-                        className={`cursor-pointer px-3 py-1 rounded-lg transform transition-all duration-200 hover:scale-105 active:scale-95 shadow-md hover:drop-shadow-sm/25 ${
-                          currentRegion === region
-                            ? 'bg-gradient-to-br from-blue-400 to-blue-600 hover:from-blue-300 hover:to-blue-500 active:from-blue-500 active:to-blue-700 text-white border border-blue-500 inset-shadow-xs inset-shadow-blue-700'
-                            : 'bg-gradient-to-br from-white to-gray-200 hover:from-gray-100 hover:to-gray-300 active:from-gray-300 active:to-gray-400'
-                        }`}
-                      >
-                        {region}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-                <div>
-                  <p className="font-semibold text-md mb-2">Rarity:</p>
-                  <div className="flex gap-2 mb-4 flex-wrap">
-                    {(['All', 'Common', 'Uncommon', 'Rare', 'Epic', 'Legendary', 'Mythical'] as const).map(rarity => (
-                      <button
-                        key={rarity}
-                        onClick={() => setCurrentRarity(rarity)}
-                        className={`cursor-pointer px-3 py-1 rounded-lg transform transition-all duration-200 hover:scale-105 active:scale-95 shadow-md hover:drop-shadow-sm/25 ${
-                          currentRarity === rarity
-                            ? 'bg-gradient-to-br from-blue-400 to-blue-600 hover:from-blue-300 hover:to-blue-500 active:from-blue-500 active:to-blue-700 text-white border border-blue-500 inset-shadow-xs inset-shadow-blue-700'
-                            : 'bg-gradient-to-br from-white to-gray-200 hover:from-gray-100 hover:to-gray-300 active:from-gray-300 active:to-gray-400'
-                        }`}
-                      >
-                        {rarity}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-                  <div>
-                  <p className="font-semibold text-md mb-2">Type:</p>
-                  <div className="flex gap-2 mb-4 flex-wrap">
-                    {(['All', 'Normal', 'Fighting', 'Flying', 'Poison', 'Ground', 'Rock', 'Bug', 'Ghost', 'Steel', 'Fire', 'Water', 'Grass', 'Electric', 'Psychic', 'Ice', 'Dragon', 'Dark', 'Fairy', 'Stellar'] as const).map(type => (
-                      <button
-                        key={type}
-                        onClick={() => setCurrentType(type)}
-                        className={`cursor-pointer px-3 py-1 rounded-lg transform transition-all duration-200 hover:scale-105 active:scale-95 shadow-md hover:drop-shadow-sm/25 ${
-                          currentType === type
-                            ? 'bg-gradient-to-br from-blue-400 to-blue-600 hover:from-blue-300 hover:to-blue-500 active:from-blue-500 active:to-blue-700 text-white border border-blue-500 inset-shadow-xs inset-shadow-blue-700'
-                            : 'bg-gradient-to-br from-white to-gray-200 hover:from-gray-100 hover:to-gray-300 active:from-gray-300 active:to-gray-400'
-                        }`}
-                      >
-                        {type}
-                      </button>
-                    ))}
-                  </div>
-                </div>
+                        <div>
+                          <p className="font-semibold text-md mb-2">Regions:</p>
+                          <div className="flex gap-2 mb-4 flex-wrap">
+                            {['All', ...Object.keys(regionRanges)].map(region => (
+                              <button
+                                key={region}
+                                onClick={() => setCurrentRegion(region as keyof typeof regionRanges)}
+                                className={`cursor-pointer px-3 py-1 rounded-lg transform transition-all duration-200 hover:scale-105 active:scale-95 shadow-md hover:drop-shadow-sm/25 ${
+                                  currentRegion === region
+                                    ? 'bg-gradient-to-br from-blue-400 to-blue-600 hover:from-blue-300 hover:to-blue-500 active:from-blue-500 active:to-blue-700 text-white border border-blue-500 inset-shadow-xs inset-shadow-blue-700'
+                                    : 'bg-gradient-to-br from-white to-gray-200 hover:from-gray-100 hover:to-gray-300 active:from-gray-300 active:to-gray-400'
+                                }`}
+                              >
+                                {region}
+                              </button>
+                            ))}
+                          </div>
+                        </div>
+                        <div>
+                          <p className="font-semibold text-md mb-2">Rarity:</p>
+                          <div className="flex gap-2 mb-4 flex-wrap">
+                            {(['All', 'Common', 'Uncommon', 'Rare', 'Epic', 'Legendary', 'Mythical'] as const).map(rarity => (
+                              <button
+                                key={rarity}
+                                onClick={() => setCurrentRarity(rarity)}
+                                className={`cursor-pointer px-3 py-1 rounded-lg transform transition-all duration-200 hover:scale-105 active:scale-95 shadow-md hover:drop-shadow-sm/25 ${
+                                  currentRarity === rarity
+                                    ? 'bg-gradient-to-br from-blue-400 to-blue-600 hover:from-blue-300 hover:to-blue-500 active:from-blue-500 active:to-blue-700 text-white border border-blue-500 inset-shadow-xs inset-shadow-blue-700'
+                                    : 'bg-gradient-to-br from-white to-gray-200 hover:from-gray-100 hover:to-gray-300 active:from-gray-300 active:to-gray-400'
+                                }`}
+                              >
+                                {rarity}
+                              </button>
+                            ))}
+                          </div>
+                        </div>
+                        <div>
+                          <p className="font-semibold text-md mb-2">Type:</p>
+                          <div className="flex gap-2 mb-4 flex-wrap">
+                            {(['All', 'Normal', 'Fighting', 'Flying', 'Poison', 'Ground', 'Rock', 'Bug', 'Ghost', 'Steel', 'Fire', 'Water', 'Grass', 'Electric', 'Psychic', 'Ice', 'Dragon', 'Dark', 'Fairy', 'Stellar'] as const).map(type => (
+                              <button
+                                key={type}
+                                onClick={() => setCurrentType(type)}
+                                className={`cursor-pointer px-3 py-1 rounded-lg transform transition-all duration-200 hover:scale-105 active:scale-95 shadow-md hover:drop-shadow-sm/25 ${
+                                  currentType === type
+                                    ? 'bg-gradient-to-br from-blue-400 to-blue-600 hover:from-blue-300 hover:to-blue-500 active:from-blue-500 active:to-blue-700 text-white border border-blue-500 inset-shadow-xs inset-shadow-blue-700'
+                                    : 'bg-gradient-to-br from-white to-gray-200 hover:from-gray-100 hover:to-gray-300 active:from-gray-300 active:to-gray-400'
+                                }`}
+                              >
+                                {type}
+                              </button>
+                            ))}
+                          </div>
+                        </div>
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </div>
-            {displayedCards.length === 0 ? (
-              <p className="text-center text-gray-400 mt-10">No cards available for this region or rarity yet.</p>
-            ) : (
-<div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-2 sm:gap-4 rounded-lg inset-shadow-sm inset-shadow-[#8c9ca4] p-2 sm:p-3">
+              {displayedCards.length === 0 ? (
+                <p className="text-center text-gray-400 mt-10">No cards available for this region or rarity yet.</p>
+              ) : (
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-2 sm:gap-4 rounded-lg inset-shadow-sm inset-shadow-[#8c9ca4] p-2 sm:p-3 center-last-row-sm">
                   {displayedCards.map(card => {
-                  const cardKey = `${card.name}-${card.number}${card.variant ? `-${card.variant}` : ''}`;
-                  const owned = collectedCards[cardKey];
-                  const imagePath = card.variant ? `/home-icons/${card.number}-${card.variant}.png` : `/home-icons/${card.number}.png`;
-                  return (
-                    <div onClick={() => handleCardClick(cardKey)} key={cardKey} className="flex flex-col items-center cursor-pointer">
-                      <div className="w-20 h-20 relative mb-2">
-                        <Image
-                          src={imagePath}
-                          alt={card.name}
-                          fill
-                          className={`object-contain ${!owned ? 'brightness-0 opacity-50' : ''}`}
-                        />
+                    const cardKey = `${card.name}-${card.number}${card.variant ? `-${card.variant}` : ''}`;
+                    const owned = collectedCards[cardKey];
+                    const imagePath = card.variant ? `/home-icons/${card.number}-${card.variant}.png` : `/home-icons/${card.number}.png`;
+                    return (
+                      <div onClick={() => handleCardClick(cardKey)} key={cardKey} className="flex flex-col items-center cursor-pointer">
+                        <div className="w-20 h-20 relative mb-2">
+                          <Image
+                            src={imagePath}
+                            alt={card.name}
+                            fill
+                            className={`object-contain ${!owned ? 'brightness-0 opacity-50' : ''}`}
+                          />
+                        </div>
+                        <div className="font-semibold text-md text-center">
+                          {owned && collectedCards[cardKey].isShiny ? `${card.name} ✦` : card.name}
+                        </div>
+                        <div className={`${card.rarity === 'Mythical' ? 'text-[#ffd700]' : 'text-white'}`}>
+                          {getRarityIcon(card.rarity)}
+                        </div>
+                        <div className="text-xs">{owned ? `Owned: ${owned.count}` : 'Missing'}</div>
                       </div>
-                      <div className="font-semibold text-md text-center">
-                        {owned && collectedCards[cardKey].isShiny ? `${card.name} ✦` : card.name}
-                      </div>
-                      <div className={`${card.rarity === 'Mythical' ? 'text-[#ffd700]' : 'text-white'}`}>
-                        {getRarityIcon(card.rarity)}
-                      </div>
-                      <div className="text-xs">{owned ? `Owned: ${owned.count}` : 'Missing'}</div>
-                    </div>
-                  );
-                })}
-              </div>
-            )}
-          </div>
-        </div>
-        </motion.div>
-      )}
-       </AnimatePresence>
-      <Achievements
-  showAchievements={showAchievements}
-  setShowAchievements={setShowAchievements}
-  collectedCards={collectedCards}
-/>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+      <Achievements showAchievements={showAchievements} setShowAchievements={setShowAchievements} collectedCards={collectedCards} />
     </div>
   );
 };
