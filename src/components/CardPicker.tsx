@@ -112,7 +112,6 @@ export const CardPackOpener: React.FC<CardPackOpenerProps> = ({ curatedPack }) =
       }
 
       const now = new Date();
-      const todayMidnightUTC = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate() + 1));
       const isNewDay = !missionData || new Date(missionData.missionStart).toDateString() !== now.toDateString();
 
       if (isNewDay) {
@@ -271,9 +270,6 @@ export const CardPackOpener: React.FC<CardPackOpenerProps> = ({ curatedPack }) =
 
   const handleResetClick = () => {
     setShowResetModal(true);
-  };
-  const handleMissionClick = () => {
-    setShowMissionModal(true);
   };
 
   const getRarityIcon = (rarity: Card['rarity']) => {
@@ -598,6 +594,7 @@ export const CardPackOpener: React.FC<CardPackOpenerProps> = ({ curatedPack }) =
       </div>
     </div>
   ));
+  DailyMissionBox.displayName = 'DailyMissionBox';
 
   return (
     <div className="flex flex-col items-center justify-center p-6 text-black">
