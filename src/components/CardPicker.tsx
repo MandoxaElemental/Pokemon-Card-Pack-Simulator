@@ -554,8 +554,7 @@ export const CardPackOpener: React.FC<CardPackOpenerProps> = ({ curatedPack }) =
       </p>
             <div className={`inset-shadow-sm inset-shadow-[#8c9ca4] ${dailyMission.missionCompleted ? 'bg-gradient-to-br from-green-100 to-green-200' : 'bg-[#E4F1F6]'} rounded-lg p-4 text-[#2A3F55] shadow-md z-50`}>
       {dailyMission.targetCard ? (
-        <div className="flex flex-col items-center">
-          <div className='flex items-center gap-5'>
+          <div className='flex items-center flex-col gap-1'>
             <div className="w-30 h-30 relative mb-2">
               <Image
                 src={
@@ -569,20 +568,13 @@ export const CardPackOpener: React.FC<CardPackOpenerProps> = ({ curatedPack }) =
                 onClick={() => playPokemonCry(dailyMission.targetCard!.audio)}
               />
             </div>
-            <div>
             <p className="font-semibold text-lg">{dailyMission.targetCard.name}</p>
             <div className="flex items-center gap-1 text-md">
-              Rarity: {getRarityIcon(dailyMission.targetCard.rarity)}
+              {getRarityIcon(dailyMission.targetCard.rarity)}
             </div>
-            <div className="flex items-center gap-1 text-md">
-              Type:
-              {dailyMission.targetCard.type.map((t, idx) => (
-                <Image key={idx} src={`/icons/types/${t}.png`} alt={`${t} icon`} width={16} height={16} />
-              ))}
-            </div>
+            <div>
             </div>
           </div>
-        </div>
       ) : (
         <p className="text-sm italic">Loading mission...</p>
       )}

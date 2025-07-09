@@ -89,6 +89,7 @@ export const achievements: Achievement[] = [
   { cardKey: 'Togedemaru-777' },
   { cardKey: 'Mimikyu-778' },
   { cardKey: 'Morpeko-877' },
+  { cardKey: 'Morpeko (Hangry)-877', variant: 'hangry' },
   { cardKey: 'Pawmi-921' },
   { cardKey: 'Pawmo-922' },
   { cardKey: 'Pawmot-923' },
