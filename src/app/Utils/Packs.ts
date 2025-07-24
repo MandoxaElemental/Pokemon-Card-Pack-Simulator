@@ -292,7 +292,7 @@ export const themedPacks: BoosterPack[] = [
       (!nonVariantOnly.includes(card.number) && !variantOnly.includes(card.number))
     );
     },
-    carouselCards: ['Alolan Exeggutor-103', 'Dragonite-150', 'Mewtwo-150', 'Slaking-289', 'Conkeldurr-534', 'Meltan-808' ,'Melmetal-809', 'Gmax Melmetal-809'],
+    carouselCards: ['Alolan Exeggutor-103', 'Dragonite-150', 'Mewtwo-150', 'Slaking-289', 'Conkeldurr-534', 'Meltan-808' ,'Melmetal-809', 'GMax Melmetal-809'],
     chaseCard: 'GMax Melmetal-809',
   },
     {
