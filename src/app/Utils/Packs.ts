@@ -276,6 +276,26 @@ export const themedPacks: BoosterPack[] = [
     chaseCard: 'Spiritomb-442',
   },
     {
+    id: 'GO',
+    name: 'GO',
+    filter: (card: Card) => {
+      const allowedNumbers = [
+        1, 2, 3, 103, 167, 168, 4, 5, 6, 146, 322, 323, 7, 8, 9, 79, 80, 129, 130, 131, 144, 767, 768, 25, 145, 150, 177, 178, 337, 700, 95, 246, 247, 248, 534, 338, 19, 20, 208, 808, 809, 149, 113, 242, 132, 133, 143, 190, 424, 289, 399, 400, 519, 520, 521
+      ];
+         const nonVariantOnly = [3, 6, 146, 323, 9, 79, 80, 130, 131, 144, 25, 145, 150, 248, 208, 149, 133, 143];
+    const variantOnly = [103, 19, 20];
+    const allowedVariants = ['Alola'];
+
+    return allowedNumbers.includes(card.number) && (
+      (nonVariantOnly.includes(card.number) && !card.variant) ||
+      (variantOnly.includes(card.number) && allowedVariants.includes(card.variant || '')) ||
+      (!nonVariantOnly.includes(card.number) && !variantOnly.includes(card.number))
+    );
+    },
+    carouselCards: ['Alolan Exeggutor-103', 'Dragonite-150', 'Mewtwo-150', 'Slaking-289', 'Conkeldurr-534', 'Meltan-808' ,'Melmetal-809', 'Gmax Melmetal-809'],
+    chaseCard: 'GMax Melmetal-809',
+  },
+    {
     id: 'sweet',
     name: 'Sweet Delights',
     filter: (card: Card) => {
