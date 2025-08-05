@@ -74,7 +74,7 @@ export default function Achievements({ showAchievements, setShowAchievements, co
   const [isMobile, setIsMobile] = useState<boolean>(false);
 
   useEffect(() => {
-    const mediaQuery = window.matchMedia('(max-width: 640px)');
+    const mediaQuery = window.matchMedia('(max-width: 639px)');
     setIsMobile(mediaQuery.matches);
 
     const handleResize = (e: MediaQueryListEvent) => {
