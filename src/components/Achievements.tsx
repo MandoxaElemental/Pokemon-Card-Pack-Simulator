@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useSwipeable } from 'react-swipeable';
 import { allCards, Card, specialFormRegionMapping } from '@/app/Utils/Interfaces';
 import { achievements } from '@/app/Utils/Achievement';
 
@@ -45,6 +46,7 @@ interface AchievementsProps {
   showAchievements: boolean;
   setShowAchievements: (show: boolean) => void;
   collectedCards: Record<string, CollectedCard>;
+  onPullComplete?: (cards: Card[]) => void;
 }
 
 interface Toast {
@@ -58,9 +60,10 @@ interface PopupState {
   position: { x: number; y: number };
 }
 
-export default function Achievements({ showAchievements, setShowAchievements, collectedCards }: AchievementsProps) {
+export default function Achievements({ showAchievements, setShowAchievements, collectedCards, onPullComplete }: AchievementsProps) {
   const modalContentRef = useRef<HTMLDivElement>(null);
   const [toasts, setToasts] = useState<Toast[]>([]);
+  const [selectedAchievementId, setSelectedAchievementId] = useState<string | null>(null);
   const [popup, setPopup] = useState<PopupState>({ visible: false, achievementId: null, position: { x: 0, y: 0 } });
   const [prevCompleted, setPrevCompleted] = useState<Set<string>>(() => {
     if (typeof window !== 'undefined') {
@@ -69,6 +72,19 @@ export default function Achievements({ showAchievements, setShowAchievements, co
     }
     return new Set();
   });
+  const [isMobile, setIsMobile] = useState<boolean>(false);
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia('(max-width: 640px)');
+    setIsMobile(mediaQuery.matches);
+
+    const handleResize = (e: MediaQueryListEvent) => {
+      setIsMobile(e.matches);
+    };
+
+    mediaQuery.addEventListener('change', handleResize);
+    return () => mediaQuery.removeEventListener('change', handleResize);
+  }, []);
 
   const getProgress = (achievement: Achievement) => {
     if (achievement.requiredCards) {
@@ -152,23 +168,42 @@ export default function Achievements({ showAchievements, setShowAchievements, co
     return [];
   };
 
- const handleInteraction = (e: React.MouseEvent | React.TouchEvent, achievement: Achievement) => {
-  if (!achievement.showIcons) return;
-  e.preventDefault();
-  const rect = (e.currentTarget as HTMLElement).getBoundingClientRect();
-  setPopup({
-    visible: true,
-    achievementId: achievement.id,
-    position: {
-      x: rect.right + 8,
-      y: rect.top,
-    },
-  });
-};
+  const handleAchievementClick = (achievementId: string) => {
+    if (isMobile) {
+      setSelectedAchievementId(achievementId);
+    }
+  };
+
+  const handleInteraction = (e: React.MouseEvent | React.TouchEvent, achievement: Achievement) => {
+    if (!achievement.showIcons || isMobile) return;
+    e.preventDefault();
+    const rect = (e.currentTarget as HTMLElement).getBoundingClientRect();
+    const isRightHalf = rect.left > window.innerWidth / 2;
+    setPopup({
+      visible: true,
+      achievementId: achievement.id,
+      position: {
+        x: isRightHalf ? rect.left - 200 : rect.right + 8,
+        y: rect.top,
+      },
+    });
+  };
 
   const handleInteractionEnd = () => {
-    setPopup({ visible: false, achievementId: null, position: { x: 0, y: 0 } });
+    if (!isMobile) {
+      setPopup({ visible: false, achievementId: null, position: { x: 0, y: 0 } });
+    }
   };
+
+  const handleBack = () => {
+    setSelectedAchievementId(null);
+  };
+
+  const swipeHandlers = useSwipeable({
+    onSwipedLeft: () => handleBack(),
+    delta: 10,
+    preventScrollOnSwipe: true,
+  });
 
   useEffect(() => {
     const currentCompleted = new Set<string>();
@@ -200,107 +235,235 @@ export default function Achievements({ showAchievements, setShowAchievements, co
       );
       return () => timers.forEach(clearTimeout);
     }
-  }, [collectedCards]);
+  }, [collectedCards, prevCompleted]);
 
   return (
     <div className="relative">
       <AnimatePresence>
         {showAchievements && (
-             <motion.div
-                      initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 0.3 }}
-                className="fixed inset-0 bg-black/50 flex justify-center items-center z-50 p-6"
-                onClick={(e) => {
-                      if (modalContentRef.current && !modalContentRef.current.contains(e.target as Node)) {
-                        setShowAchievements(false);
-                      }
-                    }}
-              >
           <motion.div
-            initial={{ x: '-100%' }}
-            animate={{ x: 0 }}
-            exit={{ x: '-100%' }}
-            transition={{ duration: 0.3, ease: [0.445, 0.05, 0.55, 0.95] }}
-            className="fixed top-0 left-0 h-full bg-[#E4F1F6] rounded-r-lg max-w-96 w-full p-6 text-[#2A3F55] z-50 overflow-y-auto"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            className="fixed inset-0 bg-black/50 z-50"
             onClick={(e) => {
               if (modalContentRef.current && !modalContentRef.current.contains(e.target as Node)) {
                 setShowAchievements(false);
+                setSelectedAchievementId(null);
+                setPopup({ visible: false, achievementId: null, position: { x: 0, y: 0 } });
               }
             }}
           >
-            <motion.div
-              ref={modalContentRef}
-              className="relative"
-            >
-              <button
-                onClick={() => setShowAchievements(false)}
-                className="absolute top-2 right-4 text-[#2A3F55] hover:opacity-80 text-3xl cursor-pointer"
-                aria-label="Close Achievements"
+            {!isMobile ? (
+              <motion.div
+                initial={{ x: '-100%' }}
+                animate={{ x: 0 }}
+                exit={{ x: '-100%' }}
+                transition={{ duration: 0.3, ease: [0.445, 0.05, 0.55, 0.95] }}
+                className="fixed top-0 left-0 h-full bg-[#E4F1F6] rounded-r-lg max-w-96 w-full p-6 text-[#2A3F55] z-50 overflow-y-auto"
+                ref={modalContentRef}
               >
-                ✖
-              </button>
-              <h3 className="text-2xl font-bold mb-4">Achievements</h3>
-              <p className="mb-4">
-                Completed {achievements.filter(a => {
-                  const { completed, total } = getProgress(a);
-                  return completed >= total;
-                }).length} of {achievements.length} achievements.
-              </p>
-              <div className="grid grid-cols-1 gap-2">
-                {achievements.map(achievement => {
-                  const { completed, total } = getProgress(achievement);
-                  const isComplete = completed >= total;
-                  return (
-                    <motion.div
-                      key={achievement.id}
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.3, delay: 0.1 * achievements.indexOf(achievement) }}
-                      className={`p-4 flex flex-col justify-between rounded-lg inset-shadow-sm inset-shadow-[#8c9ca4] ${
-                        isComplete ? 'bg-gradient-to-br from-green-100 to-green-200' : 'bg-[#DDE8ED]'
-                      }`}
-                      onMouseEnter={(e) => handleInteraction(e, achievement)}
-                      onMouseLeave={handleInteractionEnd}
-                      onTouchStart={(e) => handleInteraction(e, achievement)}
-                    >
-                      <div className="flex items-start gap-3 mb-2">
-                        <div className="w-12 h-12 relative flex-shrink-0">
-                          <Image
-                            src={`/badges/${achievement.id}.png`}
-                            alt={`${achievement.name} Badge`}
-                            fill
-                            className={`object-contain ${!isComplete ? 'brightness-0 opacity-50' : ''}`}
+                <button
+                  onClick={() => {
+                    setShowAchievements(false);
+                    setPopup({ visible: false, achievementId: null, position: { x: 0, y: 0 } });
+                  }}
+                  className="absolute top-2 right-4 text-[#2A3F55] hover:opacity-80 text-3xl cursor-pointer"
+                  aria-label="Close Achievements"
+                >
+                  ✖
+                </button>
+                <h3 className="text-2xl font-bold mb-4">Achievements</h3>
+                <p className="mb-4 text-base">
+                  Completed {achievements.filter(a => {
+                    const { completed, total } = getProgress(a);
+                    return completed >= total;
+                  }).length} of {achievements.length} achievements.
+                </p>
+                <div className="grid grid-cols-1 gap-2">
+                  {achievements.map(achievement => {
+                    const { completed, total } = getProgress(achievement);
+                    const isComplete = completed >= total;
+                    return (
+                      <motion.div
+                        key={achievement.id}
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.3, delay: 0.1 * achievements.indexOf(achievement) }}
+                        className={`p-4 flex flex-col justify-between rounded-lg inset-shadow-sm inset-shadow-[#8c9ca4] ${
+                          isComplete ? 'bg-gradient-to-br from-green-100 to-green-200' : 'bg-[#DDE8ED]'
+                        } ${achievement.showIcons ? 'cursor-pointer' : ''}`}
+                        onMouseEnter={(e) => handleInteraction(e, achievement)}
+                        onMouseLeave={handleInteractionEnd}
+                      >
+                        <div className="flex items-start gap-3 mb-2">
+                          <div className="w-12 h-12 relative flex-shrink-0">
+                            <Image
+                              src={`/badges/${achievement.id}.png`}
+                              alt={`${achievement.name} Badge`}
+                              fill
+                              className={`object-contain ${!isComplete ? 'brightness-0 opacity-50' : ''}`}
+                            />
+                          </div>
+                          <div className="flex-1">
+                            <div className="flex justify-between items-center">
+                              <h4 className={`text-md font-bold ${achievement.id === 'unown' ? 'unown-font' : ''}`}>
+                                {achievement.name}
+                              </h4>
+                              <span className="text-sm font-semibold">
+                                {completed}/{total} {isComplete ? '✓' : ''}
+                              </span>
+                            </div>
+                            <p className="text-sm">{achievement.description}</p>
+                          </div>
+                        </div>
+                        <div className="mt-2 bg-black/25 rounded-full h-2">
+                          <div
+                            className="bg-blue-500 h-2 rounded-full"
+                            style={{ width: `${Math.min((completed / total) * 100, 100)}%` }}
                           />
                         </div>
-                        <div className="flex-1">
-                          <div className="flex justify-between items-center">
-                            <h4 className={`text-md font-bold ${achievement.id === 'unown' ? 'unown-font' : ''}`}>{achievement.name}</h4>
-                            <span className="text-sm font-semibold">
-                              {completed}/{total} {isComplete ? '✓' : ''}
-                            </span>
-                          </div>
-                          <p className="text-sm">{achievement.description}</p>
-                        </div>
-                      </div>
-                      <div className="mt-2 bg-black/25 rounded-full h-2">
-                        <div
-                          className="bg-blue-500 h-2 rounded-full"
-                          style={{ width: `${Math.min((completed / total) * 100, 100)}%` }}
-                        />
-                      </div>
-                    </motion.div>
-                  );
-                })}
-              </div>
-            </motion.div>
-          </motion.div>
+                      </motion.div>
+                    );
+                  })}
+                </div>
               </motion.div>
+            ) : !selectedAchievementId ? (
+              <motion.div
+                initial={{ x: '-100%' }}
+                animate={{ x: 0 }}
+                exit={{ x: '-100%' }}
+                transition={{ duration: 0.3, ease: [0.445, 0.05, 0.55, 0.95] }}
+                className="bg-[#E4F1F6] rounded-lg w-full h-full p-4 text-[#2A3F55] relative overflow-y-auto"
+                ref={modalContentRef}
+              >
+                <button
+                  onClick={() => {
+                    setShowAchievements(false);
+                    setSelectedAchievementId(null);
+                  }}
+                  className="absolute top-2 right-2 text-[#2A3F55] hover:opacity-80 text-2xl cursor-pointer"
+                  aria-label="Close Achievements"
+                >
+                  ✖
+                </button>
+                <h3 className="text-xl font-bold mb-4">Achievements</h3>
+                <p className="mb-4 text-sm">
+                  Completed {achievements.filter(a => {
+                    const { completed, total } = getProgress(a);
+                    return completed >= total;
+                  }).length} of {achievements.length} achievements.
+                </p>
+                <div className="grid grid-cols-1 gap-2">
+                  {achievements.map(achievement => {
+                    const { completed, total } = getProgress(achievement);
+                    const isComplete = completed >= total;
+                    return (
+                      <motion.div
+                        key={achievement.id}
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.3, delay: 0.1 * achievements.indexOf(achievement) }}
+                        className={`p-3 flex flex-col justify-between rounded-lg inset-shadow-sm inset-shadow-[#8c9ca4] ${
+                          isComplete ? 'bg-gradient-to-br from-green-100 to-green-200' : 'bg-[#DDE8ED]'
+                        } ${achievement.showIcons ? 'cursor-pointer' : ''}`}
+                        onClick={() => achievement.showIcons && handleAchievementClick(achievement.id)}
+                      >
+                        <div className="flex items-start gap-2 mb-2">
+                          <div className="w-10 h-10 relative flex-shrink-0">
+                            <Image
+                              src={`/badges/${achievement.id}.png`}
+                              alt={`${achievement.name} Badge`}
+                              fill
+                              className={`object-contain ${!isComplete ? 'brightness-0 opacity-50' : ''}`}
+                            />
+                          </div>
+                          <div className="flex-1">
+                            <div className="flex justify-between items-center">
+                              <h4 className={`text-sm font-bold ${achievement.id === 'unown' ? 'unown-font' : ''}`}>
+                                {achievement.name}
+                              </h4>
+                              <span className="text-xs font-semibold">
+                                {completed}/{total} {isComplete ? '✓' : ''}
+                              </span>
+                            </div>
+                            <p className="text-xs">{achievement.description}</p>
+                          </div>
+                        </div>
+                        <div className="mt-2 bg-black/25 rounded-full h-2">
+                          <div
+                            className="bg-blue-500 h-2 rounded-full"
+                            style={{ width: `${Math.min((completed / total) * 100, 100)}%` }}
+                          />
+                        </div>
+                      </motion.div>
+                    );
+                  })}
+                </div>
+              </motion.div>
+            ) : (
+              <motion.div
+                initial={{ x: '100%' }}
+                animate={{ x: 0 }}
+                exit={{ x: '100%' }}
+                transition={{ duration: 0.3, ease: [0.445, 0.05, 0.55, 0.95] }}
+                className="bg-[#E4F1F6] rounded-lg w-full h-full p-4 text-[#2A3F55] relative overflow-y-auto"
+                {...swipeHandlers}
+              >
+                <button
+                  onClick={handleBack}
+                  className="absolute top-2 left-2 text-[#2A3F55] hover:opacity-80 text-2xl cursor-pointer"
+                  aria-label="Back to Achievements"
+                >
+                  ◄
+                </button>
+                {(() => {
+                  const achievement = achievements.find(a => a.id === selectedAchievementId);
+                  if (!achievement || !achievement.showIcons) return null;
+                  const representativeCards = getRepresentativeCards(achievement);
+                  return (
+                    <div className="mt-12">
+                      <h3 className="text-xl font-bold mb-2">{achievement.name}</h3>
+                      <p className="text-sm mb-4">{achievement.description}</p>
+                      <p className="text-xs mb-4">
+                        Progress: {getProgress(achievement).completed}/{getProgress(achievement).total}
+                      </p>
+                      <div className="grid grid-cols-4 gap-2">
+                        {representativeCards.map(({ fullKey, card, cardData, isShiny }) => {
+                          const isOwned = card && (isShiny === undefined || card.isShiny === isShiny) && card.count >= 1;
+                          return (
+                            <div key={fullKey} className="flex flex-col items-center">
+                              <div className="w-20 h-20 relative mb-1">
+                                <Image
+                                  src={
+                                    cardData
+                                      ? `${isOwned && (isShiny && card.isShiny) ? '/shiny' : '/home-icons'}/${cardData.number}${cardData.variant ? `-${cardData.variant}` : ''}.png`
+                                      : '/home-icons/placeholder.png'
+                                  }
+                                  alt={cardData?.name || 'Unknown'}
+                                  fill
+                                  className={`object-contain ${!isOwned ? 'brightness-0 opacity-50' : ''}`}
+                                />
+                              </div>
+                              <span className="text-xs text-center">
+                                {cardData?.name || 'Unknown'}
+                                {isShiny ? ' ✦' : ''}
+                              </span>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  );
+                })()}
+              </motion.div>
+            )}
+          </motion.div>
         )}
       </AnimatePresence>
       <AnimatePresence>
-        {popup.visible && popup.achievementId && (
+        {popup.visible && popup.achievementId && !isMobile && (
           <motion.div
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -313,8 +476,12 @@ export default function Achievements({ showAchievements, setShowAchievements, co
               const achievement = achievements.find(a => a.id === popup.achievementId);
               if (!achievement || !achievement.showIcons) return null;
               const representativeCards = getRepresentativeCards(achievement);
+              const gridCols =
+                achievement.id === 'daycare' ? 'grid-cols-7' :
+                representativeCards.length < 10 ? 'grid-cols-3' :
+                representativeCards.length === 10 ? 'grid-cols-5' : 'grid-cols-10';
               return (
-                <div className={`grid ${representativeCards.length < 10 ? 'grid-cols-3' : representativeCards.length === 10 ? 'grid-cols-5' : 'grid-cols-10'} gap-2`}>
+                <div className={`grid ${gridCols} gap-2`}>
                   {representativeCards.map(({ fullKey, card, cardData, isShiny }) => {
                     const isOwned = card && (isShiny === undefined || card.isShiny === isShiny) && card.count >= 1;
                     return (
@@ -344,31 +511,29 @@ export default function Achievements({ showAchievements, setShowAchievements, co
           </motion.div>
         )}
       </AnimatePresence>
-      <div className="fixed top-4 right-4 z-60 flex flex-col gap-2">
-        <AnimatePresence>
-          {toasts.map(toast => (
-            <motion.div
-              key={toast.id}
-              initial={{ x: 300, opacity: 0 }}
-              animate={{ x: 0, opacity: 1 }}
-              exit={{ x: 300, opacity: 0 }}
-              transition={{ duration: 0.5, ease: [0.4, 0, 0.2, 1] }}
-              className="bg-[#E4F1F6] text-[#2A3F55] p-4 rounded-lg shadow-lg max-w-sm w-full flex items-center gap-3"
-              role="alert"
-            >
-              <div className="w-6 h-6 relative flex-shrink-0">
-                <Image
-                  src={`/badges/${toast.id}.png`}
-                  alt={`${toast.name} Badge`}
-                  fill
-                  className="object-contain"
-                />
-              </div>
-              <p className="text-sm font-semibold">Achievement Unlocked: {toast.name}</p>
-            </motion.div>
-          ))}
-        </AnimatePresence>
-      </div>
+      <AnimatePresence>
+        {toasts.map(toast => (
+          <motion.div
+            key={toast.id}
+            initial={{ x: 300, opacity: 0 }}
+            animate={{ x: 0, opacity: 1 }}
+            exit={{ x: 300, opacity: 0 }}
+            transition={{ duration: 0.5, ease: [0.4, 0, 0.2, 1] }}
+            className="fixed top-4 right-4 z-60 bg-[#E4F1F6] text-[#2A3F55] p-3 sm:p-4 rounded-lg shadow-lg max-w-sm w-full flex items-center gap-2 sm:gap-3"
+            role="alert"
+          >
+            <div className="w-6 h-6 sm:w-8 sm:h-8 relative flex-shrink-0">
+              <Image
+                src={`/badges/${toast.id}.png`}
+                alt={`${toast.name} Badge`}
+                fill
+                className="object-contain"
+              />
+            </div>
+            <p className="text-xs sm:text-sm font-semibold">Achievement Unlocked: {toast.name}</p>
+          </motion.div>
+        ))}
+      </AnimatePresence>
     </div>
   );
 }
