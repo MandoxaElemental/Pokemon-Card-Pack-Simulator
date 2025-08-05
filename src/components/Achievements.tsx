@@ -46,7 +46,6 @@ interface AchievementsProps {
   showAchievements: boolean;
   setShowAchievements: (show: boolean) => void;
   collectedCards: Record<string, CollectedCard>;
-  onPullComplete?: (cards: Card[]) => void;
 }
 
 interface Toast {
@@ -60,7 +59,7 @@ interface PopupState {
   position: { x: number; y: number };
 }
 
-export default function Achievements({ showAchievements, setShowAchievements, collectedCards, onPullComplete }: AchievementsProps) {
+export default function Achievements({ showAchievements, setShowAchievements, collectedCards }: AchievementsProps) {
   const modalContentRef = useRef<HTMLDivElement>(null);
   const [toasts, setToasts] = useState<Toast[]>([]);
   const [selectedAchievementId, setSelectedAchievementId] = useState<string | null>(null);
