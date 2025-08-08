@@ -86,7 +86,7 @@ export const PackSelector: React.FC<PackSelectorProps> = ({ selectedPack, setSel
                     style={{
                       display: 'flex',
                       whiteSpace: 'nowrap',
-                      animation: packCards.length > 3 ? `scroll ${packCards.length * 1.5}s linear infinite` : 'none', // Adjusted duration
+                      animation: packCards.length > 3 ? `scroll ${packCards.length * 0.75}s linear infinite` : 'none',
                     }}
                   >
                     {[...packCards, ...packCards].map((card, index) => {
