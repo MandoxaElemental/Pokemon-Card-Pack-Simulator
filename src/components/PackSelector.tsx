@@ -86,10 +86,10 @@ export const PackSelector: React.FC<PackSelectorProps> = ({ selectedPack, setSel
                     style={{
                       display: 'flex',
                       whiteSpace: 'nowrap',
-                      animation: packCards.length > 3 ? `scroll ${packCards.length * 3}s linear infinite` : 'none',
+                      animation: packCards.length > 3 ? `scroll ${packCards.length * 1.5}s linear infinite` : 'none', // Adjusted duration
                     }}
                   >
-                    {[...packCards, ...packCards, ...packCards, ...packCards].map((card, index) => {
+                    {[...packCards, ...packCards].map((card, index) => {
                       const isChaseCard = `${card.name}-${card.number}` === displayPack.chaseCard;
                       return (
                         <div
@@ -126,7 +126,6 @@ export const PackSelector: React.FC<PackSelectorProps> = ({ selectedPack, setSel
               )}
             </div>
 
-            {/* Scrollable Pack Grid */}
             <div className="max-h-[240px] overflow-y-auto rounded-lg inset-shadow-sm inset-shadow-[#8c9ca4] p-3">
               <div className="grid grid-cols-5 gap-2">
                 {themedPacks.map(pack => (
