@@ -104,7 +104,7 @@ export const PackSelector: React.FC<PackSelectorProps> = ({ selectedPack, setSel
                               />
                             )}
                             <Image
-                              src={`/${isChaseCard && shinyCheck ? 'shiny' : 'home-icons'}/${card.number}${card.variant && `-${card.variant}`}.png`}
+                              src={`/${isChaseCard && shinyCheck ? 'shiny' : 'home-icons'}/${card.number}${card.variant ? `-${card.variant}` : ''}.png`}
                               alt={card.name}
                               width={100}
                               height={100}

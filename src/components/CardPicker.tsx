@@ -85,13 +85,13 @@ export const CardPackOpener: React.FC<CardPackOpenerProps> = ({ curatedPack }) =
         .filter(card => currentRarity === 'All' || card.rarity === currentRarity)
         .filter(card => currentType === 'All' || card.type.includes(currentType))
         .filter(card => {
-          const cardKey = `${card.name}-${card.number}${card.variant && `-${card.variant}`}`;
+          const cardKey = `${card.name}-${card.number}${card.variant ? `-${card.variant}` : ''}`;
           if (displayMode === 'All') return true;
           if (displayMode === 'Owned') return !!collectedCards[cardKey];
           if (displayMode === 'Missing') return !collectedCards[cardKey];
           return true;
         })
-        .map(card => `${card.name}-${card.number}${card.variant && `-${card.variant}`}`)
+        .map(card => `${card.name}-${card.number}${card.variant ? `-${card.variant}` : ''}`)
     )
   ).map(key => {
     const [, name, number, variant] = key.match(/(.+)-(\d+)(?:-(\w+))?/) || [];
@@ -124,7 +124,7 @@ export const CardPackOpener: React.FC<CardPackOpenerProps> = ({ curatedPack }) =
         });
       } else {
         const targetCard = allCards.find(c => {
-          const cardKey = `${c.name}-${c.number}${c.variant && `-${c.variant}`}`;
+          const cardKey = `${c.name}-${c.number}${c.variant ? `-${c.variant}` : ''}`;
           return cardKey === missionData!.targetCardKey;
         });
         setDailyMission({
@@ -220,7 +220,7 @@ export const CardPackOpener: React.FC<CardPackOpenerProps> = ({ curatedPack }) =
           collectedCards,
           packsOpened,
           dailyMission: dailyMission.targetCard ? {
-            targetCardKey: `${dailyMission.targetCard.name}-${dailyMission.targetCard.number}${dailyMission.targetCard.variant && `-${dailyMission.targetCard.variant}`}`,
+            targetCardKey: `${dailyMission.targetCard.name}-${dailyMission.targetCard.number}${dailyMission.targetCard.variant ? `-${dailyMission.targetCard.variant}` : ''}`,
             missionStart: dailyMission.missionStart?.toISOString(),
             streak: dailyMission.streak,
             missionCompleted: dailyMission.missionCompleted,
@@ -350,7 +350,7 @@ export const CardPackOpener: React.FC<CardPackOpenerProps> = ({ curatedPack }) =
       for (let i = 0; i < 5; i++) {
         const card = getRandomCard(selectedPack);
         newCards.push(card);
-        const key = `${card.name}-${card.number}${card.variant && `-${card.variant}`}`;
+        const key = `${card.name}-${card.number}${card.variant ? `-${card.variant}` : ''}`;
         newCardFlags.push(!collectedCards[key] || !collectedCards[key].isShiny && card.isShiny);
       }
 
@@ -361,7 +361,7 @@ export const CardPackOpener: React.FC<CardPackOpenerProps> = ({ curatedPack }) =
         : '';
 
       newCards.forEach((card) => {
-        const key = `${card.name}-${card.number}${card.variant && `-${card.variant}`}`;
+        const key = `${card.name}-${card.number}${card.variant ? `-${card.variant}` : ''}`;
         if (updatedCollected[key]) {
           updatedCollected[key].count += 1;
           if (card.isShiny) updatedCollected[key].isShiny = true;
@@ -649,7 +649,7 @@ export const CardPackOpener: React.FC<CardPackOpenerProps> = ({ curatedPack }) =
               flex gap-2 items-center
               transform transition-all duration-200
               hover:scale-105 active:scale-95
-              ${opening && 'opacity-50 cursor-not-allowed inset-shadow-sm inset-shadow-[#8c9ca4]'}
+              ${opening ? 'opacity-50 cursor-not-allowed inset-shadow-sm inset-shadow-[#8c9ca4]' : ''}
             `}
           >
             <Image
@@ -659,7 +659,7 @@ export const CardPackOpener: React.FC<CardPackOpenerProps> = ({ curatedPack }) =
               height={15}
               className="invert"
             />
-            <div className="md:block hidden">{opening ? 'Opening...' : 'Open Pack'}</div>
+            <div className="">{opening ? 'Opening...' : 'Open Pack'}</div>
           </button>
         </div>
         <button
@@ -704,7 +704,7 @@ export const CardPackOpener: React.FC<CardPackOpenerProps> = ({ curatedPack }) =
           const imagePath = card.variant
             ? `${card.isShiny ? '/shiny' : '/home-icons'}/${card.number}-${card.variant}.png`
             : `${card.isShiny ? '/shiny' : '/home-icons'}/${card.number}.png`;
-          const cardKey = `${card.name}-${card.number}${card.variant && `-${card.variant}`}`;
+          const cardKey = `${card.name}-${card.number}${card.variant ? `-${card.variant}` : ''}`;
           const isArceus = card.name === 'Arceus' || card.name.startsWith('Arceus (');
           const isSilvally = card.name === 'Silvally' || card.name.startsWith('Silvally (') || card.name === 'Type: Null';
           const isMega = card.variant === 'Mega' || card.variant?.startsWith('Mega');
@@ -733,7 +733,7 @@ export const CardPackOpener: React.FC<CardPackOpenerProps> = ({ curatedPack }) =
                   className={`absolute w-full h-full rotateY-180 backface-hidden p-1.5 rounded-xl flex flex-col items-center justify-between text-center shadow-xl/30 ${
                     card.isShiny ? 'bg-white' : getTypeBorderClass(card.rarity)
                   } ${card.rarity === 'Mythical' && revealed[idx] && !card.isShiny ? 'glow-mythical' : card.isShiny ? 'glow-shiny twinkle-shiny' : ''} ${
-                    revealed[idx] && 'cursor-pointer hover:scale-105 transition-transform'
+                    revealed[idx] ? 'cursor-pointer hover:scale-105 transition-transform' : ''
                   }`}
                   onClick={() => revealed[idx] && handleCardClick(cardKey)}
                 >
@@ -959,7 +959,7 @@ export const CardPackOpener: React.FC<CardPackOpenerProps> = ({ curatedPack }) =
                               ? `${isShinyToggled ? '/shiny' : '/home-icons'}/${collectedCards[selectedCard].card.number}-${collectedCards[selectedCard].card.variant}.png`
                               : `${isShinyToggled ? '/shiny' : '/home-icons'}/${collectedCards[selectedCard].card.number}.png`
                           }
-                          alt={`${collectedCards[selectedCard].card.name}${isShinyToggled && ' (Shiny)'}`}
+                          alt={`${collectedCards[selectedCard].card.name}${isShinyToggled ? ' (Shiny)' : ''}`}
                           fill
                           className="object-contain relative z-20 cursor-pointer drop-shadow-lg/50"
                           onClick={() => playPokemonCry(collectedCards[selectedCard].card.audio)}
@@ -977,7 +977,7 @@ export const CardPackOpener: React.FC<CardPackOpenerProps> = ({ curatedPack }) =
                         disabled={!selectedCard || !collectedCards[selectedCard] || !collectedCards[selectedCard].isShiny}
                       >
                         <Image
-                          src={`/icons/Shiny${isShinyToggled && 'Active'}.png`}
+                          src={`/icons/Shiny${isShinyToggled ? 'Active' : ''}.png`}
                           alt="Toggle shiny form"
                           width={20}
                           height={20}
@@ -1008,7 +1008,7 @@ export const CardPackOpener: React.FC<CardPackOpenerProps> = ({ curatedPack }) =
                 <button
                   onClick={() => setIsFiltersOpen(!isFiltersOpen)}
                   className={`cursor-pointer w-full flex justify-between items-center bg-gradient-to-br from-white to-gray-200 text-[#2A3F55] font-semibold text-md px-4 py-2 rounded-lg shadow-sm hover:shadow-md focus:ring-2 focus:ring-[#8c9ca4] focus:outline-none transition-all duration-200 ${
-                    isFiltersOpen && 'opacity-50 inset-shadow-sm inset-shadow-[#8c9ca4]'
+                    isFiltersOpen ? 'opacity-50 inset-shadow-sm inset-shadow-[#8c9ca4]' : ''
                   }`}
                   aria-expanded={isFiltersOpen}
                   aria-controls="filter-controls"
@@ -1119,7 +1119,7 @@ export const CardPackOpener: React.FC<CardPackOpenerProps> = ({ curatedPack }) =
               ) : (
                 <div className="grid grid-cols-3 md:grid-cols-5 gap-2 sm:gap-4 rounded-lg inset-shadow-sm inset-shadow-[#8c9ca4] p-2 sm:p-3 center-last-row-sm">
                   {displayedCards.map(card => {
-                    const cardKey = `${card.name}-${card.number}${card.variant && `-${card.variant}`}`;
+                    const cardKey = `${card.name}-${card.number}${card.variant ? `-${card.variant}` : ''}`;
                     const owned = collectedCards[cardKey];
                     const imagePath = card.variant ? `/home-icons/${card.number}-${card.variant}.png` : `/home-icons/${card.number}.png`;
                     return (
@@ -1129,7 +1129,7 @@ export const CardPackOpener: React.FC<CardPackOpenerProps> = ({ curatedPack }) =
                             src={imagePath}
                             alt={card.name}
                             fill
-                            className={`object-contain ${!owned && 'brightness-0 opacity-50'}`}
+                            className={`object-contain ${!owned ? 'brightness-0 opacity-50' : ''}`}
                           />
                         </div>
                         <div className="font-semibold text-md text-center">
