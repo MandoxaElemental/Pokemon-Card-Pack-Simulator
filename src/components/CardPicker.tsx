@@ -659,7 +659,7 @@ export const CardPackOpener: React.FC<CardPackOpenerProps> = ({ curatedPack }) =
               height={15}
               className="invert"
             />
-            <div className="">{opening ? 'Opening...' : 'Open Pack'}</div>
+            <div className="md:block hidden">{opening ? 'Opening...' : 'Open Pack'}</div>
           </button>
         </div>
         <button
