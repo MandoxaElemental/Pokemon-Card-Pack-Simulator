@@ -1,10 +1,9 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  output: 'export',
-  distDir: 'dist',
+  minimumCacheTTL:2678400,
   images: {
-    unoptimized: false,
+    unoptimized: true,
   }
 };
 
