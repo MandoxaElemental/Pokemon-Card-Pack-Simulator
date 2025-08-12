@@ -95,7 +95,7 @@ export default function Achievements({ showAchievements, setShowAchievements, co
         if (!groupedRequirements[key]) {
           groupedRequirements[key] = { minCount: req.minCount || 1, cardKeys: [] };
         }
-        groupedRequirements[key].cardKeys.push(`${req.cardKey}${req.variant ? `-${req.variant}` : ''}`);
+        groupedRequirements[key].cardKeys.push(`${req.cardKey}${req.variant && `-${req.variant}`}`);
         groupedRequirements[key].minCount = Math.max(groupedRequirements[key].minCount, req.minCount || 1);
       });
 
@@ -106,7 +106,7 @@ export default function Achievements({ showAchievements, setShowAchievements, co
         cardKeys.forEach(fullKey => {
           const card = collectedCards[fullKey];
           if (card) {
-            const req = achievement.requiredCards!.find(r => `${r.cardKey}${r.variant ? `-${r.variant}` : ''}` === fullKey);
+            const req = achievement.requiredCards!.find(r => `${r.cardKey}${r.variant && `-${r.variant}`}` === fullKey);
             const shinyMatches = !req?.isShiny || card.isShiny === req.isShiny;
             if (shinyMatches) {
               totalCount += card.count || 0;
@@ -152,7 +152,7 @@ export default function Achievements({ showAchievements, setShowAchievements, co
     }
     if (achievement.requiredCards) {
       return achievement.requiredCards.map(req => {
-        const fullKey = `${req.cardKey}${req.variant ? `-${req.variant}` : ''}`;
+        const fullKey = `${req.cardKey}${req.variant && `-${req.variant}`}`;
         const card = collectedCards[fullKey];
         const cardData = card?.card || allCards.find(c => {
           const lastHyphenIndex = req.cardKey.lastIndexOf('-');
@@ -260,7 +260,7 @@ export default function Achievements({ showAchievements, setShowAchievements, co
                 animate={{ x: 0 }}
                 exit={{ x: '-100%' }}
                 transition={{ duration: 0.3, ease: [0.445, 0.05, 0.55, 0.95] }}
-                className="fixed top-0 left-0 h-full bg-[#E4F1F6] rounded-r-lg max-w-96 w-full p-6 text-[#2A3F55] z-50 overflow-y-auto"
+                className="fixed top-0 left-0 h-full bg-[#E4F1F6] max-w-96 w-full p-6 text-[#2A3F55] z-50 overflow-y-auto"
                 ref={modalContentRef}
               >
                 <button
@@ -292,7 +292,7 @@ export default function Achievements({ showAchievements, setShowAchievements, co
                         transition={{ duration: 0.3, delay: 0.1 * achievements.indexOf(achievement) }}
                         className={`p-4 flex flex-col justify-between rounded-lg inset-shadow-sm inset-shadow-[#8c9ca4] ${
                           isComplete ? 'bg-gradient-to-br from-green-100 to-green-200' : 'bg-[#DDE8ED]'
-                        } ${achievement.showIcons ? 'cursor-pointer' : ''}`}
+                        } ${achievement.showIcons && 'cursor-pointer'}`}
                         onMouseEnter={(e) => handleInteraction(e, achievement)}
                         onMouseLeave={handleInteractionEnd}
                       >
@@ -302,16 +302,16 @@ export default function Achievements({ showAchievements, setShowAchievements, co
                               src={`/badges/${achievement.id}.png`}
                               alt={`${achievement.name} Badge`}
                               fill
-                              className={`object-contain ${!isComplete ? 'brightness-0 opacity-50' : ''}`}
+                              className={`object-contain ${!isComplete && 'brightness-0 opacity-50'}`}
                             />
                           </div>
                           <div className="flex-1">
                             <div className="flex justify-between items-center">
-                              <h4 className={`text-md font-bold ${achievement.id === 'unown' ? 'unown-font' : ''}`}>
+                              <h4 className={`text-md font-bold ${achievement.id === 'unown' && 'unown-font'}`}>
                                 {achievement.name}
                               </h4>
                               <span className="text-sm font-semibold">
-                                {completed}/{total} {isComplete ? '✓' : ''}
+                                {completed}/{total} {isComplete && '✓'}
                               </span>
                             </div>
                             <p className="text-sm">{achievement.description}</p>
@@ -366,7 +366,7 @@ export default function Achievements({ showAchievements, setShowAchievements, co
                         transition={{ duration: 0.3, delay: 0.1 * achievements.indexOf(achievement) }}
                         className={`p-3 flex flex-col justify-between rounded-lg inset-shadow-sm inset-shadow-[#8c9ca4] ${
                           isComplete ? 'bg-gradient-to-br from-green-100 to-green-200' : 'bg-[#DDE8ED]'
-                        } ${achievement.showIcons ? 'cursor-pointer' : ''}`}
+                        } ${achievement.showIcons && 'cursor-pointer'}`}
                         onClick={() => achievement.showIcons && handleAchievementClick(achievement.id)}
                       >
                         <div className="flex items-start gap-2 mb-2">
@@ -375,16 +375,16 @@ export default function Achievements({ showAchievements, setShowAchievements, co
                               src={`/badges/${achievement.id}.png`}
                               alt={`${achievement.name} Badge`}
                               fill
-                              className={`object-contain ${!isComplete ? 'brightness-0 opacity-50' : ''}`}
+                              className={`object-contain ${!isComplete && 'brightness-0 opacity-50'}`}
                             />
                           </div>
                           <div className="flex-1">
                             <div className="flex justify-between items-center">
-                              <h4 className={`text-sm font-bold ${achievement.id === 'unown' ? 'unown-font' : ''}`}>
+                              <h4 className={`text-sm font-bold ${achievement.id === 'unown' && 'unown-font'}`}>
                                 {achievement.name}
                               </h4>
                               <span className="text-xs font-semibold">
-                                {completed}/{total} {isComplete ? '✓' : ''}
+                                {completed}/{total} {isComplete && '✓'}
                               </span>
                             </div>
                             <p className="text-xs">{achievement.description}</p>
@@ -415,7 +415,7 @@ export default function Achievements({ showAchievements, setShowAchievements, co
                   className="absolute top-2 left-2 text-[#2A3F55] hover:opacity-80 text-2xl cursor-pointer"
                   aria-label="Back to Achievements"
                 >
-                  ◄
+                  <Image src="/caret-left-fill.svg" alt="caret-left" width={15} height={15}/>
                 </button>
                 {(() => {
                   const achievement = achievements.find(a => a.id === selectedAchievementId);
@@ -437,17 +437,17 @@ export default function Achievements({ showAchievements, setShowAchievements, co
                                 <Image
                                   src={
                                     cardData
-                                      ? `${isOwned && (isShiny && card.isShiny) ? '/shiny' : '/home-icons'}/${cardData.number}${cardData.variant ? `-${cardData.variant}` : ''}.png`
+                                      ? `${isOwned && (isShiny && card.isShiny) ? '/shiny' : '/home-icons'}/${cardData.number}${cardData.variant && `-${cardData.variant}`}.png`
                                       : '/home-icons/placeholder.png'
                                   }
                                   alt={cardData?.name || 'Unknown'}
                                   fill
-                                  className={`object-contain ${!isOwned ? 'brightness-0 opacity-50' : ''}`}
+                                  className={`object-contain ${!isOwned && 'brightness-0 opacity-50'}`}
                                 />
                               </div>
                               <span className="text-xs text-center">
                                 {cardData?.name || 'Unknown'}
-                                {isShiny ? ' ✦' : ''}
+                                {isShiny && ' ✦'}
                               </span>
                             </div>
                           );
@@ -494,12 +494,12 @@ export default function Achievements({ showAchievements, setShowAchievements, co
                             }
                             alt={cardData?.name || 'Unknown'}
                             fill
-                            className={`object-contain ${!isOwned ? 'brightness-0 opacity-50' : ''}`}
+                            className={`object-contain ${!isOwned && 'brightness-0 opacity-50'}`}
                           />
                         </div>
                         <span className="text-xs text-center">
                           {cardData?.name || 'Unknown'}
-                          {isShiny ? ' ✦' : ''}
+                          {isShiny && ' ✦'}
                         </span>
                       </div>
                     );
