@@ -204,45 +204,37 @@ export default function Achievements({ showAchievements, setShowAchievements, co
     preventScrollOnSwipe: true,
   });
 
-  useEffect(() => {
-  const currentCompleted = new Set<string>();
-  const newToasts: Toast[] = [];
+ useEffect(() => {
+    const currentCompleted = new Set<string>();
+    const newToasts: Toast[] = [];
 
-  achievements.forEach(achievement => {
-    const { completed, total } = getProgress(achievement);
-    if (completed >= total) {
-      currentCompleted.add(achievement.id);
-      if (!prevCompleted.has(achievement.id)) {
-        newToasts.push({ id: achievement.id, name: achievement.name });
+    achievements.forEach(achievement => {
+      const { completed, total } = getProgress(achievement);
+      if (completed >= total) {
+        currentCompleted.add(achievement.id);
+        if (!prevCompleted.has(achievement.id)) {
+          newToasts.push({ id: achievement.id, name: achievement.name });
+        }
+      }
+    });
+
+    if (newToasts.length > 0) {
+      setToasts(prev => [...prev, ...newToasts]);
+      setPrevCompleted(currentCompleted);
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('completedAchievements', JSON.stringify(Array.from(currentCompleted)));
       }
     }
-  });
 
-  if (newToasts.length > 0) {
-    setToasts(prev => [...prev, ...newToasts]);
-    setPrevCompleted(currentCompleted);
-    if (typeof window !== 'undefined') {
-      localStorage.setItem('completedAchievements', JSON.stringify(Array.from(currentCompleted)));
+    if (newToasts.length > 0) {
+      const timers = newToasts.map(toast =>
+        setTimeout(() => {
+          setToasts(prev => prev.filter(t => t.id !== toast.id));
+        }, 3000)
+      );
+      return () => timers.forEach(clearTimeout);
     }
-
-    const timers = newToasts.map(toast => 
-      setTimeout(() => {
-        setToasts(prev => prev.filter(t => t.id !== toast.id));
-      }, 3000)
-    );
-
-    return () => {
-      timers.forEach(clearTimeout);
-    };
-  }
-
-  setPrevCompleted(currentCompleted);
-  if (typeof window !== 'undefined') {
-    localStorage.setItem('completedAchievements', JSON.stringify(Array.from(currentCompleted)));
-  }
-
-  return () => {};
-}, [collectedCards]);
+  }, [collectedCards]);
 
   return (
     <div className="relative">
