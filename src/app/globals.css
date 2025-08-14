@@ -318,7 +318,7 @@ background: linear-gradient(180deg, rgba(228, 241, 246, 1) 0%, rgba(228, 241, 24
 
 @keyframes scroll {
   0% { transform: translateX(0); }
-  100% { transform: translateX(-200%); }
+  100% { transform: translateX(-250%); }
 }
 
 .infinite-scroll {
