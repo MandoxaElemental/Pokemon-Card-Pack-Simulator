@@ -701,7 +701,7 @@ export const allCards: Card[] = [
   { name: 'Crustle', number: 558, type: ['Bug', 'Rock'], isShiny: false, audio: 'crustle', rarity: 'Uncommon', move: 'X-Scissor' },
   { name: 'Scraggy', number: 559, type: ['Dark', 'Fighting'], isShiny: false, audio: 'scraggy', rarity: 'Common', move: 'Low Kick' },
   { name: 'Scrafty', number: 560, type: ['Dark', 'Fighting'], isShiny: false, audio: 'scrafty', rarity: 'Uncommon', move: 'High Jump Kick' },
-  { name: 'Sigilyph', number: 561, type: ['Psychic', 'Flying'], isShiny: false, audio: 'sifilyph', rarity: 'Uncommon', move: 'Psybeam' },
+  { name: 'Sigilyph', number: 561, type: ['Psychic', 'Flying'], isShiny: false, audio: 'sigilyph', rarity: 'Uncommon', move: 'Psybeam' },
   { name: 'Yamask', number: 562, type: ['Ghost'], isShiny: false, audio: 'yamask', rarity: 'Common', move: 'Night Shade' },
   { name: 'Cofagrigus', number: 563, type: ['Ghost'], isShiny: false, audio: 'cofagrigus', rarity: 'Uncommon', move: 'Shadow Ball' },
   { name: 'Tirtouga', number: 564, type: ['Water', 'Rock'], isShiny: false, audio: 'tirtouga', rarity: 'Uncommon', move: 'Aqua Jet' },

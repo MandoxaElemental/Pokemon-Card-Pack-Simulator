@@ -307,7 +307,6 @@ background: linear-gradient(180deg, rgba(228, 241, 246, 1) 0%, rgba(228, 241, 24
   transform: scale(0.5)
 }
 
-/* Smooth glow animation */
 @keyframes pulse-glow {
   0%, 100% { box-shadow: 0 0 10px rgba(234, 179, 8, 0.4); }
   50% { box-shadow: 0 0 20px rgba(234, 179, 8, 0.8); }
@@ -319,7 +318,7 @@ background: linear-gradient(180deg, rgba(228, 241, 246, 1) 0%, rgba(228, 241, 24
 
 @keyframes scroll {
   0% { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
+  100% { transform: translateX(-200%); }
 }
 
 .infinite-scroll {
