@@ -415,7 +415,7 @@ export default function Achievements({ showAchievements, setShowAchievements, co
                   className="absolute top-2 left-2 text-[#2A3F55] hover:opacity-80 text-2xl cursor-pointer"
                   aria-label="Back to Achievements"
                 >
-                  <Image src="/caret-down-fill.svg" alt="caret-down" width={15} height={15} className="invert" />
+                  <Image src="/caret-left-fill.svg" alt="caret-left" width={25} height={25} className="" />
                 </button>
                 {(() => {
                   const achievement = achievements.find(a => a.id === selectedAchievementId);

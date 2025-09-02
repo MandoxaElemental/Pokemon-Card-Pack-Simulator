@@ -1396,7 +1396,7 @@ export const allCards: Card[] = [
   { name: 'Tandemaus', number: 924, type: ['Normal'], isShiny: false, audio: 'tandemaus', rarity: 'Common', move: 'Tackle' },
   { name: 'Maushold', number: 925, type: ['Normal'], isShiny: false, audio: 'maushold-four', rarity: 'Uncommon', move: 'Population Bomb' },
     { name: "Maushold (Family of Three)", number: 925, variant: "Three", type: ["Normal"], isShiny: false, audio: 'maushold', rarity: "Rare", move: "Population Bomb" },
-  { name: 'Fidough', number: 926, type: ['Fairy'], isShiny: false, audio: 'fidogh', rarity: 'Common', move: 'Tackle' },
+  { name: 'Fidough', number: 926, type: ['Fairy'], isShiny: false, audio: 'fidough', rarity: 'Common', move: 'Tackle' },
   { name: 'Dachsbun', number: 927, type: ['Fairy'], isShiny: false, audio: 'dachsbun', rarity: 'Uncommon', move: 'Play Rough' },
   { name: 'Smoliv', number: 928, type: ['Grass', 'Normal'], isShiny: false, audio: 'smoliv', rarity: 'Common', move: 'Razor Leaf' },
   { name: 'Dolliv', number: 929, type: ['Grass', 'Normal'], isShiny: false, audio: 'dolliv', rarity: 'Uncommon', move: 'Energy Ball' },

@@ -664,7 +664,7 @@ export const CardPackOpener: React.FC<CardPackOpenerProps> = ({ curatedPack }) =
         </div>
         <button
           onClick={handleResetClick}
-          className="bg-gradient-to-br from-red-600 to-red-800 hover:from-red-500 hover:to-red-700 active:from-red-700 active:to-red-900 text-white font-bold py-2 px-4 rounded-full md:rounded-2xl cursor-pointer drop-shadow-sm/25 hover:shadow-xl border border-red-700 flex gap-2 items-center transform transition-all duration-200 hover:scale-105 active:scale-95"
+          className="font-bold flex gap-2 items-center cursor-pointer bg-gradient-to-br from-red-400 to-red-600 text-white text-md px-4 py-2 justify-center rounded-full md:rounded-2xl shadow-md drop-shadow-sm/25 hover:from-red-300 hover:to-red-500 active:from-red-500 active:to-red-700 transition-all duration-200 focus:ring-2 focus:ring-[#8c9ca4] hover:scale-105 active:scale-95"
         >
           <Image src="/icons/trash.png" alt="trash" width={20} height={20} className="" />
           <div className="md:block hidden">Reset Collection</div>
