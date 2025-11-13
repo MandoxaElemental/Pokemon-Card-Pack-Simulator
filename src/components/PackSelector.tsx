@@ -89,7 +89,7 @@ export const PackSelector: React.FC<PackSelectorProps> = ({ selectedPack, setSel
                       animation: packCards.length > 3 ? `scroll ${packCards.length * 1}s linear infinite` : 'none',
                     }}
                   >
-                    {[...packCards, ...packCards, ...packCards].map((card, index) => {
+                    {[...packCards, ...packCards, ...packCards, ...packCards, ...packCards].map((card, index) => {
                       const isChaseCard = `${card.name}-${card.number}` === displayPack.chaseCard;
                       return (
                         <div
