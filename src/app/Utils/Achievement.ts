@@ -560,7 +560,7 @@ requiredCards: [
   {
     id: 'myth',
     name: 'Myths of Hisui',
-    description: 'Collect the Totem Pokemon',
+    description: 'Collect Notable Pokemon from Hisui',
     showIcons: true,
     requiredCards: [
     { cardKey: 'Wyrdeer-899' },
