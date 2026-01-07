@@ -319,7 +319,7 @@ export const themedPacks: BoosterPack[] = [
     id: 'normal',
     name: 'Normal Pack',
     filter: (card: Card) => card.type.includes('Normal'),
-    carouselCards: ['Rattata-19', 'Tauros-128', 'Miltank-241', 'Exploud-295', 'Munchlax-446', 'Stoutland-508', 'Furfrou-676', 'Bewear-760', 'Dubwool-832', 'Dudunsparce-982', 'Mega Kangaskhan-115', 'GMax Snorlax-143','Regigigas-487', 'Terapagos (Terastal)-1024', 'Silvally-773' , 'Arceus-493'],
+    carouselCards: ['Rattata-19', 'Tauros-128', 'Miltank-241', 'Exploud-295', 'Munchlax-446', 'Stoutland-508', 'Furfrou-676', 'Bewear-760', 'Dubwool-832', 'Dudunsparce-982', 'Mega Kangaskhan-115', 'Mega Drampa-780', 'GMax Snorlax-143','Regigigas-487', 'Terapagos (Terastal)-1024', 'Silvally-773' , 'Arceus-493'],
     chaseCard: 'Arceus-493',
   },
     {
@@ -361,7 +361,7 @@ export const themedPacks: BoosterPack[] = [
     id: 'ghost',
     name: 'Ghost Pack',
     filter: (card: Card) => card.type.includes('Ghost'),
-    carouselCards: ['Misdreavus-200', 'Banette-354', 'Dusknoir-477', 'Cofagrigus-593', 'Trevenant-709', 'Palossand-770', 'Dragapult-887', 'Annihilape-979', 'Mega Sableye-302', 'GMax Gengar-94', 'Giratina (Origin)-487', 'Lunala-792', 'Spectrier-897', 'Silvally (Ghost)-773', 'Arceus (Ghost)-493', 'Marshadow-802',],
+    carouselCards: ['Misdreavus-200', 'Banette-354', 'Dusknoir-477', 'Cofagrigus-563', 'Trevenant-709', 'Palossand-770', 'Dragapult-887', 'Annihilape-979', 'Mega Sableye-302', 'GMax Gengar-94', 'Giratina (Origin)-487', 'Lunala-792', 'Spectrier-897', 'Silvally (Ghost)-773', 'Arceus (Ghost)-493', 'Marshadow-802',],
     chaseCard: 'Marshadow-802',
   },
     {
@@ -382,14 +382,14 @@ export const themedPacks: BoosterPack[] = [
     id: 'water',
     name: 'Water Pack',
     filter: (card: Card) => card.type.includes('Water'),
-    carouselCards: ['Squirtle-7', 'Vaporeon-134', 'Politoed-186', 'Wailord-321', 'Gastrodon (East)-423', 'Carracosta-565', 'Greninja-658', 'Golisopod-768', 'Barraskewda-847', 'Palafin (Hero)-964', 'Mega Gyarados-103', 'GMax Inteleon-818', 'Palkia-484', 'Tapu Fini-788', 'Ogerpon Hearthflame-1017', 'Arceus (Water)-493', 'Primal Kyogre-382'],
-    chaseCard: '',
+    carouselCards: ['Squirtle-7', 'Vaporeon-134', 'Politoed-186', 'Wailord-321', 'Gastrodon (East)-423', 'Carracosta-565', 'Greninja-658', 'Golisopod-768', 'Barraskewda-847', 'Palafin (Hero)-964', 'Mega Gyarados-130', 'GMax Inteleon-818', 'Palkia-484', 'Tapu Fini-788', 'Ogerpon Hearthflame-1017', 'Silvally (Water)-773','Arceus (Water)-493', 'Primal Kyogre-382'],
+    chaseCard: 'Primal Kyogre-382',
   },
     {
     id: 'grass',
     name: 'Grass Pack',
     filter: (card: Card) => card.type.includes('Grass'),
-    carouselCards: ['Bulbasaur-1', 'Exeggutor-103', 'Bellossom-182', 'Tropius-357', 'Leafeon-407',  'Amoonguss-591', 'Gogoat-673', 'Tsareena-763', 'Flapple-841', 'Arboliva-930', 'Mega Sceptile-254', 'GMax Rillaboom-812', 'Virizion-640', 'Wo-Chien-1001', 'Ogerpon-1017',  'Silvally (Grass)-773', 'Arceus (Grass)-493', 'Celebi-251'],
+    carouselCards: ['Bulbasaur-1', 'Exeggutor-103', 'Bellossom-182', 'Tropius-357', 'Leafeon-470',  'Amoonguss-591', 'Gogoat-673', 'Tsareena-763', 'Flapple-841', 'Arboliva-930', 'Mega Sceptile-254', 'GMax Rillaboom-812', 'Virizion-640', 'Wo-Chien-1001', 'Ogerpon-1017',  'Silvally (Grass)-773', 'Arceus (Grass)-493', 'Celebi-251'],
     chaseCard: 'Celebi-251',
   },
     {

@@ -316,18 +316,19 @@ background: linear-gradient(180deg, rgba(228, 241, 246, 1) 0%, rgba(228, 241, 24
   animation: pulse-glow 1.5s ease-in-out infinite;
 }
 
-@keyframes scroll {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-250%); }
+@keyframes infinite-scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
 }
 
-.infinite-scroll {
-  animation-play-state: running;
-}
-
-.infinite-scroll:hover {
+.animate-infinite-scroll:hover {
   animation-play-state: paused;
 }
+
 
 .max-h-240px::-webkit-scrollbar {
   width: 6px;

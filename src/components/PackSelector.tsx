@@ -10,6 +10,32 @@ interface PackSelectorProps {
   disabled: boolean;
 }
 
+const CardItem = ({ card, shinyCheck, displayPack }: { card: any; shinyCheck: boolean; displayPack: any }) => {
+  const isChaseCard = `${card.name}-${card.number}` === displayPack.chaseCard;
+
+  return (
+    <div className="flex flex-col items-center min-w-[100px]">
+      <div className="relative w-[100px] h-[100px]">
+        {isChaseCard && (
+          <div
+            className="absolute inset-0 bg-[url('/glow.png')] bg-center bg-no-repeat bg-contain animate-spin-slow -z-10"
+          />
+        )}
+        <Image
+          src={`/${isChaseCard && shinyCheck ? 'shiny' : 'home-icons'}/${card.number}${card.variant ? `-${card.variant}` : ''}.png`}
+          alt={card.name}
+          width={100}
+          height={100}
+          className={`${isChaseCard ? 'drop-shadow-lg drop-shadow-yellow-400/50' : 'drop-shadow-md'} object-contain z-20`}
+          onError={(e) => {
+            (e.target as HTMLImageElement).src = '/home-icons/placeholder.png';
+          }}
+        />
+      </div>
+    </div>
+  );
+};
+
 export const PackSelector: React.FC<PackSelectorProps> = ({ selectedPack, setSelectedPack, themedPacks, disabled }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [hoveredPackId, setHoveredPackId] = useState<string | null>(null);
@@ -78,53 +104,31 @@ export const PackSelector: React.FC<PackSelectorProps> = ({ selectedPack, setSel
             transition={{ duration: 0.2 }}
             className="scale-50 sm:scale-75 md:scale-100 absolute top-full left-1/2 -translate-x-1/2 md:mt-2 w-[600px] bg-[#E4F1F6] rounded-2xl shadow-xl p-4 z-50"
           >
-            <div className="flex justify-center">
-              {packCards.length > 0 ? (
-                <div className="w-[80%] h-[120px] rounded-lg inset-shadow-sm inset-shadow-[#8c9ca4] overflow-x-hidden mb-4 pt-2">
-                  <div
-                    className="flex gap-2 infinite-scroll"
-                    style={{
-                      display: 'flex',
-                      whiteSpace: 'nowrap',
-                      animation: packCards.length > 3 ? `scroll ${packCards.length * 1}s linear infinite` : 'none',
-                    }}
-                  >
-                    {[...packCards, ...packCards, ...packCards, ...packCards, ...packCards].map((card, index) => {
-                      const isChaseCard = `${card.name}-${card.number}` === displayPack.chaseCard;
-                      return (
-                        <div
-                          key={`${card.number}-${card.variant || ''}-${index}`}
-                          className="flex flex-col items-center min-w-[100px]"
-                        >
-                          <div className="relative w-[100px] h-[100px]">
-                            {isChaseCard && (
-                              <div
-                                className="absolute inset-0 bg-[url('/glow.png')] bg-center bg-no-repeat bg-contain animate-spin-slow"
-                                style={{ zIndex: -1 }}
-                              />
-                            )}
-                            <Image
-                              src={`/${isChaseCard && shinyCheck ? 'shiny' : 'home-icons'}/${card.number}${card.variant ? `-${card.variant}` : ''}.png`}
-                              alt={card.name}
-                              width={100}
-                              height={100}
-                              className={`${isChaseCard ? 'drop-shadow-lg drop-shadow-yellow-400/50' : 'drop-shadow-md/50'} object-contain z-20`}
-                              onError={(e) => {
-                                e.currentTarget.src = '/home-icons/placeholder.png';
-                              }}
-                            />
-                          </div>
-                        </div>
-                      );
-                    })}
-                  </div>
+          <div className="flex justify-center">
+          {packCards.length > 0 ? (
+            <div className="w-[80%] h-[120px] rounded-lg inset-shadow-sm inset-shadow-[#8c9ca4] overflow-hidden mb-4 pt-2 relative">
+              <div className="absolute inset-0 flex">
+                <div style={{
+                    display: "flex",
+                    gap: "8px",
+                    animation: `infinite-scroll ${packCards.length > 8 ? '15' : '5'}s linear infinite`
+                }}
+                  className="pt-2 flex gap-2 animate-infinite-scroll">
+                  {packCards.map((card, index) => (
+                    <CardItem key={`first-${card.number}-${card.variant || ''}-${index}`} card={card} shinyCheck={shinyCheck} displayPack={displayPack} />
+                  ))}
+                  {packCards.map((card, index) => (
+                    <CardItem key={`dup-${card.number}-${card.variant || ''}-${index}`} card={card} shinyCheck={shinyCheck} displayPack={displayPack} />
+                  ))}
                 </div>
-              ) : (
-                <div className="w-[80%] h-[120px] flex justify-center items-center mb-4">
-                  <span className="text-sm font-semibold text-[#2A3F55]">No cards available</span>
-                </div>
-              )}
+              </div>
             </div>
+          ) : (
+            <div className="w-[80%] h-[120px] flex justify-center items-center mb-4">
+              <span className="text-sm font-semibold text-[#2A3F55]">No cards available</span>
+            </div>
+          )}
+                    </div>
 
             <div className="max-h-[240px] overflow-y-auto rounded-lg inset-shadow-sm inset-shadow-[#8c9ca4] p-3">
               <div className="grid grid-cols-5 gap-2">
