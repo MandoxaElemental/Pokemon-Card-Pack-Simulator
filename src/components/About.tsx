@@ -115,11 +115,26 @@ const modalContentRef = useRef<HTMLDivElement>(null);
         >
           ✖
         </button>
-        <h3 className="text-xl font-bold mb-4">Welcome to PokéPack Opening Simulator - Alpha v1.0.3</h3>
-        <div className="p-3 inset-shadow-sm inset-shadow-[#8c9ca4] rounded-lg">
+        <h3 className="text-xl font-bold mb-4">Welcome to PokéPack Opening Simulator - Alpha v2.0.1</h3>
+        <div className="h-[350px] p-3 inset-shadow-sm inset-shadow-[#8c9ca4] rounded-lg overflow-x-hidden">
         <p className="mb-2">
           Just a small solo side project I am working on. Feel free to contact me if you have any suggestions, or find any bugs as this is still a work in progress.
         </p>
+        <h4 className="text-lg font-semibold mb-2">Newest Additions:</h4>
+        <ul className="space-y-2 mb-2">
+            <li className="flex items-center gap-2">
+              ZA Mega Evolutions
+            </li>
+        </ul>
+        <h4 className="text-lg font-semibold mb-2">Coming Soon:</h4>
+        <ul className="space-y-2 mb-2">
+            <li className="flex items-center gap-2">
+              ZA Mega Evolutions Shiny Cards
+            </li>
+            <li className="flex items-center gap-2">
+              More Themed Packs
+            </li>
+        </ul>
         <h4 className="text-lg font-semibold mb-2">Card Rarities</h4>
         <ul className="space-y-2 mb-2">
           {Object.entries(rarityWeights).map(([rarity, weight]) => (

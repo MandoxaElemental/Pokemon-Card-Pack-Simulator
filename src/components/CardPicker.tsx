@@ -1149,6 +1149,9 @@ export const CardPackOpener: React.FC<CardPackOpenerProps> = ({ curatedPack }) =
         )}
       </AnimatePresence>
       <Achievements showAchievements={showAchievements} setShowAchievements={setShowAchievements} collectedCards={collectedCards} />
+    <div className='mt-2 text-xs'>
+      PokePack is not affiliated with Nintendo and does not own or claim any rights to any Nintendo trademark or the Pokémon trademark, and all references to such are used for commentary and informational purposes only.
+    </div>
     </div>
   );
 };
