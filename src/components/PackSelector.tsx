@@ -111,7 +111,7 @@ export const PackSelector: React.FC<PackSelectorProps> = ({ selectedPack, setSel
                 <div style={{
                     display: "flex",
                     gap: "8px",
-                    animation: `infinite-scroll ${packCards.length > 8 ? '15' : '5'}s linear infinite`
+                    animation: `infinite-scroll ${packCards.length > 9 ? '15' : '5'}s linear infinite`
                 }}
                   className="pt-2 flex gap-2 animate-infinite-scroll">
                   {packCards.map((card, index) => (
