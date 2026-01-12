@@ -333,7 +333,7 @@ export const themedPacks: BoosterPack[] = [
     id: 'flying',
     name: 'Flying Pack',
     filter: (card: Card) => card.type.includes('Flying'),
-    carouselCards: ['Spearow-21', 'Dodrio-85', 'Skarmory-227', 'Pelipper-279', 'Chatot-441', 'Braviary-728', 'Noivern-715', 'Minior (Red)-774', 'Cramorant-845', 'Flamigo-973', 'Mega Pidgeot-18', 'Mega Staraptor-398', 'GMax Corviknight-823', 'Ho-oh-250', 'Tornadus-641', 'Celesteela-797', 'Silvally (Flying)-773', 'Arceus (Flying)-493', 'Shaymin (Sky)-492'],
+    carouselCards: ['Spearow-21', 'Dodrio-85', 'Skarmory-227', 'Pelipper-279', 'Chatot-441', 'Braviary-728', 'Noivern-715', 'Minior (Red)-774', 'Cramorant-845', 'Flamigo-973', 'Mega Pidgeot-18', 'Mega Staraptor-398', 'GMax Corviknight-823', 'Ho-Oh-250', 'Tornadus-641', 'Celesteela-797', 'Silvally (Flying)-773', 'Arceus (Flying)-493', 'Shaymin (Sky)-492'],
     chaseCard: 'Shaymin (Sky)-492',
   },
       {
@@ -341,7 +341,7 @@ export const themedPacks: BoosterPack[] = [
     name: 'Poison Pack',
     filter: (card: Card) => card.type.includes('Poison'),
     carouselCards: ['Ekans-23', 'Crobat-169', 'Swalot-317', 'Drapion-452', 'Scolipede-545', 'Dragalge-691', 'Muk (Alola)-89', 'Sneasler-930', 'Grafaiai-945', 'Mega Venusaur-3', 'Mega Glimmora-970', 'GMax Garbodor-569', 'Naganadel-804', 'Eternatus-890', 'Fezandipiti-1016', 'Silvally (Poison)-773', 'Arceus (Poison)-493', 'Pecharunt-1025'],
-    chaseCard: 'Shaymin (Sky)-492',
+    chaseCard: 'Pecharunt-1025',
   },
     {
     id: 'ground',
@@ -382,7 +382,7 @@ export const themedPacks: BoosterPack[] = [
     id: 'fire',
     name: 'Fire Pack',
     filter: (card: Card) => card.type.includes('Fire'),
-    carouselCards: ['Charamander-4', 'Flareon-136', 'Typhlosion-157', 'Torkoal-324', 'Magmortar-467', 'Volcarona-637', 'Talonflame-663', 'Turtonator-776', 'Centiskorch-851', 'Armarogue-936', 'Mega Camerupt-323', 'Mega Pyroar-668', 'GMax Cinderace-815', 'Moltres-146', 'Heatran-485', 'Ogerpon Hearthflame-1017', 'Silvally (Fire)-773', 'Arceus (Fire)-493', 'Volcanion-721'],
+    carouselCards: ['Charmander-4', 'Flareon-136', 'Typhlosion-157', 'Torkoal-324', 'Magmortar-467', 'Volcarona-637', 'Talonflame-663', 'Turtonator-776', 'Centiskorch-851', 'Armarogue-936', 'Mega Camerupt-323', 'Mega Pyroar-668', 'GMax Cinderace-815', 'Moltres-146', 'Heatran-485', 'Ogerpon Hearthflame-1017', 'Silvally (Fire)-773', 'Arceus (Fire)-493', 'Volcanion-721'],
     chaseCard: 'Volcanion-721',
   },
   {
@@ -410,7 +410,7 @@ export const themedPacks: BoosterPack[] = [
     id: 'psychic',
     name: 'Psychic Pack',
     filter: (card: Card) => card.type.includes('Psychic'),
-    carouselCards: ['Abra-63', 'Hy[nos-97', 'Espeon-196', 'Grumpig-326', 'Bronzong-437', 'Reuniclus-579', 'Meowstic♂-678', 'Meowstic♀-678', 'Oranguru-765', 'Orbeetle-826', 'Espathra-956', 'Mega Mewtwo X-150', 'Mega Malamar-687', 'GMax Hatterene-858', 'Lugia-249', 'Necrozma-800',  'Silvally (Psychic)-773', 'Arceus (Psychic)-493', 'Mew-151'],
+    carouselCards: ['Abra-63', 'Hy[nos-97', 'Espeon-196', 'Grumpig-326', 'Bronzong-437', 'Reuniclus-579', 'Meowstic♂-678', 'Meowstic♀-678', 'Oranguru-765', 'Orbeetle-826', 'Espathra-956', 'Mega Mewtwo X-150', 'Mega Malamar-687', 'GMax Hatterene-858', 'Lugia-249', 'Latios-381', 'Necrozma-800',  'Silvally (Psychic)-773', 'Arceus (Psychic)-493', 'Mew-151'],
     chaseCard: 'Mew-151',
   },
     {
@@ -425,7 +425,7 @@ export const themedPacks: BoosterPack[] = [
     name: 'Dragon Pack',
     filter: (card: Card) => card.type.includes('Dragon'),
     carouselCards: ['Dratini-147', 'Kingdra-230', 'Altaria-334', 'Garchomp-445', 'Haxorus-612', 'Goodra-706', 'Drampa-780', 'Dracozolt-880', 'Cyclizar-967', 'Mega Salamence-373', 'Mega Tatsugiri (Curly)-978', 'GMax Duraludon-884', 'Latias-380', 'Rayquaza-384', 'Regidrago-895', 'Silvally (Dragon)-773', 'Arceus (Dragon)-493', 'Mega Zygarde-718'],
-    chaseCard: 'Mega Rayquaza-384',
+    chaseCard: 'Mega Zygarde-718',
   },
     {
     id: 'dark',

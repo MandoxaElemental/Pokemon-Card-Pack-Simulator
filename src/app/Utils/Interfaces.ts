@@ -993,7 +993,7 @@ export const allCards: Card[] = [
   { name: "Mega Delphox", number: 655, variant: "Mega", type: ["Fire", "Psychic"], region: 'kalos', isShiny: false, audio: 'delphox', rarity: "Legendary", move: "Mystical Fire" },
   { name: "Mega Greninja", number: 658, variant: "Mega", type: ["Water", "Dark"], region: 'kalos', isShiny: false, audio: 'greninja', rarity: "Legendary", move: "Water Shuriken" },
   { name: "Mega Pyroar", number: 668, variant: "Mega", type: ["Fire", "Normal"], region: 'kalos', isShiny: false, audio: 'pyroar', rarity: "Legendary", move: "Overheat" },
-  { name: "Mega Floette", number: 670, variant: "Mega", type: ["Fairy"], region: 'kalos', isShiny: false, audio: 'floette-eternal', rarity: "Legendary", move: "Light of Ruin" },
+  { name: "Mega Floette", number: 670, variant: "Mega", type: ["Fairy"], region: 'kalos', isShiny: false, audio: 'floette-eternal', rarity: "Mythical", move: "Light of Ruin" },
   { name: "Mega Malamar", number: 687, variant: "Mega", type: ["Dark", "Psychic"], region: 'kalos', isShiny: false, audio: 'malamar', rarity: "Legendary", move: "Psyshock" },
   { name: "Mega Barbaracle", number: 689, variant: "Mega", type: ["Rock", "Fighting"], region: 'kalos', isShiny: false, audio: 'barbaracle', rarity: "Legendary", move: "Stone Edge" },
   { name: "Mega Dragalge", number: 691, variant: "Mega", type: ["Poison", "Dragon"], region: 'kalos', isShiny: false, audio: 'dragalge', rarity: "Legendary", move: "Sludge Wave" },
@@ -1576,6 +1576,17 @@ export const allCards: Card[] = [
   { name: 'Volcarona (Lumina)', number: 637, type: ['Bug', 'Fire'], region: 'extra', isShiny: false, audio: 'volcarona', rarity: 'Legendary', move: 'Fiery Dance', variant: 'lumina', exclusive: 'snap', artist: '@FedeFadePSK'},
   { name: 'Steelix (Lumina)', number: 208, type: ['Steel', 'Ground'], region: 'extra', isShiny: false, audio: 'steelix', rarity: 'Legendary', move: 'Dig', variant: 'lumina', exclusive: 'snap', artist: '@FedeFadePSK'},
   { name: 'Xerneas (Lumina)', number: 716, type: ['Fairy'], region: 'extra', isShiny: false, audio: 'xerneas', rarity: 'Mythical', move: 'Geomancy', variant: 'lumina', exclusive: 'snap', artist: '@FedeFadePSK'},
+  { name: "Mega Charizard X", number: 6, variant: "MegaXAlt", type: ["Fire", "Dragon"], region: 'extra', isShiny: false, audio: 'charizard-megax', rarity: "Mythical", move: "Dragon Claw", exclusive: 'kalos' },
+  { name: "Mega Charizard Y", number: 6, variant: "MegaYAlt", type: ["Fire", "Flying"], region: 'extra', isShiny: false, audio: 'charizard-megay', rarity: "Mythical", move: "Flamethrower", exclusive: 'kalos' },
+  { name: "Mega Kangaskhan", number: 115, variant: "Alt", type: ["Normal"], region: 'extra', isShiny: false, audio: 'kangaskhan-mega', rarity: "Mythical", move: "Return", exclusive: 'kalos' },
+  { name: "Mega Gyarados", number: 130, variant: "Alt", type: ["Water", "Dark"], region: 'extra', isShiny: false, audio: 'gyarados-mega', rarity: "Mythical", move: "Crunch", exclusive: 'kalos' },
+  { name: "Mega Ampharos", number: 181, variant: "Alt", type: ["Electric", "Dragon"], region: 'extra', isShiny: false, audio: 'ampharos-mega', rarity: "Mythical", move: "Thunderbolt", exclusive: 'kalos' },
+  { name: "Mega Gardevoir", number: 282, variant: "Alt", type: ["Psychic", "Fairy"], region: 'extra', isShiny: false, audio: 'gardevoir-mega', rarity: "Mythical", move: "Moonblast", exclusive: 'kalos' },
+  { name: "Mega Absol", number: 359, variant: "Alt", type: ["Dark"], region: 'extra', isShiny: false, audio: 'absol-mega', rarity: "Mythical", move: "Night Slash", exclusive: 'kalos' },
+  { name: "Mega Lucario", number: 448, variant: "Alt", type: ["Fighting", "Steel"], region: 'extra', isShiny: false, audio: 'lucario-mega', rarity: "Mythical", move: "Aura Sphere", exclusive: 'kalos' },
+  { name: "Mega Sableye", number: 302, variant: "Alt", type: ["Dark", "Ghost"], region: 'extra', isShiny: false, audio: 'sableye-mega', rarity: "Mythical", move: "Shadow Sneak", exclusive: 'kalos' },
+  { name: "Mega Altaria", number: 334, variant: "Alt", type: ["Dragon", "Fairy"], region: 'extra', isShiny: false, audio: 'altaria-mega', rarity: "Mythical", move: "Moonblast", exclusive: 'kalos' },
+
 ];
 
 export const specialFormRegionMapping: Record<number, Record<string, string[]>> = {
@@ -1639,7 +1650,7 @@ export const specialFormRegionMapping: Record<number, Record<string, string[]>> 
   128: { Combat: ['Paldea'], Blaze: ['Paldea'], Aqua: ['Paldea'] }, // Tauros
   901: { Bloodmoon: ['Paldea'] }, // Ursaluna
   3: { Mega: ['Kalos'], GMax: ['Galar'] }, // Mega Venusaur, GMax Venusaur
-  6: { MegaX: ['Kalos'], MegaY: ['Kalos'], GMax: ['Galar'] }, // Mega Charizard X, Y, GMax
+  6: { MegaX: ['Kalos'], MegaY: ['Kalos'], GMax: ['Galar'], AltX: ['Kalos'], AltY: ['Kalos'] }, // Mega Charizard X, Y, GMax
   9: { Mega: ['Kalos'], GMax: ['Galar'] }, // Mega Blastoise, GMax Blastoise
   12: { GMax: ['Galar'] }, // GMax Butterfree
   15: { Mega: ['Kalos'] }, // Mega Beedrill
@@ -1647,15 +1658,15 @@ export const specialFormRegionMapping: Record<number, Record<string, string[]>> 
   25: { GMax: ['Galar'], libre: ['Extra'] }, // GMax Pikachu
   65: { Mega: ['Kalos'] }, // Mega Alakazam
   94: { Mega: ['Kalos'], GMax: ['Galar'] }, // Mega Gengar, GMax Gengar
-  115: { Mega: ['Kalos'] }, // Mega Kangaskhan
+  115: { Mega: ['Kalos'], Alt: ['Kalos'] }, // Mega Kangaskhan
   127: { Mega: ['Kalos'] }, // Mega Pinsir
-  130: { Mega: ['Kalos'] }, // Mega Gyarados
+  130: { Mega: ['Kalos'], Alt: ['Kalos'] }, // Mega Gyarados
   131: { GMax: ['Galar'] }, // GMax Lapras
   133: { GMax: ['Galar'] }, // GMax Eevee
   142: { Mega: ['Kalos'] }, // Mega Aerodactyl
   143: { GMax: ['Galar'] }, // GMax Snorlax
   150: { MegaX: ['Kalos'], MegaY: ['Kalos'], Shadow: ['Extra'], MegaShadow: ['Extra']}, // Mega Mewtwo X, Y
-  181: { Mega: ['Kalos'] }, // Mega Ampharos
+  181: { Mega: ['Kalos'], Alt: ['Kalos'] }, // Mega Ampharos
   208: { Mega: ['Kalos'], lumina: ['Extra'] }, // Mega Steelix
   212: { Mega: ['Kalos'] }, // Mega Scizor
   214: { Mega: ['Kalos'] }, // Mega Heracross
@@ -1664,17 +1675,17 @@ export const specialFormRegionMapping: Record<number, Record<string, string[]>> 
   254: { Mega: ['Kalos'] }, // Mega Sceptile
   257: { Mega: ['Kalos'] }, // Mega Blaziken
   260: { Mega: ['Kalos'] }, // Mega Swampert
-  282: { Mega: ['Kalos'] }, // Mega Gardevoir
-  302: { Mega: ['Kalos'] }, // Mega Sableye
+  282: { Mega: ['Kalos'], Alt: ['Kalos'] }, // Mega Gardevoir
+  302: { Mega: ['Kalos'], Alt: ['Kalos'] }, // Mega Sableye
   303: { Mega: ['Kalos'] }, // Mega Mawile
   306: { Mega: ['Kalos'] }, // Mega Aggron
   308: { Mega: ['Kalos'] }, // Mega Medicham
   310: { Mega: ['Kalos'] }, // Mega Manectric
   319: { Mega: ['Kalos'] }, // Mega Sharpedo
   323: { Mega: ['Kalos'] }, // Mega Camerupt
-  334: { Mega: ['Kalos'] }, // Mega Altaria
+  334: { Mega: ['Kalos'], Alt: ['Kalos'] }, // Mega Altaria
   354: { Mega: ['Kalos'] }, // Mega Banette
-  359: { Mega: ['Kalos'], MegaZ: ['Kalos'] }, // Mega Absol
+  359: { Mega: ['Kalos'], MegaZ: ['Kalos'], Alt: ['Kalos'] }, // Mega Absol
   362: { Mega: ['Kalos'] }, // Mega Glalie
   373: { Mega: ['Kalos'] }, // Mega Salamence
   376: { Mega: ['Kalos'] }, // Mega Metagross
@@ -1682,7 +1693,7 @@ export const specialFormRegionMapping: Record<number, Record<string, string[]>> 
   381: { Mega: ['Kalos'] }, // Mega Latios
   428: { Mega: ['Kalos'] }, // Mega Lopunny
   445: { Mega: ['Kalos'], MegaZ: ['Kalos'] }, // Mega Garchomp
-  448: { Mega: ['Kalos'], MegaZ: ['Kalos'] }, // Mega Lucario
+  448: { Mega: ['Kalos'], MegaZ: ['Kalos'], Alt: ['Kalos'] }, // Mega Lucario
   460: { Mega: ['Kalos'] }, // Mega Abomasnow
   475: { Mega: ['Kalos'] }, // Mega Gallade
   531: { Mega: ['Kalos'] }, // Mega Audino

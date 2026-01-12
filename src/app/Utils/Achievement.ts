@@ -477,6 +477,7 @@ requiredCards: [
   { cardKey: 'Floette (White)-670', variant: 'white' },
   { cardKey: 'Florges (White)-671', variant: 'white' },
   { cardKey: 'Floette (Eternal Flower)-670', variant: 'az' },
+  { cardKey: 'Mega Floette-670', variant: 'Mega' },
 ],
   },
     {

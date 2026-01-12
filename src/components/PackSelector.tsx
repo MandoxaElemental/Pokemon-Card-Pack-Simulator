@@ -47,8 +47,11 @@ export const PackSelector: React.FC<PackSelectorProps> = ({ selectedPack, setSel
 
   const packCards = (displayPack.carouselCards || [])
     .map(cardKey => {
-      const [name, number, variant] = cardKey.split('-');
-      return allCards.find(c => c.name === name && c.number === parseInt(number) && (!variant || c.variant === variant));
+      const lastHyphenIndex = cardKey.lastIndexOf('-');
+      if (lastHyphenIndex === 1) return false;
+          const name = cardKey.slice(0, lastHyphenIndex);
+          const number = cardKey.slice(lastHyphenIndex + 1);
+      return allCards.find(c => c.name === name && c.number === parseInt(number));
     })
     .filter((card): card is Card => !!card);
   const shinyCheck = displayPack.shinyChase || false;
@@ -111,7 +114,7 @@ export const PackSelector: React.FC<PackSelectorProps> = ({ selectedPack, setSel
                 <div style={{
                     display: "flex",
                     gap: "8px",
-                    animation: `infinite-scroll ${packCards.length > 9 ? '15' : '5'}s linear infinite`
+                    animation: `infinite-scroll ${packCards.length > 9 ? '20' : '10'}s linear infinite`
                 }}
                   className="pt-2 flex gap-2 animate-infinite-scroll">
                   {packCards.map((card, index) => (

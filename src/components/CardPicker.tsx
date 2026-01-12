@@ -607,7 +607,7 @@ export const CardPackOpener: React.FC<CardPackOpenerProps> = ({ curatedPack }) =
               justify-content: center;
             }
             .center-last-row-sm > * {
-              flex: 0 0 calc(33.333% - 0.5rem); /* Match sm:grid-cols-3 with gap-2 */
+              flex: 0 0 calc(33.333% - 0.5rem);
               max-width: calc(33.333% - 0.5rem);
             }
           }

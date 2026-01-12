@@ -87,7 +87,7 @@ const modalContentRef = useRef<HTMLDivElement>(null);
       </div>
       {showModal && 
       (
-            <AnimatePresence>
+    <AnimatePresence>
     <motion.div
             initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -106,7 +106,7 @@ const modalContentRef = useRef<HTMLDivElement>(null);
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0.8, opacity: 0 }}
             transition={{ duration: 0.3, ease: [0.445, 0.05, 0.55, 0.95] }}
-        className="bg-[#E4F1F6] rounded-lg max-w-md w-full p-6 relative text-[#2A3F55]"
+        className="bg-[#E4F1F6] rounded-lg max-w-2xl w-full p-6 relative text-[#2A3F55]"
         onClick={(e) => e.stopPropagation()}
       >
         <button
@@ -115,12 +115,13 @@ const modalContentRef = useRef<HTMLDivElement>(null);
         >
           ✖
         </button>
-        <h3 className="text-xl font-bold mb-4">Welcome to PokéPack Opening Simulator - Alpha v2.0.1</h3>
+        <h3 className="text-xl font-bold mb-4">Welcome to PokéPack Opening Simulator - Alpha v2.0.5</h3>
+        <div className='grid grid-cols-2 gap-2'>
         <div className="h-[350px] p-3 inset-shadow-sm inset-shadow-[#8c9ca4] rounded-lg overflow-x-hidden">
         <p className="mb-2">
           Just a small solo side project I am working on. Feel free to contact me if you have any suggestions, or find any bugs as this is still a work in progress.
         </p>
-        <h4 className="text-lg font-semibold mb-2">Newest Additions:</h4>
+        {/* <h4 className="text-lg font-semibold mb-2">Newest Additions:</h4>
         <ul className="space-y-2 mb-2">
             <li className="flex items-center gap-2">
               ZA Mega Evolutions
@@ -134,7 +135,7 @@ const modalContentRef = useRef<HTMLDivElement>(null);
             <li className="flex items-center gap-2">
               More Themed Packs
             </li>
-        </ul>
+        </ul> */}
         <h4 className="text-lg font-semibold mb-2">Card Rarities</h4>
         <ul className="space-y-2 mb-2">
           {Object.entries(rarityWeights).map(([rarity, weight]) => (
@@ -148,6 +149,74 @@ const modalContentRef = useRef<HTMLDivElement>(null);
           ))}
         </ul>
         <p>(There is also a 1% chance that your card will be Shiny!)</p>
+        </div>
+        
+        
+        <div className="h-[350px] p-3 inset-shadow-sm inset-shadow-[#8c9ca4] rounded-lg overflow-x-hidden">
+        <h4 className="text-xl font-semibold mb-2">What is New:</h4>
+        <ul className="space-y-2 mb-2">
+            <li className="flex items-center gap-2">
+              <h3 className='font-semibold'>
+                Brand New Mega Evolution Cards
+              </h3>
+            </li>
+            <li>
+              Head over to the 'Kalos Pack' to Collect the Brand New Mega Evolution Alt Arts:
+            </li>
+            <li>
+              <div className='flex items-center justify-center'>
+                <div className="grid grid-cols-3 gap-2">
+                  <Image src='/home-icons/448-Alt.png' alt='lucario' width={90} height={90} />
+                  <Image src='/home-icons/282-Alt.png' alt='gardevoir' width={90} height={90} />
+                  <Image src='/home-icons/181-Alt.png' alt='ampharos' width={90} height={90} />
+                  <Image src='/home-icons/6-AltX.png' alt='charizardx' width={90} height={90} />
+                  <Image src='/home-icons/359-Alt.png' alt='absol' width={90} height={90} />
+                  <Image src='/home-icons/6-AltY.png' alt='charizardy' width={90} height={90} />
+                  {/* <Image src='/home-icons/130-Alt.png' alt='gyarados' width={90} height={90} />
+                  <Image src='/home-icons/302-Alt.png' alt='sableye' width={90} height={90} />
+                  <Image src='/home-icons/115-Alt.png' alt='kangaskhan' width={90} height={90} />
+                  <Image src='/home-icons/334-Alt.png' alt='altaria' width={90} height={90} /> */}
+                </div>
+              </div>
+            </li>
+            <li>
+              Keep an eye out for their Shiny Gold Variants
+            </li>
+            <li>
+              <div className='flex items-center justify-center'>
+                <div className="grid grid-cols-3 gap-2">
+                  <Image src='/shiny/448-Alt.png' alt='lucario' width={90} height={90} />
+                  <Image src='/shiny/282-Alt.png' alt='gardevoir' width={90} height={90} />
+                  <Image src='/shiny/181-Alt.png' alt='ampharos' width={90} height={90} />
+                  <Image src='/shiny/6-AltX.png' alt='charizardx' width={90} height={90} />
+                  <Image src='/shiny/359-Alt.png' alt='absol' width={90} height={90} />
+                  <Image src='/shiny/6-AltY.png' alt='charizardy' width={90} height={90} />
+                  {/* <Image src='/shiny/130-Alt.png' alt='gyarados' width={90} height={90} />
+                  <Image src='/shiny/302-Alt.png' alt='sableye' width={90} height={90} />
+                  <Image src='/shiny/115-Alt.png' alt='kangaskhan' width={90} height={90} />
+                  <Image src='/shiny/334-Alt.png' alt='altaria' width={90} height={90} /> */}
+                </div>
+              </div>
+            </li>
+            <li>
+              <h3 className='font-semibold'>
+                Card List:
+              </h3>
+              <ul className="pl-5 list-disc">
+                <li>Mega Charizard X</li>
+                <li>Mega Charizard Y</li>
+                <li>Mega Kangaskhan</li>
+                <li>Mega Gyarados</li>
+                <li>Mega Ampharos</li>
+                <li>Mega Gardevoir</li>
+                <li>Mega Sableye</li>
+                <li>Mega Altaria</li>
+                <li>Mega Absol</li>
+                <li>Mega Lucario</li>
+              </ul>
+            </li>
+        </ul>
+        </div>
         </div>
       </motion.div>
     </motion.div>
